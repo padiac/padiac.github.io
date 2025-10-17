@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Post · Xingfu Du</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="wrapper-masthead">
+    <div class="container">
+      <header class="masthead">
+        <div class="site-info">
+          <h1 class="site-name"><a href="index.html">Xingfu Du</a></h1>
+          <p class="site-tagline">Notes</p>
+        </div>
+        <nav class="site-nav">
+          <a href="index.html" aria-label="Home">Home</a>
+          <a href="notes.html" aria-label="Notes">Notes</a>
+        </nav>
+      </header>
+    </div>
+  </div>
+
+  <main id="main" class="container">
+    <article class="page">
+      <div class="post-header">
+        <span class="chip" id="post-category"></span>
+        <h1 id="post-title"></h1>
+        <time id="post-date" class="muted"></time>
+      </div>
+      <div id="post-content" class="post-content"></div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small>© <span id="year"></span> Xingfu Du</small>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+  <script src="posts-data.js"></script>
+  <script src="post.js"></script>
+</body>
+</html>

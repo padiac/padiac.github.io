@@ -1,0 +1,38 @@
+# System files
+.DS_Store
+Thumbs.db
+
+# VSCode settings
+.vscode/
+.history/
+
+# OS-specific trash / cache
+*.log
+*.tmp
+*.bak
+*.swp
+
+# Local builds or drafts (if any)
+dist/
+build/
+out/
+
+# Cache folders
+.cache/
+.tmp/
+coverage/
+
+# Environment files (if you later add them)
+.env
+.env.local
+.env.*
+
+# Node / package managers (in case you add Prettier later)
+node_modules/
+package-lock.json
+yarn.lock
+pnpm-lock.yaml
+
+# Miscellaneous
+.idea/
+*.iml
