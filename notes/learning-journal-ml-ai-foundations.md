@@ -1,5 +1,3 @@
-# Machine Learning and AI Foundations
-
 Structured roadmap for the theory and engineering skills I am building across courses and books.
 
 ## Courses

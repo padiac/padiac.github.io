@@ -1,5 +1,3 @@
-# 1D YOLO Baseline Aggregation Detector
-
 This feasibility note adapts YOLO-style object detection to a one-dimensional signal that starts with a baseline segment and ramps into an aggregation phase. The detector treats the composite pattern as an object in time whose center and segment lengths must be estimated alongside an objectness score.
 
 ## Problem Overview

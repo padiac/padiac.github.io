@@ -1,5 +1,3 @@
-# Minimum Variance Unbiased Estimator (MVUE)
-
 ## 1. Definition
 
 Let $X = (X_1, \dots, X_n)$ be a random sample from a family $\{ f(x;\theta) \mid \theta \in \Theta \}$.
