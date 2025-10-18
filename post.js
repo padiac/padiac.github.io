@@ -7,15 +7,11 @@ function createMarkdownRenderer() {
   if (!window.markdownit) {
     return null;
   }
-  const renderer = window.markdownit({
+  return window.markdownit({
     html: true,
     linkify: true,
     breaks: false
   });
-  if (window.markdownitKatex) {
-    renderer.use(window.markdownitKatex);
-  }
-  return renderer;
 }
 
 async function renderMarkdown(post, el) {
@@ -33,6 +29,17 @@ async function renderMarkdown(post, el) {
     }
     const markdown = await response.text();
     el.innerHTML = renderer.render(markdown);
+    if (window.renderMathInElement) {
+      window.renderMathInElement(el, {
+        delimiters: [
+          { left: '$$', right: '$$', display: true },
+          { left: '\\[', right: '\\]', display: true },
+          { left: '$', right: '$', display: false },
+          { left: '\\(', right: '\\)', display: false }
+        ],
+        throwOnError: false
+      });
+    }
   } catch (error) {
     console.error(error);
     el.innerHTML = '<p class="muted">Content is not available right now.</p>';
