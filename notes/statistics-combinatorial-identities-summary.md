@@ -18,13 +18,13 @@ $$
 
 Two frequently used results are:
 
-1. When \(a = b = 1\):
+1. When $a = b = 1$:
 
    $$
    \binom{n}{0} + \binom{n}{1} + \cdots + \binom{n}{n} = 2^n
    $$
 
-2. When \(a = 1, b = -1\):
+2. When $a = 1, b = -1$:
 
    $$
    \binom{n}{0} - \binom{n}{1} + \binom{n}{2} - \cdots + (-1)^n \binom{n}{n} = 0
@@ -39,22 +39,22 @@ $$
 $$
 
 **Derivation:**  
-Expand \((1 + x)^{m+n} = (1 + x)^m (1 + x)^n\) and compare the coefficients of \(x^r\).
+Expand $(1 + x)^{m+n} = (1 + x)^m (1 + x)^n$ and compare the coefficients of $x^r$.
 
 ---
 
 ## 4. Multinomial Coefficient (with short derivation)
 
-When dividing \(n\) distinct items into \(k\) groups of sizes \(r_1, r_2, \ldots, r_k\):
+When dividing $n$ distinct items into $k$ groups of sizes $r_1, r_2, \ldots, r_k$:
 
 $$
 \boxed{\displaystyle \frac{n!}{r_1! r_2! \cdots r_k!}}
 $$
 
 **Derivation:**  
-Choose \(r_1\) for group 1: \(\binom{n}{r_1}\);  
-then \(r_2\) from the remaining \(n - r_1\): \(\binom{n - r_1}{r_2}\);  
-continue similarly until group \(k\).  
+Choose $r_1$ for group 1: $\binom{n}{r_1}$;  
+then $r_2$ from the remaining $n - r_1$: $\binom{n - r_1}{r_2}$;  
+continue similarly until group $k$.  
 Multiplying all:
 $$
 \binom{n}{r_1} \binom{n - r_1}{r_2} \cdots = \frac{n!}{r_1! r_2! \cdots r_k!}.
@@ -87,10 +87,10 @@ $$
 $$
 
 **Derivation:**  
-From \(n\) labeled items, choose \(r\).  
-Fix one special item \(x\).  
-Either the chosen set **excludes** \(x\): \(\binom{n-1}{r}\);  
-or it **includes** \(x\): then pick the remaining \(r-1\) from the other \(n-1\): \(\binom{n-1}{r-1}\).  
+From $n$ labeled items, choose $r$.  
+Fix one special item $x$.  
+Either the chosen set **excludes** $x$: $\binom{n-1}{r}$;  
+or it **includes** $x$: then pick the remaining $r-1$ from the other $n-1$: $\binom{n-1}{r-1}$.  
 Adding both cases gives the formula.
 
 ---

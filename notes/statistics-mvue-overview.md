@@ -7,13 +7,28 @@ A statistic $T(X)$ is the MVUE of a target $g(\theta)$ if both of the following 
 1. **Unbiasedness**  
    $\mathbb{E}_\theta[T(X)] = g(\theta)$ for every $\theta \in \Theta$.
 2. **Minimum variance**  
-   Among all unbiased estimators of $g(\theta)$, $T(X)$ has the smallest variance:  
-   $\operatorname{Var}_\theta[T(X)] \le \operatorname{Var}_\theta[\tilde{T}(X)]$ for any other unbiased $\tilde{T}(X)$.
+   Among all unbiased estimators of $g(\theta)$, $T(X)$ has the smallest variance:
+
+   $$
+   \operatorname{Var}_{\theta}[T(X)] \le \operatorname{Var}_{\theta}[\tilde{T}(X)]
+   $$
+
+   for any other unbiased estimator $\tilde{T}(X)$.
 
 ## 2. Existence and Uniqueness
 
 If an MVUE exists, it is unique. Suppose $T_1$ and $T_2$ are both MVUEs for $g(\theta)$. Then
-$\mathbb{E}_\theta[T_1 - T_2] = 0$ and $\operatorname{Var}_\theta[T_1 - T_2] = 0$,
+
+$$
+\mathbb{E}_\theta[T_1 - T_2] = 0
+$$
+
+and
+
+$$
+\operatorname{Var}_\theta[T_1 - T_2] = 0,
+$$
+
 which implies $T_1 = T_2$ almost surely.
 
 ## 3. Finding the MVUE (Lehmann-Scheffe)
