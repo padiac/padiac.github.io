@@ -1,4 +1,0 @@
-markdown-it-py
-mdit-py-plugins
-latex2mathml
-

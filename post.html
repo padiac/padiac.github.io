@@ -42,6 +42,35 @@
     </div>
   </footer>
 
+  <script>
+    window.pendingMathElements = [];
+    window.queueMathJax = function (element) {
+      if (!element) return;
+      if (window.MathJax && MathJax.typesetPromise) {
+        MathJax.typesetPromise([element]).catch((err) => console.error(err));
+      } else {
+        window.pendingMathElements.push(element);
+      }
+    };
+
+    window.MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']]
+      },
+      startup: {
+        ready: () => {
+          MathJax.startup.defaultReady();
+          if (window.pendingMathElements.length) {
+            MathJax.typesetPromise(window.pendingMathElements).catch((err) => console.error(err));
+            window.pendingMathElements = [];
+          }
+        }
+      }
+    };
+  </script>
+  <script defer src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/markdown-it@13.0.1/dist/markdown-it.min.js"></script>
   <script defer src="script.js"></script>
   <script defer src="posts-data.js"></script>
   <script defer src="post.js"></script>

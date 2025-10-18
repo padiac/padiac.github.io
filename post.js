@@ -3,13 +3,33 @@ function loadPost(slug) {
   return posts.find((p) => p.slug === slug);
 }
 
+function createMarkdownRenderer() {
+  if (!window.markdownit) {
+    return null;
+  }
+  return window.markdownit({
+    html: true,
+    linkify: true,
+    breaks: false
+  });
+}
+
 async function renderPostContent(post, container) {
+  const renderer = createMarkdownRenderer();
+  if (!renderer) {
+    container.innerHTML = '<p class="muted">Markdown renderer unavailable.</p>';
+    return;
+  }
+
   container.innerHTML = '<p class="muted">Loading...</p>';
   try {
-    const res = await fetch(`public-notes/${post.slug}.html`, { cache: 'no-store' });
-    if (!res.ok) throw new Error(`Missing HTML for slug ${post.slug}`);
-    const html = await res.text();
-    container.innerHTML = html;
+    const res = await fetch(`notes/${post.slug}.md`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`Missing markdown for slug ${post.slug}`);
+    const markdown = await res.text();
+    container.innerHTML = renderer.render(markdown);
+    if (window.queueMathJax) {
+      window.queueMathJax(container);
+    }
   } catch (err) {
     console.error(err);
     container.innerHTML = '<p class="muted">Content is not available right now.</p>';
