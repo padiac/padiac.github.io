@@ -28,8 +28,8 @@ window.POSTS = [
     summary: 'Quick checklist for linear model assumptions and what to do when they break.'
   },
   {
-    slug: 'learning-journal-ml-ai-foundations',
-    title: 'Learning Journal - Machine Learning and AI Foundations',
+    slug: 'ml-ai-foundations',
+    title: 'Machine Learning and AI Foundations',
     date: '2025-02-10',
     category: 'Statistics',
     summary: 'Curated roadmap of courses and books covering core ML theory, deep learning, and large-scale AI systems.'

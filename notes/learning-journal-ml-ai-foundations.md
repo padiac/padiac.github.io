@@ -1,4 +1,4 @@
-# Learning Journal: Machine Learning and AI Foundations
+# Machine Learning and AI Foundations
 
 Structured roadmap for the theory and engineering skills I am building across courses and books.
 
@@ -7,9 +7,9 @@ Structured roadmap for the theory and engineering skills I am building across co
 ### Deep Learning and Machine Learning
 
 - **Andrew Ng - Machine Learning (Stanford / Coursera):** Completed. Classical supervised learning foundations.
-- **Andrew Ng - Convolutional Neural Networks (Deep Learning Specialization):** Completed. Core CNN architectures, pooling, transfer learning.
-- **Andrew Ng - Sequence Models (Deep Learning Specialization #5):** In progress (roughly 25 percent). RNN, LSTM, GRU, attention.
-- **Udemy - LLM Engineering: Master AI and Large Language Models:** Paused. Building and deploying LLM applications.
+- **Andrew Ng - Convolutional Neural Networks (Deep Learning Specialization #4):** Completed. Core CNN architectures, pooling, transfer learning.
+- **Andrew Ng - Sequence Models (Deep Learning Specialization #5):** In progress (roughly 75 percent). RNN, LSTM, GRU, attention.
+- **Udemy - LLM Engineering: Master AI and Large Language Models:** Completed. Building and deploying LLM applications.
 - **DeepLearning.AI - Natural Language Processing Specialization:** Planned. Embeddings, sequence models, attention-based pipelines.
 - **Hung-Yi Lee (NTU) - Machine Learning (2021):** Partially completed. Modern ML principles and interpretability.
 - **Hung-Yi Lee (NTU) - Generative AI (2023):** Partially completed. Generative model intuition.
