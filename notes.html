@@ -47,9 +47,15 @@
     </div>
   </footer>
 
-  <script src="script.js"></script>
-  <script src="posts-data.js"></script>
-  <script src="notes.js"></script>
+  <script>
+    window.MathJax = {
+      tex: { inlineMath: [['\\(', '\\)']], displayMath: [['\\[', '\\]']] },
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js" defer></script>
+  <script defer src="script.js"></script>
+  <script defer src="posts-data.js"></script>
+  <script defer src="notes.js"></script>
   <script>
     // Basic routing: support ?category=...
     const params = new URLSearchParams(location.search);

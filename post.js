@@ -29,16 +29,8 @@ async function renderMarkdown(post, el) {
     }
     const markdown = await response.text();
     el.innerHTML = renderer.render(markdown);
-    if (window.renderMathInElement) {
-      window.renderMathInElement(el, {
-        delimiters: [
-          { left: '$$', right: '$$', display: true },
-          { left: '\\[', right: '\\]', display: true },
-          { left: '$', right: '$', display: false },
-          { left: '\\(', right: '\\)', display: false }
-        ],
-        throwOnError: false
-      });
+    if (window.MathJax && MathJax.typesetPromise) {
+      MathJax.typesetPromise([el]).catch((err) => console.error(err));
     }
   } catch (error) {
     console.error(error);
