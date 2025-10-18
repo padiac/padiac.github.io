@@ -47,5 +47,12 @@ window.POSTS = [
     date: '2025-10-18T12:29:30Z',
     category: 'Statistics',
     summary: 'Compact pmf, support, intuition, and derivations for Binomial, Poisson, Hypergeometric, Negative Binomial, and Geometric distributions.'
+  },
+  {
+    slug: 'independence-and-joint-density-factorization',
+    title: 'Independence and Joint Density Factorization',
+    date: '2025-10-18T21:03:14Z',
+    category: 'Statistics',
+    summary: 'Compares global factorization with subset independence.'
   }
 ];
