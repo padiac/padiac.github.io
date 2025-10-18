@@ -1,4 +1,3 @@
-# Combinatorial Identities Summary
 
 ## 1. Generalized Binomial Coefficient for Non-Positive Integers
 
