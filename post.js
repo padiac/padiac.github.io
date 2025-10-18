@@ -55,8 +55,10 @@ async function renderPostContent(post, container) {
 
   document.title = `${post.title} - Notes`;
   titleEl.textContent = post.title;
-  dateEl.textContent = post.date;
-  dateEl.setAttribute('datetime', post.date);
+  const timestamp = Date.parse(post.date);
+  const dateLabel = Number.isFinite(timestamp) ? new Date(timestamp).toISOString().slice(0, 10) : post.date;
+  dateEl.textContent = dateLabel;
+  dateEl.setAttribute('datetime', Number.isFinite(timestamp) ? new Date(timestamp).toISOString() : post.date);
   catEl.textContent = post.category;
 
   await renderPostContent(post, contentEl);

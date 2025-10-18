@@ -2,8 +2,9 @@ const POSTS_PER_PAGE = 5;
 
 function loadPosts() {
   const source = Array.isArray(window.POSTS) ? window.POSTS : [];
-  const posts = source.map((p) => ({ ...p }));
-  posts.sort((a, b) => (a.date < b.date ? 1 : -1));
+  const posts = source
+    .map((p) => ({ ...p, _ts: Date.parse(p.date) || 0 }))
+    .sort((a, b) => b._ts - a._ts);
   return posts;
 }
 
@@ -19,18 +20,20 @@ function renderPosts(posts, page = 1) {
   }
 
   list.innerHTML = pageItems
-    .map(
-      (p) => `
+    .map((p) => {
+      const date = p._ts ? new Date(p._ts) : null;
+      const dateLabel = date ? date.toISOString().slice(0, 10) : p.date;
+      return `
       <a class="post-card" href="post.html?slug=${encodeURIComponent(p.slug)}" aria-label="${p.title}">
         <div class="post-card__head">
           <span class="chip">${p.category}</span>
-          <time class="muted" datetime="${p.date}">${p.date}</time>
+          <time class="muted" datetime="${date ? date.toISOString() : p.date}">${dateLabel}</time>
         </div>
         <h3 class="post-card__title">${p.title}</h3>
         <p class="post-card__summary">${p.summary}</p>
       </a>
-    `
-    )
+    `;
+    })
     .join('');
 
   renderPagination(posts.length, page);
