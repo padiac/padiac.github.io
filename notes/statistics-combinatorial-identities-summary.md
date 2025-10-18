@@ -77,10 +77,7 @@ $$
 $$
 Summing over $i$ along the diagonal cancels interior terms and leaves $\binom{n+m}{m}$.
 
----
 
-
----
 
 ---
 
