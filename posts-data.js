@@ -40,5 +40,12 @@ window.POSTS = [
     date: '2025-10-18T12:29:01Z',
     category: 'Statistics',
     summary: 'Reference sheet covering binomial, multinomial, convolution, hockey-stick, and Pascal identities.'
+  },
+  {
+    slug: 'statistics-discrete-distributions-quick-notes',
+    title: 'Statistics - Discrete Distributions Quick Notes',
+    date: '2025-10-18T12:29:30Z',
+    category: 'Statistics',
+    summary: 'Compact pmf, support, intuition, and derivations for Binomial, Poisson, Hypergeometric, Negative Binomial, and Geometric distributions.'
   }
 ];
