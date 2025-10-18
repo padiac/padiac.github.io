@@ -3,38 +3,16 @@ function loadPost(slug) {
   return posts.find((p) => p.slug === slug);
 }
 
-function createMarkdownRenderer() {
-  if (!window.markdownit) {
-    return null;
-  }
-  return window.markdownit({
-    html: true,
-    linkify: true,
-    breaks: false
-  });
-}
-
-async function renderMarkdown(post, el) {
-  const renderer = createMarkdownRenderer();
-  if (!renderer) {
-    el.innerHTML = '<p class="muted">Markdown renderer unavailable.</p>';
-    return;
-  }
-
-  el.innerHTML = '<p class="muted">Loading...</p>';
+async function renderPostContent(post, container) {
+  container.innerHTML = '<p class="muted">Loading...</p>';
   try {
-    const response = await fetch(`notes/${post.slug}.md`);
-    if (!response.ok) {
-      throw new Error(`Missing markdown for slug ${post.slug}`);
-    }
-    const markdown = await response.text();
-    el.innerHTML = renderer.render(markdown);
-    if (window.queueMathJax) {
-      window.queueMathJax(el);
-    }
-  } catch (error) {
-    console.error(error);
-    el.innerHTML = '<p class="muted">Content is not available right now.</p>';
+    const res = await fetch(public-notes/.html, { cache: 'no-store' });
+    if (!res.ok) throw new Error(Missing HTML for slug );
+    const html = await res.text();
+    container.innerHTML = html;
+  } catch (err) {
+    console.error(err);
+    container.innerHTML = '<p class="muted">Content is not available right now.</p>';
   }
 }
 
@@ -42,8 +20,8 @@ async function renderMarkdown(post, el) {
   const params = new URLSearchParams(location.search);
   const slug = params.get('slug');
   if (!slug) return;
-  const post = loadPost(slug);
 
+  const post = loadPost(slug);
   const titleEl = document.getElementById('post-title');
   const dateEl = document.getElementById('post-date');
   const catEl = document.getElementById('post-category');
@@ -55,11 +33,11 @@ async function renderMarkdown(post, el) {
     return;
   }
 
-  document.title = `${post.title} - Notes`;
+  document.title = ${post.title} - Notes;
   titleEl.textContent = post.title;
   dateEl.textContent = post.date;
   dateEl.setAttribute('datetime', post.date);
   catEl.textContent = post.category;
 
-  await renderMarkdown(post, contentEl);
+  await renderPostContent(post, contentEl);
 })();

@@ -1,0 +1,77 @@
+<h1>1D YOLO Baseline Aggregation Detector</h1>
+<p>This feasibility note adapts YOLO-style object detection to a one-dimensional signal that starts with a baseline segment and ramps into an aggregation phase. The detector treats the composite pattern as an object in time whose center and segment lengths must be estimated alongside an objectness score.</p>
+<h2>Problem Overview</h2>
+<p>Given an observed signal <span class="math-inline"><math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mi>y</mi><mo stretchy="false">&#x00028;</mo><mi>t</mi><mo stretchy="false">&#x00029;</mo></mrow></math></span>, the detector should</p>
+<ol>
+<li>Separate valid baseline-plus-aggregation patterns from pure noise.</li>
+<li>Emit <span class="math-inline"><math xmlns="http://www.w3.org/1998/Math/MathML" display="inline"><mrow><mo stretchy="false">&#x00028;</mo><mtext>confidence</mtext><mo>&#x0002C;</mo><mtext>center</mtext><mo>&#x0002C;</mo><mtext>baseline\_length</mtext><mo>&#x0002C;</mo><mtext>aggregation\_length</mtext><mo stretchy="false">&#x00029;</mo></mrow></math></span> whenever a valid structure is found.</li>
+</ol>
+<p>The goal is to transport the 2D YOLO idea to a 1D temporal domain.</p>
+<h2>Why YOLO Works in 1D</h2>
+<p>YOLO divides an input into anchor grids, predicts objectness, and regresses bounding boxes. In 1D we apply the same idea with sliding windows:</p>
+<ul>
+<li>Discretize the series into fixed-width cells.</li>
+<li>Predict objectness and localization parameters for each cell.</li>
+<li>Use non-max suppression or a confidence threshold to choose the best candidate.</li>
+</ul>
+<p>Time-series literature already reports success with related approaches (for example EEG event detection or seismic waveform picking), so the formulation is well supported.</p>
+<h2>Lean Model Template</h2>
+<ul>
+<li><strong>Backbone:</strong> A 1D CNN with 3 to 5 convolutional blocks; add residual skips or dilations to widen the receptive field.</li>
+<li><strong>Detection head:</strong> Sigmoid activation for confidence, linear projections for center, baseline length, and aggregation length.</li>
+<li><strong>Loss:</strong> Binary cross-entropy on confidence plus Smooth L1 (Huber) for localization.</li>
+</ul>
+<p>Start lightweight to establish signal quality and hyperparameters before adding complexity.</p>
+<h2>Synthetic Data Program</h2>
+<p>Because real measurements are scarce, prioritize synthetic generation:</p>
+<ul>
+<li>Sample baseline slopes, intercepts, and durations.</li>
+<li>Attach aggregation ramps (exponential or logistic) with randomized onset.</li>
+<li>Add Gaussian or Poisson noise, random clipping, and occasional trend distortions.</li>
+<li>Mix in pure noise sequences as negatives.</li>
+</ul>
+<p>Augment with phase jitter and amplitude scaling to harden the model before fine-tuning on real traces.</p>
+<h2>Extensions to Explore</h2>
+<ul>
+<li>Multi-anchor heads for multiple simultaneous events.</li>
+<li>Attention or Transformer blocks for long-range context.</li>
+<li>DETR-style set prediction to remove anchors entirely.</li>
+<li>Confidence calibration (temperature scaling or Platt scaling) before deployment.</li>
+</ul>
+<h2>Key Takeaways</h2>
+<table>
+<thead>
+<tr>
+<th>Aspect</th>
+<th>Assessment</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Problem definition</td>
+<td>Baseline plus aggregation behaves like a composite object.</td>
+</tr>
+<tr>
+<td>1D YOLO fit</td>
+<td>Feasible with precedent across time-series detection papers.</td>
+</tr>
+<tr>
+<td>Primary risk</td>
+<td>Capturing realistic noise and drift in synthetic data generation.</td>
+</tr>
+<tr>
+<td>Starter recipe</td>
+<td>Compact 1D CNN and multi-task head trained on curated signals.</td>
+</tr>
+<tr>
+<td>Future-proof upgrades</td>
+<td>Scale to Transformer backbones or DETR variants for multi-events.</td>
+</tr>
+</tbody>
+</table>
+<h2>Suggested Next Steps</h2>
+<ol>
+<li>Prototype the 1D CNN plus YOLO head in PyTorch.</li>
+<li>Build the synthetic generator with controllable noise and ramp parameters.</li>
+<li>Stand up evaluation scripts for localization error, precision/recall, and confusion versus negatives.</li>
+</ol>

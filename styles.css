@@ -296,6 +296,20 @@ p {
   color: var(--color-muted);
 }
 
+.math-inline {
+  display: inline-block;
+  vertical-align: middle;
+}
+
+.math-block {
+  margin: 16px 0;
+  overflow-x: auto;
+}
+
+.math-block math {
+  display: inline-block;
+}
+
 .chip {
   display: inline-block;
   font-size: 12px;

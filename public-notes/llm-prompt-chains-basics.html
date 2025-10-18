@@ -1,0 +1,20 @@
+<h1>Prompt Chains Basics</h1>
+<p>This note sketches simple patterns for chaining large language model prompts so that intermediate outputs stay structured and debuggable.</p>
+<h2>Core Pattern: Classify -&gt; Extract -&gt; Synthesize</h2>
+<ol>
+<li><strong>Classify:</strong> Decide what branch or template should fire. Keep temperature low.</li>
+<li><strong>Extract:</strong> Pull structured facts with a constrained format such as JSON.</li>
+<li><strong>Synthesize:</strong> Generate the final narrative while validating required fields.</li>
+</ol>
+<h2>Guardrails</h2>
+<ul>
+<li>Require schema-compliant JSON or Markdown tables at hand-off boundaries.</li>
+<li>Constrain temperature and top-p for extractive steps; loosen only at synthesis.</li>
+<li>Add lightweight evals for completeness, format, and internal contradiction.</li>
+</ul>
+<h2>Operational Tips</h2>
+<ul>
+<li>Log intermediate decisions to a shared store so failure exemplars are easy to inspect.</li>
+<li>Track per-step quality metrics (accuracy, coverage, latency) to guide iteration.</li>
+<li>Promote successful chains to reusable prompt templates or functions.</li>
+</ul>

@@ -1,0 +1,24 @@
+<h1>Regression Diagnostics Checklist</h1>
+<p>Quick reminders for validating linear model assumptions and next actions if they break.</p>
+<h2>Residual Analysis</h2>
+<ul>
+<li>Plot residuals versus fitted values to spot non-linearity or heteroscedasticity.</li>
+<li>Evaluate autocorrelation when working with time-ordered data.</li>
+<li>Inspect distribution (histogram or QQ plot) for heavy tails or skew.</li>
+</ul>
+<h2>Influence and Leverage</h2>
+<ul>
+<li>Compute Cook's distance and leverage scores; flag points with high leverage and large residuals.</li>
+<li>Consider re-fitting with influential observations removed to judge sensitivity.</li>
+</ul>
+<h2>Multicollinearity</h2>
+<ul>
+<li>Track variance inflation factors (VIF) for each predictor.</li>
+<li>Remove or combine highly correlated features, or use regularization (ridge, elastic net).</li>
+</ul>
+<h2>When Assumptions Fail</h2>
+<ul>
+<li>Apply transformations (log, Box-Cox) or use generalized linear models.</li>
+<li>Switch to robust standard errors if heteroscedasticity persists.</li>
+<li>Explore alternative models such as quantile regression or tree ensembles.</li>
+</ul>

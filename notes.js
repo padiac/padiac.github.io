@@ -33,10 +33,6 @@ function renderPosts(posts, page = 1) {
     )
     .join('');
 
-  if (window.queueMathJax) {
-    window.queueMathJax(list);
-  }
-
   renderPagination(posts.length, page);
 }
 
