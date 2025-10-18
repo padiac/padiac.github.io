@@ -54,5 +54,12 @@ window.POSTS = [
     date: '2025-10-18T21:03:14Z',
     category: 'Statistics',
     summary: 'Compares global factorization with subset independence.'
+  },
+  {
+    slug: 'regression-bayesian-inference-and-machine-learning-a-unified-lineage',
+    title: 'Regression, Bayesian Inference, and Machine Learning: A Unified Lineage',
+    date: '2025-10-18T21:22:51Z',
+    category: 'Machine Learning',
+    summary: 'Connects regression, Bayesian priors, and ML workflow.'
   }
 ];
