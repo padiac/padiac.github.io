@@ -6,8 +6,8 @@ function loadPost(slug) {
 async function renderPostContent(post, container) {
   container.innerHTML = '<p class="muted">Loading...</p>';
   try {
-    const res = await fetch(public-notes/.html, { cache: 'no-store' });
-    if (!res.ok) throw new Error(Missing HTML for slug );
+    const res = await fetch(`public-notes/${post.slug}.html`, { cache: 'no-store' });
+    if (!res.ok) throw new Error(`Missing HTML for slug ${post.slug}`);
     const html = await res.text();
     container.innerHTML = html;
   } catch (err) {
@@ -33,7 +33,7 @@ async function renderPostContent(post, container) {
     return;
   }
 
-  document.title = ${post.title} - Notes;
+  document.title = `${post.title} - Notes`;
   titleEl.textContent = post.title;
   dateEl.textContent = post.date;
   dateEl.setAttribute('datetime', post.date);
