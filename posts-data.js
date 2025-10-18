@@ -50,7 +50,7 @@ window.POSTS = [
   },
   {
     slug: 'statistics-independence-and-joint-density-factorization',
-    title: 'Independence and Joint Density Factorization',
+    title: 'Statistics - Independence and Joint Density Factorization',
     date: '2025-10-18T21:03:14Z',
     category: 'Statistics',
     summary: 'Compares global factorization with subset independence.'

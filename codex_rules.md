@@ -8,7 +8,7 @@
 When this rules file is referenced and a raw Markdown note is pasted, Codex must:
 1. Normalize the Markdown to match the site’s authoring rules.
 2. Detect (or reuse) the category from existing `posts-data.js` categories; fall back to `Misc`.
-3. Derive `title`, `slug`, and `summary` **(with category-prefixed slug)**.
+3. Derive `title`, `slug`, and `summary` (**with category-prefixed slug and title**).
 4. **Remove the top-level H1 from the saved Markdown** to avoid duplicate titles on the site.
 5. Write the final note to `notes/<slug>.md`.
 6. Update `posts-data.js` (add or refresh entry).
@@ -21,7 +21,7 @@ The user will not provide any parameters beyond the pasted Markdown block.
 
 ## Site Markdown Rules (Must Follow)
 - **File path**: `notes/<slug>.md` (slug must be lowercase, hyphen-joined, identical to `posts-data.js`).
-- **Headings**: allow `#`, `##`, `###` in raw input, but **the first `#` H1 is only used to extract the title and must be removed from the saved Markdown** (see “Title, Slug, Summary”).
+- **Headings**: allow `#`, `##`, `###` in raw input, but **the first `#` H1 is only used to extract the title and must be removed from the saved Markdown**.
 - **Spacing**: one blank line before/after headings and between paragraphs.
 - **Lists**: `-` for unordered; `1.` for ordered.
 - **Tables**: standard Markdown table syntax.
@@ -45,22 +45,22 @@ The user will not provide any parameters beyond the pasted Markdown block.
 
 ## Title, Slug, Summary
 - **Title**:
-  - The first line starting with `# ` is the title.
-  - If missing, synthesize a concise title from content.
-  - **This H1 must NOT be kept in the final saved Markdown** (delete that line and the immediate following blank line if present).
+  - The first line starting with `# ` is the base title.
+  - Final title stored in `posts-data.js` must be **prefixed with the category**, formatted as:  
+    `<Category> - <BaseTitle>`  
+    Example: `"Statistics - Normal Approximation"`.
+  - This H1 must NOT be kept in the final saved Markdown (delete that line and the following blank line if present).
 - **Category**:
   - If `@category:` override exists, use it.
   - Else auto-detect per “Category Detection” below.
 - **Slug** (category-prefixed rule):
   - If an inline override `@slug:` exists, use it verbatim.
   - Otherwise, build as:  
-    `slug = <category-lower-hyphen> + '-' + <title-slug>`
-    - `<category-lower-hyphen>`: lowercase category, spaces → `-`, drop non `[a-z0-9-]`, compress dashes.
-    - `<title-slug>`: lowercase title, spaces → `-`, drop non `[a-z0-9-]`, compress dashes.
-  - Examples: `statistics-normal-approximation`, `machine-learning-softmax-intuition`, `llm-rag-indexing-basics`.
+    `slug = <category-lower-hyphen> + '-' + <title-slug>`  
+    Example: `statistics-normal-approximation`.
 - **Summary**:
   - If `@summary:` exists, use it, trimmed to ≤160 characters and with formulas removed.
-  - Otherwise, take the first 1–2 sentences of the first paragraph after the (removed) title (≤160 chars, formulas removed).
+  - Otherwise, take the first 1–2 sentences of the first paragraph after the removed title (≤160 chars, formulas removed).
 - **Strip any inline overrides** (see **Inline Overrides**) from the final Markdown prior to saving.
 
 ---
@@ -83,7 +83,7 @@ Every note must have an entry:
 ```js
 {
   slug: "<slug>",
-  title: "<Title>",
+  title: "<Category> - <BaseTitle>",
   date: "YYYY-MM-DDTHH:MM:SSZ", // ISO 8601 UTC
   category: "<Category>",
   summary: "<1–2 sentence summary, no formulas>"
@@ -126,7 +126,7 @@ After all steps, print:
 > **Always show details**
 ```
 ✅ Published
-Title: <title>
+Title: <Category> - <BaseTitle>
 Slug: <slug>
 Category: <category>
 Summary: <summary>
@@ -161,4 +161,4 @@ User action in Codex:
 >>>
 ```
 
-Codex must automatically: **Format → Classify → Build category-prefixed slug → Remove H1 → Write → Update posts-data.js → Commit & Push → Print Summary**.
+Codex must automatically: **Format → Classify → Build category-prefixed slug and title → Remove H1 → Write → Update posts-data.js → Commit & Push → Print Summary**.
