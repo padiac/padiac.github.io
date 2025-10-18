@@ -31,7 +31,7 @@ window.POSTS = [
     slug: 'learning-journal-ml-ai-foundations',
     title: 'Machine Learning and AI Foundations',
     date: '2025-10-18T12:27:04Z',
-    category: 'Statistics',
+    category: 'Machine Learning',
     summary: 'Curated roadmap of courses and books covering core ML theory, deep learning, and large-scale AI systems.'
   },
   {
