@@ -8,25 +8,26 @@ $$
 \binom{-1}{r} = \frac{(-1)(-2)\cdots(-r)}{r!} = (-1)^r
 $$
 
-This extends the definition of combinations beyond positive integers.
-
 ---
 
 ## 2. Common Identities from the Binomial Theorem
 
 From the expansion:
+
 $$
 (a + b)^n = \sum_{i=0}^{n} \binom{n}{i} a^i b^{n-i}
 $$
 
 Two frequently used results are:
 
-1. When $a = b = 1$:
+1. When \(a = b = 1\):
+
    $$
    \binom{n}{0} + \binom{n}{1} + \cdots + \binom{n}{n} = 2^n
    $$
 
-2. When $a = 1, b = -1$:
+2. When \(a = 1, b = -1\):
+
    $$
    \binom{n}{0} - \binom{n}{1} + \binom{n}{2} - \cdots + (-1)^n \binom{n}{n} = 0
    $$
@@ -36,59 +37,79 @@ Two frequently used results are:
 ## 3. Convolution Identity of Binomial Coefficients
 
 $$
-\boxed{\binom{m+n}{r} = \sum_{i=0}^{r} \binom{m}{i} \binom{n}{r-i}}
+\boxed{\displaystyle \binom{m+n}{r} = \sum_{i=0}^{r} \binom{m}{i} \binom{n}{r-i}}
 $$
 
-This is derived by expanding $(1 + x)^{m+n} = (1 + x)^m (1 + x)^n$ and comparing coefficients of $x^r$.
+**Derivation:**  
+Expand \((1 + x)^{m+n} = (1 + x)^m (1 + x)^n\) and compare the coefficients of \(x^r\).
 
 ---
 
-## 4. Multinomial Coefficient (Distribution Formula)
+## 4. Multinomial Coefficient (with short derivation)
 
-When dividing $n$ distinct items into $k$ groups of sizes $r_1, r_2, \ldots, r_k$:
-
-$$
-\boxed{\frac{n!}{r_1! r_2! \cdots r_k!}}
-$$
-
-This represents the number of distinct distributions.
-
----
-
-## 5. Hockey-Stick Identity (斜锯式恒等式)
+When dividing \(n\) distinct items into \(k\) groups of sizes \(r_1, r_2, \ldots, r_k\):
 
 $$
-\boxed{1 + \binom{n}{1} + \binom{n+1}{2} + \cdots + \binom{n+m-1}{m} = \binom{n+m}{m}}
+\boxed{\displaystyle \frac{n!}{r_1! r_2! \cdots r_k!}}
 $$
 
-If you omit the first term ($\binom{n-1}{0}=1$), then:
-
+**Derivation:**  
+Choose \(r_1\) for group 1: \(\binom{n}{r_1}\);  
+then \(r_2\) from the remaining \(n - r_1\): \(\binom{n - r_1}{r_2}\);  
+continue similarly until group \(k\).  
+Multiplying all:
 $$
-\binom{n}{1} + \binom{n+1}{2} + \cdots + \binom{n+m-1}{m} = \binom{n+m}{m} - 1
+\binom{n}{r_1} \binom{n - r_1}{r_2} \cdots = \frac{n!}{r_1! r_2! \cdots r_k!}.
 $$
 
 ---
 
-## 6. Pascal’s Identity (帕斯卡恒等式)
+## 5. Hockey-Stick Identity
+
+
 
 $$
-\boxed{\binom{n}{r} = \binom{n-1}{r} + \binom{n-1}{r-1}}
+\boxed{\binom{n-1}{0} + \binom{n}{1} + \binom{n+1}{2} + \cdots + \binom{n+m-1}{m} = \binom{n+m}{m}}
 $$
 
-This is the recursive basis for the binomial triangle.
+**Proof (telescoping via Pascal):** Using $\binom{k}{r}=\binom{k-1}{r}+\binom{k-1}{r-1}$,
+$$
+\binom{n-1+i}{i}=\binom{n-2+i}{i}+\binom{n-2+i}{i-1}.
+$$
+Summing over $i$ along the diagonal cancels interior terms and leaves $\binom{n+m}{m}$.
 
 ---
 
-> ✅ **Summary Table**
+
+---
+
+---
+
+## 6. Pascal’s Identity
+
+$$
+\boxed{\displaystyle \binom{n}{r} = \binom{n-1}{r} + \binom{n-1}{r-1}}
+$$
+
+**Derivation:**  
+From \(n\) labeled items, choose \(r\).  
+Fix one special item \(x\).  
+Either the chosen set **excludes** \(x\): \(\binom{n-1}{r}\);  
+or it **includes** \(x\): then pick the remaining \(r-1\) from the other \(n-1\): \(\binom{n-1}{r-1}\).  
+Adding both cases gives the formula.
+
+---
+
+## Summary Table
 
 | Category | Formula | Description |
 |-----------|----------|-------------|
-| Negative Integer Combination | $\binom{-1}{r} = (-1)^r$ | Extends binomial definition |
-| Binomial Sum | $\sum \binom{n}{i} = 2^n$ | Basic binomial identity |
-| Alternating Sum | $\sum (-1)^i \binom{n}{i} = 0$ | Sign-alternating version |
-| Convolution | $\binom{m+n}{r} = \sum \binom{m}{i}\binom{n}{r-i}$ | Combination folding rule |
-| Multinomial | $\frac{n!}{r_1! r_2! \cdots r_k!}$ | Partition of items |
-| Hockey-Stick | $1+\binom{n}{1}+\cdots+\binom{n+m-1}{m}=\binom{n+m}{m}$ | Cumulative diagonal sum |
-| Pascal’s Identity | $\binom{n}{r}=\binom{n-1}{r}+\binom{n-1}{r-1}$ | Recursive property |
+| Negative Integer Combination | $\displaystyle \binom{-1}{r} = (-1)^r$ | Extension to negative integers |
+| Binomial Sum | $\displaystyle \sum \binom{n}{i} = 2^n$ | Basic binomial identity |
+| Alternating Sum | $\displaystyle \sum (-1)^i \binom{n}{i} = 0$ | Alternating sign version |
+| Convolution | $\displaystyle \binom{m+n}{r} = \sum \binom{m}{i}\binom{n}{r-i}$ | Binomial folding rule |
+| Multinomial | $\displaystyle \frac{n!}{r_1! r_2! \cdots r_k!}$ | Number of distributions |
+| Hockey-Stick | $\displaystyle \binom{n-1}{1}+\binom{n}{2}+\cdots+\binom{n+m-2}{m}=\binom{n+m-1}{m+1}$ | Cumulative diagonal sum |
+| Pascal’s Identity | $\displaystyle \binom{n}{r}=\binom{n-1}{r}+\binom{n-1}{r-1}$ | Recursive relation |
 
 ---
