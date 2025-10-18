@@ -1,5 +1,3 @@
-# Independence and Joint Density Factorization
-
 ## 1. General Case: Why Independence Must Be Stated for All Subsets
 
 In the most general probability space, we only have a probability measure $P$, which may arise from discrete, continuous, mixed, or even singular distributions (for example, the Cantor distribution). In such settings, a joint distribution that appears factorizable does not automatically guarantee independence among all subsets of variables.
