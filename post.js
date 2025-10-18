@@ -29,8 +29,8 @@ async function renderMarkdown(post, el) {
     }
     const markdown = await response.text();
     el.innerHTML = renderer.render(markdown);
-    if (window.MathJax && MathJax.typesetPromise) {
-      MathJax.typesetPromise([el]).catch((err) => console.error(err));
+    if (window.queueMathJax) {
+      window.queueMathJax(el);
     }
   } catch (error) {
     console.error(error);

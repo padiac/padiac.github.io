@@ -33,8 +33,8 @@ function renderPosts(posts, page = 1) {
     )
     .join('');
 
-  if (window.MathJax && MathJax.typesetPromise) {
-    MathJax.typesetPromise([list]).catch((err) => console.error(err));
+  if (window.queueMathJax) {
+    window.queueMathJax(list);
   }
 
   renderPagination(posts.length, page);
