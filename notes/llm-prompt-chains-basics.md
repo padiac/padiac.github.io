@@ -1,5 +1,3 @@
-# Prompt Chains Basics
-
 This note sketches simple patterns for chaining large language model prompts so that intermediate outputs stay structured and debuggable.
 
 ## Core Pattern: Classify -> Extract -> Synthesize

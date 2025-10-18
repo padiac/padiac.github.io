@@ -1,4 +1,3 @@
-
 ## 1. Generalized Binomial Coefficient for Non-Positive Integers
 
 For negative integers, the binomial coefficient is defined as:

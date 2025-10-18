@@ -1,5 +1,3 @@
-# Regression Diagnostics Checklist
-
 Quick reminders for validating linear model assumptions and next actions if they break.
 
 ## Residual Analysis
