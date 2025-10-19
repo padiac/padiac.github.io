@@ -68,5 +68,12 @@ window.POSTS = [
     date: '2025-10-19T04:13:48Z',
     category: 'Statistics',
     summary: 'Connects additive hierarchies with t and F ratio families.'
+  },
+  {
+    slug: 'statistics-appendix-b-expectation-of-the-three-classic-distributions-chi2-t-f',
+    title: 'Statistics - Appendix B: Expectation of the Three Classic Distributions (chi-square, t, F)',
+    date: '2025-10-19T07:24:16Z',
+    category: 'Statistics',
+    summary: 'Expectations for chi-square, t, and F distributions with their existence conditions.'
   }
 ];
