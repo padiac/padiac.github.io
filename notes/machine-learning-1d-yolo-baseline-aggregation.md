@@ -47,13 +47,9 @@ Augment with phase jitter and amplitude scaling to harden the model before fine-
 
 ## Key Takeaways
 
-| Aspect               | Assessment                                                        |
-| -------------------- | ----------------------------------------------------------------- |
-| Problem definition   | Baseline plus aggregation behaves like a composite object.        |
-| 1D YOLO fit          | Feasible with precedent across time-series detection papers.      |
-| Primary risk         | Capturing realistic noise and drift in synthetic data generation. |
-| Starter recipe       | Compact 1D CNN and multi-task head trained on curated signals.    |
-| Future-proof upgrades| Scale to Transformer backbones or DETR variants for multi-events. |
+| Attribute | Problem definition | 1D YOLO fit | Primary risk | Starter recipe | Future-proof upgrades |
+|-----------|--------------------|-------------|--------------|----------------|-----------------------|
+| Assessment | Baseline plus aggregation behaves like a composite object. | Feasible with precedent across time-series detection papers. | Capturing realistic noise and drift in synthetic data generation. | Compact 1D CNN and multi-task head trained on curated signals. | Scale to Transformer backbones or DETR variants for multi-events. |
 
 ## Suggested Next Steps
 

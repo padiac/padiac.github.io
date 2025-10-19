@@ -97,14 +97,9 @@ Adding both cases gives the formula.
 
 ## Summary Table
 
-| Category | Formula | Description |
-|-----------|----------|-------------|
-| Negative Integer Combination | $\displaystyle \binom{-1}{r} = (-1)^r$ | Extension to negative integers |
-| Binomial Sum | $\displaystyle \sum \binom{n}{i} = 2^n$ | Basic binomial identity |
-| Alternating Sum | $\displaystyle \sum (-1)^i \binom{n}{i} = 0$ | Alternating sign version |
-| Convolution | $\displaystyle \binom{m+n}{r} = \sum \binom{m}{i}\binom{n}{r-i}$ | Binomial folding rule |
-| Multinomial | $\displaystyle \frac{n!}{r_1! r_2! \cdots r_k!}$ | Number of distributions |
-| Hockey-Stick | $\displaystyle \binom{n-1}{1}+\binom{n}{2}+\cdots+\binom{n+m-2}{m}=\binom{n+m-1}{m+1}$ | Cumulative diagonal sum |
-| Pascal’s Identity | $\displaystyle \binom{n}{r}=\binom{n-1}{r}+\binom{n-1}{r-1}$ | Recursive relation |
+| Attribute | Negative integer combination | Binomial sum | Alternating sum | Convolution | Multinomial | Hockey-stick | Pascal’s identity |
+|-----------|-----------------------------|--------------|----------------|-------------|------------|--------------|------------------|
+| Formula | $\displaystyle \binom{-1}{r} = (-1)^r$ | $\displaystyle \sum \binom{n}{i} = 2^n$ | $\displaystyle \sum (-1)^i \binom{n}{i} = 0$ | $\displaystyle \binom{m+n}{r} = \sum \binom{m}{i}\binom{n}{r-i}$ | $\displaystyle \frac{n!}{r_1! r_2! \cdots r_k!}$ | $\displaystyle \binom{n-1}{1}+\binom{n}{2}+\cdots+\binom{n+m-2}{m}=\binom{n+m-1}{m+1}$ | $\displaystyle \binom{n}{r}=\binom{n-1}{r}+\binom{n-1}{r-1}$ |
+| Description | Extension to negative integers | Basic binomial identity | Alternating sign version | Binomial folding rule | Number of distributions | Cumulative diagonal sum | Recursive relation |
 
 ---

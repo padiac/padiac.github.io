@@ -57,11 +57,11 @@ The Poisson distribution is the limiting case of the binomial as $n \to \infty$,
 
 ### 1.4 Summary Table
 
-| Distribution | Parameters | Additive rule | Interpretation |
-|--------------|------------|---------------|----------------|
-| Multinomial | $(n; p_1, \dots, p_k)$ | Combine categories $\Rightarrow$ add probabilities | Multi-category experiment |
-| Binomial | $(n, p)$ | Add trial counts $n$ | Success or failure trials |
-| Poisson | $\lambda$ | Add rates $\lambda$ | Rare-events limit model |
+| Attribute | Multinomial | Binomial | Poisson |
+|-----------|-------------|----------|---------|
+| Parameters | $(n; p_1, \dots, p_k)$ | $(n, p)$ | $\lambda$ |
+| Additive rule | Combine categories $\Rightarrow$ add probabilities | Add trial counts $n$ | Add rates $\lambda$ |
+| Interpretation | Multi-category experiment | Success or failure trials | Rare-events limit model |
 
 Logical hierarchy: multinomial $\Rightarrow$ binomial ($k=2$) $\Rightarrow$ Poisson (limit).
 
@@ -129,11 +129,10 @@ The family of normal distributions is closed under addition: the sum of independ
 
 ### 2.4 Summary Table
 
-| Concept | Formula or property | Interpretation |
-|---------|---------------------|----------------|
-| Variable transformation | $f_Y = f_X \times \lvert\det(\partial h / \partial y)\rvert$ | Density scaling by coordinate change |
-| Sum of variables | $l(y) = \int f_1(x) f_2(y - x)\,dx$ | Convolution integral |
-| Normal closure | $\mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ | Gaussian stability |
+| Attribute | Variable transformation | Sum of variables | Normal closure |
+|-----------|------------------------|------------------|-----------------|
+| Formula | $f_Y = f_X \times \lvert\det(\partial h / \partial y)\rvert$ | $l(y) = \int f_1(x) f_2(y - x)\,dx$ | $\mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ |
+| Interpretation | Density scaling by coordinate change | Convolution integral | Gaussian stability |
 
 ---
 

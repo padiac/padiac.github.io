@@ -1,5 +1,5 @@
 **Context:**  
-This note originates from a conceptual tension observed between **Definition 3.3 in Chapter 1** and **Definition 3.2 in Chapter 2** of *Chen Xiru, 《概率论与数理统计》*.  
+This note originates from a conceptual tension observed between **Definition 3.3 in Chapter 1** and **Definition 3.2 in Chapter 2** of *Chen Xiru, 《概率论与数理统计�?.  
 At first glance, Definition 3.3 (event independence) demands independence for **all subsets** of events,  
 while Definition 3.2 (random variable independence) seems to require only one factorization condition.  
 This document explains why these two definitions are in fact **equivalent**,  
@@ -105,7 +105,7 @@ possibly discrete, mixed, or singular (e.g., the Cantor distribution).
 A global product-like appearance does **not** ensure that every subset of variables is independent.
 
 Example: construct \((X_1, X_2, X_3)\) where \(X_3 = X_1 X_2\).  
-Even if the overall distribution looks symmetric or “factorized,”  
+Even if the overall distribution looks symmetric or “factorized,�? 
 the subset \((X_1, X_2)\) is dependent.
 
 Hence, one must explicitly check that every subset satisfies
@@ -165,24 +165,22 @@ In the **density-based** setting:
 
 ## 7. Unified Hierarchy of Independence
 
-| Level | Mathematical Object | Definition | Remarks |
-|-------|---------------------|-------------|----------|
-| Event level | Events $A_i$ | $P(\cap_i A_i)=\prod_i P(A_i)$ | Primitive definition |
-| σ-field level | σ-algebras $\sigma_i$ | Independence of all choices $A_i \in \sigma_i$ | Structural abstraction |
-| Random-variable level | Functions $X_i$ | $P(X_1\in B_1,\dots,X_n\in B_n)=\prod_i P(X_i\in B_i)$ | Induced by σ-fields |
-| Measure level | Probability measures $\mu_{X_i}$ | $\mu_{(X_1,\dots,X_n)} = \bigotimes_i \mu_{X_i}$ | True unifying definition |
-| Density level | $f(x_1,\dots,x_n)$ | $f = \prod_i f_i$ | Continuous case; guarantees all marginals independent |
+| Attribute | Event level | σ-field level | Random-variable level | Measure level | Density level |
+|-----------|-------------|---------------|----------------------|---------------|---------------|
+| Object | Events $A_i$ | σ-algebras $\sigma_i$ | Functions $X_i$ | Probability measures $\mu_{X_i}$ | $f(x_1,\dots,x_n)$ |
+| Definition | $P(\cap_i A_i)=\prod_i P(A_i)$ | Independence of all choices $A_i \in \sigma_i$ | $P(X_1\in B_1,\dots,X_n\in B_n)=\prod_i P(X_i\in B_i)$ | $\mu_{(X_1,\dots,X_n)} = \bigotimes_i \mu_{X_i}$ | $f = \prod_i f_i$ |
+| Remarks | Primitive definition | Structural abstraction | Induced by σ-fields | True unifying definition | Continuous case; guarantees all marginals independent |
 
 ---
 
 ## 8. Summary Table: General vs Continuous Case
 
-| Aspect | General Distribution | Continuous with Density |
-|--------|----------------------|-------------------------|
-| Foundation | Probability measure \(P\) | Density function \(f\) |
+| Attribute | General distribution | Continuous with density |
+|-----------|----------------------|-------------------------|
+| Foundation | Probability measure $P$ | Density function $f$ |
 | Verification | Must check all subsets | One factorization suffices |
 | Structural closure | Not preserved under projection | Preserved by integration |
-| Example | \(X_3 = X_1 X_2\): globally symmetric but dependent | Impossible if \(f = \prod f_i\) |
+| Example | $X_3 = X_1 X_2$: globally symmetric but dependent | Impossible if $f = \prod f_i$ |
 
 ---
 
@@ -207,3 +205,4 @@ This clarification directly resolves the confusion between
 *Definition 3.3 (Chapter 1)* and *Definition 3.2 (Chapter 2)* in Chen Xiru’s text.  
 The apparent discrepancy arises because the first definition is stated in terms of **events**,  
 while the second assumes the **measure structure** that makes the event-wise conditions redundant.
+
