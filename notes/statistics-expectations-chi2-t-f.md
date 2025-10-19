@@ -1,4 +1,4 @@
-This note summarizes the expectation and variance properties of three foundational distributions derived from the normal family: chi-square, Student's t, and F.
+﻿This note reviews the expectation (and whenever informative, the variance) of three distributions that are built from sums or ratios of squared normal variables: chi-square, Student's $t$, and the $F$ distribution. For each we record a concise derivation so the formulas are logically traceable.
 
 ---
 
@@ -10,37 +10,62 @@ $$
 X_i \sim \mathcal{N}(0,1), \qquad i = 1,\dots,n, \qquad \chi_n^2 = \sum_{i=1}^{n} X_i^2.
 $$
 
-Key moments:
+The variable $\chi_n^2$ has the Gamma density
 
 $$
-\mathbb{E}[X_i^2] = 1, \qquad \mathbb{E}[\chi_n^2] = n, \qquad \operatorname{Var}(\chi_n^2) = 2n.
+f_{\chi_n^2}(x) = \frac{1}{2^{n/2}\,\Gamma(n/2)} x^{\frac{n}{2}-1} e^{-x/2}, \qquad x>0,
 $$
 
-> The mean of a chi-square variable equals its degrees of freedom.
+so it is $\mathrm{Gamma}(k=n/2,\;\theta=2)$. Using the Gamma moments
+
+$$
+\mathbb{E}[X] = k\theta, \qquad \operatorname{Var}(X) = k\theta^2,
+$$
+
+we obtain
+
+$$
+\mathbb{E}[\chi_n^2] = n, \qquad \operatorname{Var}(\chi_n^2) = 2n.
+$$
+
+More generally, $\mathbb{E}[(\chi_n^2)^r] = 2^r\,\Gamma(n/2 + r)/\Gamma(n/2)$ whenever $r > -n/2$.
 
 ---
 
-## 2. Student's t Distribution
+## 2. Student's $t$ Distribution
 
-Define
-
-$$
-T = \frac{Z}{\sqrt{V / n}}
-$$
-
-with
+A Student $t$ variable with $n$ degrees of freedom can be written as
 
 $$
-Z \sim \mathcal{N}(0,1), \qquad V \sim \chi_n^2, \qquad Z \perp V.
+T = \frac{Z}{\sqrt{V/n}},
 $$
 
-- When $n = 1$, the expectation does not exist (the integral diverges).
-- When $n > 1$, symmetry yields $\mathbb{E}[T] = 0$.
-- The variance exists only if $n > 2$ and equals $\operatorname{Var}(T) = \dfrac{n}{n-2}$.
+where $Z \sim \mathcal{N}(0,1)$, $V \sim \chi_n^2$, and $Z$ and $V$ are independent. Its density is
+
+$$
+f_T(t) = \frac{\Gamma((n+1)/2)}{\sqrt{n\pi}\,\Gamma(n/2)} \left(1 + \frac{t^2}{n}\right)^{-(n+1)/2}.
+$$
+
+Because $f_T$ is an even function, $\mathbb{E}[T] = 0$ whenever the integral converges. The tails behave like $|t|^{-(n+1)}$, so the first absolute moment exists if and only if $n>1$. Hence
+
+$$
+\mathbb{E}[T] = \begin{cases}
+0, & n>1, \\\
+\text{undefined}, & n \le 1.
+\end{cases}
+$$
+
+The variance exists for $n>2$ and equals
+
+$$
+\operatorname{Var}(T) = \frac{n}{n-2}, \qquad n>2.
+$$
+
+Higher moments follow $\mathbb{E}[|T|^k] < \infty$ if and only if $n>k$.
 
 ---
 
-## 3. F Distribution
+## 3. $F$ Distribution
 
 Let
 
@@ -48,28 +73,38 @@ $$
 F = \frac{(X_1^2 / m)}{(X_2^2 / n)},
 $$
 
-where $X_1^2 \sim \chi_m^2$ and $X_2^2 \sim \chi_n^2$ are independent. Using
+where $X_1^2 \sim \chi_m^2$, $X_2^2 \sim \chi_n^2$, and the two chi-squares are independent. Writing $U = X_1^2$ and $V = X_2^2$, note that
 
 $$
-\mathbb{E}[X_1^2] = m, \qquad \mathbb{E}\!\left[\frac{1}{X_2^2}\right] = \frac{1}{n-2},
+\frac{n}{m}F = \frac{U}{m} \cdot \frac{n}{V}.
 $$
 
-(valid for $n > 2$), we get
+Since $U$ and $V$ are independent, so are $U$ and $1/V$. Using the Gamma moment identity $\mathbb{E}[X^{-1}] = 1/(k\theta)$ for $X \sim \mathrm{Gamma}(k,\theta)$ with $k>1$, we have $\mathbb{E}[1/V] = 1/(n-2)$ for $n>2$. Therefore
 
 $$
-\mathbb{E}[F] = \frac{n}{n-2}.
+\mathbb{E}[F] = \frac{n}{m} \mathbb{E}[U] \mathbb{E}\!\left[\frac{1}{V}\right] = \frac{n}{m} \cdot m \cdot \frac{1}{n-2} = \frac{n}{n-2}, \qquad n>2.
+$$
+
+The mean is undefined when $n \le 2$. Variance exists for $n>4$ and is
+
+$$
+\operatorname{Var}(F) = \frac{2n^2(m+n-2)}{m(n-2)^2(n-4)}.
 $$
 
 ---
 
 ## Summary Table
 
-| Distribution | Definition | Expected value | Existence condition |
-|:-------------|:-----------|:---------------|:--------------------|
-| **$\chi_n^2$** | $\sum X_i^2$ | $n$ | Always |
-| **$t_n$** | $Z / \sqrt{V / n}$ | $0$ | $n > 1$ |
-| **$F_{m,n}$** | $(X_1^2 / m) / (X_2^2 / n)$ | $n / (n - 2)$ | $n > 2$ |
+| Distribution | Representation | Mean | Variance | Notes |
+|:-------------|:---------------|:-----|:---------|:------|
+| **$\chi_n^2$** | $\sum X_i^2$ | $n$ | $2n$ | All moments finite (Gamma family). |
+| **$t_n$** | $Z / \sqrt{V / n}$ | $0$ (requires $n>1$) | $\dfrac{n}{n-2}$ (requires $n>2$) | $\mathbb{E}[|T|^k] < \infty$ iff $n>k$. |
+| **$F_{m,n}$** | $(X_1^2/m)/(X_2^2/n)$ | $\dfrac{n}{n-2}$ (requires $n>2$) | $\dfrac{2n^2(m+n-2)}{m(n-2)^2(n-4)}$ (requires $n>4$) | Mean undefined for $n \le 2$; higher moments demand larger $n$. |
 
 ---
 
-**Takeaway:** chi-square means track degrees of freedom, the t distribution stays centered at zero once $n$ exceeds one, and the F distribution's mean exceeds one because the denominator is itself random.
+**Key ideas:**
+
+1. Chi-square moments follow immediately from the Gamma interpretation.
+2. A $t_n$ mean exists only when $n>1$; the tails are too heavy otherwise.
+3. The $F_{m,n}$ mean (and higher moments) depend on the denominator degrees of freedom; randomness in the denominator pushes the mean above $1$ whenever it exists.
