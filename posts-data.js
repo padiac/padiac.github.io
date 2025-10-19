@@ -21,13 +21,6 @@ window.POSTS = [
     summary: 'Notes on structuring multi-step prompts, guarding failure modes, and adding evals.'
   },
   {
-    slug: 'stats-regression-diagnostics',
-    title: 'Statistics - Regression Diagnostics Checklist',
-    date: '2025-10-18T12:28:45Z',
-    category: 'Statistics',
-    summary: 'Quick checklist for linear model assumptions and what to do when they break.'
-  },
-  {
     slug: 'learning-journal-ml-ai-foundations',
     title: 'Machine Learning and AI Foundations',
     date: '2025-10-18T12:27:04Z',
