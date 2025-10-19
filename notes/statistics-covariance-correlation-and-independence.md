@@ -1,28 +1,32 @@
 ## 1. Definition
 
-Given random variables X and Y with finite variances.
+Consider random variables $X$ and $Y$ with finite variances. Denote
 
-```
-μ_X = E[X],   μ_Y = E[Y]
-σ_X² = Var(X), σ_Y² = Var(Y)
+$$
+\mu_X = \mathbb{E}[X], \quad \mu_Y = \mathbb{E}[Y], \quad
+\sigma_X^2 = \operatorname{Var}(X), \quad \sigma_Y^2 = \operatorname{Var}(Y).
+$$
 
-Covariance:      Cov(X, Y) = E[(X - μ_X)(Y - μ_Y)]
-Uncorrelated:    Cov(X, Y) = 0
-Correlation:     Corr(X, Y) = Cov(X, Y) / (σ_X σ_Y) ∈ [-1, 1]
-```
+Their covariance and correlation are
 
-"Uncorrelated" means the linear dependence between X and Y is zero. It does **not** imply full independence unless additional distributional structure is given.
+$$
+\operatorname{Cov}(X, Y) = \mathbb{E}\big[(X - \mu_X)(Y - \mu_Y)\big], \qquad
+\rho_{X,Y} = \frac{\operatorname{Cov}(X, Y)}{\sigma_X \sigma_Y} \in [-1, 1].
+$$
+
+Variables are **uncorrelated** when $\operatorname{Cov}(X, Y) = 0$. This only removes linear dependence; independence requires stronger conditions.
 
 ---
 
 ## 2. Fundamental Inequalities
 
-```
-|Cov(X, Y)| ≤ σ_X σ_Y       (Cauchy–Schwarz Inequality)
-|Corr(X, Y)| ≤ 1
-```
+The Cauchy-Schwarz inequality yields
 
-Equality holds if and only if there exist constants `a ≠ 0` and `b` such that `Y = aX + b` almost surely, meaning the variables are perfectly linearly related.
+$$
+\lvert \operatorname{Cov}(X, Y) \rvert \le \sigma_X \sigma_Y,
+$$
+
+so $\lvert \rho_{X,Y} \rvert \le 1$. Equality holds precisely when constants $a \ne 0$ and $b$ exist such that $Y = aX + b$ almost surely; the relationship is then perfectly linear.
 
 ---
 
@@ -30,108 +34,93 @@ Equality holds if and only if there exist constants `a ≠ 0` and `b` such that 
 
 | Relationship | Meaning | Implication |
 |--------------|---------|-------------|
-| Independent | `f(x, y) = f_X(x) f_Y(y)` | ⇒ Uncorrelated |
-| Uncorrelated | `Cov(X, Y) = 0` | ⇏ Independent (in general) |
+| Independent | $f(x, y) = f_X(x) f_Y(y)$ | $\Rightarrow$ uncorrelated |
+| Uncorrelated | $\operatorname{Cov}(X, Y) = 0$ | $\nRightarrow$ independent (in general) |
 
-"Uncorrelated" only rules out linear dependence; nonlinear dependence can remain.
+Being uncorrelated rules out only linear dependence; nonlinear dependence can remain.
 
 ---
 
 ## 4. Counterexamples
 
-**Example A (Uniform on a circle).** Let `(X, Y)` be uniformly distributed on a unit disk.
+**Example A (uniform on a disk).** Let $(X, Y)$ be uniformly distributed on the unit disk. Symmetry gives $\mathbb{E}[X] = \mathbb{E}[Y] = 0$ and $\mathbb{E}[XY] = 0$, so $\operatorname{Cov}(X, Y) = 0$. Yet knowing $X$ restricts the possible values of $Y$, so the pair is dependent.
 
-```
-E[X] = E[Y] = 0
-Cov(X, Y) = E[XY] = 0  (symmetry cancels)
-```
+**Example B (nonlinear dependence).** Let $X \sim \operatorname{Uniform}(-1, 1)$ and set $Y = X^2$. Then $\mathbb{E}[X] = \mathbb{E}[X^3] = 0$, giving
 
-However, X and Y are not independent because the value of X constrains the possible values of Y.
+$$
+\operatorname{Cov}(X, Y) = \mathbb{E}[X^3] - \mathbb{E}[X]\,\mathbb{E}[Y] = 0,
+$$
 
-**Example B (Nonlinear dependence).** Let `X ~ Uniform(-1, 1)` and define `Y = X²`.
-
-```
-E[X] = 0,  E[X³] = 0
-Cov(X, Y) = E[X · X²] - E[X]E[Y] = 0
-```
-
-Y depends entirely on X, so the variables are dependent despite being uncorrelated.
+but $Y$ is fully determined by $X$, so the variables are dependent.
 
 ---
 
 ## 5. Correlation Interpretation
 
-- `Corr(X, Y) > 0`: Y tends to increase with X (upward trend).
-- `Corr(X, Y) < 0`: Y tends to decrease with X (downward trend).
-- `Corr(X, Y) = 0`: No linear trend, though nonlinear structure can remain.
+- $\rho_{X,Y} > 0$: $Y$ tends to increase with $X$ (upward trend).
+- $\rho_{X,Y} < 0$: $Y$ tends to decrease with $X$ (downward trend).
+- $\rho_{X,Y} = 0$: no linear trend, though nonlinear structure may remain.
 
-Graphically:
-
-```
-|Corr| = 1 → all points lie on a line
-|Corr| ≈ 0 → cloud-shaped scatter, no line
-```
+Graphically, $\lvert \rho_{X,Y} \rvert = 1$ means the scatter lies on a line, while $\lvert \rho_{X,Y} \rvert \approx 0$ looks like an unstructured cloud.
 
 ---
 
 ## 6. Bivariate Normal Exception
 
-If `(X, Y)` follows a bivariate normal distribution,
+If $(X, Y)$ is bivariate normal,
 
-```
-(X, Y) ~ N₂(μ₁, μ₂, σ₁², σ₂², ρ)
-```
+$$
+(X, Y) \sim \mathcal{N}_2(\mu_1, \mu_2, \sigma_1^2, \sigma_2^2, \rho),
+$$
 
 then
 
-```
-Cov(X, Y) = 0  ⇔  X and Y are independent
-```
+$$
+\operatorname{Cov}(X, Y) = 0 \quad \Longleftrightarrow \quad X \text{ and } Y \text{ are independent}.
+$$
 
-When `ρ = 0`, the joint density factorizes as `f(x, y) = f_X(x) f_Y(y)`. This independence-from-uncorrelatedness equivalence is unique to the multivariate normal family.
+When $\rho = 0$, the joint density factorizes as $f(x, y) = f_X(x) f_Y(y)$. This equivalence between zero correlation and independence is specific to the multivariate normal family.
 
 ---
 
 ## 7. Summary
 
-```
-Independence  ⇒  Uncorrelated
-Uncorrelated  ⇏  Independence  (except in Gaussian case)
-
-|Cov(X, Y)| ≤ σ_X σ_Y
-|Corr(X, Y)| ≤ 1
-|Corr| = 1 ⇔ Y = aX + b
-```
+- Independence $\Rightarrow$ uncorrelated.
+- Uncorrelated $\nRightarrow$ independence (except in the Gaussian case).
+- $\lvert \operatorname{Cov}(X, Y) \rvert \le \sigma_X \sigma_Y$.
+- $\lvert \rho_{X,Y} \rvert \le 1$, with equality only for linear relationships.
 
 ---
 
 ## 8. Supplement: Why PCA Uses the Sample Covariance Matrix
 
-Principal Component Analysis (PCA) finds the directions along which variance is maximized.
+Principal Component Analysis (PCA) finds directions along which variance is maximized.
 
 ### 8.1 Theoretical covariance
 
-```
-Σ = E[(X - μ)(X - μ)ᵀ]
-```
+For a random vector $X$ with mean $\mu$,
 
-In theory, PCA requires the true covariance matrix Σ of the underlying distribution.
+$$
+\Sigma = \mathbb{E}\big[(X - \mu)(X - \mu)^\top\big]
+$$
+
+is the population covariance matrix that PCA uses in theory.
 
 ### 8.2 Practical estimation
 
-Given samples `x₁, x₂, …, xₙ`, use the sample covariance matrix
+Given samples $x_1, \dots, x_n$, practitioners estimate $\Sigma$ with the sample covariance matrix
 
-```
-S = (1/(n-1)) Σ (xᵢ - μ̂)(xᵢ - μ̂)ᵀ,   μ̂ = (1/n) Σ xᵢ
-```
+$$
+S = \frac{1}{n-1} \sum_{i=1}^{n} (x_i - \hat{\mu})(x_i - \hat{\mu})^\top, \qquad
+\hat{\mu} = \frac{1}{n} \sum_{i=1}^{n} x_i.
+$$
 
 ### 8.3 Statistical justification
 
-The sample covariance is an unbiased estimator of the true covariance.
+The estimator $S$ is unbiased:
 
-```
-E[S] = Σ
-```
+$$
+\mathbb{E}[S] = \Sigma.
+$$
 
-This mirrors the unbiasedness of the sample mean and variance. Geometrically, `S` captures the data cloud, so its eigenvectors surface the sample’s principal directions.
-
+This mirrors the unbiased sample mean and variance. Geometrically, $S$ captures the observed data cloud, so its eigenvectors reveal the sample’s principal directions.
