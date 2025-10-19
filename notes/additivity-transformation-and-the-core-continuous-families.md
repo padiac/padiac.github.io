@@ -2,11 +2,11 @@
 
 The multinomial, binomial, and Poisson distributions form a discrete hierarchy where additivity is preserved.
 
-| Distribution | Parameters | Additive rule | Interpretation |
-|--------------|------------|---------------|----------------|
-| Multinomial | $(n; p_1,\dots,p_k)$ | Merge categories $\Rightarrow$ add probabilities | Multi-category trials |
-| Binomial | $(n, p)$ | Add trials $n$ | Success or failure experiments |
-| Poisson | $\lambda$ | Add rates $\lambda$ | Limit of rare events |
+| Attribute | Multinomial | Binomial | Poisson |
+|-----------|-------------|----------|---------|
+| Parameters | $(n; p_1,\dots,p_k)$ | $(n, p)$ | $\lambda$ |
+| Additive rule | Merge categories $\Rightarrow$ add probabilities | Add trials $n$ | Add rates $\lambda$ |
+| Interpretation | Multi-category trials | Success or failure experiments | Limit of rare events |
 
 ---
 
@@ -25,7 +25,7 @@ $$
 For $Y = X_1 + X_2$,
 
 $$
-\ell(y) = \int_{-\infty}^{\infty} f_1(x_1) f_2(y - x_1)\,dx_1,
+l(y) = \int_{-\infty}^{\infty} f_1(x_1) f_2(y - x_1)\,dx_1,
 $$
 
 which defines the convolution of $f_1$ and $f_2$.
@@ -39,6 +39,13 @@ Y = X_1 + X_2 \sim \mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2).
 $$
 
 Normal distributions are closed under addition, a property sometimes nicknamed the "earthworm theorem."
+
+---
+
+| Concept | Variable transformation | Sum of variables | Normal closure |
+|---------|------------------------|------------------|-----------------|
+| Formula | $f_Y = f_X \times \lvert\det(\partial h / \partial y)\rvert$ | $l(y) = \int f_1(x) f_2(y - x)\,dx$ | $\mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ |
+| Interpretation | Density scaling by coordinate change | Convolution integral | Gaussian stability |
 
 ---
 
@@ -112,11 +119,11 @@ The $F$ distribution measures the ratio of two independent variance estimates, c
 
 ### 4.3 Relationships Among $\chi^2$, $t$, and $F$
 
-| Distribution | Constructed from | Expression | Degrees of freedom |
-|--------------|------------------|------------|--------------------|
-| $\chi^2_n$ | $\sum \mathcal{N}(0,1)^2$ | Square-sum | $n$ |
-| $t_n$ | $\mathcal{N}(0,1) / \sqrt{\chi^2_n / n}$ | Ratio (mean over std estimate) | $n$ |
-| $F_{n,m}$ | $(\chi^2_n / n) / (\chi^2_m / m)$ | Ratio of variances | $(n,m)$ |
+| Attribute | $\chi^2_n$ | $t_n$ | $F_{n,m}$ |
+|-----------|------------|-------|-----------|
+| Constructed from | $\sum \mathcal{N}(0,1)^2$ | $\mathcal{N}(0,1) / \sqrt{\chi^2_n / n}$ | $(\chi^2_n / n) / (\chi^2_m / m)$ |
+| Expression | Square-sum | Ratio (mean over std estimate) | Ratio of variances |
+| Degrees of freedom | $n$ | $n$ | $(n,m)$ |
 
 ---
 
@@ -210,11 +217,11 @@ Structural form: $F = \frac{\text{Chi-square}_1 / \text{df}_1}{\text{Chi-square}
 
 ### 6.6 Summary Table
 
-| Distribution | Construction (random variable form) | Degrees of freedom | Common use |
-|--------------|-------------------------------------|--------------------|------------|
-| $\chi^2$ | $\sum \left(\frac{X_i - \mu}{\sigma}\right)^2$ or $\frac{(n-1) S^2}{\sigma^2}$ | $n$ or $n-1$ | Variance estimation and testing |
-| $t$ | $\frac{\bar{X} - \mu}{S / \sqrt{n}}$ | $n-1$ | Mean testing and confidence intervals |
-| $F$ | $\frac{S_1^2 / \sigma_1^2}{S_2^2 / \sigma_2^2}$ | $(n-1, m-1)$ | Variance ratio tests, ANOVA |
+| Attribute | $\chi^2$ | $t$ | $F$ |
+|-----------|----------|-----|-----|
+| Construction | $\sum \left(\frac{X_i - \mu}{\sigma}\right)^2$ or $\frac{(n-1) S^2}{\sigma^2}$ | $\frac{\bar{X} - \mu}{S / \sqrt{n}}$ | $\frac{S_1^2 / \sigma_1^2}{S_2^2 / \sigma_2^2}$ |
+| Degrees of freedom | $n$ or $n-1$ | $n-1$ | $(n-1, m-1)$ |
+| Common use | Variance estimation and testing | Mean testing and confidence intervals | Variance ratio tests, ANOVA |
 
 Conceptual chain:
 
@@ -226,12 +233,11 @@ Two $(\chi^2 / \text{df})$ ratios $\rightarrow$ $F$
 
 ## 7. Summary: The Continuous Family Hierarchy
 
-| Family | Generated from | Key form | Characteristic |
-|--------|----------------|----------|----------------|
-| Normal | Base | $\mathcal{N}(\mu,\sigma^2)$ | Symmetric bell shape |
-| Chi-square | Sum of squares | $\sum X_i^2$ | Positive-only variance measure |
-| $t$ | Normal over $\sqrt{\chi^2 / n}$ | Ratio | Standardized mean deviation |
-| $F$ | $(\chi^2_1 / n_1) / (\chi^2_2 / n_2)$ | Ratio | Variance ratio |
+| Attribute | Normal | Chi-square | $t$ | $F$ |
+|-----------|--------|-----------|-----|-----|
+| Generated from | Base | Sum of squares | Normal over $\sqrt{\chi^2 / n}$ | $(\chi^2_1 / n_1) / (\chi^2_2 / n_2)$ |
+| Key form | $\mathcal{N}(\mu,\sigma^2)$ | $\sum X_i^2$ | Ratio | Ratio |
+| Characteristic | Symmetric bell shape | Positive-only variance measure | Standardized mean deviation | Variance ratio |
 
 ---
 
