@@ -50,8 +50,8 @@ Because $f_T$ is an even function, $\mathbb{E}[T] = 0$ whenever the integral con
 
 $$
 \mathbb{E}[T] = \begin{cases}
-0 & (n>1) \\[4pt]
-\text{undefined} & (n \le 1).
+0, & n > 1 \\
+\text{undefined}, & n \le 1.
 \end{cases}
 $$
 
@@ -108,3 +108,5 @@ $$
 1. Chi-square moments follow immediately from the Gamma interpretation.
 2. A $t_n$ mean exists only when $n>1$; the tails are too heavy otherwise.
 3. The $F_{m,n}$ mean (and higher moments) depend on the denominator degrees of freedom; randomness in the denominator pushes the mean above $1$ whenever it exists.
+
+
