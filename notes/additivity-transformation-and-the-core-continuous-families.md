@@ -322,4 +322,58 @@ In summary:
 1. The sample variance is a scaled chi-square (gamma) variable, not chi-square itself.
 2. The $\sqrt{n}$ in the $t$ statistic stems from the variance of the sample mean.
 
+---
+
+## Appendix B: Expectation of the Chi-Square, $t$, and $F$ Distributions
+
+This appendix records core expectation properties for the three classic distributions that arise from the normal family.
+
+### 1. Expectation of the Chi-Square Distribution
+
+Let $X_i \sim \mathcal{N}(0,1)$, independent, and define $\chi_n^2 = \sum_{i=1}^{n} X_i^2$. Then
+
+$$
+\mathbb{E}[X_i^2] = 1,\quad \mathbb{E}[\chi_n^2] = n,\quad \operatorname{Var}(\chi_n^2) = 2n.
+$$
+
+Thus the expectation of a chi-square random variable equals its degrees of freedom.
+
+### 2. Expectation of the $t$ Distribution
+
+Let
+
+$$
+T = \frac{Z}{\sqrt{V / n}},
+$$
+
+where $Z \sim \mathcal{N}(0,1)$, $V \sim \chi_n^2$, and $Z, V$ are independent. Then $\mathbb{E}[T]$ exists and equals $0$ when $n > 1$. The variance is
+
+$$
+\operatorname{Var}(T) = \frac{n}{n-2}, \quad n > 2.
+$$
+
+For $n = 1$, the expectation does not exist.
+
+### 3. Expectation of the $F$ Distribution
+
+Let
+
+$$
+F = \frac{(X_1^2 / m)}{(X_2^2 / n)},
+$$
+
+with $X_1^2 \sim \chi_m^2$, $X_2^2 \sim \chi_n^2$, independent. Then
+
+$$
+\mathbb{E}[F] = \frac{n}{n-2}, \quad n > 2.
+$$
+
+### Summary
+
+| Distribution | Definition | Expectation | Condition |
+|:-------------|:-----------|:------------|:----------|
+| **$\chi_n^2$** | $\sum X_i^2$ | $n$ | Always |
+| **$t_n$** | $Z / \sqrt{V / n}$ | $0$ | $n > 1$ |
+| **$F_{m,n}$** | $(X_1^2 / m) / (X_2^2 / n)$ | $n / (n - 2)$ | $n > 2$ |
+
 
