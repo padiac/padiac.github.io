@@ -75,5 +75,12 @@ window.POSTS = [
     date: '2025-10-19T07:27:07Z',
     category: 'Statistics',
     summary: 'Key expectations and existence conditions for chi-square, t, and F distributions.'
+  },
+  {
+    slug: 'statistics-law-of-total-expectation-from-1-27-to-1-31',
+    title: 'Statistics - Law of Total Expectation - From (1.27) to (1.31)',
+    date: '2025-10-19T08:01:17Z',
+    category: 'Statistics',
+    summary: 'Walkthrough of the law of total expectation across integral, operator, multivariate, and discrete forms, emphasizing the weighted averaging of conditional expectations.'
   }
 ];
