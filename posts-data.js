@@ -96,5 +96,12 @@ window.POSTS = [
     date: '2025-10-19T09:53:52Z',
     category: 'Statistics',
     summary: 'Cumulant expansion isolates the connected pieces of statistical moments and maps them one-to-one with cumulants.'
+  },
+  {
+    slug: 'statistics-covariance-correlation-and-independence',
+    title: 'Statistics - Covariance, Correlation, and Independence',
+    date: '2025-10-19T03:21:31Z',
+    category: 'Statistics',
+    summary: 'Compares covariance, correlation, and independence, highlighting inequalities, counterexamples, and the special Gaussian exception.'
   }
 ];
