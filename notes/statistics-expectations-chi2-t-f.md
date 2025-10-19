@@ -50,7 +50,7 @@ Because $f_T$ is an even function, $\mathbb{E}[T] = 0$ whenever the integral con
 
 $$
 \mathbb{E}[T] = \begin{cases}
-0, & n>1, \\\
+0, & n>1 \\
 \text{undefined}, & n \le 1.
 \end{cases}
 $$
@@ -82,7 +82,7 @@ $$
 Since $U$ and $V$ are independent, so are $U$ and $1/V$. Using the Gamma moment identity $\mathbb{E}[X^{-1}] = 1/(k\theta)$ for $X \sim \mathrm{Gamma}(k,\theta)$ with $k>1$, we have $\mathbb{E}[1/V] = 1/(n-2)$ for $n>2$. Therefore
 
 $$
-\mathbb{E}[F] = \frac{n}{m} \mathbb{E}[U] \mathbb{E}\!\left[\frac{1}{V}\right] = \frac{n}{m} \cdot m \cdot \frac{1}{n-2} = \frac{n}{n-2}, \qquad n>2.
+\mathbb{E}[F] = \frac{n}{m} \mathbb{E}[U] \mathbb{E}\left[\frac{1}{V}\right] = \frac{n}{m} \cdot m \cdot \frac{1}{n-2} = \frac{n}{n-2}, \qquad n>2.
 $$
 
 The mean is undefined when $n \le 2$. Variance exists for $n>4$ and is
