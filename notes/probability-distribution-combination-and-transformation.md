@@ -131,7 +131,7 @@ The family of normal distributions is closed under addition: the sum of independ
 
 | Concept | Formula or property | Interpretation |
 |---------|---------------------|----------------|
-| Variable transformation | $f_Y = f_X \times |\det(\partial h / \partial y)|$ | Density scaling by coordinate change |
+| Variable transformation | $f_Y = f_X \times \lvert\det(\partial h / \partial y)\rvert$ | Density scaling by coordinate change |
 | Sum of variables | $l(y) = \int f_1(x) f_2(y - x)\,dx$ | Convolution integral |
 | Normal closure | $\mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ | Gaussian stability |
 
@@ -150,4 +150,3 @@ Together, these show how probability distributions transform, combine, and retai
 
 **Summary thought**  
 Additivity and transformation are twin pillars of probability structure. They explain why binomial, Poisson, and normal distributions are fundamental: they describe outcomes and remain self-consistent under aggregation and change of variables.
-
