@@ -237,4 +237,83 @@ Two $(\chi^2 / \text{df})$ ratios $\rightarrow$ $F$
 
 **Conceptual chain:** Normal $\rightarrow$ Chi-square $\rightarrow$ ($t$, $F$). Each stage arises from combining or scaling the previous one by summing squares, taking ratios, and normalizing variances, revealing how classical inferential statistics stem from the properties of the normal distribution.
 
+---
+
+## Appendix: Clarifications on Sample Variance and $t$ Distribution
+
+This appendix highlights two common misunderstandings:
+
+1. How the sample variance relates to the chi-square distribution.
+2. Where the $\sqrt{n}$ factor in the $t$ distribution originates.
+
+### A. Sample Variance and the Chi-Square Distribution
+
+The sample variance is defined as
+
+$$
+S^2 = \frac{1}{n-1} \sum_i (X_i - \bar{X})^2.
+$$
+
+#### A.1 Scaled chi-square, not chi-square
+
+Textbooks sometimes say "the sample variance is chi-square distributed"; strictly speaking this is not precise. The standardized quantity
+
+$$
+Q = \frac{(n-1) S^2}{\sigma^2} \sim \chi^2_{n-1}
+$$
+
+follows a chi-square distribution if $\sigma^2$ is known. Therefore
+
+$$
+S^2 = \frac{\sigma^2}{n-1} Q,
+$$
+
+so $S^2$ itself is a scaled chi-square random variable rather than an exact chi-square.
+
+#### A.2 Gamma characterization when $\sigma^2$ is unknown
+
+With unknown $\sigma^2$, the distribution of $S^2$ is better described as a gamma distribution:
+
+$$
+S^2 \sim \Gamma\left(k = \frac{n-1}{2}, \theta = \frac{2\sigma^2}{n-1}\right).
+$$
+
+The chi-square is a special case of the gamma, so the sample variance belongs to the wider gamma family.
+
+### B. The $t$ Distribution and the $\sqrt{n}$ Factor
+
+The sample mean and population mean satisfy
+
+$$
+\bar{X} = \frac{1}{n} \sum_i X_i, \qquad \operatorname{Var}(\bar{X}) = \frac{\sigma^2}{n}.
+$$
+
+When $\sigma$ is known,
+
+$$
+Z = \frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \sim \mathcal{N}(0,1),
+$$
+
+showing that $\sqrt{n}$ arises from the reduction in variance due to averaging.
+
+If $\sigma$ is unknown, replace it with $S$:
+
+$$
+T = \frac{\bar{X} - \mu}{S / \sqrt{n}} \sim t_{n-1}.
+$$
+
+Because the denominator involves $S$ (derived from a chi-square), the ratio follows a $t$ distribution.
+
+| Scenario | Statistic | Distribution | $\sqrt{n}$ source |
+|----------|-----------|--------------|-------------------|
+| $\sigma$ known | $\frac{\bar{X} - \mu}{\sigma / \sqrt{n}}$ | Normal | $\operatorname{Var}(\bar{X}) = \sigma^2 / n$ |
+| $\sigma$ unknown | $\frac{\bar{X} - \mu}{S / \sqrt{n}}$ | $t$ | Same variance scaling, replacing $\sigma$ with $S$ |
+
+---
+
+In summary:
+
+1. The sample variance is a scaled chi-square (gamma) variable, not chi-square itself.
+2. The $\sqrt{n}$ in the $t$ statistic stems from the variance of the sample mean.
+
 
