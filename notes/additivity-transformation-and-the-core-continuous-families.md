@@ -154,7 +154,7 @@ which underpins ANOVA and variance comparison tests.
 
 ---
 
-## 6. The Chi-Square–$t$–$F$ Chain
+## 6. The Chi-Square, $t$, and $F$ Chain
 
 In classical statistics, the distributions $\chi^2$, $t$, and $F$ form a single logical chain derived from the normal distribution. Each arises through squaring, summing, normalizing, or taking ratios.
 
@@ -224,7 +224,7 @@ Two $(\chi^2 / \text{df})$ ratios $\rightarrow$ $F$
 
 ---
 
-## 8. Summary: The Continuous Family Hierarchy
+## 7. Summary: The Continuous Family Hierarchy
 
 | Family | Generated from | Key form | Characteristic |
 |--------|----------------|----------|----------------|
@@ -236,3 +236,5 @@ Two $(\chi^2 / \text{df})$ ratios $\rightarrow$ $F$
 ---
 
 **Conceptual chain:** Normal $\rightarrow$ Chi-square $\rightarrow$ ($t$, $F$). Each stage arises from combining or scaling the previous one by summing squares, taking ratios, and normalizing variances, revealing how classical inferential statistics stem from the properties of the normal distribution.
+
+
