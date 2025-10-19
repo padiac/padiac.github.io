@@ -48,13 +48,7 @@ $$
 
 Because $f_T$ is an even function, $\mathbb{E}[T] = 0$ whenever the integral converges. The tails behave like $|t|^{-(n+1)}$, so the first absolute moment exists if and only if $n>1$. Hence
 
-$$
-\mathbb{E}[T] =
-\begin{cases}
-0, & \text{if } n > 1,\\
-\text{undefined}, & \text{if } n \le 1.
-\end{cases}
-$$
+$\mathbb{E}[T] = 0 \quad (n>1), \text{ undefined otherwise.}$
 
 The variance exists for $n>2$ and equals
 
@@ -109,6 +103,7 @@ $$
 1. Chi-square moments follow immediately from the Gamma interpretation.
 2. A $t_n$ mean exists only when $n>1$; the tails are too heavy otherwise.
 3. The $F_{m,n}$ mean (and higher moments) depend on the denominator degrees of freedom; randomness in the denominator pushes the mean above $1$ whenever it exists.
+
 
 
 
