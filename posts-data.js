@@ -61,5 +61,12 @@ window.POSTS = [
     date: '2025-10-18T21:22:51Z',
     category: 'Machine Learning',
     summary: 'Connects regression, Bayesian priors, and ML workflow.'
+  },
+  {
+    slug: 'probability-distribution-combination-and-transformation',
+    title: 'Probability - Distribution Combination and Transformation',
+    date: '2025-10-19T03:45:04Z',
+    category: 'Statistics',
+    summary: 'Additivity and transformations across key distributions.'
   }
 ];
