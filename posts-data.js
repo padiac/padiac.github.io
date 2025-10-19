@@ -110,5 +110,12 @@ window.POSTS = [
     date: '2025-10-19T18:09:47Z',
     category: 'Statistics',
     summary: 'Both the Law of Large Numbers (LLN) and the Central Limit Theorem (CLT) show how randomness aggregates into stable patterns even when i.i.d. assumptions fail.'
+  },
+  {
+    slug: 'statistics-comparison-of-three-estimation-methods-method-of-moments-maximum-likelihood-estimation-and-bayesian-estimation',
+    title: 'Statistics - Comparison of Three Estimation Methods: Method of Moments, Maximum Likelihood Estimation, and Bayesian Estimation',
+    date: '2025-10-19T18:19:54Z',
+    category: 'Statistics',
+    summary: 'Contrasts method of moments, maximum likelihood, and Bayesian estimators on concepts, strengths, weaknesses, and guidance.'
   }
 ];
