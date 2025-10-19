@@ -112,15 +112,7 @@ $$
 Its expectation satisfies $E[\hat{\theta}_{\text{MOM}}] = \theta$, so this estimator is unbiased and easy to compute.
 
 #### (b) Maximum Likelihood Estimation (MLE)
-The likelihood function for $U(0, \theta)$ is
-
-$$
-L(\theta) =
-\begin{cases}
-\theta^{-n}, & 0 < X_{(n)} \le \theta, \\
-0, & \text{otherwise}.
-\end{cases}
-$$
+The likelihood function for $U(0, \theta)$ is $L(\theta) = \theta^{-n}$ when $0 < X_{(n)} \le \theta$, and $L(\theta) = 0$ otherwise.
 
 The likelihood is maximized when $\theta = X_{(n)} = \max(X_1, \dots, X_n)$, so the MLE is
 
