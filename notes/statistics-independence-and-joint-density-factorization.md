@@ -167,11 +167,11 @@ In the **density-based** setting:
 
 | Level | Mathematical Object | Definition | Remarks |
 |-------|---------------------|-------------|----------|
-| Event level | Events \(A_i\) | \(P(\cap A_i)=\prod P(A_i)\) | Primitive definition |
-| σ-field level | σ-algebras \( \sigma_i \) | Independence of all choices \(A_i \in \sigma_i\) | Structural abstraction |
-| Random-variable level | Functions \(X_i\) | \(P(X_1\in B_1,\dots,X_n\in B_n)=\prod P(X_i\in B_i)\) | Induced by σ-fields |
-| Measure level | Probability measures \( \mu_{X_i} \) | \( \mu_{(X_1,\dots,X_n)} = \bigotimes_i \mu_{X_i} \) | True unifying definition |
-| Density level | \( f(x_1,\dots,x_n) \) | \( f = \prod f_i \) | Continuous case; guarantees all marginals independent |
+| Event level | Events $A_i$ | $P(\cap_i A_i)=\prod_i P(A_i)$ | Primitive definition |
+| σ-field level | σ-algebras $\sigma_i$ | Independence of all choices $A_i \in \sigma_i$ | Structural abstraction |
+| Random-variable level | Functions $X_i$ | $P(X_1\in B_1,\dots,X_n\in B_n)=\prod_i P(X_i\in B_i)$ | Induced by σ-fields |
+| Measure level | Probability measures $\mu_{X_i}$ | $\mu_{(X_1,\dots,X_n)} = \bigotimes_i \mu_{X_i}$ | True unifying definition |
+| Density level | $f(x_1,\dots,x_n)$ | $f = \prod_i f_i$ | Continuous case; guarantees all marginals independent |
 
 ---
 
