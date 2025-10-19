@@ -1,5 +1,3 @@
-# Additivity, Transformation, and the Core Continuous Families
-
 ## 1. Discrete Additive Families ("Three Classic Brothers")
 
 The multinomial, binomial, and Poisson distributions form a discrete hierarchy where additivity is preserved.
@@ -169,3 +167,72 @@ which underpins ANOVA and variance comparison tests.
 
 **Conceptual chain:** Normal $\rightarrow$ Chi-square $\rightarrow$ ($t$, $F$). Each stage arises from combining or scaling the previous one by summing squares, taking ratios, and normalizing variances, revealing how classical inferential statistics stem from the properties of the normal distribution.
 
+---
+
+## 7. The Chi-Square–$t$–$F$ Chain
+
+In classical statistics, the distributions $\chi^2$, $t$, and $F$ form a single logical chain derived from the normal distribution. Each arises through squaring, summing, normalizing, or taking ratios.
+
+### 7.1 Starting Point: Sample Statistics
+
+Samples: $X_1, X_2, \dots, X_n \sim \mathcal{N}(\mu, \sigma^2)$ (independent and identically distributed)
+
+Sample mean: $\bar{X} = \frac{1}{n} \sum_i X_i$
+
+Sample variance: $S^2 = \frac{1}{n-1} \sum_i (X_i - \bar{X})^2$
+
+### 7.2 Sample Variance $\Rightarrow$ Chi-Square Distribution
+
+Standardized variable: $Z_i = \frac{X_i - \mu}{\sigma} \sim \mathcal{N}(0, 1)$
+
+Sum of squares: $\sum_i Z_i^2 \sim \chi^2_n$
+
+Equivalently: $\frac{(n-1) S^2}{\sigma^2} \sim \chi^2_{n-1}$
+
+Meaning: the sample variance is random and its uncertainty follows a $\chi^2$ law, underpinning confidence intervals for $\sigma^2$ and variance tests.
+
+### 7.3 Distribution of the Sample Mean
+
+$\bar{X} \sim \mathcal{N}\bigl(\mu, \sigma^2 / n\bigr)$
+
+If $\sigma$ is known: $\frac{\bar{X} - \mu}{\sigma / \sqrt{n}} \sim \mathcal{N}(0, 1)$
+
+In practice, $\sigma$ is unknown and replaced by $S$.
+
+### 7.4 Replacing $\sigma$ with $S$ $\Rightarrow$ $t$ Distribution
+
+$$
+T = \frac{\bar{X} - \mu}{S / \sqrt{n}} \sim t_{n-1}
+$$
+
+Structural form: $t = \frac{\text{Normal}}{\sqrt{\text{Chi-square} / \text{df}}}$
+
+Meaning: the $t$ distribution compensates for the extra uncertainty of using the sample variance to estimate the population variance. As $n$ increases, $t_{n-1}$ approaches $\mathcal{N}(0,1)$.
+
+### 7.5 Ratio of Two Sample Variances $\Rightarrow$ $F$ Distribution
+
+Two independent samples:
+
+$X_1,\dots,X_n \sim \mathcal{N}(\mu_1, \sigma_1^2)$, $Y_1,\dots,Y_m \sim \mathcal{N}(\mu_2, \sigma_2^2)$
+
+$\frac{(n-1) S_1^2}{\sigma_1^2} \sim \chi^2_{n-1}$, $\frac{(m-1) S_2^2}{\sigma_2^2} \sim \chi^2_{m-1}$
+
+$$
+F = \frac{S_1^2 / \sigma_1^2}{S_2^2 / \sigma_2^2} \sim F_{n-1, m-1}
+$$
+
+Structural form: $F = \frac{\text{Chi-square}_1 / \text{df}_1}{\text{Chi-square}_2 / \text{df}_2}$
+
+### 7.6 Summary Table
+
+| Distribution | Construction (random variable form) | Degrees of freedom | Common use |
+|--------------|-------------------------------------|--------------------|------------|
+| $\chi^2$ | $\sum \left(\frac{X_i - \mu}{\sigma}\right)^2$ or $\frac{(n-1) S^2}{\sigma^2}$ | $n$ or $n-1$ | Variance estimation and testing |
+| $t$ | $\frac{\bar{X} - \mu}{S / \sqrt{n}}$ | $n-1$ | Mean testing and confidence intervals |
+| $F$ | $\frac{S_1^2 / \sigma_1^2}{S_2^2 / \sigma_2^2}$ | $(n-1, m-1)$ | Variance ratio tests, ANOVA |
+
+Conceptual chain:
+
+Normal $\rightarrow$ square and sum $\rightarrow$ Chi-square $\rightarrow$ divide by $\sqrt{\chi^2 / \text{df}}$ $\rightarrow$ $t$
+
+Two $(\chi^2 / \text{df})$ ratios $\rightarrow$ $F$
