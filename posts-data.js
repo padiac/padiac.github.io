@@ -61,5 +61,12 @@ window.POSTS = [
     date: '2025-10-19T03:45:04Z',
     category: 'Statistics',
     summary: 'Additivity and transformations across key distributions.'
+  },
+  {
+    slug: 'additivity-transformation-and-the-core-continuous-families',
+    title: 'Additivity, Transformation, and the Core Continuous Families',
+    date: '2025-10-19T04:13:48Z',
+    category: 'Statistics',
+    summary: 'Connects additive hierarchies with t and F ratio families.'
   }
 ];
