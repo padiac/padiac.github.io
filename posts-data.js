@@ -82,5 +82,12 @@ window.POSTS = [
     date: '2025-10-19T08:01:17Z',
     category: 'Statistics',
     summary: 'Walkthrough of the law of total expectation across integral, operator, multivariate, and discrete forms, emphasizing the weighted averaging of conditional expectations.'
+  },
+  {
+    slug: 'statistics-variance-and-expectation-formulas-section-2-1-2-3',
+    title: 'Statistics - Variance and Expectation Formulas (Section 2.1-2.3)',
+    date: '2025-10-19T09:45:17Z',
+    category: 'Statistics',
+    summary: 'Variance tracks dispersion around the mean and stays invariant to shifts. Notes cover scaling, independent sums, and Poisson and Binomial cases.'
   }
 ];
