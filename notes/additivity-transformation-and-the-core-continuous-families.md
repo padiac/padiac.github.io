@@ -310,11 +310,10 @@ $$
 
 Because the denominator involves $S$ (derived from a chi-square), the ratio follows a $t$ distribution.
 
-| Attribute | $\sigma$ known | $\sigma$ unknown |
-|-----------|----------------|------------------|
-| Statistic | $\frac{\bar{X} - \mu}{\sigma / \sqrt{n}}$ | $\frac{\bar{X} - \mu}{S / \sqrt{n}}$ |
-| Distribution | Normal | $t$ |
-| $\sqrt{n}$ source | $\operatorname{Var}(\bar{X}) = \sigma^2 / n$ | Same variance scaling, replacing $\sigma$ with $S$ |
+| Scenario | Statistic | Distribution | $\sqrt{n}$ source |
+|----------|-----------|--------------|-------------------|
+| $\sigma$ known | $\frac{\bar{X} - \mu}{\sigma / \sqrt{n}}$ | Normal | $\operatorname{Var}(\bar{X}) = \sigma^2 / n$ |
+| $\sigma$ unknown | $\frac{\bar{X} - \mu}{S / \sqrt{n}}$ | $t$ | Same variance scaling, replacing $\sigma$ with $S$ |
 
 ---
 

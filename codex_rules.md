@@ -24,7 +24,7 @@ The user will not provide any parameters beyond the pasted Markdown block.
 - **Headings**: allow `#`, `##`, `###` in raw input, but **the first `#` H1 is only used to extract the title and must be removed from the saved Markdown**.
 - **Spacing**: one blank line before/after headings and between paragraphs.
 - **Lists**: `-` for unordered; `1.` for ordered.
-- **Tables**: standard Markdown table syntax with a **grid layout**. Use the first column for attributes (for example `Attribute`, `Metric`, `Formula`) and subsequent columns for the compared entities so each table renders as a compact grid.
+- **Tables**: standard Markdown table syntax.
 - **Math**:
   - Inline: `$...$`
   - Block:
