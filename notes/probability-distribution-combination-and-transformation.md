@@ -1,5 +1,3 @@
-# Probability - Distribution Combination and Transformation
-
 ## 1. Discrete Case: Three Classic Brothers
 
 This section summarizes three classical examples that demonstrate the additive property of distributions: when independent random variables from the same family are summed, the result remains in the same family with parameters added.
