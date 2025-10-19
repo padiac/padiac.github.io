@@ -89,5 +89,12 @@ window.POSTS = [
     date: '2025-10-19T09:45:17Z',
     category: 'Statistics',
     summary: 'Variance tracks dispersion around the mean and stays invariant to shifts. Notes cover scaling, independent sums, and Poisson and Binomial cases.'
+  },
+  {
+    slug: 'statistics-cumulant-expansion-and-connected-structures',
+    title: 'Statistics - Cumulant Expansion and Connected Structures',
+    date: '2025-10-19T09:53:52Z',
+    category: 'Statistics',
+    summary: 'Cumulant expansion isolates the connected pieces of statistical moments and maps them one-to-one with cumulants.'
   }
 ];
