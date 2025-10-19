@@ -50,8 +50,8 @@ Because $f_T$ is an even function, $\mathbb{E}[T] = 0$ whenever the integral con
 
 $$
 \mathbb{E}[T] = \begin{cases}
-0, & n>1 \\
-\text{undefined}, & n \le 1.
+0 & (n>1) \\[4pt]
+\text{undefined} & (n \le 1).
 \end{cases}
 $$
 
