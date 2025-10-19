@@ -3,9 +3,9 @@
 Both the **Law of Large Numbers (LLN)** and the **Central Limit Theorem (CLT)** are cornerstones of probability theory.
 They describe how randomness aggregates into stable patterns.
 
-However, the classical versions assume *independent and identically distributed* (i.i.d.) samples — an assumption that almost never holds in real-world data.
+However, the classical versions assume *independent and identically distributed* (i.i.d.) samples -- an assumption that almost never holds in real-world data.
 
-Therefore, extending these theorems beyond i.i.d. is not about being “more precise”; it is about making them **usable** under realistic conditions.
+Therefore, extending these theorems beyond i.i.d. is not about being "more precise"; it is about making them **usable** under realistic conditions.
 
 ---
 
@@ -19,7 +19,7 @@ The classical LLN and CLT describe idealized limits:
 
 But Kolmogorov, Etemadi, Lindeberg, and others asked a deeper question:
 
-> “What *exactly* do these results depend on — independence, identical distribution, finite variance, or something else?”
+> "What *exactly* do these results depend on -- independence, identical distribution, finite variance, or something else?"
 
 The answer revealed the true structure of convergence:
 
@@ -32,25 +32,31 @@ Thus, these generalized forms turned LLN and CLT into **robust limit theorems** 
 
 **Generalized LLN:**
 
-```
-E[X_n] = μ_n,  Var(X_n) ≤ C
-```
-If the average expectation → μ and average variance → 0, then
-```
-(1/n) Σ X_i → μ
-```
-even if {X_n} are not identically distributed, or weakly dependent.
+$$
+E[X_n] = \mu_n,\qquad \mathrm{Var}(X_n) \le C
+$$
 
-**Generalized CLT (Lindeberg–Feller form):**
+If the average expectation converges to $\mu$ and the average variance converges to $0$, then
 
-Let {X_n} be independent with
-```
-E[X_n] = 0,  Var(X_n) = σ_n²
-```
-If the total variance Σσ_n² → ∞ and the Lindeberg condition holds,
-```
-Σ X_n / √(Σσ_n²) → N(0, 1)
-```
+$$
+\frac{1}{n} \sum_{i=1}^n X_i \to \mu
+$$
+
+even if $\{X_n\}$ are not identically distributed or are only weakly dependent.
+
+**Generalized CLT (Lindeberg--Feller form):**
+
+Let $\{X_n\}$ be independent with
+
+$$
+E[X_n] = 0,\qquad \mathrm{Var}(X_n) = \sigma_n^2
+$$
+
+If the total variance $\sum_{i=1}^n \sigma_i^2$ diverges as $n \to \infty$ and the Lindeberg condition holds, then
+
+$$
+\frac{\sum_{i=1}^n X_i}{\sqrt{\sum_{i=1}^n \sigma_i^2}} \xrightarrow{d} \mathcal{N}(0,1)
+$$
 
 These conditions describe *how much dependence or heterogeneity* the system can tolerate before the normal limit fails.
 
@@ -75,7 +81,7 @@ This is the backbone of modern computational statistics and MCMC methods.
 ### 3.3 Nonstationary or Heterogeneous Data
 
 In machine learning, data distributions change over time (**concept drift**).
-Generalized CLTs (e.g., Lindeberg–Feller type) allow each sample to come from a different distribution, as long as no single sample dominates the variance.
+Generalized CLTs (for example, of Lindeberg--Feller type) allow each sample to come from a different distribution, as long as no single sample dominates the variance.
 
 That ensures model error estimates, gradients, and evaluation metrics remain statistically interpretable.
 
@@ -83,9 +89,9 @@ That ensures model error estimates, gradients, and evaluation metrics remain sta
 
 ## 4. Philosophical Significance
 
-Kolmogorov’s extensions were not just mathematical — they answered a philosophical question:
+Kolmogorov's extensions were not just mathematical -- they answered a philosophical question:
 
-> “To what extent can deterministic patterns emerge from randomness?”
+> "To what extent can deterministic patterns emerge from randomness?"
 
 ### 4.1 LLN: Order from Average
 
@@ -97,19 +103,19 @@ Even in weakly dependent or heterogeneous systems, average behavior stabilizes.
 CLT shows that **normality is not an assumption but an attractor**.
 Whenever random fluctuations aggregate under mild conditions, the resulting behavior tends toward Gaussian symmetry.
 
-Together, they formalize the transition from **microscopic chaos to macroscopic law** — a principle echoed in statistical mechanics, information theory, and even social statistics.
+Together, they formalize the transition from **microscopic chaos to macroscopic law** -- a principle echoed in statistical mechanics, information theory, and even social statistics.
 
 ---
 
 ## 5. Summary Table
 
 | Aspect | Law of Large Numbers (LLN) | Central Limit Theorem (CLT) |
-|--------|-----------------------------|------------------------------|
-| Classical assumption | i.i.d., Var < ∞ | i.i.d., Var < ∞ |
+|--------|----------------------------|-----------------------------|
+| Classical assumption | i.i.d., variance is finite | i.i.d., variance is finite |
 | Generalized form | allows non-identical, weakly dependent | allows non-identical, weakly dependent |
-| Core requirement | variance of average → 0 | cumulative variance stable |
-| Key idea | average → constant | sum → normal |
-| Typical extension | Kolmogorov, Etemadi | Lindeberg–Feller, Martingale CLT |
+| Core requirement | variance of average goes to 0 | cumulative variance stays stable |
+| Key idea | average approaches constant | sum approaches normal |
+| Typical extension | Kolmogorov, Etemadi | Lindeberg--Feller, Martingale CLT |
 | Practical use | long-run averages, ergodicity | inference, error estimation, Monte Carlo |
 
 ---

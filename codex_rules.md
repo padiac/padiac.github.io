@@ -1,4 +1,4 @@
-﻿# Codex Publishing Rules (Auto Execute: Format → Classify → Commit & Push)
+# Codex Publishing Rules (Auto Execute: Format -> Classify -> Commit & Push)
 
 > Zero-typing workflow: invoke with `@file:.codex/rules.md` and paste a raw Markdown block. Codex must execute all steps without confirmation.
 
@@ -6,7 +6,7 @@
 
 ## Purpose
 When this rules file is referenced and a raw Markdown note is pasted, Codex must:
-1. Normalize the Markdown to match the site’s authoring rules.
+1. Normalize the Markdown to match the site's authoring rules.
 2. Detect (or reuse) the category from existing `posts-data.js` categories; fall back to `Misc`.
 3. Derive `title`, `slug`, and `summary` (**with category-prefixed slug and title**).
 4. **Remove the top-level H1 from the saved Markdown** to avoid duplicate titles on the site.
@@ -33,10 +33,11 @@ The user will not provide any parameters beyond the pasted Markdown block.
     ...
     $$
     ```
-  - Convert `\(...\)` → `$...$`, `\[...\]` → `$$...$$`.
+  - Convert `\(...\)` -> `$...$`, `\[...\]` -> `$$...$$`.
   - Remove `\boxed{...}` but keep its content.
   - Do not use `\!` or other LaTeX spacing commands; the site renderer cannot display them.
   - Keep one blank line before and after block equations.
+  - Never leave equations inside fenced code blocks; convert them into the inline or block math formats above.
 - **Text style**: **bold** as `**text**`; _italic_ as `_text_`; code as `` `code` ``.
 - **Punctuation**: use half-width (English) punctuation; do not mix CJK and English punctuation.
 - **Links/Images**: `[Title](URL)` and `![Alt](URL)`.
@@ -53,15 +54,15 @@ The user will not provide any parameters beyond the pasted Markdown block.
   - This H1 must NOT be kept in the final saved Markdown (delete that line and the following blank line if present).
 - **Category**:
   - If `@category:` override exists, use it.
-  - Else auto-detect per “Category Detection” below.
+  - Else auto-detect per "Category Detection" below.
 - **Slug** (category-prefixed rule):
   - If an inline override `@slug:` exists, use it verbatim.
   - Otherwise, build as:  
     `slug = <category-lower-hyphen> + '-' + <title-slug>`  
     Example: `statistics-normal-approximation`.
 - **Summary**:
-  - If `@summary:` exists, use it, trimmed to ≤160 characters and with formulas removed.
-  - Otherwise, take the first 1–2 sentences of the first paragraph after the removed title (≤160 chars, formulas removed).
+  - If `@summary:` exists, use it, trimmed to <=160 characters and with formulas removed.
+  - Otherwise, take the first 1-2 sentences of the first paragraph after the removed title (<=160 chars, formulas removed).
 - **Strip any inline overrides** (see **Inline Overrides**) from the final Markdown prior to saving.
 
 ---
@@ -87,7 +88,7 @@ Every note must have an entry:
   title: "<Category> - <BaseTitle>",
   date: "YYYY-MM-DDTHH:MM:SSZ", // ISO 8601 UTC
   category: "<Category>",
-  summary: "<1–2 sentence summary, no formulas>"
+  summary: "<1-2 sentence summary, no formulas>"
 }
 ```
 **Rules:**
@@ -102,7 +103,7 @@ Every note must have an entry:
 ## Write Target Files
 - Output path: `notes/<slug>.md` (overwrite if exists).
 - Remove any inline overrides from the final Markdown.
-- Ensure the final document complies with all “Site Markdown Rules”.
+- Ensure the final document complies with all "Site Markdown Rules".
 - **Ensure the top-level H1 title line is removed** from the saved Markdown (only body remains).
 
 ---
@@ -117,7 +118,7 @@ git commit -m "add: <slug>"
 git push
 ```
 
-If there are no changes, skip the commit but still report “no changes”.
+If there are no changes, skip the commit but still report "no changes".
 
 ---
 
@@ -126,7 +127,7 @@ After all steps, print:
 
 > **Always show details**
 ```
-✅ Published
+? Published
 Title: <Category> - <BaseTitle>
 Slug: <slug>
 Category: <category>
@@ -145,7 +146,7 @@ Git: committed and pushed (or no changes)
 @title: Custom Title
 @slug: custom-slug
 @category: Statistics | Machine Learning | LLM | <any>
-@summary: One–two sentence description without formulas
+@summary: One-two sentence description without formulas
 ```
 
 ---
@@ -162,4 +163,4 @@ User action in Codex:
 >>>
 ```
 
-Codex must automatically: **Format → Classify → Build category-prefixed slug and title → Remove H1 → Write → Update posts-data.js → Commit & Push → Print Summary**.
+Codex must automatically: **Format -> Classify -> Build category-prefixed slug and title -> Remove H1 -> Write -> Update posts-data.js -> Commit & Push -> Print Summary**.
