@@ -1,111 +1,97 @@
+This note summarizes variance identities from Sections 2.1–2.3 and documents standard discrete examples (Poisson and Binomial) where the formulas take particularly simple forms.
+
+---
+
 ## 1. Definition of Variance
 
-For a random variable X with mean E(X), the variance measures the dispersion of X around its mean:
+For a random variable $X$ with mean $\mathbb{E}[X]$, the variance measures the average squared deviation from the mean:
 
-```
-Var(X) = E[(X - E(X))^2] = E(X^2) - [E(X)]^2
-```
+$$
+\operatorname{Var}(X) = \mathbb{E}\!\left[(X - \mathbb{E}[X])^2\right] = \mathbb{E}[X^2] - \mathbb{E}[X]^2.
+$$
 
-This is the most convenient computational form, obtained by expanding (X - E(X))^2 and applying the linearity of expectation.
+The computational form follows from expanding $(X - \mathbb{E}[X])^2$ and applying linearity of expectation.
 
 ---
 
 ## 2. Properties of Variance (Theorem 2.1)
 
-Let C be a constant and X a random variable. Then:
+Let $C$ be a constant and $X$ a random variable. Then:
 
-1. Var(X + C) = Var(X)
-2. Var(CX) = C^2 Var(X)
+1. $\operatorname{Var}(X + C) = \operatorname{Var}(X)$.
+2. $\operatorname{Var}(CX) = C^2 \operatorname{Var}(X)$.
 
-**Proof Sketch:**
-
-- Adding a constant shifts all values equally, so dispersion does not change.
-- Multiplying by C scales all deviations by C, hence variance scales by C^2.
+**Sketch.** Adding $C$ shifts realizations uniformly, so deviations from the mean are unchanged. Scaling by $C$ multiplies every deviation by $C$, so squared deviations scale by $C^2$.
 
 ---
 
-## 3. Variance of the Sum of Independent Random Variables (Theorem 2.2)
+## 3. Variance of Independent Sums (Theorem 2.2)
 
-If X_1, X_2, ..., X_n are independent, then
+If $X_1, \dots, X_n$ are independent, then
 
-```
-Var(X_1 + X_2 + ... + X_n) = Var(X_1) + Var(X_2) + ... + Var(X_n)
-```
+$$
+\operatorname{Var}\!\left(\sum_{i=1}^{n} X_i\right) = \sum_{i=1}^{n} \operatorname{Var}(X_i).
+$$
 
-This follows because for independent variables, E(X_i X_j) = E(X_i)E(X_j) when i <> j, so the cross-terms in the expansion of (sum X_i - sum E(X_i))^2 vanish.
-
----
-
-## 4. Example 2.1 - Standardization
-
-If X is a random variable with mean E(X) = a and variance Var(X) = sigma^2, define
-
-```
-Y = (X - a) / sigma
-```
-
-Then E(Y) = 0 and Var(Y) = 1.
-
-This process converts any variable into a standardized form with zero mean and unit variance.
+Independence implies $\mathbb{E}[X_i X_j] = \mathbb{E}[X_i]\,\mathbb{E}[X_j]$ for $i \neq j$, so all cross-terms disappear when expanding the variance of the sum.
 
 ---
 
-## 5. Example 2.2 - Poisson Distribution
+## 4. Example 2.1 – Standardization
 
-Let X ~ P(lambda). Then
+If $\mathbb{E}[X] = a$ and $\operatorname{Var}(X) = \sigma^2$, define
 
-```
-E(X) = lambda
-Var(X) = lambda
-```
+$$
+Y = \frac{X - a}{\sigma}.
+$$
 
-**Proof Sketch:**
-
-Using E(X^2) = sum i^2 e^(-lambda) lambda^i / i!, rewrite i^2 = i(i - 1) + i and evaluate separately:
-
-```
-E(X^2) = lambda^2 + lambda
-Var(X) = E(X^2) - [E(X)]^2 = lambda
-```
-
-Thus for the Poisson distribution, the mean and variance are equal to the same parameter lambda.
+Then $\mathbb{E}[Y] = 0$ and $\operatorname{Var}(Y) = 1$. Standardizing isolates pure shape information by putting the variable on a zero-mean, unit-variance scale.
 
 ---
 
-## 6. Example 2.3 - Binomial Distribution
+## 5. Example 2.2 – Poisson Distribution
 
-Let X ~ B(n, p). Then
+Let $X \sim \operatorname{Pois}(\lambda)$. The mean and variance coincide:
 
-```
-E(X) = n p
-Var(X) = n p (1 - p)
-```
+$$
+\mathbb{E}[X] = \lambda, \qquad \operatorname{Var}(X) = \lambda.
+$$
 
-**Derivation:**
+**Sketch.** Decompose $i^2 = i(i-1) + i$ inside the second moment
 
-Write X = X_1 + X_2 + ... + X_n, where each X_i ~ B(1, p) is Bernoulli and independent.
+$$
+\mathbb{E}[X^2] = \sum_{i=0}^{\infty} i^2 \frac{e^{-\lambda} \lambda^i}{i!} = \lambda^2 + \lambda,
+$$
 
-Then by Theorem 2.2:
+and subtract $\mathbb{E}[X]^2$.
 
-```
-Var(X) = sum Var(X_i) = n Var(X_1) = n p (1 - p)
-```
+---
+
+## 6. Example 2.3 – Binomial Distribution
+
+Let $X \sim \operatorname{Bin}(n, p)$ and write $X = \sum_{i=1}^{n} X_i$ with i.i.d. Bernoulli variables $X_i \sim \operatorname{Bern}(p)$. Then
+
+$$
+\mathbb{E}[X] = np, \qquad \operatorname{Var}(X) = np(1-p).
+$$
+
+The variance follows from Theorem 2.2 because $\operatorname{Var}(X_i) = p(1-p)$ and the Bernoulli trials are independent.
 
 ---
 
 ## Summary Table
 
-| Distribution | Mean E(X) | Variance Var(X) |
-|--------------|-----------|-----------------|
-| General | E(X) | E(X^2) - [E(X)]^2 |
-| Poisson P(lambda) | lambda | lambda |
-| Binomial B(n, p) | n p | n p (1 - p) |
+| Distribution | Mean $\mathbb{E}[X]$ | Variance $\operatorname{Var}(X)$ |
+|:-------------|:---------------------|:--------------------------------|
+| General | $\mathbb{E}[X]$ | $\mathbb{E}[X^2] - \mathbb{E}[X]^2$ |
+| $\operatorname{Pois}(\lambda)$ | $\lambda$ | $\lambda$ |
+| $\operatorname{Bin}(n,p)$ | $np$ | $np(1-p)$ |
 
 ---
 
 ## Conceptual Summary
 
-- Variance quantifies dispersion (the average squared deviation from the mean).
-- It is invariant under translation and scales quadratically with constants.
-- For independent variables, variances add but do not interact.
-- Poisson and Binomial distributions are classic discrete examples where mean and variance have elegant relationships to their parameters.
+- Variance is translation-invariant and scales quadratically with deterministic multipliers.
+- Independence makes variance additive; cross-products vanish because mixed expectations factor.
+- Standardizing to zero mean and unit variance removes units, easing comparisons across variables.
+- Poisson and Binomial families illustrate how discrete models inherit mean–variance structure directly from their parameters.
