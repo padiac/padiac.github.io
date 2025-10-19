@@ -1,4 +1,4 @@
-# Codex Publishing Rules (Auto Execute: Format → Classify → Commit & Push)
+﻿# Codex Publishing Rules (Auto Execute: Format → Classify → Commit & Push)
 
 > Zero-typing workflow: invoke with `@file:.codex/rules.md` and paste a raw Markdown block. Codex must execute all steps without confirmation.
 

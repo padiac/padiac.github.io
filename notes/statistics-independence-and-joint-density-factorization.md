@@ -166,23 +166,23 @@ In the **density-based** setting:
 ## 7. Unified Hierarchy of Independence
 
 | Level | Mathematical Object | Definition | Remarks |
-|-------|---------------------|-------------|----------|
-| Event level | Events $A_i$ | $P(\cap_i A_i)=\prod_i P(A_i)$ | Primitive definition |
-| σ-field level | σ-algebras $\sigma_i$ | Independence of all choices $A_i \in \sigma_i$ | Structural abstraction |
-| Random-variable level | Functions $X_i$ | $P(X_1\in B_1,\dots,X_n\in B_n)=\prod_i P(X_i\in B_i)$ | Induced by σ-fields |
-| Measure level | Probability measures $\mu_{X_i}$ | $\mu_{(X_1,\dots,X_n)} = \bigotimes_i \mu_{X_i}$ | True unifying definition |
-| Density level | $f(x_1,\dots,x_n)$ | $f = \prod_i f_i$ | Continuous case; guarantees all marginals independent |
+|:------|:---------------------|:------------|:---------|
+| **Event level** | Events $A_i$ | $P(\cap_i A_i)=\prod_i P(A_i)$ | Primitive definition |
+| **σ-field level** | σ-algebras $\sigma_i$ | Independence of all choices $A_i \in \sigma_i$ | Structural abstraction |
+| **Random-variable level** | Functions $X_i$ | $P(X_1\in B_1,\dots,X_n\in B_n)=\prod_i P(X_i\in B_i)$ | Induced by σ-fields |
+| **Measure level** | Probability measures $\mu_{X_i}$ | $\mu_{(X_1,\dots,X_n)} = \bigotimes_i \mu_{X_i}$ | True unifying definition |
+| **Density level** | $f(x_1,\dots,x_n)$ | $f = \prod_i f_i$ | Continuous case; guarantees all marginals independent |
 
 ---
 
 ## 8. Summary Table: General vs Continuous Case
 
 | Aspect | General Distribution | Continuous with Density |
-|--------|----------------------|-------------------------|
-| Foundation | Probability measure \(P\) | Density function \(f\) |
-| Verification | Must check all subsets | One factorization suffices |
-| Structural closure | Not preserved under projection | Preserved by integration |
-| Example | \(X_3 = X_1 X_2\): globally symmetric but dependent | Impossible if \(f = \prod f_i\) |
+|:-------|:----------------------|:-------------------------|
+| **Foundation** | Probability measure \(P\) | Density function \(f\) |
+| **Verification** | Must check all subsets | One factorization suffices |
+| **Structural closure** | Not preserved under projection | Preserved by integration |
+| **Example** | \(X_3 = X_1 X_2\): globally symmetric but dependent | Impossible if \(f = \prod f_i\) |
 
 ---
 

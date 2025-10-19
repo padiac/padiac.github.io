@@ -71,13 +71,13 @@ meaning it achieves the Cramer-Rao lower bound and is therefore the MVUE.
 
 ## 6. Summary
 
-| Property           | Meaning                                           |
-| ------------------ | ------------------------------------------------- |
-| Unbiased           | $\mathbb{E}[T] = g(\theta)$                       |
-| Minimum variance   | No other unbiased estimator has smaller variance  |
-| Unique             | At most one MVUE exists for a given $g(\theta)$   |
-| Constructive tool  | Lehmann-Scheffe via complete sufficient statistics |
-| Relation to CRLB   | Efficient estimators hit the Cramer-Rao bound     |
+| Property | Meaning |
+|:---------|:--------|
+| **Unbiased** | $\mathbb{E}[T] = g(\theta)$ |
+| **Minimum variance** | No other unbiased estimator has smaller variance |
+| **Unique** | At most one MVUE exists for a given $g(\theta)$ |
+| **Constructive tool** | Lehmann-Scheffe via complete sufficient statistics |
+| **Relation to CRLB** | Efficient estimators hit the Cramer-Rao bound |
 
 ## 7. References
 
