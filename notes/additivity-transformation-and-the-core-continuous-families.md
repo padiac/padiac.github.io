@@ -154,21 +154,6 @@ which underpins ANOVA and variance comparison tests.
 
 ---
 
-## 6. Summary: The Continuous Family Hierarchy
-
-| Family | Generated from | Key form | Characteristic |
-|--------|----------------|----------|----------------|
-| Normal | Base | $\mathcal{N}(\mu,\sigma^2)$ | Symmetric bell shape |
-| Chi-square | Sum of squares | $\sum X_i^2$ | Positive-only variance measure |
-| $t$ | Normal over $\sqrt{\chi^2 / n}$ | Ratio | Standardized mean deviation |
-| $F$ | $(\chi^2_1 / n_1) / (\chi^2_2 / n_2)$ | Ratio | Variance ratio |
-
----
-
-**Conceptual chain:** Normal $\rightarrow$ Chi-square $\rightarrow$ ($t$, $F$). Each stage arises from combining or scaling the previous one by summing squares, taking ratios, and normalizing variances, revealing how classical inferential statistics stem from the properties of the normal distribution.
-
----
-
 ## 7. The Chi-Square–$t$–$F$ Chain
 
 In classical statistics, the distributions $\chi^2$, $t$, and $F$ form a single logical chain derived from the normal distribution. Each arises through squaring, summing, normalizing, or taking ratios.
@@ -236,3 +221,18 @@ Conceptual chain:
 Normal $\rightarrow$ square and sum $\rightarrow$ Chi-square $\rightarrow$ divide by $\sqrt{\chi^2 / \text{df}}$ $\rightarrow$ $t$
 
 Two $(\chi^2 / \text{df})$ ratios $\rightarrow$ $F$
+
+---
+
+## 8. Summary: The Continuous Family Hierarchy
+
+| Family | Generated from | Key form | Characteristic |
+|--------|----------------|----------|----------------|
+| Normal | Base | $\mathcal{N}(\mu,\sigma^2)$ | Symmetric bell shape |
+| Chi-square | Sum of squares | $\sum X_i^2$ | Positive-only variance measure |
+| $t$ | Normal over $\sqrt{\chi^2 / n}$ | Ratio | Standardized mean deviation |
+| $F$ | $(\chi^2_1 / n_1) / (\chi^2_2 / n_2)$ | Ratio | Variance ratio |
+
+---
+
+**Conceptual chain:** Normal $\rightarrow$ Chi-square $\rightarrow$ ($t$, $F$). Each stage arises from combining or scaling the previous one by summing squares, taking ratios, and normalizing variances, revealing how classical inferential statistics stem from the properties of the normal distribution.
