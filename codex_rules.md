@@ -35,6 +35,7 @@ The user will not provide any parameters beyond the pasted Markdown block.
     ```
   - Convert `\(...\)` → `$...$`, `\[...\]` → `$$...$$`.
   - Remove `\boxed{...}` but keep its content.
+  - Do not use `\!` or other LaTeX spacing commands; the site renderer cannot display them.
   - Keep one blank line before and after block equations.
 - **Text style**: **bold** as `**text**`; _italic_ as `_text_`; code as `` `code` ``.
 - **Punctuation**: use half-width (English) punctuation; do not mix CJK and English punctuation.

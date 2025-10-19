@@ -7,7 +7,7 @@ This note summarizes variance identities from Sections 2.1–2.3 and documents s
 For a random variable $X$ with mean $\mathbb{E}[X]$, the variance measures the average squared deviation from the mean:
 
 $$
-\operatorname{Var}(X) = \mathbb{E}\!\left[(X - \mathbb{E}[X])^2\right] = \mathbb{E}[X^2] - \mathbb{E}[X]^2.
+\operatorname{Var}(X) = \mathbb{E}\left[(X - \mathbb{E}[X])^2\right] = \mathbb{E}[X^2] - \mathbb{E}[X]^2.
 $$
 
 The computational form follows from expanding $(X - \mathbb{E}[X])^2$ and applying linearity of expectation.
@@ -30,7 +30,7 @@ Let $C$ be a constant and $X$ a random variable. Then:
 If $X_1, \dots, X_n$ are independent, then
 
 $$
-\operatorname{Var}\!\left(\sum_{i=1}^{n} X_i\right) = \sum_{i=1}^{n} \operatorname{Var}(X_i).
+\operatorname{Var}\left(\sum_{i=1}^{n} X_i\right) = \sum_{i=1}^{n} \operatorname{Var}(X_i).
 $$
 
 Independence implies $\mathbb{E}[X_i X_j] = \mathbb{E}[X_i]\,\mathbb{E}[X_j]$ for $i \neq j$, so all cross-terms disappear when expanding the variance of the sum.
