@@ -100,7 +100,7 @@ window.POSTS = [
   {
     slug: 'statistics-covariance-correlation-and-independence',
     title: 'Statistics - Covariance, Correlation, and Independence',
-    date: '2025-10-19T03:21:31Z',
+    date: '2025-10-19T10:32:42Z',
     category: 'Statistics',
     summary: 'Compares covariance, correlation, and independence, highlighting inequalities, counterexamples, and the special Gaussian exception.'
   }
