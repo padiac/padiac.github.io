@@ -103,5 +103,12 @@ window.POSTS = [
     date: '2025-10-19T10:32:42Z',
     category: 'Statistics',
     summary: 'Compares covariance, correlation, and independence, highlighting inequalities, counterexamples, and the special Gaussian exception.'
+  },
+  {
+    slug: 'statistics-why-generalized-laws-of-large-numbers-and-central-limit-theorems-matter',
+    title: 'Statistics - Why Generalized Laws of Large Numbers and Central Limit Theorems Matter',
+    date: '2025-10-19T18:09:47Z',
+    category: 'Statistics',
+    summary: 'Both the Law of Large Numbers (LLN) and the Central Limit Theorem (CLT) show how randomness aggregates into stable patterns even when i.i.d. assumptions fail.'
   }
 ];
