@@ -1,4 +1,4 @@
-﻿This note reviews the expectation (and whenever informative, the variance) of three distributions that are built from sums or ratios of squared normal variables: chi-square, Student's $t$, and the $F$ distribution. For each we record a concise derivation so the formulas are logically traceable.
+This note reviews the expectation (and whenever informative, the variance) of three distributions that are built from sums or ratios of squared normal variables: chi-square, Student's $t$, and the $F$ distribution. For each we record a concise derivation so the formulas are logically traceable.
 
 ---
 
@@ -98,7 +98,7 @@ $$
 | Distribution | Representation | Mean | Variance | Notes |
 |:-------------|:---------------|:-----|:---------|:------|
 | **$\chi_n^2$** | $\sum X_i^2$ | $n$ | $2n$ | All moments finite (Gamma family). |
-| **$t_n$** | $Z / \sqrt{V / n}$ | $0$ (requires $n>1$) | $\dfrac{n}{n-2}$ (requires $n>2$) | $\mathbb{E}[|T|^k] < \infty$ iff $n>k$. |
+| **$t_n$** | $Z / \sqrt{V / n}$ | $0$ (requires $n>1$) | $\dfrac{n}{n-2}$ (requires $n>2$) | $k$-th moment exists iff $n>k$. |
 | **$F_{m,n}$** | $(X_1^2/m)/(X_2^2/n)$ | $\dfrac{n}{n-2}$ (requires $n>2$) | $\dfrac{2n^2(m+n-2)}{m(n-2)^2(n-4)}$ (requires $n>4$) | Mean undefined for $n \le 2$; higher moments demand larger $n$. |
 
 ---
