@@ -52,8 +52,8 @@ Even with a single random variable $X$, each power $X^n$ corresponds to $n$ conc
 
 Moments mix all possible combinations of these copies:
 
-- **Connected term (连通):** cannot be written as a product of lower-order cumulants (e.g., $\kappa_4$).
-- **Disconnected term (非连通):** can be written as products of lower-order cumulants (e.g., $\kappa_2^2$, $\kappa_2 \kappa_1^2$, $\kappa_1^4$).
+- **Connected term:** cannot be written as a product of lower-order cumulants (e.g., $\kappa_4$).
+- **Disconnected term:** can be written as products of lower-order cumulants (e.g., $\kappa_2^2$, $\kappa_2 \kappa_1^2$, $\kappa_1^4$).
 
 Example:
 
@@ -61,7 +61,7 @@ $$
 \mathbb{E}[X^4] = \kappa_4 + 4\kappa_3\kappa_1 + 3\kappa_2^2 + 6\kappa_2\kappa_1^2 + \kappa_1^4
 $$
 
-Only $\kappa_4$ is connected—it cannot be decomposed into lower-order products.
+Only $\kappa_4$ is connected; it cannot be decomposed into lower-order products.
 
 ---
 
@@ -131,14 +131,14 @@ Hence, Gaussian statistics are completely determined by mean and variance ($\kap
 
 ## 9. Conceptual Summary
 
-> Moments describe everything—connected and disconnected together.  
-> Cumulants describe only the connected—the minimal set of irreducible statistical structures.
+> Moments describe everything--connected and disconnected together.  
+> Cumulants describe only the connected--the minimal set of irreducible statistical structures.
 >
-> Knowing all cumulants ⇔ reconstruct all moments.  
-> Knowing all moments ⇔ reconstruct all cumulants.
+> Knowing all cumulants <=> reconstruct all moments.  
+> Knowing all moments <=> reconstruct all cumulants.
 >
 > The difference lies in representation: cumulants are the "clean basis," moments are the "expanded mixture."
 
 ---
 
-*Prepared summary of the cumulant–moment relationship and connected structure interpretation.*
+*Prepared summary of the cumulant-moment relationship and connected structure interpretation.*
