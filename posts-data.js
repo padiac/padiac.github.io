@@ -68,5 +68,12 @@ window.POSTS = [
     date: '2025-10-19T04:13:48Z',
     category: 'Statistics',
     summary: 'Connects additive hierarchies with t and F ratio families.'
+  },
+  {
+    slug: 'statistics-expectations-chi2-t-f',
+    title: 'Statistics - Expectations of Chi-Square, t, and F Distributions',
+    date: '2025-10-19T07:27:07Z',
+    category: 'Statistics',
+    summary: 'Key expectations and existence conditions for chi-square, t, and F distributions.'
   }
 ];
