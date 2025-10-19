@@ -1,25 +1,25 @@
 ## 1. Method of Moments (MOM)
 
 ### Concept
-The **method of moments** estimates parameters by equating the sample moments to the population moments.
-If the first $k$ population moments are known functions of parameters $\theta_1, \dots, \theta_k$, i.e.,
-
-$$
-a_m = a_m(\theta_1, \dots, \theta_k)
-$$
-
-then the sample moments
+The **method of moments** estimates parameters by equating the sample moments to the corresponding population moments.
+If the first $k$ population moments are known functions of parameters $\theta_1, \dots, \theta_k$, then matching the sample moments
 
 $$
 \frac{1}{n} \sum_{i=1}^{n} X_i^m
 $$
 
-are set equal to $a_m$, and the resulting equations are solved for $\theta_1, \dots, \theta_k$.
+to the population moments
+
+$$
+a_m = a_m(\theta_1, \dots, \theta_k)
+$$
+
+produces equations that can be solved for $\theta_1, \dots, \theta_k$.
 
 ### Characteristics
-- **Advantages:** Simple to compute and does not require the explicit form of the likelihood function.
-- **Disadvantages:** The estimators are not necessarily efficient or unbiased; accuracy depends heavily on sample size.
-- **Use cases:** Often applied to basic distributions such as Normal, Binomial, or Poisson.
+- **Advantages:** Simple to compute; avoids the explicit likelihood.
+- **Disadvantages:** Estimators may be biased or inefficient; accuracy depends on sample size.
+- **Use cases:** Common for basic distributions such as Normal, Binomial, or Poisson.
 
 ---
 
@@ -30,7 +30,7 @@ The **maximum likelihood estimation** method chooses parameter values that maxim
 Given a sample $X_1, \dots, X_n$ from a distribution $f(x; \theta)$, the likelihood function is
 
 $$
-L(\theta) = \prod_{i=1}^{n} f(X_i; \theta)
+L(\theta) = \prod_{i=1}^{n} f(X_i; \theta),
 $$
 
 and the log-likelihood is
@@ -39,18 +39,22 @@ $$
 \log L(\theta) = \sum_{i=1}^{n} \log f(X_i; \theta).
 $$
 
-The MLE $\hat{\theta}$ is obtained by solving the score equations
+The MLE $\hat{\theta}$ solves the score equations
 
 $$
 \frac{\partial \log L}{\partial \theta_i} = 0.
 $$
 
-For a Normal distribution $N(\mu, \sigma^2)$, the estimators are
+For the Normal distribution $N(\mu, \sigma^2)$, the estimators are
 
 $$
-\hat{\mu} = \bar{X} = \frac{1}{n} \sum_{i=1}^{n} X_i
-\quad \text{and} \quad
-\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^{n} (X_i - \bar{X})^2.
+\hat{\mu} = \bar{X} = \frac{1}{n} \sum_{i=1}^{n} X_i,
+$$
+
+and
+
+$$
+\hat{\sigma}^2 = \frac{1}{n} \sum_{i=1}^{n} \left(X_i - \bar{X}\right)^2.
 $$
 
 ### Characteristics
@@ -89,11 +93,67 @@ An estimate of $\theta$ can be taken as either the posterior mean (Bayesian esti
 
 ---
 
-## 5. Summary and Perspective
-- The **method of moments** serves as a simple, preliminary estimation approach.
-- **Maximum likelihood estimation** is the most widely used frequentist method, known for its theoretical foundation and asymptotic optimality.
-- **Bayesian estimation** combines prior beliefs with observed evidence for a distinct inferential framework.
-- With a non-informative prior, **Bayesian** and **MLE** estimators often produce similar results.
+## 5. Example: Parameter Estimation in a Uniform Distribution
 
-> **Source:** Pages 160-167 of the reference text.  
-> **Sections:** 4.2.3 *Maximum Likelihood Estimation* and 4.2.4 *Bayesian Estimation*.
+### 5.1 Setup
+Suppose the sample $X_1, X_2, \dots, X_n$ is drawn i.i.d. from the uniform distribution $U(0, \theta)$.
+We aim to estimate the upper bound parameter $\theta$.
+
+### 5.2 Two Estimation Methods
+
+#### (a) Method of Moments (MOM)
+The population mean of $U(0, \theta)$ is $E[X] = \theta / 2$.
+Hence, the method-of-moments estimator is
+
+$$
+\hat{\theta}_{\text{MOM}} = 2 \bar{X}.
+$$
+
+Its expectation satisfies $E[\hat{\theta}_{\text{MOM}}] = \theta$, so this estimator is unbiased and easy to compute.
+
+#### (b) Maximum Likelihood Estimation (MLE)
+The likelihood function for $U(0, \theta)$ is
+
+$$
+L(\theta) =
+\begin{cases}
+\theta^{-n}, & 0 < X_{(n)} \le \theta, \\
+0, & \text{otherwise}.
+\end{cases}
+$$
+
+The likelihood is maximized when $\theta = X_{(n)} = \max(X_1, \dots, X_n)$, so the MLE is
+
+$$
+\hat{\theta}_{\text{MLE}} = X_{(n)}.
+$$
+
+However, $E[X_{(n)}] = \frac{n}{n + 1} \theta$, showing that this estimator is biased downward.
+Multiplying by a correction factor yields the unbiased version
+
+$$
+\hat{\theta}_{\text{MLE}}^{*} = \frac{n + 1}{n} X_{(n)}.
+$$
+
+### 5.3 Comparison
+
+| Estimator | Formula | Unbiased? | Variance | Efficiency |
+| --- | --- | --- | --- | --- |
+| MOM | $\hat{\theta} = 2 \bar{X}$ | Yes | $\theta^2 / (3n)$ | Less efficient |
+| MLE | $\hat{\theta} = \frac{n + 1}{n} X_{(n)}$ | Yes (after correction) | $\theta^2 / \left[n(n + 2)\right]$ | More efficient |
+
+### Observations
+- Both estimators are unbiased once the MLE is corrected.
+- The MLE has smaller variance and is therefore more efficient.
+- Variance differences, not just unbiasedness, determine practical estimator quality.
+
+---
+
+## 6. Key Takeaways
+- MOM and MLE may both yield unbiased estimators yet differ in precision.
+- MLE often delivers the smallest variance among unbiased parametric estimators.
+- Bayesian estimation introduces prior beliefs but aligns with MLE under flat priors.
+- Efficiency, not just unbiasedness, governs the practical usefulness of an estimator.
+
+> **Source:** Pages 160-179 of the reference text  
+> **Sections:** 4.2.3 *Maximum Likelihood Estimation*, 4.2.4 *Bayesian Estimation*, and Uniform$(0, \theta)$ example discussion.

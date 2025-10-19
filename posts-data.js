@@ -114,8 +114,8 @@ window.POSTS = [
   {
     slug: 'statistics-comparison-of-three-estimation-methods-method-of-moments-maximum-likelihood-estimation-and-bayesian-estimation',
     title: 'Statistics - Comparison of Three Estimation Methods: Method of Moments, Maximum Likelihood Estimation, and Bayesian Estimation',
-    date: '2025-10-19T18:19:54Z',
+    date: '2025-10-19T18:40:41Z',
     category: 'Statistics',
-    summary: 'Contrasts method of moments, maximum likelihood, and Bayesian estimators on concepts, strengths, weaknesses, and guidance.'
+    summary: 'Method of moments matches sample and population moments, while MLE maximizes likelihood and Bayesian estimation updates priors with the data.'
   }
 ];
