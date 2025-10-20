@@ -13,21 +13,25 @@
 
 Let $X_1,\\dots,X_n$ have joint log-likelihood $\\ell(\\theta)=\\sum_{i=1}^n \\log f(X_i;\\theta)$. Define the **score**: $S(\\theta)=\\partial\\ell(\\theta)/\\partial\\theta$. Under regularity (differentiate under the integral, etc.) we have
 
-
-$$
-\\mathbb{E}_\\theta[S(\\theta)]=0,\\qquad \\operatorname{Var}_\\theta(S(\\theta))=n\\,I(\\theta),
-$$
+\[
+\begin{aligned}
+\mathbb{E}_\theta[S(\theta)] &= 0, \\
+\operatorname{Var}_\theta(S(\theta)) &= n\,I(\theta)
+\end{aligned}
+\]
 
 where $I(\\theta)$ is the **per-sample Fisher information**.
 
 Suppose $\\hat g=\\hat g(X_1,\\dots,X_n)$ is **unbiased** for $g(\\theta)$: $\\mathbb{E}_\\theta[\\hat g]=g(\\theta)$. Differentiate both sides with respect to $\\theta$ (this is the step you were stuck on earlier):
 
-$$
-\\frac{d}{d\\theta}\\,\\mathbb{E}_\\theta[\\hat g]
-=\\frac{d}{d\\theta}\\int \\hat g(x) f(x;\\theta)\\,dx
-=\\int \\hat g(x)\\,\\frac{\\partial}{\\partial\\theta} f(x;\\theta)\\,dx
-=\\mathbb{E}_\\theta\\Big[\\hat g\\,\\frac{\\partial}{\\partial\\theta}\\log f(X;\\theta)\\Big].
-$$
+\[
+\begin{aligned}
+\frac{d}{d\theta}\,\mathbb{E}_\theta[\hat g]
+&= \frac{d}{d\theta}\int \hat g(x) f(x;\theta)\,dx \\
+&= \int \hat g(x)\,\frac{\partial}{\partial\theta} f(x;\theta)\,dx \\
+&= \mathbb{E}_\theta\!\left[\hat g\,\frac{\partial}{\partial\theta}\log f(X;\theta)\right].
+\end{aligned}
+\]
 
 The left side equals $g'(\\theta)$; the right side equals $\\operatorname{Cov}(\\hat g, S)+\\mathbb{E}[\\hat g]\,\\mathbb{E}[S]$. Because $\\mathbb{E}[S]=0$,
 
