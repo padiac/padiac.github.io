@@ -110,5 +110,12 @@ window.POSTS = [
     date: '2025-10-19T18:40:41Z',
     category: 'Statistics',
     summary: 'Method of moments matches sample and population moments, while MLE maximizes likelihood and Bayesian estimation updates priors with the data.'
+  },
+  {
+    slug: 'statistics-mvue-and-cramer-rao-bound-a-clear-worked-through-review',
+    title: 'Statistics - MVUE and Cramer-Rao Bound: A Clear, Worked-Through Review',
+    date: '2025-10-20T03:46:18Z',
+    category: 'Statistics',
+    summary: 'Step-by-step CRLB derivation, MVUE characterization, and comparisons across Uniform and Normal models with parameterization notes.'
   }
 ];
