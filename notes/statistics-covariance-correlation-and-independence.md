@@ -48,7 +48,7 @@ Being uncorrelated rules out only linear dependence; nonlinear dependence can re
 **Example B (nonlinear dependence).** Let $X \sim \operatorname{Uniform}(-1, 1)$ and set $Y = X^2$. Then $\mathbb{E}[X] = \mathbb{E}[X^3] = 0$, giving
 
 $$
-\operatorname{Cov}(X, Y) = \mathbb{E}[X^3] - \mathbb{E}[X]\,\mathbb{E}[Y] = 0,
+\operatorname{Cov}(X, Y) = \mathbb{E}[X^3] - \mathbb{E}[X] \mathbb{E}[Y] = 0,
 $$
 
 but $Y$ is fully determined by $X$, so the variables are dependent.
@@ -124,3 +124,4 @@ $$
 $$
 
 This mirrors the unbiased sample mean and variance. Geometrically, $S$ captures the observed data cloud, so its eigenvectors reveal the sample’s principal directions.
+

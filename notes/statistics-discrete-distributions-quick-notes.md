@@ -10,7 +10,7 @@ Below: pmf, support, intuition, and very short derivations.
 **pmf**
 
 $$
-\Pr(X=i)=\binom{n}{i}p^{\,i}(1-p)^{n-i},\quad i=0,1,\dots,n.
+\Pr(X=i)=\binom{n}{i}p^{ i}(1-p)^{n-i},\quad i=0,1,\dots,n.
 $$
 
 **story**: $n$ independent Bernoulli trials (success prob $p$); count successes.  
@@ -43,7 +43,7 @@ $$
 **pmf**
 
 $$
-\Pr(X=m)=\frac{\binom{M}{m}\binom{N-M}{\,n-m\,}}{\binom{N}{n}},
+\Pr(X=m)=\frac{\binom{M}{m}\binom{N-M}{ n-m }}{\binom{N}{n}},
 \quad m=\max(0,n-(N-M)),\dots,\min(n,M).
 $$
 
@@ -59,7 +59,7 @@ $$
 **pmf**
 
 $$
-\Pr(X=i)=\binom{i+r-1}{r-1}p^{\,r}(1-p)^{i},\quad i=0,1,2,\dots
+\Pr(X=i)=\binom{i+r-1}{r-1}p^{ r}(1-p)^{i},\quad i=0,1,2,\dots
 $$
 
 **story**: i.i.d. Bernoulli$(p)$ trials; stop when the $r$-th success occurs; $X$ counts failures.  
@@ -176,7 +176,8 @@ $$
 
 - $\mathrm{Poi}(\lambda)$ is the limit of $\mathrm{Bin}(n,\lambda/n)$ (rare-event regime).
 - $\mathrm{Geo}(p) = \mathrm{NB}(r=1,p)$.
-- $\mathrm{Hyp}(N,M,n) \to \mathrm{Bin}(n,\,p)$ when the sampling fraction is tiny: $p \approx M/N$, $n\ll N$.
+- $\mathrm{Hyp}(N,M,n) \to \mathrm{Bin}(n, p)$ when the sampling fraction is tiny: $p \approx M/N$, $n\ll N$.
 
 ---
+
 

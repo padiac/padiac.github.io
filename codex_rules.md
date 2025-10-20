@@ -35,6 +35,7 @@ The user will not provide any parameters beyond the pasted Markdown block.
     ```
   - Convert `\(...\)` -> `$...$`, `\[...\]` -> `$$...$$`.
   - Remove `\boxed{...}` but keep its content.
+  - Do not use the thin-space command `\,`; leave it out or use ordinary spacing instead.
   - Keep multi-step derivations as separate block equations: close each `$$` after a single formula and add prose (or list items) between steps instead of stacking lines inside one pair of `$$`.
   - Do not use `\!`, standalone `!`, or any other LaTeX spacing/exclamation commands inside math; rewrite the sentence instead.
   - Keep one blank line before and after block equations.

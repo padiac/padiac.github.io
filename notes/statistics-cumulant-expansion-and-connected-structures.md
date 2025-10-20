@@ -20,13 +20,13 @@ $$
 ### Cumulant Generating Function (CGF)
 
 $$
-K(t) = \ln \varphi(t) = \sum_{n=1}^{\infty} \frac{t^n}{n!}\,\kappa_n
+K(t) = \ln \varphi(t) = \sum_{n=1}^{\infty} \frac{t^n}{n!} \kappa_n
 $$
 
 Moments and cumulants are related via the logarithmic transformation:
 
 $$
-\mathbb{E}[e^{tX}] = \exp\left(\sum_{n=1}^{\infty} \frac{t^n}{n!}\,\kappa_n\right)
+\mathbb{E}[e^{tX}] = \exp\left(\sum_{n=1}^{\infty} \frac{t^n}{n!} \kappa_n\right)
 $$
 
 ---
@@ -86,7 +86,7 @@ Thus cumulants are the "connected blocks," while moments sum over all partitions
 Consider the generating function of independent parts:
 
 $$
-\mathbb{E}[e^{t(X_1 + X_2)}] = \mathbb{E}[e^{tX_1}]\,\mathbb{E}[e^{tX_2}] = \varphi_1 \varphi_2
+\mathbb{E}[e^{t(X_1 + X_2)}] = \mathbb{E}[e^{tX_1}] \mathbb{E}[e^{tX_2}] = \varphi_1 \varphi_2
 $$
 
 Taking the logarithm gives:
@@ -142,3 +142,4 @@ Hence, Gaussian statistics are completely determined by mean and variance ($\kap
 ---
 
 *Prepared summary of the cumulant-moment relationship and connected structure interpretation.*
+

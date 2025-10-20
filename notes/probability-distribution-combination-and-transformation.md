@@ -98,16 +98,16 @@ Given joint density $f(x_1, x_2)$, define $Y = X_1 + X_2$.
 Find the density $l(y)$ of $Y$.
 
 **Procedure**
-1. Express $P(Y \le y) = \iint_{x_1+x_2 \le y} f(x_1, x_2)\,dx_1 dx_2$.
+1. Express $P(Y \le y) = \iint_{x_1+x_2 \le y} f(x_1, x_2) dx_1 dx_2$.
 2. Differentiate with respect to $y$ to obtain
 $$
-l(y) = \int_{-\infty}^{\infty} f(x_1, y - x_1)\,dx_1.
+l(y) = \int_{-\infty}^{\infty} f(x_1, y - x_1) dx_1.
 $$
 
 If $X_1$ and $X_2$ are independent, then $f(x_1, x_2) = f_1(x_1) f_2(x_2)$ and
 
 $$
-l(y) = \int_{-\infty}^{\infty} f_1(x_1) f_2(y - x_1)\,dx_1,
+l(y) = \int_{-\infty}^{\infty} f_1(x_1) f_2(y - x_1) dx_1,
 $$
 
 which is the convolution of $f_1$ and $f_2$.
@@ -132,7 +132,7 @@ The family of normal distributions is closed under addition: the sum of independ
 | Concept | Formula or property | Interpretation |
 |:--------|:--------------------|:---------------|
 | **Variable transformation** | $f_Y = f_X \times \lvert\det(\partial h / \partial y)\rvert$ | Density scaling by coordinate change |
-| **Sum of variables** | $l(y) = \int f_1(x) f_2(y - x)\,dx$ | Convolution integral |
+| **Sum of variables** | $l(y) = \int f_1(x) f_2(y - x) dx$ | Convolution integral |
 | **Normal closure** | $\mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ | Gaussian stability |
 
 ---
@@ -150,3 +150,4 @@ Together, these show how probability distributions transform, combine, and retai
 
 **Summary thought**  
 Additivity and transformation are twin pillars of probability structure. They explain why binomial, Poisson, and normal distributions are fundamental: they describe outcomes and remain self-consistent under aggregation and change of variables.
+

@@ -13,7 +13,7 @@ $$
 The variable $\chi_n^2$ has the Gamma density
 
 $$
-f_{\chi_n^2}(x) = \frac{1}{2^{n/2}\,\Gamma(n/2)} x^{\frac{n}{2}-1} e^{-x/2}, \qquad x>0,
+f_{\chi_n^2}(x) = \frac{1}{2^{n/2} \Gamma(n/2)} x^{\frac{n}{2}-1} e^{-x/2}, \qquad x>0,
 $$
 
 so it is $\mathrm{Gamma}(k=n/2,\;\theta=2)$. Using the Gamma moments
@@ -28,7 +28,7 @@ $$
 \mathbb{E}[\chi_n^2] = n, \qquad \operatorname{Var}(\chi_n^2) = 2n.
 $$
 
-More generally, $\mathbb{E}[(\chi_n^2)^r] = 2^r\,\Gamma(n/2 + r)/\Gamma(n/2)$ whenever $r > -n/2$.
+More generally, $\mathbb{E}[(\chi_n^2)^r] = 2^r \Gamma(n/2 + r)/\Gamma(n/2)$ whenever $r > -n/2$.
 
 ---
 
@@ -43,7 +43,7 @@ $$
 where $Z \sim \mathcal{N}(0,1)$, $V \sim \chi_n^2$, and $Z$ and $V$ are independent. Its density is
 
 $$
-f_T(t) = \frac{\Gamma((n+1)/2)}{\sqrt{n\pi}\,\Gamma(n/2)} \left(1 + \frac{t^2}{n}\right)^{-(n+1)/2}.
+f_T(t) = \frac{\Gamma((n+1)/2)}{\sqrt{n\pi} \Gamma(n/2)} \left(1 + \frac{t^2}{n}\right)^{-(n+1)/2}.
 $$
 
 Because $f_T$ is an even function, $\mathbb{E}[T] = 0$ whenever the integral converges. The tails behave like $|t|^{-(n+1)}$, so the first absolute moment exists if and only if $n>1$. Hence
@@ -103,6 +103,7 @@ $$
 1. Chi-square moments follow immediately from the Gamma interpretation.
 2. A $t_n$ mean exists only when $n>1$; the tails are too heavy otherwise.
 3. The $F_{m,n}$ mean (and higher moments) depend on the denominator degrees of freedom; randomness in the denominator pushes the mean above $1$ whenever it exists.
+
 
 
 

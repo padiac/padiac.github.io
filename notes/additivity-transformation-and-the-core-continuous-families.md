@@ -25,7 +25,7 @@ $$
 For $Y = X_1 + X_2$,
 
 $$
-l(y) = \int_{-\infty}^{\infty} f_1(x_1) f_2(y - x_1)\,dx_1,
+l(y) = \int_{-\infty}^{\infty} f_1(x_1) f_2(y - x_1) dx_1,
 $$
 
 which defines the convolution of $f_1$ and $f_2$.
@@ -44,7 +44,7 @@ Normal distributions are closed under addition, a property sometimes nicknamed t
 
 | Concept | Variable transformation | Sum of variables | Normal closure |
 |:--------|:------------------------|:------------------|:-----------------|
-| **Formula** | $f_Y = f_X \times \lvert\det(\partial h / \partial y)\rvert$ | $l(y) = \int f_1(x) f_2(y - x)\,dx$ | $\mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ |
+| **Formula** | $f_Y = f_X \times \lvert\det(\partial h / \partial y)\rvert$ | $l(y) = \int f_1(x) f_2(y - x) dx$ | $\mathcal{N}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)$ |
 | **Interpretation** | Density scaling by coordinate change | Convolution integral | Gaussian stability |
 
 ---
@@ -54,7 +54,7 @@ Normal distributions are closed under addition, a property sometimes nicknamed t
 ### 3.1 Gamma Function $\Gamma(x)$
 
 $$
-\Gamma(x) = \int_0^\infty t^{x-1} e^{-t}\,dt
+\Gamma(x) = \int_0^\infty t^{x-1} e^{-t} dt
 $$
 
 Properties: $\Gamma(1) = 1$, $\Gamma(1/2) = \sqrt{\pi}$, $\Gamma(x+1) = x \Gamma(x)$. For integer $n$, $\Gamma(n) = (n-1)!$; for half-integers, $\Gamma(n/2)$ has a closed form involving $\sqrt{\pi}$.
@@ -62,7 +62,7 @@ Properties: $\Gamma(1) = 1$, $\Gamma(1/2) = \sqrt{\pi}$, $\Gamma(x+1) = x \Gamma
 ### 3.2 Beta Function $B(x,y)$
 
 $$
-B(x,y) = \int_0^1 t^{x-1}(1-t)^{y-1}\,dt = \frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}.
+B(x,y) = \int_0^1 t^{x-1}(1-t)^{y-1} dt = \frac{\Gamma(x)\Gamma(y)}{\Gamma(x+y)}.
 $$
 
 ### 3.3 Chi-Square Distribution $\chi^2_n$
@@ -96,7 +96,7 @@ $$
 follows a Student's $t$ distribution with $n$ degrees of freedom. Its density is
 
 $$
-t_n(y) = \frac{\Gamma\left(\frac{n+1}{2}\right)}{\sqrt{n\pi}\,\Gamma\left(\frac{n}{2}\right)} \left(1 + \frac{y^2}{n}\right)^{-(n+1)/2}.
+t_n(y) = \frac{\Gamma\left(\frac{n+1}{2}\right)}{\sqrt{n\pi} \Gamma\left(\frac{n}{2}\right)} \left(1 + \frac{y^2}{n}\right)^{-(n+1)/2}.
 $$
 
 As $n \to \infty$, $t_n$ converges to $\mathcal{N}(0,1)$.
@@ -321,5 +321,6 @@ In summary:
 
 1. The sample variance is a scaled chi-square (gamma) variable, not chi-square itself.
 2. The $\sqrt{n}$ in the $t$ statistic stems from the variance of the sample mean.
+
 
 

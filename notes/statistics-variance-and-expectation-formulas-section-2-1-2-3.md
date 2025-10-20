@@ -1,4 +1,4 @@
-This note summarizes variance identities from Sections 2.1â€“2.3 and documents standard discrete examples (Poisson and Binomial) where the formulas take particularly simple forms.
+This note summarizes variance identities from Sections 2.1â€?.3 and documents standard discrete examples (Poisson and Binomial) where the formulas take particularly simple forms.
 
 ---
 
@@ -33,11 +33,11 @@ $$
 \operatorname{Var}\left(\sum_{i=1}^{n} X_i\right) = \sum_{i=1}^{n} \operatorname{Var}(X_i).
 $$
 
-Independence implies $\mathbb{E}[X_i X_j] = \mathbb{E}[X_i]\,\mathbb{E}[X_j]$ for $i \neq j$, so all cross-terms disappear when expanding the variance of the sum.
+Independence implies $\mathbb{E}[X_i X_j] = \mathbb{E}[X_i] \mathbb{E}[X_j]$ for $i \neq j$, so all cross-terms disappear when expanding the variance of the sum.
 
 ---
 
-## 4. Example 2.1 â€“ Standardization
+## 4. Example 2.1 â€?Standardization
 
 If $\mathbb{E}[X] = a$ and $\operatorname{Var}(X) = \sigma^2$, define
 
@@ -49,7 +49,7 @@ Then $\mathbb{E}[Y] = 0$ and $\operatorname{Var}(Y) = 1$. Standardizing isolates
 
 ---
 
-## 5. Example 2.2 â€“ Poisson Distribution
+## 5. Example 2.2 â€?Poisson Distribution
 
 Let $X \sim \operatorname{Pois}(\lambda)$. The mean and variance coincide:
 
@@ -67,7 +67,7 @@ and subtract $\mathbb{E}[X]^2$.
 
 ---
 
-## 6. Example 2.3 â€“ Binomial Distribution
+## 6. Example 2.3 â€?Binomial Distribution
 
 Let $X \sim \operatorname{Bin}(n, p)$ and write $X = \sum_{i=1}^{n} X_i$ with i.i.d. Bernoulli variables $X_i \sim \operatorname{Bern}(p)$. Then
 
@@ -95,3 +95,4 @@ The variance follows from Theorem 2.2 because $\operatorname{Var}(X_i) = p(1-p)$
 - Independence makes variance additive; cross-products vanish because mixed expectations factor.
 - Standardizing to zero mean and unit variance removes units, easing comparisons across variables.
 - Poisson and Binomial families illustrate how discrete models inherit meanâ€“variance structure directly from their parameters.
+

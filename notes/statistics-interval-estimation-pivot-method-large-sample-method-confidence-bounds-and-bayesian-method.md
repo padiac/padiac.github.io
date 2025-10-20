@@ -4,9 +4,9 @@ The pivot method builds confidence intervals by choosing a statistic whose sampl
 
 | Scenario | Known / Unknown | Pivot Variable | Distribution | Resulting Interval |
 | --- | --- | --- | --- | --- |
-| Mean, $\sigma$ known | $\sigma$ known | $\sqrt{n}\,(\bar X - \mu)/\sigma$ | $N(0, 1)$ | $\bar X \pm u_{\alpha/2}\,\sigma/\sqrt{n}$ |
-| Mean, $\sigma$ unknown | $\sigma$ unknown | $\sqrt{n}\,(\bar X - \mu)/S$ | $t_{n-1}$ | $\bar X \pm t_{n-1}(\alpha/2)\,S/\sqrt{n}$ |
-| Two means, $\sigma_1 = \sigma_2$ unknown | Pooled $\sigma$ | $(\bar X - \bar Y)/(S\sqrt{1/n + 1/m})$ | $t_{n+m-2}$ | $(\bar X - \bar Y) \pm t_{n+m-2}(\alpha/2)\,S\sqrt{1/n + 1/m}$ |
+| Mean, $\sigma$ known | $\sigma$ known | $\sqrt{n} (\bar X - \mu)/\sigma$ | $N(0, 1)$ | $\bar X \pm u_{\alpha/2} \sigma/\sqrt{n}$ |
+| Mean, $\sigma$ unknown | $\sigma$ unknown | $\sqrt{n} (\bar X - \mu)/S$ | $t_{n-1}$ | $\bar X \pm t_{n-1}(\alpha/2) S/\sqrt{n}$ |
+| Two means, $\sigma_1 = \sigma_2$ unknown | Pooled $\sigma$ | $(\bar X - \bar Y)/(S\sqrt{1/n + 1/m})$ | $t_{n+m-2}$ | $(\bar X - \bar Y) \pm t_{n+m-2}(\alpha/2) S\sqrt{1/n + 1/m}$ |
 | Variance | $\mu$ known | $(n-1)S^2/\sigma^2$ | $\chi^2_{n-1}$ | $\bigl[(n-1)S^2/\chi^2_{1-\alpha/2},\ (n-1)S^2/\chi^2_{\alpha/2}\bigr]$ |
 | Variance ratio | Both variances unknown | $S_1^2/S_2^2$ | $F_{n_1-1, n_2-1}$ | $\bigl[S_1^2/(S_2^2 F_{1-\alpha/2}),\ S_1^2/S_2^2 \cdot F_{1-\alpha/2}\bigr]$ |
 
@@ -15,10 +15,10 @@ The pivot method builds confidence intervals by choosing a statistic whose sampl
 When $n$ is large, the Central Limit Theorem implies asymptotic normality for the standardized sample mean:
 
 $$
-\sqrt{n}\,\frac{\bar X - \mu}{\sigma} \xrightarrow{d} N(0, 1)
+\sqrt{n} \frac{\bar X - \mu}{\sigma} \xrightarrow{d} N(0, 1)
 $$
 
-The true standard deviation $\sigma$ is typically unknown, but the sample standard deviation $S$ is a consistent estimator. By Slutsky's theorem the statistic $\sqrt{n}(\bar X - \mu)/S$ therefore satisfies the same limiting distribution, which justifies the usual plug-in approximation.
+The population standard deviation $\sigma$ is usually unknown, but the sample standard deviation $S$ is a consistent estimator. By Slutsky's theorem the statistic $\sqrt{n}(\bar X - \mu)/S$ inherits the same limiting $N(0, 1)$ law, which justifies replacing $\sigma$ with $S$ in large-sample intervals.
 
 Hence,
 
@@ -26,7 +26,7 @@ Hence,
 \Pr\left\{-u_{\alpha/2} \le \sqrt{n}\frac{\bar X - \mu}{S} \le u_{\alpha/2}\right\} \approx 1 - \alpha
 $$ -->
 $$
-\Pr(-u_{\alpha/2} \le \sqrt{n}\,\frac{\bar X - \mu}{S} \le u_{\alpha/2}) \approx 1 - \alpha
+\Pr(-u_{\alpha/2} \le \sqrt{n} \frac{\bar X - \mu}{S} \le u_{\alpha/2}) \approx 1 - \alpha
 $$
 
 
@@ -34,7 +34,7 @@ which leads to the approximate interval $\bar X \pm u_{\alpha/2} S/\sqrt{n}$.
 
 | Case | Formula | Conditions |
 | --- | --- | --- |
-| Mean $\mu$ with $\sigma$ unknown | $\bar X \pm u_{\alpha/2}\,S/\sqrt{n}$ | $n \ge 30$ |
+| Mean $\mu$ with $\sigma$ unknown | $\bar X \pm u_{\alpha/2} S/\sqrt{n}$ | $n \ge 30$ |
 | Binomial proportion $p$ | $\hat p \pm u_{\alpha/2}\sqrt{\hat p(1 - \hat p)/n}$ | $np \ge 5$ |
 | Poisson rate $\lambda$ | $\bar X \pm u_{\alpha/2}\sqrt{\bar X/n}$ | $n$ large |
 | Two means | $(\bar X - \bar Y) \pm u_{\alpha/2}\sqrt{S_1^2/n + S_2^2/m}$ | Both $n$ and $m$ large |
@@ -62,7 +62,7 @@ Examples include the lower bound $\bar X - u_\alpha \sigma/\sqrt{n}$ for $\mu$ w
 Bayesian interval estimation treats $\theta$ as a random variable with prior density $h(\theta)$. The posterior satisfies $h(\theta \mid X_1, \ldots, X_n) \propto h(\theta)L(X_1, \ldots, X_n \mid \theta)$. A credible interval $(\theta_1, \theta_2)$ is chosen to make
 
 $$
-\int_{\theta_1}^{\theta_2} h(\theta \mid X_1, \ldots, X_n)\,d\theta = 1 - \alpha.
+\int_{\theta_1}^{\theta_2} h(\theta \mid X_1, \ldots, X_n) d\theta = 1 - \alpha.
 $$
 
 For conjugate models, the posterior remains in the same family (e.g., normal-normal) and yields intervals such as $t \pm \eta u_{\alpha/2}$. In a binomial-beta model, the posterior becomes $\text{Beta}(a + X, b + n - X)$, and $\theta_1, \theta_2$ are selected so that the posterior mass between them equals $1 - \alpha$.
@@ -86,3 +86,4 @@ Bayesian credible intervals encode direct probability statements about $\theta$ 
 - Large-sample methods approximate the sampling distribution via the Central Limit Theorem when exact pivots are unavailable.
 - Confidence bounds apply the same logic to one-sided limits for risk-focused applications.
 - Bayesian credible intervals integrate the posterior to achieve a direct probability statement about $\theta$.
+

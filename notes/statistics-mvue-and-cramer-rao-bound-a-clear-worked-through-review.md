@@ -18,7 +18,7 @@ $$
 $$
 
 $$
-\operatorname{Var}_\theta(S(\theta)) = n\,I(\theta)
+\operatorname{Var}_\theta(S(\theta)) = n I(\theta)
 $$
 
 
@@ -27,23 +27,23 @@ where $I(\theta)$ is the **per-sample Fisher information**.
 Suppose $\hat g=\hat g(X_1,\dots,X_n)$ is **unbiased** for $g(\theta)$: $\mathbb{E}_\theta[\hat g]=g(\theta)$. Differentiate both sides with respect to $\theta$ (this is the step you were stuck on earlier):
 
 $$
-\frac{d}{d\theta}\,\mathbb{E}_\theta[\hat g]
-= \frac{d}{d\theta}\int \hat g(x) f(x;\theta)\,dx
+\frac{d}{d\theta} \mathbb{E}_\theta[\hat g]
+= \frac{d}{d\theta}\int \hat g(x) f(x;\theta) dx
 $$
 
 Differentiating under the integral sign,
 
 $$
-\frac{d}{d\theta}\int \hat g(x) f(x;\theta)\,dx = \int \hat g(x)\,\frac{\partial}{\partial\theta} f(x;\theta)\,dx
+\frac{d}{d\theta}\int \hat g(x) f(x;\theta) dx = \int \hat g(x) \frac{\partial}{\partial\theta} f(x;\theta) dx
 $$
 
 and therefore,
 
 $$
-\int \hat g(x)\,\frac{\partial}{\partial\theta} f(x;\theta)\,dx = \mathbb{E}_\theta\left[\hat g\,\frac{\partial}{\partial\theta}\log f(X;\theta)\right].
+\int \hat g(x) \frac{\partial}{\partial\theta} f(x;\theta) dx = \mathbb{E}_\theta\left[\hat g \frac{\partial}{\partial\theta}\log f(X;\theta)\right].
 $$
 
-The left side equals $g'(\theta)$; the right side equals $\operatorname{Cov}(\hat g, S)+\mathbb{E}[\hat g]\,\mathbb{E}[S]$. Because $\mathbb{E}[S]=0$,
+The left side equals $g'(\theta)$; the right side equals $\operatorname{Cov}(\hat g, S)+\mathbb{E}[\hat g] \mathbb{E}[S]$. Because $\mathbb{E}[S]=0$,
 
 $$
 g'(\theta)=\operatorname{Cov}_\theta(\hat g, S).
@@ -52,19 +52,19 @@ $$
 By Cauchy-Schwarz (covariance inequality),
 
 $$
-\big(\operatorname{Cov}(A,B)\big)^2\le \operatorname{Var}(A)\,\operatorname{Var}(B),
+\big(\operatorname{Cov}(A,B)\big)^2\le \operatorname{Var}(A) \operatorname{Var}(B),
 $$
 
 and taking $A=\hat g$, $B=S$ gives
 
 $$
-\big(g'(\theta)\big)^2 \le \operatorname{Var}(\hat g)\,\operatorname{Var}(S)=\operatorname{Var}(\hat g)\,n I(\theta).
+\big(g'(\theta)\big)^2 \le \operatorname{Var}(\hat g) \operatorname{Var}(S)=\operatorname{Var}(\hat g) n I(\theta).
 $$
 
 Thus the Cramer-Rao lower bound (CRLB) states
 
 $$
-\operatorname{Var}_\theta(\hat g) \ge \frac{\big(g'(\theta)\big)^2}{n\,I(\theta)}.
+\operatorname{Var}_\theta(\hat g) \ge \frac{\big(g'(\theta)\big)^2}{n I(\theta)}.
 $$
 
 Equality holds if and only if $\hat g-a(\theta)$ is a linear function of the score.
@@ -83,7 +83,7 @@ Equality holds if and only if $\hat g-a(\theta)$ is a linear function of the sco
 Let $X_1,\dots,X_n\overset{\text{iid}}{\sim}\operatorname{Unif}(0,\theta)$. Two classic unbiased estimators of $\theta$:
 
 1. **Method of moments**: $\hat\theta_1 = 2\bar X$. Because $\mathbb{E}[\bar X]=\theta/2$, we have $\mathbb{E}[2\bar X]=\theta$. Also, $\operatorname{Var}(\bar X)=\theta^2/(12n)$, so $\operatorname{Var}(\hat\theta_1)=\theta^2/(3n)$.
-2. **Based on the maximum**: $\hat\theta_2 = \dfrac{n+1}{n} X_{(n)}$ where $X_{(n)}=\max_i X_i$. Because $\mathbb{E}[X_{(n)}]=\dfrac{n}{n+1}\theta$, we get $\mathbb{E}[\hat\theta_2]=\theta$. Moreover, $\operatorname{Var}(X_{(n)})=\dfrac{n\,\theta^2}{(n+1)^2(n+2)}$, so $\operatorname{Var}(\hat\theta_2)=\dfrac{\theta^2}{n(n+2)}$.
+2. **Based on the maximum**: $\hat\theta_2 = \dfrac{n+1}{n} X_{(n)}$ where $X_{(n)}=\max_i X_i$. Because $\mathbb{E}[X_{(n)}]=\dfrac{n}{n+1}\theta$, we get $\mathbb{E}[\hat\theta_2]=\theta$. Moreover, $\operatorname{Var}(X_{(n)})=\dfrac{n \theta^2}{(n+1)^2(n+2)}$, so $\operatorname{Var}(\hat\theta_2)=\dfrac{\theta^2}{n(n+2)}$.
 
 Comparison:
 
@@ -139,4 +139,5 @@ Target variance $1/\lambda^2$. The ($\lambda$-parameterized) CRLB gives $4/(n\la
 ---
 
 _Last updated: 2025-10-20 02:52:40Z_
+
 

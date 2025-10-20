@@ -1,7 +1,7 @@
 ## 1. Core Idea (Equation 1.27)
 
 $$
-E(Y) = \int E(Y \mid x) f_1(x) \, dx
+E(Y) = \int E(Y \mid x) f_1(x)   dx
 $$
 
 This is the law of total expectation in its integral form. It computes the overall mean of $Y$ by averaging conditional expectations $E(Y \mid x)$, weighted by the marginal density $f_1(x)$.
@@ -9,7 +9,7 @@ This is the law of total expectation in its integral form. It computes the overa
 ## 2. Symbolic Simplification (Equation 1.28)
 
 $$
-E(Y) = \int g(x) f_1(x) \, dx, \quad g(x) = E(Y \mid x)
+E(Y) = \int g(x) f_1(x)   dx, \quad g(x) = E(Y \mid x)
 $$
 
 Introducing $g(x)$ adds shorthand only; the underlying computation is unchanged. It simply labels the conditional expectation so later steps read more cleanly.
@@ -25,7 +25,7 @@ This compact operator notation states that the average of $Y$ equals the average
 ## 4. Multivariate Generalization (Equation 1.30)
 
 $$
-E(Y) = \int \cdots \int E(Y \mid x_1, \ldots, x_n) f(x_1, \ldots, x_n) \, dx_1 \cdots dx_n
+E(Y) = \int \cdots \int E(Y \mid x_1, \ldots, x_n) f(x_1, \ldots, x_n)   dx_1 \cdots dx_n
 $$
 
 When the conditioning variable is a vector $X = (X_1, \ldots, X_n)$, the same idea holds by integrating over the joint density. Each combination of conditioning values contributes according to its probability.
@@ -55,3 +55,4 @@ All forms assert that total expectation equals a weighted average of conditional
 $$
 E(Y) = E[E(Y \mid X)]
 $$
+

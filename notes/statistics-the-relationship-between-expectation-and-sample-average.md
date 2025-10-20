@@ -23,7 +23,7 @@ After Kolmogorov's 1933 axiomatization, probability is defined as a **measure sp
 
 In this framework:
 - The probability $P(A)$ is given a priori,
-- The expectation $\mathbb{E}[X] = \int X \, dP$ is a theoretical constant derived from $P$,
+- The expectation $\mathbb{E}[X] = \int X   dP$ is a theoretical constant derived from $P$,
 - Observed samples are merely realizations from this distribution.
 
 Then the **Law of Large Numbers** states that
@@ -44,7 +44,7 @@ It is the reverse of the frequentist view.
 | Perspective | Starting Point | Meaning of Expectation | Role of Samples |
 |-------------|----------------|------------------------|-----------------|
 | **Frequentist** | Infinite repetitions | Limiting average | Generates "theory" |
-| **Measure-theoretic** | Given distribution $P$ | $\int x \, dP(x)$ | Approximates "theory" |
+| **Measure-theoretic** | Given distribution $P$ | $\int x   dP(x)$ | Approximates "theory" |
 
 Thus:
 - **Philosophically different**,
@@ -71,7 +71,7 @@ Mathematical probability reasons "theoretical -> empirical."
 They meet perfectly at the Law of Large Numbers:
 
 $$
-\mathbb{E}[X] = \int x \, dP(x) \\
+\mathbb{E}[X] = \int x   dP(x) \\
 \approx \lim_{n \to \infty} \frac{1}{n} \sum_{i=1}^n X_i
 $$
 
@@ -84,3 +84,4 @@ The first line is the **definition**, and the second is the **theorem** that con
 > In the infinite limit, they are indeed equivalent.
 > Theoretically, however, the **distribution is the starting point**, and the **empirical average** is its approximation.
 > Your intuition ("more samples -> closer to the true distribution") is exactly the **Law of Large Numbers**, which holds because we assume the theoretical distribution exists.
+

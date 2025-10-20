@@ -1,5 +1,5 @@
 **Context:**  
-This note originates from a conceptual tension observed between **Definition 3.3 in Chapter 1** and **Definition 3.2 in Chapter 2** of *Chen Xiru, 《概率论与数理统计》*.  
+This note originates from a conceptual tension observed between **Definition 3.3 in Chapter 1** and **Definition 3.2 in Chapter 2** of *Chen Xiru, 《概率论与数理统计�?.  
 At first glance, Definition 3.3 (event independence) demands independence for **all subsets** of events,  
 while Definition 3.2 (random variable independence) seems to require only one factorization condition.  
 This document explains why these two definitions are in fact **equivalent**,  
@@ -105,7 +105,7 @@ possibly discrete, mixed, or singular (e.g., the Cantor distribution).
 A global product-like appearance does **not** ensure that every subset of variables is independent.
 
 Example: construct \((X_1, X_2, X_3)\) where \(X_3 = X_1 X_2\).  
-Even if the overall distribution looks symmetric or “factorized,”  
+Even if the overall distribution looks symmetric or “factorized,�? 
 the subset \((X_1, X_2)\) is dependent.
 
 Hence, one must explicitly check that every subset satisfies
@@ -135,9 +135,9 @@ Example in three dimensions:
 $$
 \begin{aligned}
 f_{12}(x_1,x_2)
-  &= \int f(x_1,x_2,x_3)\,dx_3   \\
-  &= \int f_1(x_1)f_2(x_2)f_3(x_3)\,dx_3   \\
-  &= f_1(x_1)f_2(x_2) \int f_3(x_3)\,dx_3   \\
+  &= \int f(x_1,x_2,x_3) dx_3   \\
+  &= \int f_1(x_1)f_2(x_2)f_3(x_3) dx_3   \\
+  &= f_1(x_1)f_2(x_2) \int f_3(x_3) dx_3   \\
   &= f_1(x_1)f_2(x_2).
 \end{aligned}
 $$
@@ -207,3 +207,4 @@ This clarification directly resolves the confusion between
 *Definition 3.3 (Chapter 1)* and *Definition 3.2 (Chapter 2)* in Chen Xiru’s text.  
 The apparent discrepancy arises because the first definition is stated in terms of **events**,  
 while the second assumes the **measure structure** that makes the event-wise conditions redundant.
+
