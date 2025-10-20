@@ -14,12 +14,12 @@
 Let $X_1, \ldots, X_n$ have joint log-likelihood $\ell(\theta) = \sum_{i=1}^n \log f(X_i; \theta)$. Define the **score** $S(\theta) = \partial \ell(\theta) / \partial \theta$. Under the usual regularity conditions (swap differentiation and integration, tail behavior, and so on),
 
 $$
-\mathrm{E}_{\\theta}[S(\theta)] = 0, \qquad \mathrm{Var}_{\\theta}(S(\theta)) = n I(\theta),
+\mathrm{E}_{\theta}[S(\theta)] = 0, \qquad \mathrm{Var}_{\\theta}(S(\theta)) = n I(\theta),
 $$
 
 where $I(\theta)$ is the **per-sample Fisher information**.
 
-Suppose $\hat g = \hat g(X_1, \ldots, X_n)$ is **unbiased** for $g(\theta)$, so $\mathrm{E}_{\\theta}[\hat g] = g(\theta)$. Differentiate both sides with respect to $\theta$ (this is the spot that was subtle earlier):
+Suppose $\hat g = \hat g(X_1, \ldots, X_n)$ is **unbiased** for $g(\theta)$, so $\mathrm{E}_{\theta}[\hat g] = g(\theta)$. Differentiate both sides with respect to $\theta$ (this is the spot that was subtle earlier):
 
 $$
 \frac{d}{d\theta}\mathrm{E}_{\theta}[\hat g]
