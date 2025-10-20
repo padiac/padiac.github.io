@@ -124,5 +124,12 @@ window.POSTS = [
     date: '2025-10-20T04:47:34Z',
     category: 'Statistics',
     summary: 'Contrasts frequentist limiting frequencies with Kolmogorov\'s measure-first view and shows how the Law of Large Numbers ties expectation to sample averages.'
+  },
+  {
+    slug: 'statistics-interval-estimation-pivot-method-large-sample-method-confidence-bounds-and-bayesian-method',
+    title: 'Statistics - Interval Estimation: Pivot Method, Large Sample Method, Confidence Bounds, and Bayesian Method',
+    date: '2025-10-20T08:16:48Z',
+    category: 'Statistics',
+    summary: 'Contrasts pivot, large-sample, one-sided, and Bayesian interval estimators, highlighting pivot choice, CLT approximations, and posterior credible bounds.'
   }
 ];
