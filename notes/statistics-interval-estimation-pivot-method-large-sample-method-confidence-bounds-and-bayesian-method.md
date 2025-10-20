@@ -12,11 +12,13 @@ The pivot method builds confidence intervals by choosing a statistic whose sampl
 
 ## 4.4.3 Large Sample Method
 
-When $n$ is large, the Central Limit Theorem implies asymptotic normality for the standardized sample mean.
+When $n$ is large, the Central Limit Theorem implies asymptotic normality for the standardized sample mean:
 
 $$
-\sqrt{n}\,\frac{\bar X - \mu}{S} \xrightarrow{d} N(0, 1)
+\sqrt{n}\,\frac{\bar X - \mu}{\sigma} \xrightarrow{d} N(0, 1)
 $$
+
+The true standard deviation $\sigma$ is typically unknown, but the sample standard deviation $S$ is a consistent estimator. By Slutsky's theorem the statistic $\sqrt{n}(\bar X - \mu)/S$ therefore satisfies the same limiting distribution, which justifies the usual plug-in approximation.
 
 Hence,
 
