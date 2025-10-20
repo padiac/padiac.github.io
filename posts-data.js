@@ -117,5 +117,12 @@ window.POSTS = [
     date: '2025-10-19T18:40:41Z',
     category: 'Statistics',
     summary: 'Method of moments matches sample and population moments, while MLE maximizes likelihood and Bayesian estimation updates priors with the data.'
+  },
+  {
+    slug: 'statistics-mvue-and-cramer-rao-bound-theory-and-examples',
+    title: 'Statistics - MVUE and Cramer-Rao Bound: Theory and Examples',
+    date: '2025-10-20T02:46:54Z',
+    category: 'Statistics',
+    summary: 'In statistical inference, a Minimum Variance Unbiased Estimator (MVUE) is an unbiased estimator with the smallest variance among all unbiased estimators.'
   }
 ];
