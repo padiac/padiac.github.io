@@ -12,6 +12,7 @@
 ## 1) Cramer-Rao Lower Bound: Derivation Step
 
 Let $X_1,\\dots,X_n$ have joint log-likelihood $\\ell(\\theta)=\\sum_{i=1}^n \\log f(X_i;\\theta)$. Define the **score**: $S(\\theta)=\\partial\\ell(\\theta)/\\partial\\theta$. Under regularity (differentiate under the integral, etc.) we have
+
 <div></div>
 $$
 \\mathbb{E}_\\theta[S(\\theta)]=0,\\qquad \\operatorname{Var}_\\theta(S(\\theta))=n\\,I(\\theta),
