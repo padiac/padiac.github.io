@@ -119,6 +119,7 @@ The likelihood is maximized when $\theta = X_{(n)} = \max(X_1, \dots, X_n)$, so 
 $$
 \hat{\theta}_{\text{MOM}} = 2 \bar{X}.
 $$
+aaa
 $$
 \hat{\theta}_{\text{MLE}} = X_{(n)}.
 $$
