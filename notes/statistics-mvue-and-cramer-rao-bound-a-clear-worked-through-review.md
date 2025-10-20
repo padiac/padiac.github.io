@@ -17,15 +17,16 @@ $$
 \mathrm{E}_{\theta}[S(\theta)] = 0, \qquad \mathrm{Var}_{\theta}(S(\theta)) = n I(\theta),
 $$
 
+
 where $I(\theta)$ is the **per-sample Fisher information**.
 
 Suppose $\hat g = \hat g(X_1, \ldots, X_n)$ is **unbiased** for $g(\theta)$, so $\mathrm{E}_{\theta}[\hat g] = g(\theta)$. Differentiate both sides with respect to $\theta$ (this is the spot that was subtle earlier):
 
 $$
 \frac{d}{d\theta}\mathrm{E}_{\theta}[\hat g]
-= \frac{d}{d\theta}\int \hat g(x) f(x; \theta) dx
-= \int \hat g(x) \frac{\partial}{\partial \theta} f(x; \theta) dx
-= \mathrm{E}_{\theta}\left[\hat g \frac{\partial}{\partial \theta} \log f(X; \theta)\right].
+= \frac{d}{d\theta}\int \hat g(x) f(x; \theta) \, dx
+= \int \hat g(x) \frac{\partial}{\partial \theta} f(x; \theta) \, dx
+= \mathrm{E}_{\theta}\!\left[\hat g \frac{\partial}{\partial \theta} \log f(X; \theta)\right].
 $$
 
 Because the left-hand side is $g'(\theta)$ and the right-hand side is $\mathrm{Cov}_{\\theta}(\hat g, S) + \mathrm{E}_{\\theta}[\hat g] \mathrm{E}_{\\theta}[S]$ with $\mathrm{E}_{\\theta}[S] = 0$, we obtain
