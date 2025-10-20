@@ -117,7 +117,7 @@ The likelihood function for $U(0, \theta)$ is $L(\theta) = \theta^{-n}$ when $0 
 The likelihood is maximized when $\theta = X_{(n)} = \max(X_1, \dots, X_n)$, so the MLE is
 
 $$
-\hat{\theta}_{\text{MLE}} = X_{n}
+\hat{\theta}_{MLE} = X_{(n)}.
 $$
 
 However, $E[X_{(n)}] = \frac{n}{n + 1} \theta$, showing that this estimator is biased downward.
