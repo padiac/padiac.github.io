@@ -117,5 +117,12 @@ window.POSTS = [
     date: '2025-10-20T03:46:18Z',
     category: 'Statistics',
     summary: 'Step-by-step CRLB derivation, MVUE characterization, and comparisons across Uniform and Normal models with parameterization notes.'
+  },
+  {
+    slug: 'statistics-the-relationship-between-expectation-and-sample-average',
+    title: 'Statistics - The Relationship Between Expectation and Sample Average',
+    date: '2025-10-20T04:47:34Z',
+    category: 'Statistics',
+    summary: 'Contrasts frequentist limiting frequencies with Kolmogorov\'s measure-first view and shows how the Law of Large Numbers ties expectation to sample averages.'
   }
 ];
