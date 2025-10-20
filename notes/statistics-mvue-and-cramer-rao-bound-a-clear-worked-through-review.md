@@ -14,7 +14,11 @@
 Let $X_1,\dots,X_n$ have joint log-likelihood $\ell(\theta)=\sum_{i=1}^n \log f(X_i;\theta)$. Define the **score**: $S(\theta)=\partial\ell(\theta)/\partial\theta$. Under regularity (differentiate under the integral, etc.) we have
 
 $$
-\mathbb{E}_\theta[S(\theta)]=0,\qquad \operatorname{Var}_\theta(S(\theta))=n\,I(\theta),
+\mathbb{E}_\theta[S(\theta)] = 0
+$$
+
+$$
+\operatorname{Var}_\theta(S(\theta)) = n\,I(\theta)
 $$
 
 
@@ -25,8 +29,18 @@ Suppose $\hat g=\hat g(X_1,\dots,X_n)$ is **unbiased** for $g(\theta)$: $\mathbb
 $$
 \frac{d}{d\theta}\,\mathbb{E}_\theta[\hat g]
 = \frac{d}{d\theta}\int \hat g(x) f(x;\theta)\,dx
-= \int \hat g(x)\,\frac{\partial}{\partial\theta} f(x;\theta)\,dx
-= \mathbb{E}_\theta\!\left[\hat g\,\frac{\partial}{\partial\theta}\log f(X;\theta)\right].
+$$
+
+Differentiating under the integral sign,
+
+$$
+\frac{d}{d\theta}\int \hat g(x) f(x;\theta)\,dx = \int \hat g(x)\,\frac{\partial}{\partial\theta} f(x;\theta)\,dx
+$$
+
+and therefore,
+
+$$
+\int \hat g(x)\,\frac{\partial}{\partial\theta} f(x;\theta)\,dx = \mathbb{E}_\theta\!\left[\hat g\,\frac{\partial}{\partial\theta}\log f(X;\theta)\right].
 $$
 
 The left side equals $g'(\theta)$; the right side equals $\operatorname{Cov}(\hat g, S)+\mathbb{E}[\hat g]\,\mathbb{E}[S]$. Because $\mathbb{E}[S]=0$,
