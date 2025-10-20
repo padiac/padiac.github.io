@@ -1,12 +1,5 @@
 window.POSTS = [
   {
-    slug: 'statistics-mvue-overview',
-    title: 'Statistics - Minimum Variance Unbiased Estimator (MVUE)',
-    date: '2025-10-18T12:26:31Z',
-    category: 'Statistics',
-    summary: 'Concise reference on MVUE definitions, existence, construction via Lehmann-Scheffe, classic normal examples, and ties to the Cramer-Rao bound.'
-  },
-  {
     slug: 'machine-learning-1d-yolo-baseline-aggregation',
     title: 'Machine Learning - 1D YOLO Baseline Aggregation Detector',
     date: '2025-10-18T12:26:28Z',
@@ -117,12 +110,5 @@ window.POSTS = [
     date: '2025-10-19T18:40:41Z',
     category: 'Statistics',
     summary: 'Method of moments matches sample and population moments, while MLE maximizes likelihood and Bayesian estimation updates priors with the data.'
-  },
-  {
-    slug: 'statistics-mvue-and-cramer-rao-bound-a-clear-worked-through-review',
-    title: 'Statistics - MVUE and Cramer-Rao Bound: A Clear, Worked-Through Review',
-    date: '2025-10-20T03:12:20Z',
-    category: 'Statistics',
-    summary: 'Checklist covering CRLB derivation, MVUE via Lehmann-Scheffe, Uniform estimators, parameter choices, and efficiency cases for the normal model.'
   }
 ];
