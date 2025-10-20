@@ -20,9 +20,13 @@ $$
 
 Hence,
 
-$$
+<!-- $$
 \Pr\left\{-u_{\alpha/2} \le \sqrt{n}\frac{\bar X - \mu}{S} \le u_{\alpha/2}\right\} \approx 1 - \alpha
+$$ -->
 $$
+\Pr(-u_{\alpha/2} \le \sqrt{n}\,\frac{\bar X - \mu}{S} \le u_{\alpha/2}) \approx 1 - \alpha
+$$
+
 
 which leads to the approximate interval $\bar X \pm u_{\alpha/2} S/\sqrt{n}$.
 
