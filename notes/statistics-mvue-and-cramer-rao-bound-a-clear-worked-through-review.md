@@ -40,7 +40,7 @@ $$
 and therefore,
 
 $$
-\int \hat g(x)\,\frac{\partial}{\partial\theta} f(x;\theta)\,dx = \mathbb{E}_\theta\!\left[\hat g\,\frac{\partial}{\partial\theta}\log f(X;\theta)\right].
+\int \hat g(x)\,\frac{\partial}{\partial\theta} f(x;\theta)\,dx = \mathbb{E}_\theta\left[\hat g\,\frac{\partial}{\partial\theta}\log f(X;\theta)\right].
 $$
 
 The left side equals $g'(\theta)$; the right side equals $\operatorname{Cov}(\hat g, S)+\mathbb{E}[\hat g]\,\mathbb{E}[S]$. Because $\mathbb{E}[S]=0$,
