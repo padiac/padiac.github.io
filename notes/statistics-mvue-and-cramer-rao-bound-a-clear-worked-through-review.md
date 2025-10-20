@@ -14,7 +14,7 @@
 Let $X_1, \ldots, X_n$ have joint log-likelihood $\ell(\theta) = \sum_{i=1}^n \log f(X_i; \theta)$. Define the **score** $S(\theta) = \partial \ell(\theta) / \partial \theta$. Under the usual regularity conditions (swap differentiation and integration, tail behavior, and so on),
 
 $$
-\mathbb{E}_\theta[S(\theta)] = 0, \qquad \mathbb{Var}_\theta(S(\theta)) = n I(\theta),
+\mathbb{E}_\theta[S(\theta)] = 0, \qquad \operatorname{Var}_\theta(S(\theta)) = n I(\theta),
 $$
 
 where $I(\theta)$ is the **per-sample Fisher information**.
@@ -37,19 +37,19 @@ $$
 Apply Cauchy-Schwarz to the covariance:
 
 $$
-\big(\operatorname{Cov}(A, B)\big)^2 \le \mathbb{Var}(A) \mathbb{Var}(B),
+\big(\operatorname{Cov}(A, B)\big)^2 \le \operatorname{Var}(A) \operatorname{Var}(B),
 $$
 
 and substitute $A = \hat g$, $B = S$ to get
 
 $$
-\big(g'(\theta)\big)^2 \le \mathbb{Var}_\theta(\hat g) \mathbb{Var}_\theta(S) = \mathbb{Var}_\theta(\hat g) n I(\theta).
+\big(g'(\theta)\big)^2 \le \operatorname{Var}_\theta(\hat g) \operatorname{Var}_\theta(S) = \operatorname{Var}_\theta(\hat g) n I(\theta).
 $$
 
 Therefore
 
 $$
-\mathbb{Var}_\theta(\hat g) \ge \dfrac{\big(g'(\theta)\big)^2}{n I(\theta)}
+\operatorname{Var}_\theta(\hat g) \ge \frac{\big(g'(\theta)\big)^2}{n I(\theta)}
 $$
 
 is the **Cramer-Rao Lower Bound**. Equality holds if and only if $\hat g - a(\theta)$ is a linear function of the score, where $a(\theta)$ is a scalar depending on $\theta$.
@@ -67,13 +67,13 @@ is the **Cramer-Rao Lower Bound**. Equality holds if and only if $\hat g - a(\th
 
 Let $X_1, \ldots, X_n$ be i.i.d. $\operatorname{Unif}(0, \theta)$.
 
-1. **Method of moments**: $\hat \theta_1 = 2 \bar X$. Since $\mathbb{E}[\bar X] = \theta / 2$, $\hat \theta_1$ is unbiased. Its variance is $\mathbb{Var}(\hat \theta_1) = \theta^2 / (3n)$ because $\mathbb{Var}(\bar X) = \theta^2 / (12n)$.
-2. **Max-based estimator**: $\hat \theta_2 = \dfrac{n+1}{n} X_{(n)}$ with $X_{(n)} = \max_i X_i$. Here $\mathbb{E}[X_{(n)}] = \dfrac{n}{n+1} \theta$, so the bias correction gives an unbiased estimator. Its variance is $\mathbb{Var}(\hat \theta_2) = \dfrac{\theta^2}{n (n+2)}$.
+1. **Method of moments**: $\hat \theta_1 = 2 \bar X$. Since $\mathbb{E}[\bar X] = \theta / 2$, $\hat \theta_1$ is unbiased. Its variance is $\operatorname{Var}(\hat \theta_1) = \theta^2 / (3n)$ because $\operatorname{Var}(\bar X) = \theta^2 / (12n)$.
+2. **Max-based estimator**: $\hat \theta_2 = \dfrac{n+1}{n} X_{(n)}$ with $X_{(n)} = \max_i X_i$. Here $\mathbb{E}[X_{(n)}] = \dfrac{n}{n+1} \theta$, so the bias correction gives an unbiased estimator. Its variance is $\operatorname{Var}(\hat \theta_2) = \dfrac{\theta^2}{n (n+2)}$.
 
 Compare the variances:
 
 $$
-\mathbb{Var}(\hat \theta_1) = \frac{\theta^2}{3n}, \qquad \mathbb{Var}(\hat \theta_2) = \frac{\theta^2}{n (n+2)}.
+\operatorname{Var}(\hat \theta_1) = \frac{\theta^2}{3n}, \qquad \operatorname{Var}(\hat \theta_2) = \frac{\theta^2}{n (n+2)}.
 $$
 
 For every $n \ge 1$, $\frac{1}{n (n+2)} < \frac{1}{3n}$, so the estimator based on the sample maximum has smaller variance. Because $X_{(n)}$ is complete and sufficient for $\theta$ in this family, the Lehmann-Scheffe theorem implies $\hat \theta_2$ is the MVUE.
@@ -99,9 +99,9 @@ and the target $g(\theta)$ transforms accordingly. The CRLB statements remain co
 
 Assume $X_i \sim \mathcal{N}(\mu, \sigma^2)$.
 
-1. **Known $\sigma^2$, estimate $\mu$**: $\bar X$ is unbiased with $\mathbb{Var}(\bar X) = \sigma^2 / n$ and it reaches the CRLB, so $\bar X$ is efficient and MVUE.
-2. **Known $\mu$, estimate $\sigma^2$**: $\hat \sigma^2 = \tfrac{1}{n} \sum (X_i - \mu)^2$ is unbiased with $\mathbb{Var}(\hat \sigma^2) = 2 \sigma^4 / n$, reaching the CRLB and therefore efficient MVUE.
-3. **Both $\mu$ and $\sigma^2$ unknown**: $S^2 = \tfrac{1}{n-1} \sum (X_i - \bar X)^2$ is unbiased with $\mathbb{Var}(S^2) = 2 \sigma^4 / (n-1)$, which is larger than the single-parameter CRLB $2 \sigma^4 / n$. The bound is unattainable in this two-parameter setting, yet by sufficiency and completeness of $(\bar X, S^2)$, $\bar X$ is the MVUE for $\mu$ and $S^2$ is the MVUE for $\sigma^2$.
+1. **Known $\sigma^2$, estimate $\mu$**: $\bar X$ is unbiased with $\operatorname{Var}(\bar X) = \sigma^2 / n$ and it reaches the CRLB, so $\bar X$ is efficient and MVUE.
+2. **Known $\mu$, estimate $\sigma^2$**: $\hat \sigma^2 = \tfrac{1}{n} \sum (X_i - \mu)^2$ is unbiased with $\operatorname{Var}(\hat \sigma^2) = 2 \sigma^4 / n$, reaching the CRLB and therefore efficient MVUE.
+3. **Both $\mu$ and $\sigma^2$ unknown**: $S^2 = \tfrac{1}{n-1} \sum (X_i - \bar X)^2$ is unbiased with $\operatorname{Var}(S^2) = 2 \sigma^4 / (n-1)$, which is larger than the single-parameter CRLB $2 \sigma^4 / n$. The bound is unattainable in this two-parameter setting, yet by sufficiency and completeness of $(\bar X, S^2)$, $\bar X$ is the MVUE for $\mu$ and $S^2$ is the MVUE for $\sigma^2$.
 
 ---
 
@@ -122,4 +122,4 @@ If the target is the exponential variance $1 / \lambda^2$, the CRLB derived via 
 
 ---
 
-Last updated: 2025-10-20T03:04:03Z
+Last updated: 2025-10-20T03:08:58Z

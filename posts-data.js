@@ -121,7 +121,7 @@ window.POSTS = [
   {
     slug: 'statistics-mvue-and-cramer-rao-bound-a-clear-worked-through-review',
     title: 'Statistics - MVUE and Cramer-Rao Bound: A Clear, Worked-Through Review',
-    date: '2025-10-20T03:04:03Z',
+    date: '2025-10-20T03:08:58Z',
     category: 'Statistics',
     summary: 'Checklist covering CRLB derivation, MVUE via Lehmann-Scheffe, Uniform estimators, parameter choices, and efficiency cases for the normal model.'
   }
