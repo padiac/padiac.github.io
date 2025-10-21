@@ -131,5 +131,12 @@ window.POSTS = [
     date: '2025-10-20T08:16:48Z',
     category: 'Statistics',
     summary: 'Contrasts pivot, large-sample, one-sided, and Bayesian interval estimators, highlighting pivot choice, CLT approximations, and posterior credible bounds.'
+  },
+  {
+    slug: 'machine-learning-common-abbreviations-in-linear-regression',
+    title: 'Machine Learning - Common Abbreviations in Linear Regression',
+    date: '2025-10-21T19:23:18Z',
+    category: 'Machine Learning',
+    summary: 'Linear regression shorthand keeps the core estimation, fit, and inference metrics close at hand for OLS analyses.'
   }
 ];
