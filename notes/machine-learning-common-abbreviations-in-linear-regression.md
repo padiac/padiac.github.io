@@ -14,6 +14,7 @@ $$
 
 Measures unexplained variation.
 
+<div></div>
 $$
 \mathrm{SSE} = \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 = \sum_{i=1}^{n} \delta_i^2
 $$
