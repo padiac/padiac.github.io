@@ -20,6 +20,7 @@ The user will not provide any parameters beyond the pasted Markdown block.
 ---
 
 ## Site Markdown Rules (Must Follow)
+- **Language**: Preserve the language of the input Markdown. If the pasted note is in Chinese, keep all normalization and additions in Chinese; if it is in English, keep everything in English.
 - **File path**: `notes/<slug>.md` (slug must be lowercase, hyphen-joined, identical to `posts-data.js`).
 - **Headings**: allow `#`, `##`, `###` in raw input, but **the first `#` H1 is only used to extract the title and must be removed from the saved Markdown**.
 - **Spacing**: one blank line before/after headings and between paragraphs.
