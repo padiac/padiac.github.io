@@ -84,6 +84,7 @@ $$
 
 Interval estimate for a future observation.
 
+<div></div>
 $$
 \hat{Y}_0 \pm t^{\star} s \sqrt{1 + 1/n + (x_0 - \bar{X})^2 / S_{xx}}
 $$
