@@ -63,6 +63,7 @@ $$
 
 Dispersion of an estimator.
 
+<div></div>
 $$
 SE(\hat{\beta}_1) = s / \sqrt{S_{xx}}
 $$
