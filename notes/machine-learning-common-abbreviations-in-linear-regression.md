@@ -2,41 +2,97 @@ Linear regression shorthand keeps the core estimation, fit, and inference metric
 
 ## Abbreviation Glossary
 
-- **OLS - Ordinary Least Squares.** Chooses coefficients that minimize squared residuals.  
-  Formula: $\min_{\beta_0, \beta_1} \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)^2$.
+### OLS - Ordinary Least Squares
 
-- **SSE - Sum of Squared Errors (Residual Sum of Squares, RSS).** Measures unexplained variation.  
-  Formula: $\mathrm{SSE} = \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 = \sum_{i=1}^{n} \delta_i^2$.
+Chooses coefficients that minimize squared residuals.
 
-- **SSR - Sum of Squares due to Regression.** Captures variation explained by the model.  
-  Formula: $\mathrm{SSR} = \sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})^2$.
+$$
+\min_{\beta_0, \beta_1} \sum_{i=1}^{n} (Y_i - \beta_0 - \beta_1 X_i)^2
+$$
 
-- **SST - Total Sum of Squares.** Total variation in $Y$ around its mean.  
-  Formula: $\mathrm{SST} = \sum_{i=1}^{n} (Y_i - \bar{Y})^2 = \mathrm{SSR} + \mathrm{SSE}$.
+### SSE - Sum of Squared Errors (Residual Sum of Squares, RSS)
 
-- **MSE - Mean Squared Error.** Unbiased estimator of $\sigma^2$.  
-  Formula: $\mathrm{MSE} = \mathrm{SSE} / (n - 2)$.
+Measures unexplained variation.
 
-- **RMSE - Root Mean Squared Error.** Square root of MSE; overall prediction error scale.  
-  Formula: $\mathrm{RMSE} = \sqrt{\mathrm{MSE}}$.
+$$
+\mathrm{SSE} = \sum_{i=1}^{n} (Y_i - \hat{Y}_i)^2 = \sum_{i=1}^{n} \delta_i^2
+$$
 
-- **$R^2$ - Coefficient of Determination.** Fraction of total variation explained.  
-  Formula: $R^2 = \mathrm{SSR} / \mathrm{SST} = 1 - \mathrm{SSE}/\mathrm{SST}$.
+### SSR - Sum of Squares due to Regression
 
-- **SE - Standard Error.** Dispersion of an estimator.  
-  Example: $SE(\hat{\beta}_1) = s / \sqrt{S_{xx}}$.
+Captures variation explained by the model.
 
-- **df - Degrees of Freedom.** Independent pieces of information used in estimation.  
-  Simple regression: $df(\mathrm{SSE}) = n - 2$.
+$$
+\mathrm{SSR} = \sum_{i=1}^{n} (\hat{Y}_i - \bar{Y})^2
+$$
 
-- **CI - Confidence Interval.** Interval estimate for a parameter or mean response.  
-  Example: $\hat{\beta}_1 \pm t^{\star} \cdot SE(\hat{\beta}_1)$.
+### SST - Total Sum of Squares
 
-- **PI - Prediction Interval.** Interval estimate for a future observation.  
-  Example: $\hat{Y}_0 \pm t^{\star} s \sqrt{1 + 1/n + (x_0 - \bar{X})^2 / S_{xx}}$.
+Total variation in $Y$ around its mean.
 
-- **CLRM - Classical Linear Regression Model.** Assumptions supporting OLS inference.  
-  Conditions: $E[\varepsilon_i] = 0$, $\mathrm{Var}(\varepsilon_i) = \sigma^2$, $\mathrm{Cov}(\varepsilon_i, \varepsilon_j) = 0$.
+$$
+\mathrm{SST} = \sum_{i=1}^{n} (Y_i - \bar{Y})^2 = \mathrm{SSR} + \mathrm{SSE}
+$$
+
+### MSE - Mean Squared Error
+
+Unbiased estimator of $\sigma^2$.
+
+$$
+\mathrm{MSE} = \mathrm{SSE} / (n - 2)
+$$
+
+### RMSE - Root Mean Squared Error
+
+Square root of MSE; overall prediction error scale.
+
+$$
+\mathrm{RMSE} = \sqrt{\mathrm{MSE}}
+$$
+
+### $R^2$ - Coefficient of Determination
+
+Fraction of total variation explained.
+
+$$
+R^2 = \mathrm{SSR} / \mathrm{SST} = 1 - \mathrm{SSE}/\mathrm{SST}
+$$
+
+### SE - Standard Error
+
+Dispersion of an estimator.
+
+$$
+SE(\hat{\beta}_1) = s / \sqrt{S_{xx}}
+$$
+
+### df - Degrees of Freedom
+
+Independent pieces of information used in estimation. Simple regression uses $df(\mathrm{SSE}) = n - 2$.
+
+### CI - Confidence Interval
+
+Interval estimate for a parameter or mean response.
+
+$$
+\hat{\beta}_1 \pm t^{\star} \cdot SE(\hat{\beta}_1)
+$$
+
+### PI - Prediction Interval
+
+Interval estimate for a future observation.
+
+$$
+\hat{Y}_0 \pm t^{\star} s \sqrt{1 + 1/n + (x_0 - \bar{X})^2 / S_{xx}}
+$$
+
+### CLRM - Classical Linear Regression Model
+
+Assumptions supporting OLS inference.
+
+$$
+E[\varepsilon_i] = 0,\quad \mathrm{Var}(\varepsilon_i) = \sigma^2,\quad \mathrm{Cov}(\varepsilon_i, \varepsilon_j) = 0
+$$
 
 ---
 
