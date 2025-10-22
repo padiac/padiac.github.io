@@ -6,7 +6,7 @@ You said:
 This is exactly the **frequentist definition** of probability:
 
 $$
-P(A) = \lim_{n \to \infty} \frac{\text{number of times } A \text{ occurs}}{n}, \quad\quad\quad
+P(A) = \lim_{n \to \infty} \frac{\text{number of times } A \text{ occurs}}{n}, \quad
 \mathbb{E}[X] = \lim_{n \to \infty} \frac{1}{n} \sum_{i=1}^n X_i
 $$
 
