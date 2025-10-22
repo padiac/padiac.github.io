@@ -138,5 +138,12 @@ window.POSTS = [
     date: '2025-10-21T19:23:18Z',
     category: 'Machine Learning',
     summary: 'Linear regression shorthand keeps the core estimation, fit, and inference metrics close at hand for OLS analyses.'
+  },
+  {
+    slug: 'statistics-cong-xian-xing-hui-gui-dao-yu-ce-qu-jian-zhong-xin-hua-can-shu-hua-de-xi-zhi-tuo-dao-han-zheng-ming',
+    title: 'Statistics - 从线性回归到预测区间: 中心化参数化的细致推导 (含证明)',
+    date: '2025-10-22T16:37:02Z',
+    category: 'Statistics',
+    summary: '设定固定设计点线性回归模型, 样本点记为 Xi,Yi, i=1,...,n. 引入中心化变量和样本均值为后续推导打下基础.'
   }
 ];
