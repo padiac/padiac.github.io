@@ -152,5 +152,12 @@ window.POSTS = [
     date: '2025-10-31T18:28:59Z',
     category: 'Bayesian Infererence',
     summary: 'Explains Bayesian updates for a normal mean with known variance, covering posterior mean, credible intervals, and credible-interval-based hypothesis testing.'
+  },
+  {
+    slug: 'statistics-bayesian-decision-theory-bayes-estimation-sufficient-statistics',
+    title: 'Statistics - Bayesian Decision Theory -> Bayes Estimation -> Sufficient Statistics',
+    date: '2025-10-31T18:42:51Z',
+    category: 'Statistics',
+    summary: 'Bayesian decision theory studies how to choose actions from observed data when facing uncertainty about model parameters.'
   }
 ];
