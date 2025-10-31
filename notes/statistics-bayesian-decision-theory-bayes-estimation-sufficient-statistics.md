@@ -14,9 +14,13 @@ Bayesian decision theory studies how to choose actions from observed data when f
 The (frequentist) **risk function** of a rule $\delta$ at parameter value $\theta$ is
 
 $$
-R(\theta,\delta)
-= \mathbb{E}_{X \mid \theta}[L(\theta,\delta(X))]
-= \int_{\mathcal{X}} L(\theta,\delta(x)) f(x \mid \theta) dx.
+R(\theta,\delta) = \mathbb{E}_{X \mid \theta}[L(\theta,\delta(X))].
+$$
+
+This expectation can be written as
+
+$$
+\int_{\mathcal{X}} L(\theta,\delta(x)) f(x \mid \theta) dx.
 $$
 
 - Interpretation: average loss when the true value is $\theta$ and data are sampled from $f(\cdot \mid \theta)$.
@@ -52,9 +56,7 @@ Here, the randomness being averaged is the parameter via its prior.
 The **Bayes risk** of a rule $\delta$ averages also over the sampling distribution:
 
 $$
-R_{\pi}(\delta)
-= \int_{\Theta} \int_{\mathcal{X}}
-L(\theta,\delta(x)) f(x \mid \theta) \pi(\theta) dx d\theta.
+R_{\pi}(\delta) = \int_{\Theta} \int_{\mathcal{X}} L(\theta,\delta(x)) f(x \mid \theta) \pi(\theta) dx d\theta.
 $$
 
 This is a two-layer expectation: first over data $X \mid \theta$, then over the parameter $\theta \sim \pi$.
@@ -92,12 +94,16 @@ $$
 the **Bayes estimator** (for estimating $\theta$) is the posterior mean:
 
 $$
-\delta^*(x)
-= \arg\min_{\delta} \int (\theta - \delta)^2 p(\theta \mid x) d\theta
-= \mathbb{E}[\theta \mid x].
+\delta^*(x) = \arg\min_{\delta} \int (\theta - \delta)^2 p(\theta \mid x) d\theta.
 $$
 
-The proof differentiates the integrand with respect to $\delta$, sets it to zero, and checks convexity.
+The optimum satisfies
+
+$$
+\delta^*(x) = \mathbb{E}[\theta \mid x].
+$$
+
+The proof differentiates the integrand with respect to $\delta$, sets the derivative to zero, and checks convexity.
 
 ---
 
@@ -112,8 +118,7 @@ $$
 then pointwise minimization in $\delta$ is equivalent to maximizing the likelihood:
 
 $$
-\arg\min_{\delta}[ -\log f(x \mid \delta) ]
-= \arg\max_{\delta} f(x \mid \delta).
+\arg\min_{\delta}[ -\log f(x \mid \delta) ] = \arg\max_{\delta} f(x \mid \delta).
 $$
 
 Equivalently, the first-order conditions coincide:
@@ -137,8 +142,7 @@ Hence maximum likelihood estimation arises from the negative log-likelihood loss
 Given prior $\pi(\theta)$ and likelihood $f(x \mid \theta)$,
 
 $$
-p(\theta \mid x)
-= \frac{f(x \mid \theta) \pi(\theta)}{\int_{\Theta} f(x \mid \theta') \pi(\theta') d\theta'}.
+p(\theta \mid x) = \frac{f(x \mid \theta) \pi(\theta)}{\int_{\Theta} f(x \mid \theta') \pi(\theta') d\theta'}.
 $$
 
 Bayes estimators and credible intervals are computed from this posterior.
