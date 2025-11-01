@@ -113,9 +113,9 @@ window.POSTS = [
   },
   {
     slug: 'beiyesi-mvue-and-cramer-rao-bound-a-clear-worked-through-review',
-    title: '贝叶斯 - MVUE and Cramer-Rao Bound: A Clear, Worked-Through Review',
+    title: 'Bayesian Inference - MVUE and Cramer-Rao Bound: A Clear, Worked-Through Review',
     date: '2025-11-01T17:36:01Z',
-    category: '贝叶斯',
+    category: 'Bayesian Inference',
     summary: 'Derives the Cramer-Rao bound, defines MVUE via Lehmann-Scheffe, and compares Uniform and Normal estimators with parameterization consistency notes.'
   },
   {

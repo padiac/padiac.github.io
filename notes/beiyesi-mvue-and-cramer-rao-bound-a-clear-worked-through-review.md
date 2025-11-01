@@ -128,7 +128,7 @@ Target variance $1/\lambda^2$. The ($\lambda$-parameterized) CRLB gives $4/(n \l
 
 ---
 
-## 7) Wrap-Up Mapped to Your Bullets
+## 7) Wrap-Up
 
 - The CRLB **derivation step** you flagged is now explicit (d/d$\theta$ of expectation becomes covariance with the score).
 - **Uniform(0, $\theta$)**: compared $2\bar X$ vs $\tfrac{n+1}{n} X_{(n)}$; the max-based estimator wins and is MVUE.
