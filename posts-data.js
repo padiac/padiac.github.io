@@ -173,5 +173,12 @@ window.POSTS = [
     date: '2025-11-01T19:30:47Z',
     category: 'Bayesian Inference',
     summary: 'We start with a parametric model and aim to estimate functions of the parameter rather than the parameter itself, seeking unbiased estimators with minimum variance.'
+  },
+  {
+    slug: 'bayesian-inference-hypothesis-testing-and-the-concept-of-optimality',
+    title: 'Bayesian Inference - Hypothesis Testing and the Concept of Optimality',
+    date: '2025-11-01T21:28:40Z',
+    category: 'Bayesian Inference',
+    summary: 'Explains how hypothesis testing selects a decision rule that maximizes power under a fixed error level using the Neyman-Pearson lemma and normal mean example.'
   }
 ];
