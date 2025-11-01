@@ -147,10 +147,10 @@ window.POSTS = [
     summary: '设定固定设计点线性回归模型, 样本点记为 Xi,Yi, i=1,...,n. 引入中心化变量和样本均值为后续推导打下基础.'
   },
   {
-    slug: 'bayesian-infererence-bayesian-estimation-interval-estimation-and-hypothesis-testing-normal-distribution',
-    title: 'Bayesian Infererence - Bayesian Estimation, Interval Estimation, and Hypothesis Testing (Normal Distribution)',
+    slug: 'bayesian-inference-bayesian-estimation-interval-estimation-and-hypothesis-testing-normal-distribution',
+    title: 'Bayesian Inference - Bayesian Estimation, Interval Estimation, and Hypothesis Testing (Normal Distribution)',
     date: '2025-10-31T18:28:59Z',
-    category: 'Bayesian Infererence',
+    category: 'Bayesian Inference',
     summary: 'Explains Bayesian updates for a normal mean with known variance, covering posterior mean, credible intervals, and credible-interval-based hypothesis testing.'
   },
   {
