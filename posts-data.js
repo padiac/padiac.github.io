@@ -114,9 +114,9 @@ window.POSTS = [
   {
     slug: 'statistics-mvue-and-cramer-rao-bound-a-clear-worked-through-review',
     title: 'Statistics - MVUE and Cramer-Rao Bound: A Clear, Worked-Through Review',
-    date: '2025-10-20T03:46:18Z',
+    date: '2025-11-01T17:28:09Z',
     category: 'Statistics',
-    summary: 'Step-by-step CRLB derivation, MVUE characterization, and comparisons across Uniform and Normal models with parameterization notes.'
+    summary: 'Derives the Cramer-Rao bound, defines MVUE via Lehmann-Scheffe, and compares Uniform and Normal estimators with parameterization consistency notes.'
   },
   {
     slug: 'statistics-the-relationship-between-expectation-and-sample-average',
