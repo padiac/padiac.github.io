@@ -159,5 +159,12 @@ window.POSTS = [
     date: '2025-10-31T18:42:51Z',
     category: 'Statistics',
     summary: 'Bayesian decision theory studies how to choose actions from observed data when facing uncertainty about model parameters.'
+  },
+  {
+    slug: 'introduction-to-measure-theory-infinity-and-cantors-hierarchy',
+    title: 'Bayesian Inference - Introduction to Measure Theory, Infinity, and Cantor\'s Hierarchy',
+    date: '2025-11-02T10:15:00Z',
+    category: 'Bayesian Inference',
+    summary: 'Connects measure theory, Lebesgue integration, and Cantor\'s infinity ladder to highlight usable versus existential infinities.'
   }
 ];
