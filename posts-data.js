@@ -166,5 +166,12 @@ window.POSTS = [
     date: '2025-11-02T10:15:00Z',
     category: 'Bayesian Inference',
     summary: 'Connects measure theory, Lebesgue integration, and Cantor\'s infinity ladder to highlight usable versus existential infinities.'
+  },
+  {
+    slug: 'bayesian-inference-understanding-the-construction-of-umvue',
+    title: 'Bayesian Inference - Understanding the Construction of UMVUE',
+    date: '2025-11-01T19:30:47Z',
+    category: 'Bayesian Inference',
+    summary: 'We start with a parametric model and aim to estimate functions of the parameter rather than the parameter itself, seeking unbiased estimators with minimum variance.'
   }
 ];
