@@ -96,6 +96,7 @@ Every note must have an entry:
 ```
 **Rules:**
 - **date is the current UTC time in ISO 8601**, e.g., `"2025-10-18T12:29:01Z"`.
+- Always generate the timestamp at publish time via the system clock (e.g., `Get-Date` or `date`) and convert it to UTC; never reuse a cached or pre-filled value.
 - **If an entry with the same slug exists, update its fields (keep array order and surrounding module syntax intact).**
 - **If none exists, append a new object to the exported array.**
 - **Preserve the module wrapper**: `export const posts = [ ... ];`
