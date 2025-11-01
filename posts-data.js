@@ -163,7 +163,7 @@ window.POSTS = [
   {
     slug: 'introduction-to-measure-theory-infinity-and-cantors-hierarchy',
     title: 'Bayesian Inference - Introduction to Measure Theory, Infinity, and Cantor\'s Hierarchy',
-    date: '2025-11-02T10:15:00Z',
+    date: '2025-11-01T10:15:00Z',
     category: 'Bayesian Inference',
     summary: 'Connects measure theory, Lebesgue integration, and Cantor\'s infinity ladder to highlight usable versus existential infinities.'
   },
