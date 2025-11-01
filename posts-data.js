@@ -112,10 +112,10 @@ window.POSTS = [
     summary: 'Method of moments matches sample and population moments, while MLE maximizes likelihood and Bayesian estimation updates priors with the data.'
   },
   {
-    slug: 'statistics-mvue-and-cramer-rao-bound-a-clear-worked-through-review',
-    title: 'Statistics - MVUE and Cramer-Rao Bound: A Clear, Worked-Through Review',
-    date: '2025-11-01T17:28:09Z',
-    category: 'Statistics',
+    slug: 'beiyesi-mvue-and-cramer-rao-bound-a-clear-worked-through-review',
+    title: '贝叶斯 - MVUE and Cramer-Rao Bound: A Clear, Worked-Through Review',
+    date: '2025-11-01T17:36:01Z',
+    category: '贝叶斯',
     summary: 'Derives the Cramer-Rao bound, defines MVUE via Lehmann-Scheffe, and compares Uniform and Normal estimators with parameterization consistency notes.'
   },
   {

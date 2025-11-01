@@ -23,7 +23,7 @@ $$
 
 where $I(\theta)$ is the **per-sample Fisher information**.
 
-Suppose $\hat g = \hat g(X_1, \ldots, X_n)$ is **unbiased** for $g(\theta)$: $\mathbb{E}_\theta[\hat g] = g(\theta)$. Differentiate both sides with respect to $\theta$ (this is the step你之前卡住的地方):
+Suppose $\hat g = \hat g(X_1, \ldots, X_n)$ is **unbiased** for $g(\theta)$: $\mathbb{E}_\theta[\hat g] = g(\theta)$. Differentiate both sides with respect to $\theta$ (this is the step you were stuck on earlier):
 
 $$
 \frac{d}{d\theta} \mathbb{E}_\theta[\hat g] = \frac{d}{d\theta} \int \hat g(x) f(x; \theta) \, dx
