@@ -71,13 +71,13 @@ is the **unique** unbiased estimator of $ g(\theta) $ that has **minimum varianc
 Conditioning on $ T(X) $ removes noise while preserving the signal. Formally,
 
 $$
-E_\theta[\delta^*(X)] = E_\theta[E[\delta(X) \mid T(X)]] = E_\theta[\delta(X)] = g(\theta),
+E_\theta[\delta^*(X)] = E_\theta[E[\delta(X) \mid T(X)]] = E_\theta[\delta(X)] = g(\theta)
 $$
 
 and by the law of total variance,
 
 $$
-\mathrm{Var}_\theta[\delta^*(X)] \le \mathrm{Var}_\theta[\delta(X)].
+\mathrm{Var}_{\theta}\bigl(\delta^*(X)\bigr) \le \mathrm{Var}_{\theta}\bigl(\delta(X)\bigr)
 $$
 
 If $ T(X) $ is **complete**, no other unbiased estimator can have the same mean and smaller variance, so $ \delta^*(X) $ is the **unique** UMVUE.
