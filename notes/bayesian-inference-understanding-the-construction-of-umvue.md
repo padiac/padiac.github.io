@@ -2,7 +2,7 @@
 
 ## 1. The Goal: Estimating a Function of Parameters
 
-We start with a **parametric model** -- a family of probability distributions:
+We start with a **parametric model**, a family of probability distributions:
 
 $$
 \{ f(x \mid \theta), \theta \in \Theta \}.
@@ -25,7 +25,7 @@ Examples:
 | Rate squared | $ g(\theta) = \lambda^2 $ | Exponential distribution |
 | Reliability | $ g(\theta) = e^{-\lambda t} $ | Poisson or exponential |
 
-We want an **estimator** $ \delta(X) $ -- a function of the data -- that satisfies two conditions:
+We want an **estimator** $ \delta(X) $, a function of the data, that satisfies two conditions:
 
 1. **Unbiasedness:** $ E_\theta[\delta(X)] = g(\theta) $ for all $ \theta \in \Theta $.
 2. **Minimum variance:** among all unbiased estimators of $ g(\theta) $, $ \delta(X) $ should have the smallest variance.
@@ -77,7 +77,7 @@ $$
 and by the law of total variance,
 
 $$
-\operatorname{Var}_{\theta}\left[\delta^*(X)\right] \le \operatorname{Var}_{\theta}\left[\delta(X)\right].
+\mathrm{Var}_{\theta}\big(\delta^*(X)\big) \le \mathrm{Var}_{\theta}\big(\delta(X)\big).
 $$
 
 If $ T(X) $ is **complete**, no other unbiased estimator can have the same mean and smaller variance, so $ \delta^*(X) $ is the **unique** UMVUE.
@@ -94,7 +94,7 @@ The subspace of all functions of $ T(X) $ represents "the space of all informati
 
 So geometrically:
 
-> $ \delta^*(X) $ is the part of $ \delta(X) $ that is purely about $ \theta $, with all irrelevant noise removed. That is why conditioning gives smaller variance -- it removes random orthogonal noise.
+> $ \delta^*(X) $ is the part of $ \delta(X) $ that is purely about $ \theta $, with all irrelevant noise removed. Conditioning gives smaller variance because it removes random orthogonal noise.
 
 ## 5. The Direct Construction Method
 
@@ -102,7 +102,7 @@ When the distribution of $ T(X) $ is explicitly known, we can often find $ \delt
 
 ## 6. Example: Exponential Distribution
 
-Let $ X_i \sim \operatorname{Exp}(\lambda) $ with density $ f(x \mid \lambda) = \lambda e^{-\lambda x} $.
+Let $ X_i \sim \mathrm{Exp}(\lambda) $ with density $ f(x \mid \lambda) = \lambda e^{-\lambda x} $.
 
 ### 6.1 Step 1 - Find the Sufficient Statistic
 
@@ -125,7 +125,7 @@ By the factorization theorem, $ T(X) = \sum X_i $ is a sufficient statistic for 
 Because each $ X_i $ is exponential, their sum $ T = \sum X_i $ follows a Gamma distribution:
 
 $$
-T \sim \operatorname{Gamma}(n, \lambda)
+T \sim \mathrm{Gamma}(n, \lambda)
 $$
 
 with density
@@ -137,7 +137,7 @@ $$
 Its moments are
 
 $$
-E[T] = \frac{n}{\lambda}, \quad \operatorname{Var}(T) = \frac{n}{\lambda^2}, \quad E[T^{-2}] = \frac{\lambda^2}{(n-1)(n-2)} \quad (n > 2).
+E[T] = \frac{n}{\lambda}, \quad \mathrm{Var}(T) = \frac{n}{\lambda^2}, \quad E[T^{-2}] = \frac{\lambda^2}{(n-1)(n-2)} \quad (n > 2).
 $$
 
 ### 6.3 Step 3 - The Parameter Function We Want
@@ -209,6 +209,6 @@ In other words:
 
 ## 9. One-Sentence Summary
 
-> The UMVUE is the unique unbiased estimator that depends only on the sufficient statistic -- equivalently, it is what you get when you project any unbiased estimator onto the information carried by that statistic; in the exponential example, both the direct construction and the Lehmann-Scheffe approach lead to $ \delta(T) = (n-1)(n-2) T^{-2} $.
+> The UMVUE is the unique unbiased estimator that depends only on the sufficient statistic. Equivalently, it is what you get when you project any unbiased estimator onto the information carried by that statistic; in the exponential example, both the direct construction and the Lehmann-Scheffe approach lead to $ \delta(T) = (n-1)(n-2) T^{-2} $.
 
 

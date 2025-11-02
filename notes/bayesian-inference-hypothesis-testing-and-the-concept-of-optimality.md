@@ -1,3 +1,5 @@
+### Hypothesis Testing and the Concept of Optimality
+
 ## 1. Problem Setup
 
 Suppose we have a random sample
@@ -27,13 +29,13 @@ $$
 Each rule must satisfy the type I error constraint
 
 $$
-\mathbb{P}_\theta(X \in R) \le \alpha \quad \text{for all } \theta \in \Theta_0.
+P_\theta(X \in R) \le \alpha \quad \text{for all } \theta \in \Theta_0.
 $$
 
 Among all rules that satisfy this constraint, we want the one that maximizes power, equivalently the expectation of the test function under $\Theta_1$,
 
 $$
-\mathbb{P}_\theta(X \in R) = \mathbb{E}_\theta[\varphi(X)] \quad \text{for each } \theta \in \Theta_1.
+P_\theta(X \in R) = E_\theta[\varphi(X)] \quad \text{for each } \theta \in \Theta_1.
 $$
 
 ---
@@ -70,7 +72,7 @@ $$
 where $c$ is chosen so that
 
 $$
-\mathbb{P}_{\theta_0}\left(\frac{f(X \mid \theta_1)}{f(X \mid \theta_0)} > c\right) = \alpha.
+P_{\theta_0}\left(\frac{f(X \mid \theta_1)}{f(X \mid \theta_0)} > c\right) = \alpha.
 $$
 
 This result is universal; it does not depend on the distribution family.
@@ -130,4 +132,4 @@ is uniformly most powerful at level $\alpha$. The normal family has an MLR in $\
 
 ## 9. Intuitive Takeaway
 
-Estimation asks, "Which function of data best represents $\theta$?" Testing asks, "Which function of data best separates $H_0$ from $H_1$?" The second question is where the choice of statistic and the concept of optimality live. Different test statistics are like different lenses: they all look at the same data but with different focus. The likelihood ratio test provides the clearest lens because it maximizes $\mathbb{P}_{\theta \in H_1}(\text{reject } H_0)$ subject to $\mathbb{P}_{\theta \in H_0}(\text{reject } H_0) = \alpha$.
+Estimation asks, "Which function of data best represents $\theta$?" Testing asks, "Which function of data best separates $H_0$ from $H_1$?" The second question is where the choice of statistic and the concept of optimality live. Different test statistics are like different lenses: they all look at the same data but with different focus. The likelihood ratio test provides the clearest lens because it maximizes $P_{\theta \in H_1}(\text{reject } H_0)$ subject to $P_{\theta \in H_0}(\text{reject } H_0) = \alpha$.
