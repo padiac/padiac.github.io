@@ -187,5 +187,12 @@ window.POSTS = [
     date: '2025-11-02T04:52:44Z',
     category: 'Machine Learning',
     summary: 'Classical regression fits neatly into maximum likelihood, while deep networks mostly use the language as an optimization shorthand rather than a full probability model.'
+  },
+  {
+    slug: 'bayesian-inference-bayesian-estimation-empirical-bayes-and-jeffreys-priors',
+    title: 'Bayesian Inference - Bayesian Estimation, Empirical Bayes, and Jeffreys Priors',
+    date: '2025-11-02T06:37:35Z',
+    category: 'Bayesian Inference',
+    summary: 'Reviews variance estimation through Bayesian lenses, explains empirical Bayes hyperparameter fitting, and motivates Jeffreys priors via invariance.'
   }
 ];
