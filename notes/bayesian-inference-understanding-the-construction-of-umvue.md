@@ -77,7 +77,7 @@ $$
 and by the law of total variance,
 
 $$
-\mathrm{Var}_{\theta}\bigl(\delta^*(X)\bigr) \le \mathrm{Var}_{\theta}\bigl(\delta(X)\bigr)
+E_\theta[(\delta^*(X) - g(\theta))^2] \le E_\theta[(\delta(X) - g(\theta))^2]
 $$
 
 If $ T(X) $ is **complete**, no other unbiased estimator can have the same mean and smaller variance, so $ \delta^*(X) $ is the **unique** UMVUE.
