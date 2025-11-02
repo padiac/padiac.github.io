@@ -180,5 +180,12 @@ window.POSTS = [
     date: '2025-11-01T21:28:40Z',
     category: 'Bayesian Inference',
     summary: 'Explains how hypothesis testing selects a decision rule that maximizes power under a fixed error level using the Neyman-Pearson lemma and normal mean example.'
+  },
+  {
+    slug: 'machine-learning-from-linear-regression-to-deep-networks',
+    title: 'Machine Learning - From Linear Regression to Deep Networks',
+    date: '2025-11-02T04:52:44Z',
+    category: 'Machine Learning',
+    summary: 'Classical regression fits neatly into maximum likelihood, while deep networks mostly use the language as an optimization shorthand rather than a full probability model.'
   }
 ];
