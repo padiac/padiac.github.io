@@ -2,7 +2,7 @@
 
 ## 1. The Goal: Estimating a Function of Parameters
 
-We start with a **parametric model** — a family of probability distributions:
+We start with a **parametric model** -- a family of probability distributions:
 
 $$
 \{ f(x \mid \theta), \theta \in \Theta \}.
@@ -25,7 +25,7 @@ Examples:
 | Rate squared | $ g(\theta) = \lambda^2 $ | Exponential distribution |
 | Reliability | $ g(\theta) = e^{-\lambda t} $ | Poisson or exponential |
 
-We want an **estimator** $ \delta(X) $ — a function of the data — that satisfies two conditions:
+We want an **estimator** $ \delta(X) $ -- a function of the data -- that satisfies two conditions:
 
 1. **Unbiasedness:** $ E_\theta[\delta(X)] = g(\theta) $ for all $ \theta \in \Theta $.
 2. **Minimum variance:** among all unbiased estimators of $ g(\theta) $, $ \delta(X) $ should have the smallest variance.
@@ -46,11 +46,11 @@ So, in principle:
 
 > Once $ T(X) $ is known, the rest of the data can be ignored for inference on $ \theta $.
 
-## 3. The Lehmann–Scheffé Theorem
+## 3. The Lehmann-Scheffe Theorem
 
 This theorem is the foundation of UMVUE theory.
 
-**Lehmann–Scheffé Theorem:** If $ T(X) $ is a **complete and sufficient statistic** for parameter $ \theta $, and $ \delta(X) $ is any unbiased estimator of $ g(\theta) $, then
+**Lehmann-Scheffe Theorem:** If $ T(X) $ is a **complete and sufficient statistic** for parameter $ \theta $, and $ \delta(X) $ is any unbiased estimator of $ g(\theta) $, then
 
 $$
 \delta^*(X) = E[\delta(X) \mid T(X)]
@@ -90,21 +90,21 @@ $$
 \langle f, g \rangle = E[f(X) g(X)].
 $$
 
-The subspace of all functions of $ T(X) $ represents “the space of all information about $ \theta $.” Taking $ E[\delta(X) \mid T(X)] $ is the orthogonal projection of $ \delta(X) $ onto that subspace.
+The subspace of all functions of $ T(X) $ represents "the space of all information about $ \theta $." Taking $ E[\delta(X) \mid T(X)] $ is the orthogonal projection of $ \delta(X) $ onto that subspace.
 
 So geometrically:
 
-> $ \delta^*(X) $ is the part of $ \delta(X) $ that is purely about $ \theta $, with all irrelevant noise removed. That is why conditioning gives smaller variance — it removes random orthogonal noise.
+> $ \delta^*(X) $ is the part of $ \delta(X) $ that is purely about $ \theta $, with all irrelevant noise removed. That is why conditioning gives smaller variance -- it removes random orthogonal noise.
 
 ## 5. The Direct Construction Method
 
-When the distribution of $ T(X) $ is explicitly known, we can often find $ \delta(T) $ satisfying $ E_\theta[\delta(T)] = g(\theta) $ directly, without explicitly performing the conditional expectation. This is called the **Direct Construction Method**, and in simple exponential-family cases, it leads to the same result as the Lehmann–Scheffé theorem.
+When the distribution of $ T(X) $ is explicitly known, we can often find $ \delta(T) $ satisfying $ E_\theta[\delta(T)] = g(\theta) $ directly, without explicitly performing the conditional expectation. This is called the **Direct Construction Method**, and in simple exponential-family cases, it leads to the same result as the Lehmann-Scheffe theorem.
 
 ## 6. Example: Exponential Distribution
 
 Let $ X_i \sim \operatorname{Exp}(\lambda) $ with density $ f(x \mid \lambda) = \lambda e^{-\lambda x} $.
 
-### 6.1 Step 1 — Find the Sufficient Statistic
+### 6.1 Step 1 - Find the Sufficient Statistic
 
 The joint likelihood is
 
@@ -120,7 +120,7 @@ $$
 
 By the factorization theorem, $ T(X) = \sum X_i $ is a sufficient statistic for $ \lambda $. Moreover, since the exponential family has a canonical form, $ T(X) $ is not only sufficient but also **complete**.
 
-### 6.2 Step 2 — Distribution of the Sufficient Statistic
+### 6.2 Step 2 - Distribution of the Sufficient Statistic
 
 Because each $ X_i $ is exponential, their sum $ T = \sum X_i $ follows a Gamma distribution:
 
@@ -140,11 +140,11 @@ $$
 E[T] = \frac{n}{\lambda}, \quad \operatorname{Var}(T) = \frac{n}{\lambda^2}, \quad E[T^{-2}] = \frac{\lambda^2}{(n-1)(n-2)} \quad (n > 2).
 $$
 
-### 6.3 Step 3 — The Parameter Function We Want
+### 6.3 Step 3 - The Parameter Function We Want
 
 Suppose we want to estimate $ g(\lambda) = \lambda^2 $. We look for a function $ \delta(T) $ of the sufficient statistic $ T $ whose expectation equals $ \lambda^2 $.
 
-### 6.4 Step 4 — Construct the Function $ \delta(T) $
+### 6.4 Step 4 - Construct the Function $ \delta(T) $
 
 We use the known moment formula
 
@@ -164,13 +164,13 @@ $$
 \delta(T) = (n-1)(n-2) T^{-2}.
 $$
 
-### 6.5 Step 5 — Check the Conditions
+### 6.5 Step 5 - Check the Conditions
 
 1. **Unbiasedness:** $ E[\delta(T)] = \lambda^2 $.
 2. **Dependence only on the sufficient statistic $ T $:** $ \delta(T) $ is a function of $ T $ only.
 3. **Completeness of $ T $:** For the exponential family, $ T $ is complete, so $ \delta(T) $ is the **unique** UMVUE for $ \lambda^2 $.
 
-### 6.6 Step 6 — Connection to Lehmann–Scheffé
+### 6.6 Step 6 - Connection to Lehmann-Scheffe
 
 If we had started from any unbiased estimator $ \delta(X) $, the theorem says
 
@@ -182,7 +182,7 @@ So, even though we never explicitly computed the conditional expectation, our di
 
 In other words:
 
-> The manual estimator you derived by algebra is the same as what Lehmann–Scheffé would give by conditioning.
+> The manual estimator you derived by algebra is the same as what Lehmann-Scheffe would give by conditioning.
 
 ## 7. Interpretation of the Symbols
 
@@ -205,8 +205,10 @@ In other words:
 | 3 | Ensure completeness | Check exponential-family structure |
 | 4 | Construct or project | Find $ \delta(T) $ or compute $ E[\delta \mid T] $ |
 | 5 | Verify unbiasedness | Confirm $ E_\theta[\delta] = g(\theta) $ |
-| 6 | Conclude optimality | By Lehmann–Scheffé, it is the UMVUE |
+| 6 | Conclude optimality | By Lehmann-Scheffe, it is the UMVUE |
 
 ## 9. One-Sentence Summary
 
-> The UMVUE is the unique unbiased estimator that depends only on the sufficient statistic — equivalently, it is what you get when you project any unbiased estimator onto the information carried by that statistic; in the exponential example, both the direct construction and the Lehmann–Scheffé approach lead to $ \delta(T) = (n-1)(n-2) T^{-2} $.
+> The UMVUE is the unique unbiased estimator that depends only on the sufficient statistic -- equivalently, it is what you get when you project any unbiased estimator onto the information carried by that statistic; in the exponential example, both the direct construction and the Lehmann-Scheffe approach lead to $ \delta(T) = (n-1)(n-2) T^{-2} $.
+
+
