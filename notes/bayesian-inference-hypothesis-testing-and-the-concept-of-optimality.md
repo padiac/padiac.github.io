@@ -48,7 +48,7 @@ Different test statistics define different rejection regions:
 | --- | --- |
 | $\bar{X}$ | Reject $H_0$ if $\bar{X} > c_1$ |
 | $X_1 + 2X_2 - X_3$ | Reject $H_0$ if $X_1 + 2X_2 - X_3 > c_2$ |
-| $|X_1 - X_2|$ | Reject $H_0$ if $|X_1 - X_2| > c_3$ |
+| $\lvert X_1 - X_2 \rvert$ | Reject $H_0$ if $\lvert X_1 - X_2 \rvert > c_3$ |
 | $\bar{X}^2$ | Reject $H_0$ if $\bar{X}^2 > c_4$ |
 
 All of these can be tuned to have the same $\alpha$ by adjusting the constant $c$. However, their power under $H_1$ differs; some tests are sharper or more powerful than others.
