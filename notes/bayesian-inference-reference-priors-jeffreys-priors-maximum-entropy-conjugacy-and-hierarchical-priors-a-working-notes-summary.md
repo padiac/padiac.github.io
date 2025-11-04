@@ -1,4 +1,3 @@
-> A compact but detailed set of notes (with derivations) collecting the main points from our discussion. 
 ---
 
 ## 1. Reference Prior: Concept and Definition
