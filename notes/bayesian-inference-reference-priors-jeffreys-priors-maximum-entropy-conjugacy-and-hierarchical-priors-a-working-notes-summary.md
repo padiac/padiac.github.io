@@ -3,7 +3,7 @@
 ## 1. Reference Prior: Concept and Definition
 
 $$
-\mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \\|\\| \pi(\theta))\big]
+\mathbb{E}_{X}\left[D_{\mathrm{KL}}(p(\theta \mid X)\|\pi(\theta))\right]
 $$
 
 **Goal (Bernardo-Berger):** choose a prior that _maximizes how much the data can teach us_. Formally, for a model family $\{p(x \mid \theta): \theta \in \Theta\}$, choose a prior $\pi$ to maximize the **expected information gain** (average Kullback-Leibler divergence from prior to posterior).
