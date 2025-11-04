@@ -127,15 +127,7 @@ with $I_{ij}(\theta) = \mathbb{E}\left[-\frac{\partial^2}{\partial \theta_i \par
 - Single-parameter models: clean and unambiguous.
 - Multi-parameter models: well-defined but can overweight certain directions; still invariant to reparameterization.
 
-**Reference prior (information gain).** Think of running the experiment many times—literally letting the data factory produce endless replicates so every pass through the scientific workflow is fresh. The data $X$ are genuinely random draws from $p(x \mid \theta)$, and we are curious about how that stream of experiments, taken as a whole, teaches us new structure. The reference-prior construction asks how much, on average, a single experiment will move us away from our starting beliefs, and the intuition is easier to hold on to if we narrate it this way before writing any formulas. You can imagine collecting a huge stack of laboratory notebooks, one for each repetition of the experiment, and flipping through them to measure how surprised you feel every time an outcome arrives. Each notebook records the same design but a different realization, so the only thing that shifts is your posterior. Measuring that emotional jolt with KL divergence captures the informational change in a quantitative way.
-
-The official definition puts this story into a single quantity:
-
-$$
-\mathbb{E}_{X}\left[D_{\mathrm{KL}}\big(p(\theta \mid X) \| \pi(\theta)\big)\right].
-$$
-
-We maximize this functional over candidate priors. The procedure still requires an **order**: declare a **parameter of interest** and treat the rest as **nuisance** to be marginalized. Different orders can give different priors (unlike Jeffreys). In practical modeling sessions, this turns into an explicit design conversation: "What do we really care about reporting?" Spending an extra paragraph on that choice may feel like narrative padding, but it prevents the renderer from chewing on dangling math fragments and reminds the reader why the optimization matters.
+**Reference prior (information gain).** Think of running the experiment many times—literally letting the data factory produce endless replicates so every pass through the scientific workflow is fresh. The data $X$ are genuinely random draws from $p(x \mid \theta)$, and we are curious about how that stream of experiments, taken as a whole, teaches us new structure. The reference-prior construction asks how much, on average, a single experiment will move us away from our starting beliefs, and the intuition is easier to hold on to if we narrate it this way before writing any formulas. You can imagine collecting a huge stack of laboratory notebooks, one for each repetition of the experiment, and flipping through them to measure how surprised you feel every time an outcome arrives. Each notebook records the same design but a different realization, so the only thing that shifts is your posterior. Measuring that emotional jolt with KL divergence captures the informational change in a quantitative way. We maximize this functional over candidate priors. The procedure still requires an **order**: declare a **parameter of interest** and treat the rest as **nuisance** to be marginalized. Different orders can give different priors (unlike Jeffreys). In practical modeling sessions, this turns into an explicit design conversation: "What do we really care about reporting?" Spending an extra paragraph on that choice may feel like narrative padding, but it prevents the renderer from chewing on dangling math fragments and reminds the reader why the optimization matters.
 
 ### 5.1 Normal model $N(\mu, \sigma^2)$: Fisher calculations
 
@@ -178,6 +170,16 @@ $$
 
 These are not the same setup as the two-parameter problem; mixing them is a common source of confusion.
 
+#### Expected KL gain objective (pulled to the end for clarity)
+
+After the narrative and examples, it helps to park the core optimization in its own line so renderers and readers see the punch line immediately:
+
+$$
+\mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \| \pi(\theta))\big].
+$$
+
+Maximizing this expectation over priors $\pi$—with the ordering of interest and nuisance components fixed—is exactly what defines the reference prior.
+
 ## 6. Maximum Entropy Prior vs Reference Prior
 
 - **MaxEnt prior:** maximize the prior's own Shannon entropy $H(\pi) = -\int \pi \log \pi$ subject to constraints (for example, known mean or variance). This yields "the most ignorant prior consistent with known facts."
@@ -219,10 +221,10 @@ Differentiating with respect to arguments often yields integro-differential equa
 
 In information geometry, Fisher information defines a metric. One way to visualize the reference-prior choice is to imagine the posterior walking along a geodesic away from the prior. I like to slow down the picture: first fix the prior as a point, then let the data push us infinitesimally, then sum those pushes into a smooth path. Describing that movie with words keeps the renderer anchored while also reminding the reader that the algebra encodes a geometric story. If the animation metaphor feels too abstract, picture a hiker starting at a base camp (the prior) and taking a long trek whose direction is chosen by the data; the hiker keeps a log of how far and in which direction each data point pushes. Over many steps, the path straightens into the geodesic preferred by the Fisher metric, and the total distance walked is measured in units of expected KL divergence.
 
-Putting the same idea formally, the stride length is governed by
+#### Expected KL step length (collected at the bottom)
 
 $$
-\mathbb{E}_{X}\left[D_{\mathrm{KL}}\big(p(\theta \mid X) \| \pi(\theta)\big)\right],
+\mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \| \pi(\theta))\big],
 $$
 
 so maximizing it makes the posterior travel as far as possible (on average) away from the prior. Geometrically, the data's "update direction" becomes as independent as possible from the prior's information direction, so your phrase "find the orthogonal part the data brings" remains spot on. I am intentionally adding this extra prose because the GitHub Pages renderer occasionally prefers a fuller sentence cushion around display math; the bonus is that the added wording doubles as a teaching reminder.
