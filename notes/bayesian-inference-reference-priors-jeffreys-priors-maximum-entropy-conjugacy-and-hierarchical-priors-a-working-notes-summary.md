@@ -219,13 +219,13 @@ Differentiating with respect to arguments often yields integro-differential equa
 
 In information geometry, Fisher information defines a metric. Visualize the posterior moving along a geodesic from the prior, with each data point nudging the path. Over many small steps the route aligns with the Fisher metric, and the distance travelled mirrors the same expected KL divergence.
 
-#### Expected KL step length (collected at the bottom)
+**Expected KL step length.** The same scalar reappears as the step size along the geodesic:
 
 $$
-\mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \| \pi(\theta))\big],
+E_X\!\Big[D_{\mathrm{KL}}\big(p(\theta \mid X) \,\Vert\, \pi(\theta)\big)\Big].
 $$
 
-so maximizing it makes the posterior travel as far as possible (on average) away from the prior. Geometrically, the data's "update direction" becomes as independent as possible from the prior's information direction, so your phrase "find the orthogonal part the data brings" remains spot on. I am intentionally adding this extra prose because the GitHub Pages renderer occasionally prefers a fuller sentence cushion around display math; the bonus is that the added wording doubles as a teaching reminder.
+Maximizing this expectation makes the posterior travel as far as possible (on average) away from the prior. Geometrically, the data's "update direction" becomes as independent as possible from the prior's information direction, so your phrase "find the orthogonal part the data brings" remains spot on.
 
 ## 11. What to Use in Practice (quick guide)
 
