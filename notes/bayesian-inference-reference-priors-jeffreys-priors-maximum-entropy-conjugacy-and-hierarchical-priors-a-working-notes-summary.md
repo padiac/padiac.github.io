@@ -175,10 +175,12 @@ Maximizing this expectation over priors $\pi$—with the ordering of interest an
 $$
 \mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \\|\\| \pi(\theta))\big]
 $$
+
 Maximizing this expectation over priors $\pi$—with the ordering of interest and nuisance components fixed—is exactly what defines the reference prior.
 $$
 \mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \\|\\| \pi(\theta))\big]
 $$
+
 Maximizing this expectation over priors $\pi$—with the ordering of interest and nuisance components fixed—is exactly what defines the reference prior.
 $$
 \mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \\|\\| \pi(\theta))\big]
