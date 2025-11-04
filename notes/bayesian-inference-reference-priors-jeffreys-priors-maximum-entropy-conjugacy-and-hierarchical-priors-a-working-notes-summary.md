@@ -127,7 +127,13 @@ with $I_{ij}(\theta) = \mathbb{E}\left[-\frac{\partial^2}{\partial \theta_i \par
 - Single-parameter models: clean and unambiguous.
 - Multi-parameter models: well-defined but can overweight certain directions; still invariant to reparameterization.
 
-**Reference prior (information gain):** maximizes the expected KL divergence, written inline as $\mathrm{E}_{X}\bigl[D_{\mathrm{KL}}\bigl(p(\theta \mid X) \Vert \pi(\theta)\bigr)\bigr]$. It requires an **order**: declare a **parameter of interest** and treat the rest as **nuisance** to be marginalized. Different orders can give different priors (unlike Jeffreys).
+**Reference prior (information gain).** Think of running the experiment many times: the data $X$ are genuinely random draws from $p(x \mid \theta)$. The reference-prior construction asks how much, on average, a single experiment will move us away from our starting beliefs. That average learning signal is the expected KL divergence
+
+$$
+\mathbb{E}_{X}\left[D_{\mathrm{KL}}\big(p(\theta \mid X) \| \pi(\theta)\big)\right].
+$$
+
+We maximize this functional over candidate priors. The procedure still requires an **order**: declare a **parameter of interest** and treat the rest as **nuisance** to be marginalized. Different orders can give different priors (unlike Jeffreys).
 
 ### 5.1 Normal model $N(\mu, \sigma^2)$: Fisher calculations
 
@@ -209,7 +215,13 @@ Differentiating with respect to arguments often yields integro-differential equa
 
 ## 10. "Not Stealing the Show": a geometric intuition
 
-In information geometry, Fisher information defines a metric. Maximizing the same expectation, $\mathrm{E}_{X}\bigl[D_{\mathrm{KL}}\bigl(p(\theta \mid X) \Vert \pi(\theta)\bigr)\bigr]$, makes the posterior move as far as possible (on average) away from the prior along geodesics induced by the data. Geometrically, the data's "update direction" is as independent as possible from the prior's information direction, so your phrase "find the orthogonal part the data brings" is on point.
+In information geometry, Fisher information defines a metric. One way to visualize the reference-prior choice is to imagine the posterior walking along a geodesic away from the prior. The stride length is governed by the same expected KL divergence,
+
+$$
+\mathbb{E}_{X}\left[D_{\mathrm{KL}}\big(p(\theta \mid X) \| \pi(\theta)\big)\right],
+$$
+
+so maximizing it makes the posterior travel as far as possible (on average) away from the prior. Geometrically, the data's "update direction" becomes as independent as possible from the prior's information direction, so your phrase "find the orthogonal part the data brings" remains spot on.
 
 ## 11. What to Use in Practice (quick guide)
 
