@@ -201,5 +201,12 @@ window.POSTS = [
     date: '2025-11-04T01:10:01Z',
     category: 'Bayesian Analysis',
     summary: 'Explains entropy from Boltzmann\'s microstate counting through Gibbs distributions to Shannon\'s information measure.'
+  },
+  {
+    slug: 'bayesian-inference-reference-priors-jeffreys-priors-maximum-entropy-conjugacy-and-hierarchical-priors-a-working-notes-summary',
+    title: 'Bayesian Inference - Reference Priors, Jeffreys Priors, Maximum Entropy, Conjugacy, and Hierarchical Priors - A Working Notes Summary',
+    date: '2025-11-04T11:54:57Z',
+    category: 'Bayesian Inference',
+    summary: 'Compact derivations connecting reference, Jeffreys, maximum entropy, conjugate, and hierarchical priors for Bayesian modeling.'
   }
 ];
