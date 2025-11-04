@@ -1,5 +1,4 @@
-> A compact but detailed set of notes (with derivations) collecting the main points from our discussion. Math is written in LaTeX for clarity.
-
+> A compact but detailed set of notes (with derivations) collecting the main points from our discussion. 
 ---
 
 ## 1. Reference Prior: Concept and Definition
@@ -59,7 +58,7 @@ The dependence on $\pi$ remains through $p(x^{(k)}) = \int p(x^{(k)} \mid \theta
 Define
 
 $$
-f_k(\theta; \pi) = \exp\left\{\int p(x^{(k)} \mid \theta) \log \frac{\pi(\theta \mid x^{(k)})}{\pi(\theta)} dx^{(k)}\right\}.
+f_k(\theta; \pi) = \exp\left(\int p(x^{(k)} \mid \theta) \log \frac{\pi(\theta \mid x^{(k)})}{\pi(\theta)} dx^{(k)}\right).
 $$
 
 Then
@@ -103,7 +102,7 @@ For a fixed $k$ (or asymptotic approximation):
 1. Start with any proper positive $\pi^{(0)}(\theta)$.
 2. Compute the marginal $m^{(t)}(x^{(k)}) = \int p(x^{(k)} \mid \theta') \pi^{(t)}(\theta') d\theta'$.
 3. Compute the posterior $\pi^{(t)}(\theta \mid x^{(k)}) = \frac{p(x^{(k)} \mid \theta) \pi^{(t)}(\theta)}{m^{(t)}(x^{(k)})}$.
-4. Update $f_k^{(t)}(\theta) = \exp\left\{\int p(x^{(k)} \mid \theta) \log \frac{\pi^{(t)}(\theta \mid x^{(k)})}{\pi^{(t)}(\theta)} dx^{(k)}\right\}$.
+4. Update $f_k^{(t)}(\theta) = \exp\left(\int p(x^{(k)} \mid \theta) \log \frac{\pi^{(t)}(\theta \mid x^{(k)})}{\pi^{(t)}(\theta)} dx^{(k)}\right)$.
 5. Normalize $\pi^{(t+1)}(\theta) = \frac{f_k^{(t)}(\theta)}{\int f_k^{(t)}(\vartheta) d\vartheta}$.
 6. Iterate to convergence; then let $k$ grow to approximate $\pi^{*}$.
 
