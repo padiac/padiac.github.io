@@ -221,7 +221,7 @@ In information geometry, Fisher information defines a metric. Visualize the post
 **Expected KL step length.** The same scalar reappears as the step size along the geodesic:
 
 $$
-E_X\!\Big[D_{\mathrm{KL}}\big(p(\theta \mid X) \,\Vert\, \pi(\theta)\big)\Big].
+\mathbb{E}_X\big[D_{\mathrm{KL}}(p(\theta \mid X) \| \pi(\theta))\big].
 $$
 
 Maximizing this expectation makes the posterior travel as far as possible (on average) away from the prior. Geometrically, the data's "update direction" becomes as independent as possible from the prior's information direction, so your phrase "find the orthogonal part the data brings" remains spot on.

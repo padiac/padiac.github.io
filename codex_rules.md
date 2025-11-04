@@ -39,6 +39,7 @@ The user will not provide any parameters beyond the pasted Markdown block.
   - Do not use the thin-space command `\,`; leave it out or use ordinary spacing instead.
   - Keep multi-step derivations as separate block equations: close each `$$` after a single formula and add prose (or list items) between steps instead of stacking lines inside one pair of `$$`.
   - Do not use `\!`, standalone `!`, or any other LaTeX spacing/exclamation commands inside math; rewrite the sentence instead.
+  - When writing expectations or similar operators, stick to forms like `\mathbb{E}_X[...]` without any spacing macros so no stray exclamation marks appear in the rendered output.
   - Keep one blank line before and after block equations.
   - Never leave equations inside fenced code blocks; convert them into the inline or block math formats above.
 - **Text style**: **bold** as `**text**`; _italic_ as `_text_`; code as `` `code` ``.
