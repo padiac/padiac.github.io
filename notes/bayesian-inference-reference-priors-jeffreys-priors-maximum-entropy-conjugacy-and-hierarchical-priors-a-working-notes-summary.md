@@ -127,13 +127,7 @@ with $I_{ij}(\theta) = \mathbb{E}\left[-\frac{\partial^2}{\partial \theta_i \par
 - Single-parameter models: clean and unambiguous.
 - Multi-parameter models: well-defined but can overweight certain directions; still invariant to reparameterization.
 
-**Reference prior (information gain):** maximizes the expected KL divergence, taking the outer expectation with respect to the sampling distribution:
-
-$$
-\mathbb{E}_{X}\!\left[D_{\mathrm{KL}}\bigl(p(\theta \mid X) \| \pi(\theta)\bigr)\right].
-$$
-
-It requires an **order**: declare a **parameter of interest** and treat the rest as **nuisance** to be marginalized. Different orders can give different priors (unlike Jeffreys).
+**Reference prior (information gain):** maximizes the expected KL divergence, written inline as $\mathrm{E}_{X}\bigl[D_{\mathrm{KL}}\bigl(p(\theta \mid X) \Vert \pi(\theta)\bigr)\bigr]$. It requires an **order**: declare a **parameter of interest** and treat the rest as **nuisance** to be marginalized. Different orders can give different priors (unlike Jeffreys).
 
 ### 5.1 Normal model $N(\mu, \sigma^2)$: Fisher calculations
 
@@ -215,13 +209,7 @@ Differentiating with respect to arguments often yields integro-differential equa
 
 ## 10. "Not Stealing the Show": a geometric intuition
 
-In information geometry, Fisher information defines a metric. Maximizing the expected KL divergence, again written with the expectation taken over the data-generating model,
-
-$$
-\mathbb{E}_{X}\!\left[D_{\mathrm{KL}}\bigl(p(\theta \mid X) \| \pi(\theta)\bigr)\right],
-$$
-
-makes the posterior move as far as possible (on average) away from the prior along geodesics induced by the data. Geometrically, the data's "update direction" is as independent as possible from the prior's information direction, so your phrase "find the orthogonal part the data brings" is on point.
+In information geometry, Fisher information defines a metric. Maximizing the same expectation, $\mathrm{E}_{X}\bigl[D_{\mathrm{KL}}\bigl(p(\theta \mid X) \Vert \pi(\theta)\bigr)\bigr]$, makes the posterior move as far as possible (on average) away from the prior along geodesics induced by the data. Geometrically, the data's "update direction" is as independent as possible from the prior's information direction, so your phrase "find the orthogonal part the data brings" is on point.
 
 ## 11. What to Use in Practice (quick guide)
 
