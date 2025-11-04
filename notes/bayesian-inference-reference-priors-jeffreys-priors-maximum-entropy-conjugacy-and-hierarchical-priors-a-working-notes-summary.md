@@ -2,6 +2,10 @@
 
 ## 1. Reference Prior: Concept and Definition
 
+$$
+\mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \\|\\| \pi(\theta))\big]
+$$
+
 **Goal (Bernardo-Berger):** choose a prior that _maximizes how much the data can teach us_. Formally, for a model family $\{p(x \mid \theta): \theta \in \Theta\}$, choose a prior $\pi$ to maximize the **expected information gain** (average Kullback-Leibler divergence from prior to posterior).
 
 For one experiment $X \sim p(x \mid \theta)$, define
@@ -172,16 +176,6 @@ These are not the same setup as the two-parameter problem; mixing them is a comm
 #### Expected KL gain objective (pulled to the end for clarity)
 Maximizing this expectation over priors $\pi$—with the ordering of interest and nuisance components fixed—is exactly what defines the reference prior.
 
-$$
-\mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \\|\\| \pi(\theta))\big]
-$$
-
-Maximizing this expectation over priors $\pi$—with the ordering of interest and nuisance components fixed—is exactly what defines the reference prior.
-$$
-\mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \\|\\| \pi(\theta))\big]
-$$
-
-Maximizing this expectation over priors $\pi$—with the ordering of interest and nuisance components fixed—is exactly what defines the reference prior.
 $$
 \mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \\|\\| \pi(\theta))\big]
 $$
