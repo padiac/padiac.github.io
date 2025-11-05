@@ -208,5 +208,12 @@ window.POSTS = [
     date: '2025-11-04T11:54:57Z',
     category: 'Bayesian Inference',
     summary: 'Compact derivations connecting reference, Jeffreys, maximum entropy, conjugate, and hierarchical priors for Bayesian modeling.'
+  },
+  {
+    slug: 'bayesian-inference-bayesian-inference-cheatsheet-with-full-derivations',
+    title: 'Bayesian Inference - Bayesian Inference Cheatsheet (with Full Derivations)',
+    date: '2025-11-05T11:32:41Z',
+    category: 'Bayesian Inference',
+    summary: 'Walks through normal-model Bayesian inference with Jeffreys/reference priors, invariance, chi-square and t/F links, and conjugate plus hierarchical updates.'
   }
 ];
