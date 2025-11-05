@@ -173,8 +173,12 @@ These are not the same setup as the two-parameter problem; mixing them is a comm
 #### Expected KL gain objective (pulled to the end for clarity)
 Maximizing this expectation over priors $\pi$—with the ordering of interest and nuisance components fixed—is exactly what defines the reference prior.
 
+# $$
+# \mathbb{E}_{X}\!\left[D_{\mathrm{KL}}\!\left(p(\theta \mid X)\,\Vert\,\pi(\theta)\right)\right]
+# $$
+
 $$
-\mathbb{E}_{X}\!\left[D_{\mathrm{KL}}\!\left(p(\theta \mid X)\,\Vert\,\pi(\theta)\right)\right]
+E_X\!\Big[D_{\mathrm{KL}}\big(p(\theta \mid X) \,\Vert\, \pi(\theta)\big)\Big].
 $$
 
 
