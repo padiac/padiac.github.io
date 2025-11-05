@@ -174,7 +174,7 @@ These are not the same setup as the two-parameter problem; mixing them is a comm
 Maximizing this expectation over priors $\pi$—with the ordering of interest and nuisance components fixed—is exactly what defines the reference prior.
 
 $$
-\mathbb{E}_{X}\big[D_{\mathrm{KL}}(p(\theta \mid X) \\|\\| \pi(\theta))\big]
+\mathbb{E}_{X}\!\left[D_{\mathrm{KL}}\!\left(p(\theta \mid X)\,\Vert\,\pi(\theta)\right)\right]
 $$
 
 
