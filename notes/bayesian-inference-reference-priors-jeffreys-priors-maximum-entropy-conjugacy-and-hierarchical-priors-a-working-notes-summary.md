@@ -175,7 +175,7 @@ Maximizing this expectation over priors $\pi$—with the ordering of interest an
 
 
 $$
-E_X\!\Big[D_{\mathrm{KL}}\big(p(\theta \mid X) \,\Vert\, \pi(\theta)\big)\Big].
+E_X\Big[D_{\mathrm{KL}}\big(p(\theta \mid X) \,\Vert\, \pi(\theta)\big)\Big].
 $$
 
 
