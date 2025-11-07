@@ -14,6 +14,56 @@ function createMarkdownRenderer() {
   });
 }
 
+function rewriteRelativeImageSources(container, slug) {
+  if (!container || !slug) return;
+  const noteBase = new URL(`notes/${slug}.md`, window.location.href);
+  const assetBase = new URL(`notes-assets/${slug}/`, window.location.href);
+  const siteBase = new URL('./', window.location.href);
+
+  container.querySelectorAll('img').forEach((img) => {
+    const raw = img.getAttribute('src');
+    if (!raw) return;
+    const value = raw.trim();
+    if (
+      !value ||
+      value.startsWith('#') ||
+      value.startsWith('data:') ||
+      value.startsWith('blob:') ||
+      /^(?:[a-z]+:)?\/\//i.test(value) ||
+      value.startsWith('/')
+    ) {
+      return;
+    }
+    try {
+      let resolved;
+      if (value.startsWith('@assets/')) {
+        resolved = new URL(value.slice(8), assetBase);
+      } else if (value.startsWith('notes-assets/')) {
+        resolved = new URL(value, siteBase);
+      } else if (value.startsWith('./') || value.startsWith('../')) {
+        resolved = new URL(value, noteBase);
+      } else if (value.includes('/')) {
+        resolved = new URL(value, noteBase);
+      } else {
+        resolved = new URL(value, assetBase);
+      }
+      img.setAttribute('src', resolved.href);
+    } catch (err) {
+      console.warn('Unable to resolve image path', value, err);
+    }
+  });
+}
+
+function enhanceImages(container) {
+  if (!container) return;
+  container.querySelectorAll('img').forEach((img) => {
+    if (!img.getAttribute('loading')) {
+      img.setAttribute('loading', 'lazy');
+    }
+    img.setAttribute('decoding', 'async');
+  });
+}
+
 async function renderPostContent(post, container) {
   const renderer = createMarkdownRenderer();
   if (!renderer) {
@@ -27,6 +77,8 @@ async function renderPostContent(post, container) {
     if (!res.ok) throw new Error(`Missing markdown for slug ${post.slug}`);
     const markdown = await res.text();
     container.innerHTML = renderer.render(markdown);
+    rewriteRelativeImageSources(container, post.slug);
+    enhanceImages(container);
     if (window.queueMathJax) {
       window.queueMathJax(container);
     }

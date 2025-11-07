@@ -353,6 +353,25 @@ p {
   margin: 8px 0 16px 20px;
 }
 
+.post-content img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 24px auto;
+  border-radius: 6px;
+}
+
+.post-content figure {
+  margin: 24px 0;
+  text-align: center;
+}
+
+.post-content figure figcaption {
+  margin-top: 8px;
+  font-size: 0.9rem;
+  color: var(--color-muted);
+}
+
 @media (max-width: 720px) {
   .masthead {
     flex-direction: column;
