@@ -217,10 +217,10 @@ window.POSTS = [
     summary: 'Walks through normal-model Bayesian inference with Jeffreys/reference priors, invariance, chi-square and t/F links, and conjugate plus hierarchical updates.'
   },
   {
-    slug: 'statistics-bayesian-vs-frequentist-estimation-key-concepts-and-derivations',
-    title: 'Statistics - Bayesian vs Frequentist Estimation: Key Concepts and Derivations',
+    slug: 'bayesian-inference-bayesian-vs-frequentist-estimation-key-concepts-and-derivations',
+    title: 'Bayesian Inference - Bayesian vs Frequentist Estimation: Key Concepts and Derivations',
     date: '2025-11-10T19:32:18Z',
-    category: 'Statistics',
+    category: 'Bayesian Inference',
     summary: 'Bayesian and frequentist estimators average over different randomness sources while comparing estimators, posterior risk, variance, and intervals.'
   }
 ];
