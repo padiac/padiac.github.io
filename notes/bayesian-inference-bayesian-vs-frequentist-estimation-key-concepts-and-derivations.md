@@ -23,8 +23,8 @@ Thus, expectations are taken over different spaces even when both approaches ana
 Given $\pi(\theta | x)$, common point estimators are:
 
 - Posterior mode $\hat{\theta}_{MD}$ maximizes $\pi(\theta | x)$ over $\theta$.
-- Posterior median $\hat{\theta}_{ME}$ satisfies $P(\theta \le \hat{\theta}_{ME} | x) = 0.5$.
-- Posterior mean $\hat{\theta}_E = E_{\theta | x}[\theta] = \mu^\pi(x)$.
+- Posterior median $\hat{\theta}_{ME}$ is the 0.5 quantile of the posterior CDF, leaving half the mass below it.
+- Posterior mean $\hat{\theta}_E$ equals the posterior expectation $\mu^\pi(x)$.
 
 When the posterior is symmetric (for example, normal), the mode, median, and mean coincide.
 
