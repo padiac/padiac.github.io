@@ -222,5 +222,12 @@ window.POSTS = [
     date: '2025-11-10T19:32:18Z',
     category: 'Bayesian Inference',
     summary: 'Bayesian and frequentist estimators average over different randomness sources while comparing estimators, posterior risk, variance, and intervals.'
+  },
+  {
+    slug: 'bayesian-inference-bayesian-and-frequentist-risk-definitions-and-principles',
+    title: 'Bayesian Inference - Bayesian and Frequentist Risk: Definitions and Principles',
+    date: '2025-11-11T08:25:46Z',
+    category: 'Bayesian Inference',
+    summary: 'States the observation model under a prior and gives the posterior via the marginal likelihood.'
   }
 ];
