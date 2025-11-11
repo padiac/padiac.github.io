@@ -119,8 +119,9 @@ $$
 Standard Bayesian inference fixes $\pi(\theta)$ and optimizes $\delta(x)$, but one may also optimize the prior itself:
 
 $$
-\pi^*(\theta) = \arg\min_\pi \iint L(\theta, \delta^*_\pi(x)) f(x \mid \theta) \pi(\theta) d\theta dx.
+\pi^{\ast}(\theta) = \arg\min_{\pi} \iint L(\theta, \delta^{\ast}_{\pi}(x))\,f(x \mid \theta)\,\pi(\theta)\,d\theta\,dx.
 $$
+
 
 This variational view leads to objective or reference priors that minimize expected loss or information divergence.
 
