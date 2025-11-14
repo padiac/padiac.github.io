@@ -229,5 +229,12 @@ window.POSTS = [
     date: '2025-11-11T08:25:46Z',
     category: 'Bayesian Inference',
     summary: 'States the observation model under a prior and gives the posterior via the marginal likelihood.'
+  },
+  {
+    slug: 'bayesian-inference-bayesian-modeling-of-neutron-star-mass-radius-inference',
+    title: 'Bayesian Inference - Bayesian Modeling of Neutron Star Mass-Radius Inference',
+    date: '2025-11-14T01:40:30Z',
+    category: 'Bayesian Inference',
+    summary: 'In the Bayesian framework, neutron star inference involves three conceptual layers.'
   }
 ];
