@@ -41,7 +41,8 @@ The user will not provide any parameters beyond the pasted Markdown block.
   - Do not use `\!`, standalone `!`, or any other LaTeX spacing/exclamation commands inside math; rewrite the sentence instead.
   - When writing expectations or similar operators, stick to forms like `\mathbb{E}_X[...]` without any spacing macros so no stray exclamation marks appear in the rendered output.
   - In the GitHub Pages kramdown + MathJax lite environment, avoid extended macros such as `\mathbb`, `\|`, and `\!`; use plain `E_X` instead of `\mathbb{E}`, prefer `\Vert` for norms, and skip manual spacing commands so formulas render consistently across pages.
-  - Inline underscores often get parsed as italics, so always write subscripts as `_{...}`; if the parser still swallows the underscore, escape it (for example, `$\hat{\theta}\_{\!E}$`), and wrap multi-character subscripts in braces like `$\hat{\theta}_{ME}$` (never `$\hat{\theta}\_{ME}$`).
+  - Always replace literal `*` symbols inside math expressions with `\ast`, and wrap every subscript as `_{...}` so Markdown never mistakes them for emphasis markers.
+  - If the parser still swallows a subscript even after using `_{...}`, escape it (for example, `$\hat{\theta}\_{\!E}$`), and wrap multi-character subscripts in braces like `$\hat{\theta}_{ME}$` (never `$\hat{\theta}\_{ME}$`).
   - **Expectation operator normalization**: replace every occurrence of `_E` with `\_\(E\)` inside math so MathJax reads it as an operator, e.g., `_E[X] -> \_\(E\)[X]`, `_E_X[f(X)] -> \_\(E_X\)[f(X)]`, and `_E_\theta[g(\theta)] -> \_\(E_\theta\)[g(\theta)]`. Apply this rewrite globally to all Markdown and LaTeX math.
   - Keep one blank line before and after block equations.
   - Never leave equations inside fenced code blocks; convert them into the inline or block math formats above.
