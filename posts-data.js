@@ -240,8 +240,8 @@ window.POSTS = [
   {
     slug: 'diffusion-random-walks-diffusion-mcmc-and-dmc',
     title: 'Diffusion - Random Walks, Diffusion, MCMC, and DMC',
-    date: '2025-11-15T08:54:12Z',
+    date: '2025-11-15T09:25:58Z',
     category: 'Diffusion',
-    summary: 'Connects random walks, diffusion equations, DMC, and MCMC through Markov generators plus microscopic versus macroscopic viewpoints.'
+    summary: 'Clarifies reaction-diffusion conservation, showing how single-particle transition densities integrate into fluid-level rho and unify DMC and MCMC under one generator.'
   }
 ];

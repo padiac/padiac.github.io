@@ -300,90 +300,89 @@ up to constants and carefully designing drift and branching so that $\rho_{\ast}
 
 Thus, in an abstract sense, MCMC and DMC can be embedded into the same Markov-process framework and even simulate each other when designed deliberately that way. Nevertheless, MCMC is naturally used when the target density is known, whereas DMC is naturally used to solve PDEs or eigenvalue problems where the density is unknown.
 
-## 6. Detailed Balance, Global Balance, and Conservation
+## 6. Diffusion, Conservation, and Reaction (Corrected Interpretation)
 
-### 6.1 MCMC: detailed vs global balance
-
-Detailed balance,
-
-$$
-\pi(x) T(x \to x') = \pi(x') T(x' \to x),
-$$
-
-is a strong condition ensuring $\pi$ is stationary and the chain is reversible. Global balance,
-
-$$
-\pi(x') = \int \pi(x) T(x \to x') dx,
-$$
-
-is weaker and only requires stationarity. These are algebraic constraints on $T(x \to x')$ and specific to MCMC's target-density story.
-
-### 6.2 Diffusion PDE: conservation and reaction
-
-For diffusion without reaction the conservation law reads
+A diffusion process without gain or loss obeys the continuity equation
 
 $$
 \frac{\partial \rho}{\partial t} + \frac{\partial J}{\partial x} = 0,
 $$
 
-with flux $J = -D \partial \rho / \partial x$. Adding reaction yields
+with flux
 
 $$
-\frac{\partial \rho}{\partial t} = D \frac{\partial^2 \rho}{\partial x^2} - \mu(x) \rho,
+J = -D \frac{\partial \rho}{\partial x}.
 $$
 
-where $\mu(x) \rho$ is not locally balanced; it adds or removes mass.
-
-### 6.3 Single walker: no explicit conservation
-
-For a single walker you do not enforce conservation; you just evolve its position according to random steps and possible death or branching. Conservation emerges statistically when inspecting the density of many walkers, not at the level of one trajectory.
-
-## 7. The Unifying Markov-Generator View
-
-All of the above can be unified by the language of Markov generators.
-
-### 7.1 General form
-
-A Markov process on a state space $X$ has a generator $L$ acting on densities $\rho(x, t)$ such that
+This expresses local conservation of probability or mass. When reaction is added—walkers can duplicate or die—the continuity equation becomes
 
 $$
-\frac{\partial \rho}{\partial t} = L \rho.
+\frac{\partial \rho}{\partial t} = D \frac{\partial^2 \rho}{\partial x^2} - \mu(x) \rho.
 $$
 
-Examples include diffusion-reaction,
+The diffusion term is mass-conserving, whereas the reaction term $-\mu(x)\rho$ injects or removes density depending on the sign of $\mu$.
+
+### Correction of the earlier misunderstanding
+
+In the original treatment $\rho$ was implicitly assumed to be conserved. The corrected interpretation is:
+
+- The **single-particle probability** $p(x, t)$ is conserved even in DMC.
+- The **population density** $\rho(x, t)$ **is not conserved** whenever $\mu \neq 0$, exactly as in standard reaction-diffusion PDEs.
+
+This clears up why single-particle trajectories conserve weight while the swarm's density can grow or decay.
+
+## 7. Mapping Single-Particle Random Walks to Fluid Mechanics (Revised 7.3 Included)
+
+### 7.1 Single-Particle Evolution: the Transition Density $p(x, t)$
+
+For one walker the discrete evolution is
 
 $$
-(L \rho)(x) = D \frac{\partial^2 \rho}{\partial x^2} - \mu(x) \rho(x),
+p(x, t + \Delta t) = p(x - \Delta x, t) T_{+} + p(x + \Delta x, t) T_{-}.
 $$
 
-Fokker-Planck diffusion,
+This is a local conservation law: probability at $x$ comes from neighboring sites. Taking the continuum limit gives
 
 $$
-(L \rho)(x) = - \frac{\partial}{\partial x} \left( b(x) \rho \right) + \frac{1}{2} \frac{\partial^2}{\partial x^2} \left( a(x) \rho \right),
+\frac{\partial p}{\partial t} = D \frac{\partial^2 p}{\partial x^2} - \mu(x) p,
 $$
 
-and jump processes of the MCMC type,
+the diffusion-reaction equation for a single walker.
+
+### 7.2 Many-Particle Density from Single-Particle Probability
+
+Given an initial density $\rho_{0}(x_{0})$, the population density at time $t$ is obtained by averaging over all possible starting points:
 
 $$
-(L \rho)(x') = \int \left[ T(x \to x') \rho(x) - T(x' \to x) \rho(x') \right] dx.
+\rho(x, t) = \int \rho_{0}(x_{0}) \, p(x, t \mid x_{0}, 0) \, dx_{0}.
 $$
 
-A stationary distribution $\rho_{\ast}$ satisfies
+This is the bridge between the Newtonian trajectory view (encoded in $p$) and the fluid or continuum view (encoded in $\rho$).
+
+### 7.3 Correct Interpretation of the $p \to \rho$ Transformation
+
+The integral above **is** the Newton $\to$ fluid mechanism. It works because:
+
+- $p(x, t \mid x_{0})$ evolves under the Markov generator $L$.
+- $\rho(x, t)$, being a linear combination of such transition densities, evolves under the **same** PDE.
+
+Consequently,
 
 $$
-L \rho_{\ast} = 0.
+\frac{\partial \rho}{\partial t} = D \frac{\partial^2 \rho}{\partial x^2} - \mu(x) \rho
 $$
 
-### 7.2 MCMC and DMC in this language
+is not a new equation; it is the aggregated version of the single-walker PDE.
 
-- **MCMC:** $L$ is chosen (through $T$) so that a prescribed $\pi$ satisfies $L \pi = 0$; the generator is engineered from $\pi$.
-- **DMC:** $L$ is given by a PDE; $\rho_{\ast}$ solves $L \rho_{\ast} = 0$; the generator is the starting point and the stationary density is discovered.
+**Why this matters for DMC.** DMC simulates individual $p(x, t \mid x_{0})$ via random walks (diffusion) plus branching (reaction). Aggregating many walkers numerically approximates $\rho(x, t)$, which converges to the ground-state wavefunction in imaginary time.
 
-Both are "Markov process + generator + evolution $\partial \rho / \partial t = L \rho$"; the difference is which part is input vs output.
+**Why this clarifies MCMC.** MCMC is the special case with $\mu(x) = 0$, so there is no reaction term. Diffusion or drift obeys detailed balance, and the target density is the stationary state $\rho_{\ast}(x)$. Both DMC and MCMC therefore satisfy the same generator equation
 
-### 7.3 Newton vs fluid analogy
+$$
+\frac{\partial \rho}{\partial t} = L \rho,
+$$
 
-The discussion mirrors the Newtonian vs fluid analogy: microscopic random walks correspond to Newton-like trajectories, whereas diffusion PDEs correspond to fluid-like densities. MCMC and DMC walkers are microscopic trajectories; their stationary or time-dependent densities are macroscopic fields.
+with different choices of $L$ and different goals (solving a PDE versus sampling a known stationary distribution).
 
 ## 8. Takeaways
 
