@@ -242,6 +242,6 @@ window.POSTS = [
     title: 'Diffusion - Random Walks, Diffusion, MCMC, and DMC',
     date: '2025-11-15T09:25:58Z',
     category: 'Diffusion',
-    summary: 'Clarifies reaction-diffusion conservation, showing how single-particle transition densities integrate into fluid-level rho and unify DMC and MCMC under one generator.'
+    summary: 'Connects random walks, diffusion equations, DMC, and MCMC through Markov generators plus microscopic versus macroscopic viewpoints.'
   }
 ];
