@@ -256,6 +256,10 @@ $$
 
 Thus the Schrodinger flavor of DMC is a physical interpretation of a general diffusion-reaction Monte Carlo method; the same machinery solves classical diffusion-reaction PDEs.
 
+> *“Imaginary-time diffusion is the most intuitive route to the ground state: walkers surf the potential landscape, branch in attractive wells, and fade in repulsive regions until only the ground configuration remains.”* — from the author’s prior DMC presentation on quantum mechanics ([slides](https://docs.google.com/presentation/d/1KWHJ0zgMnEd3NtcFceMttdXyDG4dGTqv/edit?slide=id.p5)).
+
+The presentation illustrates how branching replicates the importance sampling of favorable regions, which is the same mechanism formalized in the PDE framework described here.
+
 ## 5. MCMC vs DMC: Are They Really Different?
 
 At a high level both MCMC and DMC evolve Markov processes (possibly with branching), approach a stationary or steady-state density $\rho_{\ast}$, and can be seen as realizations of
