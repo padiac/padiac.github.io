@@ -236,5 +236,12 @@ window.POSTS = [
     date: '2025-11-14T01:40:30Z',
     category: 'Bayesian Inference',
     summary: 'In the Bayesian framework, neutron star inference involves three conceptual layers.'
+  },
+  {
+    slug: 'diffusion-random-walks-diffusion-mcmc-and-dmc',
+    title: 'Diffusion - Random Walks, Diffusion, MCMC, and DMC',
+    date: '2025-11-15T08:54:12Z',
+    category: 'Diffusion',
+    summary: 'Connects random walks, diffusion equations, DMC, and MCMC through Markov generators plus microscopic versus macroscopic viewpoints.'
   }
 ];
