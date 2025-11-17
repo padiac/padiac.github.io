@@ -245,8 +245,8 @@ window.POSTS = [
     summary: 'Connects random walks, diffusion equations, DMC, and MCMC through Markov generators plus microscopic versus macroscopic viewpoints.'
   },
   {
-    slug: 'diffusion-diffusion-random-walks-and-mcmc',
-    title: 'Diffusion - Diffusion, Random Walks, and MCMC',
+    slug: 'diffusion-random-walks-dmc-and-mcmc',
+    title: 'Diffusion - Random Walks, DMC, and MCMC',
     date: '2025-11-17T02:13:06.8465550Z',
     category: 'Diffusion',
     summary: 'These notes organize how random walks, diffusion, DMC, and MCMC connect through branching, continuity, and detailed balance.'
