@@ -41,8 +41,7 @@ $$
 
 $$
 p(x \pm \Delta x, t)
-= p(x,t) \pm \frac{\partial p}{\partial x}\Delta x
-   + \frac{1}{2}\frac{\partial^2 p}{\partial x^2}(\Delta x)^2 + O(\Delta x^3).
+= p(x,t) \pm \frac{\partial p}{\partial x}\Delta x + \frac{1}{2}\frac{\partial^2 p}{\partial x^2}(\Delta x)^2 + O(\Delta x^3).
 $$
 
 Insert (1.3a) and (1.3b) into (1.1), enforce (1.2), and keep terms up to first order in $\Delta t$ and second order in $\Delta x$:
