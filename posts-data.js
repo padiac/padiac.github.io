@@ -224,11 +224,11 @@ window.POSTS = [
     summary: 'Bayesian and frequentist estimators average over different randomness sources while comparing estimators, posterior risk, variance, and intervals.'
   },
   {
-    slug: 'bayesian-inference-bayesian-and-frequentist-risk-definitions-and-principles',
-    title: 'Bayesian Inference - Bayesian and Frequentist Risk: Definitions and Principles',
+    slug: 'bayesian-inference-posterior-and-bayes-risk-equivalence',
+    title: 'Bayesian Inference - Posterior and Bayes Risk Equivalence',
     date: '2025-11-11T08:25:46Z',
     category: 'Bayesian Inference',
-    summary: 'States the observation model under a prior and gives the posterior via the marginal likelihood.'
+    summary: 'Defines posterior risk, Bayes risk, and shows their equivalence via the marginal likelihood.'
   },
   {
     slug: 'bayesian-inference-bayesian-modeling-of-neutron-star-mass-radius-inference',
