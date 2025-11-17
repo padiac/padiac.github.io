@@ -252,10 +252,10 @@ window.POSTS = [
     summary: 'These notes organize how random walks, diffusion, DMC, and MCMC connect through branching, continuity, and detailed balance.'
   },
   {
-    slug: 'machine-learning-understanding-ddpm-training-loss-and-time-step-behavior',
-    title: 'Machine Learning - Understanding DDPM Training Loss and Time Step Behavior',
+    slug: 'diffusion-understanding-ddpm-training-loss-and-time-step-behavior',
+    title: 'Diffusion - Understanding DDPM Training Loss and Time Step Behavior',
     date: '2025-11-17T09:22:08Z',
-    category: 'Machine Learning',
+    category: 'Diffusion',
     summary: 'Explains why DDPM time steps yield different loss magnitudes, why that variance is expected, and how the global optimization objective accommodates it.'
   }
 ];
