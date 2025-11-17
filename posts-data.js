@@ -252,10 +252,10 @@ window.POSTS = [
     summary: 'These notes organize how random walks, diffusion, DMC, and MCMC connect through branching, continuity, and detailed balance.'
   },
   {
-    slug: 'diffusion-understanding-ddpm-training-loss-and-time-step-behavior',
-    title: 'Diffusion - Understanding DDPM Training Loss and Time Step Behavior',
-    date: '2025-11-17T09:22:08Z',
+    slug: 'diffusion-ddpm-forward-process-variance-preservation-and-alpha-bar-t-derivation',
+    title: 'Diffusion - DDPM Forward Process: Variance Preservation and Alpha-Bar t Derivation',
+    date: '2025-11-17T09:39:08Z',
     category: 'Diffusion',
-    summary: 'Explains why DDPM time steps yield different loss magnitudes, why that variance is expected, and how the global optimization objective accommodates it.'
+    summary: 'Derives the DDPM forward transition, proves variance stays at one per step, and shows how alpha_bar yields the closed-form with merged Gaussian noise.'
   }
 ];
