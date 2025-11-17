@@ -16,8 +16,7 @@ Let $p(x,t)$ be the probability that a single walker is at position $x$ at time 
 
 $$
 p(x, t + \Delta t)
-= p(x-\Delta x, t) T_+(x-\Delta x)
-+ p(x+\Delta x, t) T_-(x+\Delta x).
+= p(x-\Delta x, t) T_+(x-\Delta x) + p(x+\Delta x, t) T_-(x+\Delta x).
 $$
 
 For the simplest symmetric case we take
