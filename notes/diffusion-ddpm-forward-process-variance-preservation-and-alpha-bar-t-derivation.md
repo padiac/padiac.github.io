@@ -49,13 +49,13 @@ $$
 Signal terms multiply while the noise terms combine additively. Define
 
 $$
-\bar{\alpha}_{t} = \prod_{i=1}^{t} \alpha_{i},
+\bar{\alpha}_{t} = \prod_{i=1}^{t} \alpha_{i}
 $$
 
 so the closed form becomes
 
 $$
-x_{t} = \sqrt{\bar{\alpha}_{t}} x_{0} + \sqrt{1 - \bar{\alpha}_{t}} \varepsilon,
+x_{t} = \sqrt{\bar{\alpha}_{t}} x_{0} + \sqrt{1 - \bar{\alpha}_{t}} \varepsilon
 $$
 
 where $\varepsilon$ is Gaussian with zero mean and identity covariance.
