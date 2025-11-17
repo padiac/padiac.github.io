@@ -18,14 +18,14 @@ $$
 p(x, t + \Delta t)
 = p(x-\Delta x, t) T_+(x-\Delta x)
 + p(x+\Delta x, t) T_-(x+\Delta x).
-\tag{1.1}
+
 $$
 
 For the simplest symmetric case we take
 
 $$
 T_+(x) = T_-(x) = \frac{1 - \mu(x)\Delta t}{2}.
-\tag{1.2}
+
 $$
 
 - The factor $1 - \mu(x)\Delta t$ represents the probability that the walker survives the reaction in this step.
@@ -40,14 +40,14 @@ Expand the left-hand side of (1.1) in $\Delta t$ and the right-hand side in $\De
 $$
 p(x, t + \Delta t)
 = p(x,t) + \frac{\partial p}{\partial t} \Delta t + O(\Delta t^2).
-\tag{1.3a}
+
 $$
 
 $$
 p(x \pm \Delta x, t)
 = p(x,t) \pm \frac{\partial p}{\partial x}\Delta x
    + \frac{1}{2}\frac{\partial^2 p}{\partial x^2}(\Delta x)^2 + O(\Delta x^3).
-\tag{1.3b}
+
 $$
 
 Insert (1.3a) and (1.3b) into (1.1), enforce (1.2), and keep terms up to first order in $\Delta t$ and second order in $\Delta x$:
@@ -56,7 +56,7 @@ $$
 p(x,t) + \frac{\partial p}{\partial t}\Delta t
 = \left[p(x,t) + \frac{1}{2} \frac{\partial^2 p}{\partial x^2} (\Delta x)^2\right]
    (1 - \mu(x)\Delta t) + O(\Delta t^2,\Delta x^3).
-\tag{1.4}
+
 $$
 
 Subtract $p(x,t)$ from both sides, divide by $\Delta t$, and take the limit $\Delta t \to 0$ while enforcing the Brownian scaling
@@ -64,7 +64,7 @@ Subtract $p(x,t)$ from both sides, divide by $\Delta t$, and take the limit $\De
 $$
 D = \lim_{\Delta t\to 0} \frac{(\Delta x)^2}{2\Delta t}
 \quad (\text{finite}).
-\tag{1.5}
+
 $$
 
 Then (1.4) turns into the diffusion-reaction equation
@@ -72,7 +72,7 @@ Then (1.4) turns into the diffusion-reaction equation
 $$
 \frac{\partial p}{\partial t}
 = D \frac{\partial^2 p}{\partial x^2} - \mu(x) p.
-\tag{1.6}
+
 $$
 
 - The $D \partial_x^2 p$ term comes from the symmetric random walk.
@@ -106,7 +106,7 @@ The ensemble density at time $t$ is
 $$
 \rho(x,t)
 = \int \rho(x_0, t_0) p(x,t \mid x_0,t_0) dx_0.
-\tag{2.1}
+
 $$
 
 Formally, $p(x,t\mid x_0,t_0)$ plays the role of a Green's function of the PDE, and summing over all walkers' starting positions just convolves the Green's function with the initial density.
@@ -116,7 +116,7 @@ Crucially, because each $p(\cdot,\cdot\mid x_0,t_0)$ satisfies (1.6), the densit
 $$
 \frac{\partial \rho}{\partial t}
 = D \frac{\partial^2 \rho}{\partial x^2} - \mu(x)\rho.
-\tag{2.2}
+
 $$
 
 This is precisely the continuum equation that Diffusion Monte Carlo (DMC) is discretizing and simulating, with walkers as particles whose population can branch or die according to the sign of $\mu(x)$. At large imaginary time (in DMC language) the density relaxes to the ground state eigenfunction of the corresponding operator.
@@ -129,12 +129,12 @@ When $\mu(x)\equiv 0$, Eq. (2.2) is equivalent to the standard continuity equati
 
 $$
 \frac{\partial \rho}{\partial t} + \nabla\cdot J = 0.
-\tag{3.1a}
+
 $$
 
 $$
 J = -D\nabla \rho.
-\tag{3.1b}
+
 $$
 
 This expresses local conservation: the only way to change density at $x$ is through net flux from neighboring points.
@@ -143,7 +143,7 @@ When $\mu(x)\neq 0$, the PDE becomes
 
 $$
 \frac{\partial \rho}{\partial t} + \nabla\cdot J = - \mu(x)\rho,
-\tag{3.2}
+
 $$
 
 which is a continuity equation with a source/sink term: $\mu(x)\rho$ locally creates or destroys walkers.
@@ -173,7 +173,7 @@ A probability density (or mass function) $\pi(x)$ is stationary if
 $$
 \pi(y) = \int_{\mathcal{X}} \pi(x) T(x\to y) dx
 \quad (\text{discrete sum if }\mathcal{X}\text{ is countable}).
-\tag{4.1}
+
 $$
 
 This can be read as a global balance equation:
@@ -201,7 +201,7 @@ Suppose we want to design a Markov chain with a given target distribution $\pi(x
 $$
 \pi(x) T(x\to y) = \pi(y) T(y\to x)
 \quad \forall x,y.
-\tag{5.1}
+
 $$
 
 - Summing both sides over $x$ immediately yields the global balance (4.1), so detailed balance $\Rightarrow$ global balance.
@@ -211,7 +211,7 @@ Now write the transition as
 
 $$
 T(x\to y) = Q(x\to y)\alpha(x\to y),
-\tag{5.2}
+
 $$
 
 where
@@ -232,7 +232,7 @@ Insert (5.2) into detailed balance (5.1):
 $$
 \pi(x) Q(x\to y)\alpha(x\to y)
 = \pi(y) Q(y\to x)\alpha(y\to x).
-\tag{5.3}
+
 $$
 
 This is the constraint that $\alpha$ must satisfy.
@@ -241,14 +241,14 @@ Define for brevity
 
 $$
 R(x,y) = \frac{\pi(y)Q(y\to x)}{\pi(x)Q(x\to y)}.
-\tag{5.4}
+
 $$
 
 Then (5.3) is equivalent to
 
 $$
 \alpha(x\to y) = R(x,y)\alpha(y\to x).
-\tag{5.5}
+
 $$
 
 We know nothing else about $\alpha(x\to y)$ except that it must lie in $[0,1]$. So we need to construct a pair $(\alpha(x\to y),\alpha(y\to x))$ that satisfies (5.5) and respects $0 \le \alpha \le 1$.
@@ -264,7 +264,7 @@ Choose
 $$
 \alpha(x\to y) = R(x,y), \quad
 \alpha(y\to x) = 1.
-\tag{5.6}
+
 $$
 
 Then (5.5) holds trivially, and both acceptances are in $[0,1]$ because $0\le R\le 1$.
@@ -276,7 +276,7 @@ Choose
 $$
 \alpha(x\to y) = 1, \quad
 \alpha(y\to x) = \frac{1}{R(x,y)}.
-\tag{5.7}
+
 $$
 
 Now $0\le 1/R \le 1$ because $R\ge 1$, and (5.5) holds again.
@@ -286,7 +286,7 @@ Putting both cases together gives the familiar MH form
 $$
 \alpha(x\to y)
 = \min\left(1, \frac{\pi(y)Q(y\to x)}{\pi(x)Q(x\to y)}\right).
-\tag{5.8}
+
 $$
 
 ### 5.3 What really happened (and what did not happen)
