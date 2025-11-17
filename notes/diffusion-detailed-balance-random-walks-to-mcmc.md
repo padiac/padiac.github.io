@@ -32,7 +32,7 @@ This is already a discrete conservation law for a single walker: probability at 
 
 ### 1.1 Taylor expansion and continuum limit
 
-Expand the left-hand side of (1.1) in $\Delta t$ and the right-hand side in $\Delta x$. To second order we obtain
+Expand the left-hand side of the random-walk update in $\Delta t$ and the right-hand side in $\Delta x$. To second order we obtain
 
 $$
 p(x, t + \Delta t)
@@ -40,11 +40,11 @@ p(x, t + \Delta t)
 $$
 
 $$
-p(x \pm \Delta x, t)
+p(x \pm \Delta x, t) 
 = p(x,t) \pm \frac{\partial p}{\partial x}\Delta x + \frac{1}{2}\frac{\partial^2 p}{\partial x^2}(\Delta x)^2 + O(\Delta x^3).
 $$
 
-Insert (1.3a) and (1.3b) into (1.1), enforce (1.2), and keep terms up to first order in $\Delta t$ and second order in $\Delta x$:
+Insert these Taylor expansions into the update equation, enforce the symmetric choice $T_+=T_-=(1-\mu\Delta t)/2$, and keep terms up to first order in $\Delta t$ and second order in $\Delta x$:
 
 $$
 p(x,t) + \frac{\partial p}{\partial t}\Delta t
@@ -59,7 +59,7 @@ D = \lim_{\Delta t\to 0} \frac{(\Delta x)^2}{2\Delta t}
 \quad (\text{finite}).
 $$
 
-Then (1.4) turns into the diffusion-reaction equation
+Taking the limit with this scaling turns the discrete relation into the diffusion-reaction equation
 
 $$
 \frac{\partial p}{\partial t}
@@ -73,13 +73,7 @@ Without the reaction ($\mu \equiv 0$) this reduces to the standard diffusion equ
 
 ### 1.2 Why $\Delta x^2 \propto \Delta t$ is necessary
 
-The scaling (1.5)
-
-$$
-(\Delta x)^2 \sim 2 D \Delta t
-$$
-
-is not decoration; it is the condition that the discrete walk has a well-defined continuum limit with finite diffusion constant.
+The Brownian scaling $(\Delta x)^2 \sim 2D\Delta t$ is not decoration; it is the condition that the discrete walk has a well-defined continuum limit with finite diffusion constant.
 
 - If $\Delta x$ is fixed while $\Delta t \to 0$, then $(\Delta x)^2/\Delta t \to \infty$: the walker can move arbitrarily far in arbitrarily short time. No reasonable diffusion PDE emerges.
 - If $\Delta x$ shrinks faster than $\sqrt{\Delta t}$, diffusion vanishes.
@@ -90,7 +84,7 @@ So whenever a random walk is claimed to approximate diffusion, some version of t
 
 ## 2. From single-walker probability to density: DMC picture
 
-Now imagine $N$ independent walkers. Let the initial density of walkers be $\rho(x_0, t_0)$. Each walker starting at $x_0$ has transition probability $p(x,t \mid x_0, t_0)$ obtained from the diffusion-reaction PDE (1.6).
+Now imagine $N$ independent walkers. Let the initial density of walkers be $\rho(x_0, t_0)$. Each walker starting at $x_0$ has transition probability $p(x,t \mid x_0, t_0)$ obtained from the diffusion-reaction PDE above.
 
 The ensemble density at time $t$ is
 
@@ -101,7 +95,7 @@ $$
 
 Formally, $p(x,t\mid x_0,t_0)$ plays the role of a Green's function of the PDE, and summing over all walkers' starting positions just convolves the Green's function with the initial density.
 
-Crucially, because each $p(\cdot,\cdot\mid x_0,t_0)$ satisfies (1.6), the density $\rho(x,t)$ must also satisfy the same PDE:
+Crucially, because each $p(\cdot,\cdot\mid x_0,t_0)$ satisfies that PDE, the density $\rho(x,t)$ must also satisfy the same PDE:
 
 $$
 \frac{\partial \rho}{\partial t}
@@ -114,7 +108,7 @@ This is precisely the continuum equation that Diffusion Monte Carlo (DMC) is dis
 
 ## 3. Continuity equation vs reaction term
 
-When $\mu(x)\equiv 0$, Eq. (2.2) is equivalent to the standard continuity equation given by (3.1a)-(3.1b).
+When $\mu(x)\equiv 0$, the diffusion-reaction PDE reduces to the standard continuity equation with flux definition below.
 
 $$
 \frac{\partial \rho}{\partial t} + \nabla\cdot J = 0.
@@ -166,7 +160,7 @@ This can be read as a global balance equation:
 - $\pi(y)$ is the total mass sitting at $y$ in steady state.
 - The right-hand side is total mass flowing into $y$ from all states $x$ via one transition.
 
-No local geometry, PDE, or time scale is assumed here. $T(x\to y)$ can be wild: it may jump arbitrarily far, in any way we like, as long as (4.1) is satisfied.
+No local geometry, PDE, or time scale is assumed here. $T(x\to y)$ can be wild: it may jump arbitrarily far, in any way we like, as long as the stationarity integral condition above is satisfied.
 
 This is fundamentally different from the diffusion PDE:
 
@@ -188,7 +182,7 @@ $$
 \quad \forall x,y.
 $$
 
-- Summing both sides over $x$ immediately yields the global balance (4.1), so detailed balance $\Rightarrow$ global balance.
+- Summing both sides over $x$ immediately yields the global balance relation, so detailed balance $\Rightarrow$ global balance.
 - Detailed balance is stronger than necessary, but makes life easy.
 
 Now write the transition as
@@ -210,7 +204,7 @@ $$
 
 to make $Q$ stochastic. In continuous spaces, the stay-put probability is absorbed into the diagonal mass of the kernel.
 
-Insert (5.2) into detailed balance (5.1):
+Insert the decomposition $T=Q\alpha$ into the detailed-balance condition:
 
 $$
 \pi(x) Q(x\to y)\alpha(x\to y)
@@ -225,13 +219,13 @@ $$
 R(x,y) = \frac{\pi(y)Q(y\to x)}{\pi(x)Q(x\to y)}.
 $$
 
-Then (5.3) is equivalent to
+This is equivalent to
 
 $$
 \alpha(x\to y) = R(x,y)\alpha(y\to x).
 $$
 
-We know nothing else about $\alpha(x\to y)$ except that it must lie in $[0,1]$. So we need to construct a pair $(\alpha(x\to y),\alpha(y\to x))$ that satisfies (5.5) and respects $0 \le \alpha \le 1$.
+We know nothing else about $\alpha(x\to y)$ except that it must lie in $[0,1]$. So we need to construct a pair $(\alpha(x\to y),\alpha(y\to x))$ that satisfies this relation and respects $0 \le \alpha \le 1$.
 
 ### 5.2 Constructing Metropolis-Hastings from detailed balance
 
@@ -246,7 +240,7 @@ $$
 \alpha(y\to x) = 1.
 $$
 
-Then (5.5) holds trivially, and both acceptances are in $[0,1]$ because $0\le R\le 1$.
+Then the relation holds trivially, and both acceptances are in $[0,1]$ because $0\le R\le 1$.
 
 #### Case 2: $R(x,y) \ge 1$
 
@@ -257,7 +251,7 @@ $$
 \alpha(y\to x) = \frac{1}{R(x,y)}.
 $$
 
-Now $0\le 1/R \le 1$ because $R\ge 1$, and (5.5) holds again.
+Now $0\le 1/R \le 1$ because $R\ge 1$, and the relation holds again.
 
 Putting both cases together gives the familiar MH form
 
@@ -277,7 +271,7 @@ Important logical point:
 So the correct causality is "Want detailed balance for pi" $\Rightarrow$ "choose this MH acceptance". Many expositions fall into a circular-looking argument like:
 
 1. Assume $\alpha$ has the MH form.
-2. Plug into (5.3).
+2. Plug into the detailed-balance constraint.
 3. Verify equality.
 4. Conclude "therefore MH is correct".
 
