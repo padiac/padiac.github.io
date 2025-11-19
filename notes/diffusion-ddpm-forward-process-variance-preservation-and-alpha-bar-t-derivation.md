@@ -79,8 +79,9 @@ The sum of independent Gaussian variables is still Gaussian, and the variances a
 Because
 
 $$
-x_{t} = \sqrt{\bar{\alpha}_{t}} x_{0} + \sqrt{1 - \bar{\alpha}_{t}} \varepsilon,
+x_{t} = \sqrt{\alpha_{1:t}}\, x_{0} + \sqrt{1 - \alpha_{1:t}}\, \varepsilon.
 $$
+
 
 the only unknown term is $\varepsilon$. The U-Net learns to approximate it by minimizing
 
