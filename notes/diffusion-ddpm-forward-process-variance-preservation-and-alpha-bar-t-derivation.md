@@ -52,8 +52,9 @@ Signal terms multiply while the noise terms combine additively. Define
 \bar{\alpha}_{t} = \prod_{i=1}^{t} \alpha_{i}
 $$ -->
 $$
-\alpha_t^{\mathrm{(cum)}} = \alpha_{1}\alpha_{2}\cdots\alpha_{t}.
+\alpha_{1:t} = \prod_{i=1}^{t} \alpha_i
 $$
+
 
 
 
