@@ -48,8 +48,11 @@ $$
 
 Signal terms multiply while the noise terms combine additively. Define
 
-$$
+<!-- $$
 \bar{\alpha}_{t} = \prod_{i=1}^{t} \alpha_{i}
+$$ -->
+$$
+\bar{\alpha}_{\,t} = \prod_{\,i=1}^{\,t} \alpha_{i}
 $$
 
 so the closed form becomes
