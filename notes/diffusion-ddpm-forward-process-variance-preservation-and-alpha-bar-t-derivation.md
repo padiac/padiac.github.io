@@ -70,7 +70,12 @@ where $\varepsilon$ is Gaussian with zero mean and identity covariance.
 
 ## 4. Why All Noise Merges Into One Gaussian
 
-The sum of independent Gaussian variables is still Gaussian, and the variances add up. The accumulated noise across $t$ steps has variance $1 - \bar{\alpha}_{t}$, so we can write it as $\sqrt{1 - \alpha_{1:t}}\, \varepsilon$ for a single $\varepsilon \sim N(0, I)$. This reduction to one noise draw enables efficient training and sampling.
+The sum of independent Gaussian variables is still Gaussian, and the variances add up. The accumulated noise across $t$ steps has variance $1 - \alpha_{1:t}$, so we can write it as
+$$
+\sqrt{1 - \alpha_{1:t}}\, \varepsilon
+$$
+for a single $\varepsilon \sim \mathcal{N}(0, I)$. This reduction to one noise draw enables efficient training and sampling.
+
 
 ---
 
