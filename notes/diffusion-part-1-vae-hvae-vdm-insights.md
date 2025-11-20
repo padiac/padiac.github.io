@@ -1,174 +1,202 @@
-﻿本文档总结了我们在讨论 VAE -> ELBO -> HVAE (不包含 VDM / Diffusion) 过程中形成的核心理解框架.
-结构分为两类内容, 并在正文中清晰标记学习笔记与洞察段落.
+VAE & Variational Inference — Full Notes (Part 1)
 
-- **学习笔记 (正常教材式解释)**
-- **你的洞察 (关键直觉,你自己的理解路径, 标记为 [Insight])**
-
-两种内容交织形成能够快速恢复整套思维链的结构.
+> 本文档整合了我们此前所有讨论过的要点，包括：  
+> * VAE 推导、ELBO 结构、KL ≥ 0、Jensen 不等式  
+> * Z = 文字（latent = language）的解释  
+> * μ / σ 的意义  
+> * MLE 类比、为何需要 $q_\phi(z|x)$  
+> * Decoder / Encoder 的作用  
+> * 为什么无法直接算 $p(x)$  
+> * 多步扩散的意义（为读 VDM 做准备）
 
 ---
 
-## 目录
+## 1. 原始目标：我们想求什么？
 
-1. 最大化 p(x) 的问题
-2. 引入 latent variable z 之后的问题
-3. 为什么需要 ELBO (Jensen 推导)
-4. KL divergence 的非负性与意义
-5. ELBO 的两项: 重构项与 KL 项
-6. 为什么 $\mu$ 与 $\sigma$ 是真正的参数 (MLE 对照)
-7. Encoder q_phi(z|x) 与 Decoder p_theta(x|z) 的角色
-8. Reparameterization Trick 的数学意义
-9. Dataset 层面的 likelihood = 样本 log 概率求和
-10. HVAE: 多层 latent 的结构
-11. Markov HVAE: 从 VAE 过渡到多步 latent
-12. HVAE ELBO 的结构
-
-## 最大化 p(x) 的问题
-
-目标:
+我们有一个世界中的真实图像分布：
 
 $$
-\max_\theta \log p_\theta(x)
+p(x)
 $$
 
-其中:
+这是所有图片的真实分布，但它无法直接计算，因为
 
 $$
-p_\theta(x) = \int p_\theta(x,z) dz
+p(x) = \int p(x \mid z)p(z) dz.
 $$
 
-但该积分不可计算, 因此需要寻找可优化的下界.
+这里立刻面临两个困难：
 
-## 引入 latent variable z 之后的问题
+1. 积分维度巨大（$z$ 的维度可达几百或几千）。
+2. $p(z \mid x)$ 的真后验无法算（下一节展开）。
 
-$$
-p(x) = \int p(x|z) p(z) dz
-$$
+---
 
-但后验:
+## 2. 真正的瓶颈：后验太难算
 
-$$
-p(z|x) = \frac{p(x|z) p(z)}{p(x)}
-$$
-
-不可解, 因此引入可控近似分布 $q_\phi(z|x)$.
-
-## 为什么需要 ELBO (Jensen 推导)
-
-从恒等式出发:
+真实后验为
 
 $$
-\log p(x) = \log \int q_\phi(z|x) \frac{p(x,z)}{q_\phi(z|x)} dz
+p(z \mid x) = \frac{p(x \mid z)p(z)}{p(x)}.
 $$
 
-对对数内部的期望应用 Jensen 不等式:
+然而分母 $p(x)$ 要对所有 $z$ 积分，因此不可算，于是我们无法直接拿到真实的 posterior。
+
+---
+
+## 3. 关键思想：引入一个可控的替身 $q_\phi(z \mid x)$
+
+我们构造一个人工后验
 
 $$
-\log p(x) \ge E_{q_\phi(z|x)} \left[ \log p(x,z) - \log q_\phi(z|x) \right]
+q_\phi(z \mid x),
 $$
 
-右侧定义为 ELBO:
+它必须满足：
+
+1. 我们能计算它。
+2. 我们能从里面采样。
+3. 它和真实后验越接近越好。
+
+常见形式：
 
 $$
-\text{ELBO}(x) = E_{q_\phi(z|x)}[\log p(x|z)] - \text{KL}(q_\phi(z|x)\Vert p(z))
+q_\phi(z \mid x) = \mathcal{N}(z \mid \mu_\phi(x), \sigma_\phi^2(x) I).
 $$
 
-## KL divergence 的非负性与意义
+在你的类比中：**$z$ 就是“文字”**；$\mu$ = 文字的中心位置，$\sigma$ = 该文字描述的模糊度。
+
+> **Z 不应该被看成“抽象 latent”，而应该被看成图像的文字描述，因为文字是低维表征，是更容易理解的直觉模型。**
+
+---
+
+## 4. ELBO 推导：从 $\log p(x)$ 开始
+
+经典分解：
 
 $$
-\text{KL}(q\Vert p) = E_q \left[ \log \frac{q}{p} \right] \ge 0
+\log p(x)
+= E_{q_\phi(z \mid x)}[\log p_\theta(x \mid z)]
+- \text{KL}(q_\phi(z \mid x) \Vert p(z)).
 $$
 
-因此:
+右侧两项中：
+
+- 第一项叫重构项，鼓励 decoder 生成像样的图片。
+- 第二项是 KL 项，强制 encoder 输出的 $q_\phi(z \mid x)$ 靠近 prior $p(z)$。
+
+---
+
+## 5. 为什么 KL ≥ 0？
+
+KL 散度定义为
 
 $$
-\log p(x) \ge \text{ELBO}(x)
+\text{KL}(q \Vert p) = E_q \left[ \log \frac{q}{p} \right] \ge 0.
 $$
 
-ELBO 是 log likelihood 的下界.
-
-## ELBO 的两项: 重构项与 KL 项
+这是因为对数函数是凹函数，使用 Jensen 不等式即可证明
 
 $$
-\text{ELBO} = \underbrace{E_{q_\phi}[\log p_\theta(x|z)]}_{\text{重构项}} - \underbrace{\text{KL}(q_\phi(z|x)\Vert p(z))}_{\text{先验正则项}}
+E[\log X] \le \log E[X].
 $$
 
-重构项鼓励 decoder 在给定 z 时学会重建 x, KL 项让 posterior 不要偏离 prior.
+你已经完整理解，这里只是公式化记录。
 
-## 为什么 $\mu$ 与 $\sigma$ 是真正的参数 (MLE 对照)
+---
 
-**[Insight]** VAE 把原本在高斯 MLE 中直接求解的均值和方差参数, 变成由神经网络输出的函数形式, 但它们仍然是需要通过最大化 ELBO 来优化的真正参数.
+## 6. 为什么要最大化 ELBO？
 
-在普通高斯 MLE 中, 参数 $\mu$ 与 $\sigma$ 通过最大化 likelihood 求得. 在 VAE 中:
-
-$$
-q_\phi(z|x) = \mathcal{N}(z; \mu_\phi(x), \sigma_\phi^2(x) I)
-$$
-
-其中 $\mu_\phi(x)$ 与 $\sigma_\phi(x)$ 仍是参数化对象, 只是通过网络给出. 训练过程本质上是最大化 ELBO 来联合更新这些参数.
-
-## Encoder \phi(z|x)$ 与 Decoder \theta(x|z)$ 的角色
-
-Encoder 负责近似 posterior, decoder 则刻画生成方向的 likelihood.
-
-**[Insight]** 因为 ELBO 推导主要纠缠在 posterior 上, $\theta$ 只在重构项显现, 所以存在感较弱. Encoder 负责 "从 x 找 z", decoder 负责 "从 z 生成 x".
-
-## Reparameterization Trick 的数学意义
-
-采样步骤写为:
+因为
 
 $$
-z \sim \mathcal{N}(\mu_\phi(x), \sigma_\phi^2(x) I)
+\log p(x) = \text{ELBO}(x) + \text{KL}(q_\phi(z \mid x) \Vert p(z \mid x)),
 $$
 
-通过改写:
+且右侧 KL ≥ 0，所以
 
 $$
-z = \mu_\phi(x) + \sigma_\phi(x) \odot \epsilon, \quad \epsilon \sim \mathcal{N}(0, I)
+\log p(x) \ge \text{ELBO}(x).
 $$
 
-可以把随机性转移到 $\epsilon$ 上, 让 $\mu_\phi$ 与 $\sigma_\phi$ 对损失可导并能反向传播. 目的不是为了采样, 而是为了求导.
+我们无法直接最大化 $\log p(x)$，但能最大化可计算的下界 ELBO。
 
-## Dataset 层面的 likelihood = 样本 log 概率求和
+---
 
-**[Insight]** 虽然推导中看似只讨论单个样本, 但与静态 MLE 一样:
+## 7. μ / σ 是什么？
 
-$$
-\log p(x^{(1)}, \cdots, x^{(N)}) = \sum_{n=1}^N \log p(x^{(n)})
-$$
-
-训练时的损失就是对所有样本的 ELBO 求和.
-
-## HVAE: 多层 latent 的结构
-
-HVAE 把 $z$ 拓展成层级链:
+Encoder 为每张图像 $x$ 预测两个向量
 
 $$
-z_T \rightarrow z_{T-1} \rightarrow \cdots \rightarrow z_1 \rightarrow x
+\mu_\phi(x), \quad \sigma_\phi(x),
 $$
 
-Encoder:
+它们是
+
+1. 真正的优化参数。
+2. 类比为“如何用文字描述一张图”。
+3. 对应 MLE 中“μ / σ 也是需要估计的参数”。
+
+> 你说得对：真正要优化的是 μ 和 σ，因为 $q_\phi(z \mid x)$ 就是由 μ / σ 完全决定的，它们是变量，不是固定量。
+
+---
+
+## 8. MLE 的类比
+
+MLE 目标：
 
 $$
-q(z_{1:T}|x) = q(z_1|x) \prod_{t=2}^T q(z_t|z_{t-1})
+\theta^\* = \arg\max_\theta \prod_{i=1}^N p(x_i \mid \theta).
 $$
 
-Decoder:
+VAE 目标：
 
 $$
-p(x, z_{1:T}) = p(z_T) \prod_{t=2}^T p(z_{t-1}|z_t) p(x|z_1)
+\max_{\phi, \theta} \sum_{i=1}^N \text{ELBO}(x_i).
 $$
 
-## Markov HVAE: 从 VAE 过渡到多步 latent
+总结：
 
-Markov HVAE 在多层结构上加入 $q(z_t|z_{t-1})$ 与 $p(z_{t-1}|z_t)$ 的 Markov 形态.
+- 传统 MLE 对单个分布 $p(x \mid \theta)$ 寻找参数 $\theta$。
+- VAE 对 encoder + decoder 这对模型寻找参数 $\phi, \theta$。
+- 训练数据仍然独立同分布，因此要对所有样本求和。
 
-**[Insight]** 虽然连续高斯可以折叠成一次大的采样, 多层 latent 并不会改变表达能力, 但更深的结构让训练更稳定, 就像更深的神经网络更容易优化.
+你也敏锐地指出“应该出现 $N$ 张图的联合概率”，这是正确的；论文只是经常省略写法，本质就是 $\sum_i \text{ELBO}(x_i)$。
 
-## HVAE ELBO 的结构
+---
+
+## 9. Decoder 的意义：$p_\theta(x \mid z)$
+
+Decoder 通常建模为
 
 $$
-\text{ELBO} = E_q[\log p(x|z_1)] + \sum_{t=2}^T E_q[\log p(z_{t-1}|z_t)] - \sum_{t=1}^T E_q[\log q(z_t|z_{t-1})] - \text{KL}(q(z_T)\Vert p(z_T))
+p_\theta(x \mid z) = \mathcal{N}(x \mid \mu_\theta(z), \sigma_\theta^2 I).
 $$
 
-HVAE 本质上是 VAE 的多层版本, 每层拥有自己的 $\mu$ 与 $\sigma$, 并通过 ELBO 共同优化.
+你指出：
+
+> Decoder 的 $\mu_\theta(z)$ 就是“给定文字生成图片的中心图像”，这是生成模型的关键直觉。
+
+---
+
+## 10. 最关键的一点：为什么 $p(z)$ 可以是正态？
+
+你问的核心问题：
+
+> 如果 $z$ 是“文字”，为何世界上的文字分布可以是 $N(0, I)$？
+
+洞察：
+
+> $p(z) = N(0, I)$ 不是因为真实世界文本满足正态，而是因为我们用 μ / σ 把数据编码到一个正态 prior 上。Prior 是我们选的几何结构，而不是真实世界结构。
+
+这也是现代 representation learning 的主流理解。
+
+---
+
+## 11. 多步扩散 vs 一步采样
+
+虽然更偏向 VDM，但你的关键直觉值得记录：
+
+> 理论上一大步可以折叠多小步，但多小步能让生成更稳定，因为每步加噪声会改变路径形状。
+
+这正是 diffusion 相比 VAE 在图像生成上更强的重要原因之一；更完整的展开将在 VDM 部分记录。
