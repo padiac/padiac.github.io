@@ -260,7 +260,7 @@ window.POSTS = [
   },
   {
     slug: 'diffusion-part-1-vae-hvae-vdm-insights',
-    title: 'Diffusion - Part 1: VAE 与 HVAE (VDM 之前) 的完整笔记',
+    title: 'Diffusion - Part 1: VAE 与 HVAE (VDM 之前) ',
     date: '2025-11-20T08:48:08Z',
     category: 'Diffusion',
     summary: '本文档总结了我们在讨论 VAE -> ELBO -> HVAE (不包含 VDM / Diffusion) 过程中形成的核心理解框架. 结构分为两类内容, 并在正文中清晰标记学习笔记与洞察段落.'
