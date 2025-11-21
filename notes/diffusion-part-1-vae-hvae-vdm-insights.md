@@ -193,21 +193,107 @@ $$
 
 ---
 
-## 6. 为什么要最大化 ELBO？
+## 6. 为什么我们最大化 ELBO？我们到底在优化什么？
 
-因为
+首先，真实的数据分布 $p(x)$ 是一个真实存在的量，它既不可写出解析式，也不依赖任何我们可训练的参数。因此 $p(x)$ 本身无法直接“优化”。我们唯一能做的，是构造一个可计算的下界 —— ELBO，而 ELBO 的大小取决于我们学习的 $q_\phi(z \mid x)$ 和 $p(x \mid z)$。
 
-$$
-\log p(x) = \text{ELBO}(x) + \text{KL}(q_\phi(z \mid x) \Vert p(z \mid x)),
-$$
-
-且右侧 KL ≥ 0，所以
+从 ELBO 推导我们知道：
 
 $$
-\log p(x) \ge \text{ELBO}(x).
+\log p(x)
+= \mathbb{E}_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
+- \mathrm{KL}\big(q_\phi(z\mid x)\,\Vert\,p(z)\big)
++ \mathrm{KL}\big(q_\phi(z\mid x)\,\Vert\,p(z\mid x)\big).
 $$
 
-我们无法直接最大化 $\log p(x)$，但能最大化可计算的下界 ELBO。
+注意这里的 **两个 KL 项不是同一个东西**：
+
+1. 
+$$
+\mathrm{KL}\big(q_\phi(z\mid x)\,\Vert\,p(z)\big)
+$$
+这个是 ELBO 里面真正出现的那一项，它衡量的是：  
+**我们学到的 posterior（encoder）与先验分布 $p(z)$ 的差异。**
+
+2. 
+$$
+\mathrm{KL}\big(q_\phi(z\mid x)\,\Vert\,p(z\mid x)\big)
+$$
+这个 KL 是真实后验与我们学到的 posterior 之间的差异。  
+它不在 ELBO 中出现，但它永远是非负的，用来建立下界关系。
+
+因为第二个 KL（和真实后验的 KL）永远 ≥ 0，所以我们得到下界：
+
+$$
+\log p(x)
+\ge 
+\mathbb{E}_{q_\phi}[\log p_\theta(x\mid z)]
+-
+\mathrm{KL}(q_\phi(z\mid x)\Vert p(z)).
+$$
+
+当且仅当
+
+$$
+q_\phi(z\mid x)=p(z\mid x)
+$$
+
+时，上述第二个 KL 等于 0，于是：
+
+$$
+\text{ELBO}(x)=\log p(x).
+$$
+
+也就是说：**只要我们学到的 $q_\phi(z\mid x)$ 完全等于真实后验，那么 ELBO 就等于真实但不可计算的 $\log p(x)$。**
+
+---
+
+然而，把 KL(q‖真实后验) 变成 0 的要求太高，因为真实 posterior 无法直接求解，因此我们只能最大化 ELBO 作为近似。这个过程本质上不是让某一项单独尽量大或尽量小，而是在以下两者之间取得平衡：
+
+1. **重构项**  
+$$
+\mathbb{E}_{q_\phi}[\log p_\theta(x\mid z)]
+$$
+希望 encoder 输出的 $z$ 包含足够的关于 $x$ 的信息，使 decoder 能尽量重建输入。
+
+2. **KL 项（与先验的 KL）**  
+$$
+\mathrm{KL}(q_\phi(z\mid x)\Vert p(z))
+$$
+希望 latent 空间保持“规整”，让不同样本的 posterior 不至于发散，让整个 latent 空间保持可采样、结构良好。
+
+如果我们让 KL(q‖p(z)) = 0（即 $q_\phi(z\mid x)=p(z)=\mathcal N(0,I)$），那么：
+
+- encoder 必须输出 $\mu_\phi(x)=0,\, \sigma_\phi(x)=1$
+- 也就是说 **encoder 不再编码任何关于 x 的信息**
+- 因此重构项会变得极差
+
+所以虽然 KL(q‖p(z))=0 看上去很好，但它对应的是一个**完全无信息的 encoder**，导致 ELBO 反而极低。
+
+相反，如果我们把重构项做到极大，让 encoder 完全自由地“塞满信息”，其结果往往会导致 KL(q‖p(z)) 非常大 —— latent 结构会塌缩成互不兼容的小岛，无法从 prior 随机采样也无法生成合理图像。
+
+因此 ELBO 最大化的最优点并不是：
+
+- KL = 0  
+也不是  
+- 重构误差 = 0  
+
+而是：
+
+$$
+\text{ELBO 最大化点}
+\quad=\quad
+\text{重构足够好} \;+\; \text{latent 结构足够规整}
+$$
+
+在这个折中点上，我们得到最好的 $q_\phi(z\mid x)$：  
+它既保留了图片的语义信息（你的“猫抓老鼠必须还是猫抓老鼠，而不是老鼠抓猫”），又保持 latent 空间和先验分布对齐，从而能进行生成、插值、采样等任务。
+
+因此最大化 ELBO 的深层含义是：
+
+**我们希望学到的 posterior 既能忠实表达输入的语义，又能嵌入一个统一、规整、可采样的 latent 空间中。**
+
+这就是为什么 ELBO 是我们真正要优化的目标，而不是 $\log p(x)$。
 
 ---
 
