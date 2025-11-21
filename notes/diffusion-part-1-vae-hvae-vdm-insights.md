@@ -89,25 +89,20 @@ $$
 
 $$
 \log p(x)
-= \log \int q_\phi(z \mid x)\frac{p(x \mid z)p(z)}{q_\phi(z \mid x)}\,dz.
+= \log \int q_\phi(z \mid x)\frac{p(x \mid z)p(z)}{q_\phi(z \mid x)} dz.
 $$
 
 
 改写成期望形式：
 
 $$
-\log p(x)
-= \log\,\mathbb{E}_{q_\phi(z \mid x)}
-\!\left[
-\frac{p(x \mid z)\,p(z)}
-     {q_\phi(z \mid x)}
-\right].
+\log p(x) = \log E_{q_\phi(z \mid x)} \left[ \frac{p(x \mid z)p(z)} {q_\phi(z \mid x)} \right].
 $$
 
-现在出现关键结构 $\log \mathbb{E}[\cdot]$，可用 Jensen 不等式：
+现在出现关键结构 $\log E[\cdot]$，可用 Jensen 不等式：
 
 $$
-\log \mathbb{E}[X] \ge \mathbb{E}[\log X].
+\log E[X] \ge E[\log X].
 $$
 
 于是得到 ELBO：
@@ -115,10 +110,10 @@ $$
 $$
 \log p(x)
 \ge 
-\mathbb{E}_{q_\phi(z \mid x)}
+E_{q_\phi(z \mid x)}
 [\log p(x \mid z)]
 -
-\text{KL}(q_\phi(z \mid x)\,\Vert\,p(z)).
+\text{KL}(q_\phi(z \mid x)\Vert p(z)).
 $$
 
 完整写成：
@@ -126,9 +121,9 @@ $$
 $$
 \text{ELBO}(x)
 =
-\mathbb{E}_{q_\phi(z \mid x)}[\log p(x \mid z)]
+E_{q_\phi(z \mid x)}[\log p(x \mid z)]
 -
-\text{KL}(q_\phi(z \mid x)\,\Vert\,p(z)).
+\text{KL}(q_\phi(z \mid x)\Vert p(z)).
 $$
 
 为了看清楚这一分解从何而来，我们考虑真实后验的 KL：
@@ -136,7 +131,7 @@ $$
 $$
 \text{KL}(q_\phi(z \mid x)\Vert p(z \mid x))
 = 
-\mathbb{E}_{q_\phi}[\log q_\phi(z \mid x) - \log p(z \mid x)]
+E_{q_\phi}[\log q_\phi(z \mid x) - \log p(z \mid x)]
 \ge 0.
 $$
 
@@ -152,11 +147,11 @@ $$
 $$
 \text{KL}
 = 
-\mathbb{E}[\log q_\phi]
+E[\log q_\phi]
 -
-\mathbb{E}[\log p(x \mid z)]
+E[\log p(x \mid z)]
 -
-\mathbb{E}[\log p(z)]
+E[\log p(z)]
 + \log p(x).
 $$
 
@@ -165,7 +160,7 @@ $$
 $$
 \log p(x)
 =
-\mathbb{E}[\log p(x \mid z)]
+E[\log p(x \mid z)]
 -
 \text{KL}(q_\phi(z \mid x)\Vert p(z))
 + 
@@ -202,23 +197,23 @@ $$
 
 $$
 \log p(x)
-= \mathbb{E}_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
-- \mathrm{KL}\big(q_\phi(z\mid x)\,\Vert\,p(z)\big)
-+ \mathrm{KL}\big(q_\phi(z\mid x)\,\Vert\,p(z\mid x)\big).
+= E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
+- \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z)\big)
++ \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z\mid x)\big).
 $$
 
 注意这里的 **两个 KL 项不是同一个东西**：
 
 1. 
 $$
-\mathrm{KL}\big(q_\phi(z\mid x)\,\Vert\,p(z)\big)
+\mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z)\big)
 $$
 这个是 ELBO 里面真正出现的那一项，它衡量的是：  
 **我们学到的 posterior（encoder）与先验分布 $p(z)$ 的差异。**
 
 2. 
 $$
-\mathrm{KL}\big(q_\phi(z\mid x)\,\Vert\,p(z\mid x)\big)
+\mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z\mid x)\big)
 $$
 这个 KL 是真实后验与我们学到的 posterior 之间的差异。  
 它不在 ELBO 中出现，但它永远是非负的，用来建立下界关系。
@@ -228,7 +223,7 @@ $$
 $$
 \log p(x)
 \ge 
-\mathbb{E}_{q_\phi}[\log p_\theta(x\mid z)]
+E_{q_\phi}[\log p_\theta(x\mid z)]
 -
 \mathrm{KL}(q_\phi(z\mid x)\Vert p(z)).
 $$
@@ -253,7 +248,7 @@ $$
 
 1. **重构项**  
 $$
-\mathbb{E}_{q_\phi}[\log p_\theta(x\mid z)]
+E_{q_\phi}[\log p_\theta(x\mid z)]
 $$
 希望 encoder 输出的 $z$ 包含足够的关于 $x$ 的信息，使 decoder 能尽量重建输入。
 
@@ -265,7 +260,7 @@ $$
 
 如果我们让 KL(q‖p(z)) = 0（即 $q_\phi(z\mid x)=p(z)=\mathcal N(0,I)$），那么：
 
-- encoder 必须输出 $\mu_\phi(x)=0,\, \sigma_\phi(x)=1$
+- encoder 必须输出 $\mu_\phi(x)=0,  \sigma_\phi(x)=1$
 - 也就是说 **encoder 不再编码任何关于 x 的信息**
 - 因此重构项会变得极差
 
@@ -284,7 +279,7 @@ $$
 $$
 \text{ELBO 最大化点}
 \quad=\quad
-\text{重构足够好} \;+\; \text{latent 结构足够规整}
+\text{重构足够好} + \text{latent 结构足够规整}
 $$
 
 在这个折中点上，我们得到最好的 $q_\phi(z\mid x)$：  
@@ -300,9 +295,9 @@ $$
 再补充几点，在前面的分析中，我们说明了：最大化 ELBO 并不是直接最大化 $\log p(x)$，因为 $\log p(x)$ 是一个无法优化的常数；我们真正能优化、也真正想优化的是 **$q_\phi(z\mid x)$ 的质量** —— 即它是否成功学到图像的“低维语义表达”。然而，从数学结构上看，ELBO 的两项：
 
 $$
-\mathbb{E}_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
+E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
 \quad\text{与}\quad
-\mathrm{KL}(q_\phi(z\mid x)\,\Vert\,p(z))
+\mathrm{KL}(q_\phi(z\mid x) \Vert p(z))
 $$
 
 都没有直接包含“语义”这一变量，因此 **ELBO 最大化为什么会让 latent 空间具有语义结构？** 这个问题并没有形式化的数学结论。
@@ -315,7 +310,7 @@ $$
 
 重构项  
 $$
-\mathbb{E}_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
+E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
 $$
 要求 decoder 必须仅凭 $z$ 重建出合理的图像。
 
@@ -382,7 +377,7 @@ ELBO 最大化本身并不保证语义结构，但以下三者的结合：
 MLE 目标：
 
 $$
-\theta^\* = \arg\max_\theta \prod_{i=1}^N p(x_i \mid \theta).
+\theta^\ast = \arg\max_\theta \prod_{i=1}^N p(x_i \mid \theta).
 $$
 
 VAE 目标：
