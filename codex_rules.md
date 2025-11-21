@@ -34,6 +34,7 @@ The user will not provide any parameters beyond the pasted Markdown block.
   ...
   $$
   ```
+  - Keep every display formula on a single logical line inside `$$ ... $$` with no internal newlines, blank lines, or indentation; collapse multi-line equations into one line so GitHub Pages renders them.
   - Convert `\(...\)` -> `$...$`, `\[...\]` -> `$$...$$`.
   - Remove `\boxed{...}` but keep its content.
   - Do not use spacing commands such as `\,`, `\!`, `\;`, or `\:` anywhere in math (inline or block); remove them entirely, especially inside block formulas, or the GitHub Pages renderer will fail the equation.

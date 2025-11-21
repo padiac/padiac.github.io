@@ -15,15 +15,11 @@
 
 我们有一个世界中的真实图像分布：
 
-$$
-p(x)
-$$
+$$ p(x) $$
 
 这是所有图片的真实分布，但它无法直接计算，因为
 
-$$
-p(x) = \int p(x \mid z)p(z) dz.
-$$
+$$ p(x) = \int p(x \mid z)p(z) dz. $$
 
 这里立刻面临两个困难：
 
@@ -44,9 +40,7 @@ $$
 
 真实后验为
 
-$$
-p(z \mid x) = \frac{p(x \mid z)p(z)}{p(x)}.
-$$
+$$ p(z \mid x) = \frac{p(x \mid z)p(z)}{p(x)}. $$
 
 然而分母 $p(x)$ 要对所有 $z$ 积分，因此不可算，于是我们无法直接拿到真实的 posterior。
 
@@ -56,9 +50,7 @@ $$
 
 我们构造一个人工后验
 
-$$
-q_\phi(z \mid x),
-$$
+$$ q_\phi(z \mid x), $$
 
 它必须满足：
 
@@ -68,9 +60,7 @@ $$
 
 常见形式：
 
-$$
-q_\phi(z \mid x) = \mathcal{N}(z \mid \mu_\phi(x), \sigma_\phi^2(x) I).
-$$
+$$ q_\phi(z \mid x) = \mathcal{N}(z \mid \mu_\phi(x), \sigma_\phi^2(x) I). $$
 
 在上面的类比中：**$z$ 就是“文字”**；$\mu$ = 文字的中心位置，$\sigma$ = 该文字描述的模糊度。这两个参数其实正是我们想学的东西，如果z正好是是三维向量的话，它决定了每个图片都可以映射到三个“字”，这三个字就是图的低维表示。现在我们考虑一个比较简单的情况，就是我有两张图片，一张图片对应的文字是“一只猫”，另一张图片对应的文字是“一只老鼠”，这个时候你会觉得好像把猫和狗互换并没有任何影响。但其实是不对的，其实一开始真正的任务是给我们一个图片的training set，我们要学会这些图片的低维表示，或者这里就是文字表示。这意味着如果你有另外一张图片是“猫抓老鼠”的话，你学到到的意义就完全不对了。所以你要学的低维表示，它某种程度上是要“同构”于原本的图片，这才是我们学习的目的。
 
@@ -81,106 +71,53 @@ $$
 
 我们从最原始的目标开始：最大化数据点 $x$ 的边缘似然 $\log p(x)$。因为
 
-$$
-p(x)=\int p(x,z) dz,
-$$
+$$ p(x)=\int p(x,z) dz, $$
 
 这个积分在高维 latent 空间上无法解析，于是我们引入一个可控的近似后验 $q_\phi(z \mid x)$，把它强行塞进 $\log p(x)$：
 
-$$
-\log p(x)
-= \log \int q_\phi(z \mid x)\frac{p(x \mid z)p(z)}{q_\phi(z \mid x)} dz.
-$$
+$$ \log p(x) = \log \int q_\phi(z \mid x)\frac{p(x \mid z)p(z)}{q_\phi(z \mid x)} dz. $$
 
 
 改写成期望形式：
 
-$$
-\log p(x) = \log E_{q_\phi(z \mid x)} \left[ \frac{p(x \mid z)p(z)} {q_\phi(z \mid x)} \right].
-$$
+$$ \log p(x) = \log E_{q_\phi(z \mid x)} \left[ \frac{p(x \mid z)p(z)} {q_\phi(z \mid x)} \right]. $$
 
 现在出现关键结构 $\log E[\cdot]$，可用 Jensen 不等式：
 
-$$
-\log E[X] \ge E[\log X].
-$$
+$$ \log E[X] \ge E[\log X]. $$
 
 于是得到 ELBO：
 
-$$
-\log p(x)
-\ge 
-E_{q_\phi(z \mid x)}
-[\log p(x \mid z)]
--
-\text{KL}(q_\phi(z \mid x)\Vert p(z)).
-$$
+$$ \log p(x) \ge E_{q_\phi(z \mid x)} [\log p(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)). $$
 
 完整写成：
 
-$$
-\text{ELBO}(x)
-=
-E_{q_\phi(z \mid x)}[\log p(x \mid z)]
--
-\text{KL}(q_\phi(z \mid x)\Vert p(z)).
-$$
+$$ \text{ELBO}(x) = E_{q_\phi(z \mid x)}[\log p(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)). $$
 
 为了看清楚这一分解从何而来，我们考虑真实后验的 KL：
 
-$$
-\text{KL}(q_\phi(z \mid x)\Vert p(z \mid x))
-= 
-E_{q_\phi}[\log q_\phi(z \mid x) - \log p(z \mid x)]
-\ge 0.
-$$
+$$ \text{KL}(q_\phi(z \mid x)\Vert p(z \mid x)) = E_{q_\phi}[\log q_\phi(z \mid x) - \log p(z \mid x)] \ge 0. $$
 
 使用 Bayes 展开：
 
-$$
-\log p(z \mid x)
-= \log p(x \mid z) + \log p(z) - \log p(x).
-$$
+$$ \log p(z \mid x) = \log p(x \mid z) + \log p(z) - \log p(x). $$
 
 代回 KL 展开式：
 
-$$
-\text{KL}
-= 
-E[\log q_\phi]
--
-E[\log p(x \mid z)]
--
-E[\log p(z)]
-+ \log p(x).
-$$
+$$ \text{KL} = E[\log q_\phi] - E[\log p(x \mid z)] - E[\log p(z)] + \log p(x). $$
 
 移项整理得：
 
-$$
-\log p(x)
-=
-E[\log p(x \mid z)]
--
-\text{KL}(q_\phi(z \mid x)\Vert p(z))
-+ 
-\text{KL}(q_\phi(z \mid x)\Vert p(z \mid x)).
-$$
+$$ \log p(x) = E[\log p(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)) + \text{KL}(q_\phi(z \mid x)\Vert p(z \mid x)). $$
 
 由于 KL ≥ 0 (这里和Jensen 不等式只要二选一就能证明)，因此：
 
-$$
-\log p(x)\ge \text{ELBO}(x).
-$$
+$$ \log p(x)\ge \text{ELBO}(x). $$
 开始
 
 经典分解：
 
-$$
-\log p(x)
-\ge E_{q_\phi(z \mid x)}[\log p(x \mid z)]
-- \text{KL}(q_\phi(z \mid x) \Vert p(z)).
-$$
+$$ \log p(x) \ge E_{q_\phi(z \mid x)}[\log p(x \mid z)] - \text{KL}(q_\phi(z \mid x) \Vert p(z)). $$
 
 右侧两项中：
 
@@ -195,50 +132,31 @@ $$
 
 从 ELBO 推导我们知道：
 
-$$
-\log p(x)
-= E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
-- \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z)\big)
-+ \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z\mid x)\big).
-$$
+$$ \log p(x) = E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)] - \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z)\big) + \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z\mid x)\big). $$
 
 注意这里的 **两个 KL 项不是同一个东西**：
 
 1. 
-$$
-\mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z)\big)
-$$
+$$ \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z)\big) $$
 这个是 ELBO 里面真正出现的那一项，它衡量的是：  
 **我们学到的 posterior（encoder）与先验分布 $p(z)$ 的差异。**
 
 2. 
-$$
-\mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z\mid x)\big)
-$$
+$$ \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z\mid x)\big) $$
 这个 KL 是真实后验与我们学到的 posterior 之间的差异。  
 它不在 ELBO 中出现，但它永远是非负的，用来建立下界关系。
 
 因为第二个 KL（和真实后验的 KL）永远 ≥ 0，所以我们得到下界：
 
-$$
-\log p(x)
-\ge 
-E_{q_\phi}[\log p_\theta(x\mid z)]
--
-\mathrm{KL}(q_\phi(z\mid x)\Vert p(z)).
-$$
+$$ \log p(x) \ge E_{q_\phi}[\log p_\theta(x\mid z)] - \mathrm{KL}(q_\phi(z\mid x)\Vert p(z)). $$
 
 当且仅当
 
-$$
-q_\phi(z\mid x)=p(z\mid x)
-$$
+$$ q_\phi(z\mid x)=p(z\mid x) $$
 
 时，上述第二个 KL 等于 0，于是：
 
-$$
-\text{ELBO}(x)=\log p(x).
-$$
+$$ \text{ELBO}(x)=\log p(x). $$
 
 也就是说：**只要我们学到的 $q_\phi(z\mid x)$ 完全等于真实后验，那么 ELBO 就等于真实但不可计算的 $\log p(x)$。**
 
@@ -247,15 +165,11 @@ $$
 然而，把 KL(q‖真实后验) 变成 0 的要求太高，因为真实 posterior 无法直接求解，因此我们只能最大化 ELBO 作为近似。这个过程本质上不是让某一项单独尽量大或尽量小，而是在以下两者之间取得平衡：
 
 1. **重构项**  
-$$
-E_{q_\phi}[\log p_\theta(x\mid z)]
-$$
+$$ E_{q_\phi}[\log p_\theta(x\mid z)] $$
 希望 encoder 输出的 $z$ 包含足够的关于 $x$ 的信息，使 decoder 能尽量重建输入。
 
 2. **KL 项（与先验的 KL）**  
-$$
-\mathrm{KL}(q_\phi(z\mid x)\Vert p(z))
-$$
+$$ \mathrm{KL}(q_\phi(z\mid x)\Vert p(z)) $$
 希望 latent 空间保持“规整”，让不同样本的 posterior 不至于发散，让整个 latent 空间保持可采样、结构良好。
 
 如果我们让 KL(q‖p(z)) = 0（即 $q_\phi(z\mid x)=p(z)=\mathcal N(0,I)$），那么：
@@ -276,11 +190,7 @@ $$
 
 而是：
 
-$$
-\text{ELBO 最大化点}
-\quad=\quad
-\text{重构足够好} + \text{latent 结构足够规整}
-$$
+$$ \text{ELBO 最大化点} \quad=\quad \text{重构足够好} + \text{latent 结构足够规整} $$
 
 在这个折中点上，我们得到最好的 $q_\phi(z\mid x)$：  
 它既保留了图片的语义信息（你的“猫抓老鼠必须还是猫抓老鼠，而不是老鼠抓猫”），又保持 latent 空间和先验分布对齐，从而能进行生成、插值、采样等任务。
@@ -294,11 +204,7 @@ $$
 
 再补充几点，在前面的分析中，我们说明了：最大化 ELBO 并不是直接最大化 $\log p(x)$，因为 $\log p(x)$ 是一个无法优化的常数；我们真正能优化、也真正想优化的是 **$q_\phi(z\mid x)$ 的质量** —— 即它是否成功学到图像的“低维语义表达”。然而，从数学结构上看，ELBO 的两项：
 
-$$
-E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
-\quad\text{与}\quad
-\mathrm{KL}(q_\phi(z\mid x) \Vert p(z))
-$$
+$$ E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)] \quad\text{与}\quad \mathrm{KL}(q_\phi(z\mid x) \Vert p(z)) $$
 
 都没有直接包含“语义”这一变量，因此 **ELBO 最大化为什么会让 latent 空间具有语义结构？** 这个问题并没有形式化的数学结论。
 
@@ -309,9 +215,7 @@ $$
 ### **（1）重构项迫使 $z$ 携带数据中最关键、最“信息压缩”的部分**
 
 重构项  
-$$
-E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)]
-$$
+$$ E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)] $$
 要求 decoder 必须仅凭 $z$ 重建出合理的图像。
 
 由于 $z$ 的维度远小于 $x$，模型被迫把图像中最具区分度、最稳定、最“可压缩”的部分编码进去。在自然图像中，这些部分往往正对应语义内容（比如物体种类、位置、动作等）。因此 encoder 自然倾向于把“重要信息”挤进 latent 空间，而这些“重要信息”恰好就是语义。
@@ -322,9 +226,7 @@ $$
 
 KL 项
 
-$$
-\mathrm{KL}(q_\phi(z\mid x)\Vert p(z))
-$$
+$$ \mathrm{KL}(q_\phi(z\mid x)\Vert p(z)) $$
 
 迫使所有 $q_\phi(z\mid x)$ 靠近一个简单分布（通常是标准高斯）。这带来两个深刻效果：
 
@@ -376,15 +278,11 @@ ELBO 最大化本身并不保证语义结构，但以下三者的结合：
 
 MLE 目标：
 
-$$
-\theta^\ast = \arg\max_\theta \prod_{i=1}^N p(x_i \mid \theta).
-$$
+$$ \theta^\ast = \arg\max_\theta \prod_{i=1}^N p(x_i \mid \theta). $$
 
 VAE 目标：
 
-$$
-\max_{\phi, \theta} \sum_{i=1}^N \text{ELBO}(x_i).
-$$
+$$ \max_{\phi, \theta} \sum_{i=1}^N \text{ELBO}(x_i). $$
 
 总结：
 
@@ -400,9 +298,7 @@ $$
 
 Decoder 通常建模为
 
-$$
-p_\theta(x \mid z) = \mathcal{N}(x \mid \mu_\theta(z), \sigma_\theta^2 I).
-$$
+$$ p_\theta(x \mid z) = \mathcal{N}(x \mid \mu_\theta(z), \sigma_\theta^2 I). $$
 
 你指出：
 
