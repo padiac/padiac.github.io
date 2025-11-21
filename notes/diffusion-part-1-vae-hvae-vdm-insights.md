@@ -19,7 +19,7 @@ $$ p(x) $$
 
 这是所有图片的真实分布，但它无法直接计算，因为
 
-$$ p(x) = \int p(x \mid z)p(z) dz. $$
+$$ p(x) = \int p_\theta(x \mid z)p(z) dz. $$
 
 这里立刻面临两个困难：
 
@@ -28,11 +28,11 @@ $$ p(x) = \int p(x \mid z)p(z) dz. $$
 
 
 为了理解这里公式的意义和我们到底在优化什么，我们把问题形象化成如下版本： 
-1. z 通常看成“抽象 latent”，但这里我们可以方便的认为就是图片对应的文字. $p(x \mid z)$ 是给定文字之后的图像分布, 如果分布已知，可以通过文字生成图像，这里x的自由度就是图片的dimension。例如每个pixel的值满足高斯分布，那么p的极大似然就是当前输入文字生成的图片。
+1. z 通常看成“抽象 latent”，但这里我们可以方便的认为就是图片对应的文字. $p_\theta(x \mid z)$ 是给定文字之后的图像分布, 如果分布已知，可以通过文字生成图像，这里x的自由度就是图片的dimension。例如每个pixel的值满足高斯分布，那么p的极大似然就是当前输入文字生成的图片。
 3. $p(x, z)$ 是x和z的联合分布，也就是同一段文字可以生成无穷多图片（当然极大似然对应那个最优的结果），同样一张图片也可以用无穷多段文字描述。
 4. 文字可以轻易的转化成embedding vector. 例如一个k dimension的向量空间，这时候应当认为这个空间是完备的，也就是文字可以取所有值。$p(z)$这时候就是先验分布。在贝叶斯中，我们有很多取先验的方式，其中正太分布是非常常见的一种, 下面的讨论中可以看到$p(z)$的确用的就是正态分布。比如如果认为X满足正太分布$N(\mu, \sigma^2)$, 那么在不知道$\mu$的情况下，我们会为它也选取一个正太分布$N(\tau, \theta^2)$
 5. z不一定是文字表示，它可以是任何低维度的图片表示，这可以看成是原始图片的信息压缩。但也可以是相同size的噪声， VDM就是这个做法。
-6. $p(x \mid z)$ 是给定文字之后的图像分布，也就是decoder. $p(z \mid x)$ 是给定图像之后的文字分布，也就是encoder. 这两个都是我们需要训练得到的结果，这个之后会细说。 
+6. $p_\theta(x \mid z)$ 是给定文字之后的图像分布，也就是decoder. $p(z \mid x)$ 是给定图像之后的文字分布，也就是encoder. 这两个都是我们需要训练得到的结果，这个之后会细说。 
 
 ---
 
@@ -40,7 +40,7 @@ $$ p(x) = \int p(x \mid z)p(z) dz. $$
 
 真实后验为
 
-$$ p(z \mid x) = \frac{p(x \mid z)p(z)}{p(x)}. $$
+$$ p(z \mid x) = \frac{p_\theta(x \mid z)p(z)}{p(x)}. $$
 
 然而分母 $p(x)$ 要对所有 $z$ 积分，因此不可算，于是我们无法直接拿到真实的 posterior。
 
@@ -75,12 +75,12 @@ $$ p(x)=\int p(x,z) dz, $$
 
 这个积分在高维 latent 空间上无法解析，于是我们引入一个可控的近似后验 $q_\phi(z \mid x)$，把它强行塞进 $\log p(x)$：
 
-$$ \log p(x) = \log \int q_\phi(z \mid x)\frac{p(x \mid z)p(z)}{q_\phi(z \mid x)} dz. $$
+$$ \log p(x) = \log \int q_\phi(z \mid x)\frac{p_\theta(x \mid z)p(z)}{q_\phi(z \mid x)} dz. $$
 
 
 改写成期望形式：
 
-$$ \log p(x) = \log E_{q_\phi(z \mid x)} \left[ \frac{p(x \mid z)p(z)} {q_\phi(z \mid x)} \right]. $$
+$$ \log p(x) = \log E_{q_\phi(z \mid x)} \left[ \frac{p_\theta(x \mid z)p(z)} {q_\phi(z \mid x)} \right]. $$
 
 现在出现关键结构 $\log E[\cdot]$，可用 Jensen 不等式：
 
@@ -88,11 +88,11 @@ $$ \log E[X] \ge E[\log X]. $$
 
 于是得到 ELBO：
 
-$$ \log p(x) \ge E_{q_\phi(z \mid x)} [\log p(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)). $$
+$$ \log p(x) \ge E_{q_\phi(z \mid x)} [\log p_\theta(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)). $$
 
 完整写成：
 
-$$ \text{ELBO}(x) = E_{q_\phi(z \mid x)}[\log p(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)). $$
+$$ \text{ELBO}(x) = E_{q_\phi(z \mid x)}[\log p_\theta(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)). $$
 
 为了看清楚这一分解从何而来，我们考虑真实后验的 KL：
 
@@ -100,15 +100,15 @@ $$ \text{KL}(q_\phi(z \mid x)\Vert p(z \mid x)) = E_{q_\phi}[\log q_\phi(z \mid 
 
 使用 Bayes 展开：
 
-$$ \log p(z \mid x) = \log p(x \mid z) + \log p(z) - \log p(x). $$
+$$ \log p(z \mid x) = \log p_\theta(x \mid z) + \log p(z) - \log p(x). $$
 
 代回 KL 展开式：
 
-$$ \text{KL} = E[\log q_\phi] - E[\log p(x \mid z)] - E[\log p(z)] + \log p(x). $$
+$$ \text{KL} = E[\log q_\phi] - E[\log p_\theta(x \mid z)] - E[\log p(z)] + \log p(x). $$
 
 移项整理得：
 
-$$ \log p(x) = E[\log p(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)) + \text{KL}(q_\phi(z \mid x)\Vert p(z \mid x)). $$
+$$ \log p(x) = E[\log p_\theta(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)) + \text{KL}(q_\phi(z \mid x)\Vert p(z \mid x)). $$
 
 由于 KL ≥ 0 (这里和Jensen 不等式只要二选一就能证明)，因此：
 
@@ -117,7 +117,7 @@ $$ \log p(x)\ge \text{ELBO}(x). $$
 
 经典分解：
 
-$$ \log p(x) \ge E_{q_\phi(z \mid x)}[\log p(x \mid z)] - \text{KL}(q_\phi(z \mid x) \Vert p(z)). $$
+$$ \log p(x) \ge E_{q_\phi(z \mid x)}[\log p_\theta(x \mid z)] - \text{KL}(q_\phi(z \mid x) \Vert p(z)). $$
 
 右侧两项中：
 
@@ -128,7 +128,7 @@ $$ \log p(x) \ge E_{q_\phi(z \mid x)}[\log p(x \mid z)] - \text{KL}(q_\phi(z \mi
 
 ## 6. 为什么我们最大化 ELBO？我们到底在优化什么？
 
-首先，真实的数据分布 $p(x)$ 是一个真实存在的量，它既不可写出解析式，也不依赖任何我们可训练的参数。因此 $p(x)$ 本身无法直接“优化”。我们唯一能做的，是构造一个可计算的下界 —— ELBO，而 ELBO 的大小取决于我们学习的 $q_\phi(z \mid x)$ 和 $p(x \mid z)$。
+首先，真实的数据分布 $p(x)$ 是一个真实存在的量，它既不可写出解析式，也不依赖任何我们可训练的参数。因此 $p(x)$ 本身无法直接“优化”。我们唯一能做的，是构造一个可计算的下界 —— ELBO，而 ELBO 的大小取决于我们学习的 $q_\phi(z \mid x)$ 和 $p_\theta(x \mid z)$。
 
 从 ELBO 推导我们知道：
 
