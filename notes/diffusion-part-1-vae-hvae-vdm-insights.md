@@ -1,4 +1,4 @@
-VAE & Variational Inference — Full Notes (Part 1)
+﻿VAE & Variational Inference — Full Notes (Part 1)
 
 > 本文档整合了我们此前所有讨论过的要点，包括：  
 > * VAE 推导、ELBO 结构、KL ≥ 0、Jensen 不等式  
@@ -32,8 +32,7 @@ $$
 
 
 为了理解这里公式的意义和我们到底在优化什么，我们把问题形象化成如下版本： 
-1. z 通常看成“抽象 latent”，但这里我们可以方便的看成图像的文字描述，因为文字是低维表征，是更容易理解的直觉模型。
-2. $p(x \mid z)$ 是给定文字之后的图像分布, 如果分布已知，可以通过文字生成图像，这里x的自由度就是图片的dimension。例如每个pixel的值满足高斯分布，那么p的极大似然就是当前输入文字生成的图片。
+1. z 通常看成“抽象 latent”，但这里我们可以方便的认为就是图片对应的文字. $p(x \mid z)$ 是给定文字之后的图像分布, 如果分布已知，可以通过文字生成图像，这里x的自由度就是图片的dimension。例如每个pixel的值满足高斯分布，那么p的极大似然就是当前输入文字生成的图片。
 3. $p(x, z)$ 是x和z的联合分布，也就是同一段文字可以生成无穷多图片（当然极大似然对应那个最优的结果），同样一张图片也可以用无穷多段文字描述。
 4. 文字可以轻易的转化成embedding vector. 例如一个k dimension的向量空间，这时候应当认为这个空间是完备的，也就是文字可以取所有值。$p(z)$这时候就是先验分布。在贝叶斯中，我们有很多取先验的方式，其中正太分布是非常常见的一种, 下面的讨论中可以看到$p(z)$的确用的就是正态分布。比如如果认为X满足正太分布$N(\mu, \sigma^2)$, 那么在不知道$\mu$的情况下，我们会为它也选取一个正太分布$N(\tau, \theta^2)$
 5. z不一定是文字表示，它可以是任何低维度的图片表示，这可以看成是原始图片的信息压缩。但也可以是相同size的噪声， VDM就是这个做法。
@@ -73,19 +72,117 @@ $$
 q_\phi(z \mid x) = \mathcal{N}(z \mid \mu_\phi(x), \sigma_\phi^2(x) I).
 $$
 
-在你的类比中：**$z$ 就是“文字”**；$\mu$ = 文字的中心位置，$\sigma$ = 该文字描述的模糊度。
+在上面的类比中：**$z$ 就是“文字”**；$\mu$ = 文字的中心位置，$\sigma$ = 该文字描述的模糊度。这两个参数其实正是我们想学的东西，如果z正好是是三维向量的话，它决定了每个图片都可以映射到三个“字”，这三个字就是图的低维表示。现在我们考虑一个比较简单的情况，就是我有两张图片，一张图片对应的文字是“一只猫”，另一张图片对应的文字是“一只老鼠”，这个时候你会觉得好像把猫和狗互换并没有任何影响。但其实是不对的，其实一开始真正的任务是给我们一个图片的training set，我们要学会这些图片的低维表示，或者这里就是文字表示。这意味着如果你有另外一张图片是“猫抓老鼠”的话，你学到到的意义就完全不对了。所以你要学的低维表示，它某种程度上是要“同构”于原本的图片，这才是我们学习的目的。
 
-> **Z 不应该被看成“抽象 latent”，而应该被看成图像的文字描述，因为文字是低维表征，是更容易理解的直觉模型。**
 
 ---
 
-## 4. ELBO 推导：从 $\log p(x)$ 开始
+## 4. ELBO 推导, 从$\log p(x)$开始
+
+我们从最原始的目标开始：最大化数据点 $x$ 的边缘似然 $\log p(x)$。因为
+
+$$
+p(x)=\int p(x,z) dz,
+$$
+
+这个积分在高维 latent 空间上无法解析，于是我们引入一个可控的近似后验 $q_\phi(z \mid x)$，把它强行塞进 $\log p(x)$：
+
+$$
+\log p(x)
+= \log\!\int q_\phi(z \mid x)\,\frac{p(x \mid z)\,p(z)}{q_\phi(z \mid x)}\,dz.
+$$
+
+改写成期望形式：
+
+$$
+\log p(x)
+= \log\,\mathbb{E}_{q_\phi(z \mid x)}
+\!\left[
+\frac{p(x \mid z)\,p(z)}
+     {q_\phi(z \mid x)}
+\right].
+$$
+
+现在出现关键结构 $\log \mathbb{E}[\cdot]$，可用 Jensen 不等式：
+
+$$
+\log \mathbb{E}[X] \ge \mathbb{E}[\log X].
+$$
+
+于是得到 ELBO：
+
+$$
+\log p(x)
+\ge 
+\mathbb{E}_{q_\phi(z \mid x)}
+[\log p(x \mid z)]
+-
+\text{KL}(q_\phi(z \mid x)\,\Vert\,p(z)).
+$$
+
+完整写成：
+
+$$
+\text{ELBO}(x)
+=
+\mathbb{E}_{q_\phi(z \mid x)}[\log p(x \mid z)]
+-
+\text{KL}(q_\phi(z \mid x)\,\Vert\,p(z)).
+$$
+
+为了看清楚这一分解从何而来，我们考虑真实后验的 KL：
+
+$$
+\text{KL}(q_\phi(z \mid x)\Vert p(z \mid x))
+= 
+\mathbb{E}_{q_\phi}[\log q_\phi(z \mid x) - \log p(z \mid x)]
+\ge 0.
+$$
+
+使用 Bayes 展开：
+
+$$
+\log p(z \mid x)
+= \log p(x \mid z) + \log p(z) - \log p(x).
+$$
+
+代回 KL 展开式：
+
+$$
+\text{KL}
+= 
+\mathbb{E}[\log q_\phi]
+-
+\mathbb{E}[\log p(x \mid z)]
+-
+\mathbb{E}[\log p(z)]
++ \log p(x).
+$$
+
+移项整理得：
+
+$$
+\log p(x)
+=
+\mathbb{E}[\log p(x \mid z)]
+-
+\text{KL}(q_\phi(z \mid x)\Vert p(z))
++ 
+\text{KL}(q_\phi(z \mid x)\Vert p(z \mid x)).
+$$
+
+由于 KL ≥ 0 (这里和Jensen 不等式只要二选一就能证明)，因此：
+
+$$
+\log p(x)\ge \text{ELBO}(x).
+$$
+开始
 
 经典分解：
 
 $$
 \log p(x)
-= E_{q_\phi(z \mid x)}[\log p_\theta(x \mid z)]
+\ge E_{q_\phi(z \mid x)}[\log p(x \mid z)]
 - \text{KL}(q_\phi(z \mid x) \Vert p(z)).
 $$
 
@@ -93,24 +190,6 @@ $$
 
 - 第一项叫重构项，鼓励 decoder 生成像样的图片。
 - 第二项是 KL 项，强制 encoder 输出的 $q_\phi(z \mid x)$ 靠近 prior $p(z)$。
-
----
-
-## 5. 为什么 KL ≥ 0？
-
-KL 散度定义为
-
-$$
-\text{KL}(q \Vert p) = E_q \left[ \log \frac{q}{p} \right] \ge 0.
-$$
-
-这是因为对数函数是凹函数，使用 Jensen 不等式即可证明
-
-$$
-E[\log X] \le \log E[X].
-$$
-
-你已经完整理解，这里只是公式化记录。
 
 ---
 
