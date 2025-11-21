@@ -19,7 +19,7 @@ $$ p(x) $$
 
 这是所有图片的真实分布，但它无法直接计算，因为
 
-$$ p(x) = \int p_\theta(x \mid z)p(z) dz. $$
+$$ p(x) = \int p(x \mid z)p(z) dz = \int p_\theta(x \mid z)p(z) dz. $$
 
 这里立刻面临两个困难：
 
