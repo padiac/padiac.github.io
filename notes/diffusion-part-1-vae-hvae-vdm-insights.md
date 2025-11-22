@@ -276,33 +276,47 @@ ELBO 最大化本身并不保证语义结构，但以下三者的结合：
 
 ## 7. MLE 的类比
 
-MLE 目标：
+理解 VAE 的目标函数时，把眼光放回经典的最大似然估计很有帮助。假设数据来自一维高斯分布，每个样本 $x_i$ 独立抽取自 $\mathcal{N}(\mu,\sigma^2)$，其联合 log 似然为：
 
-$$ \theta^\ast = \arg\max_\theta \prod_{i=1}^N p(x_i \mid \theta). $$
+$$ \log p(x_1,\dots,x_N \mid \mu,\sigma) = -\frac{N}{2}\log(2\pi\sigma^2) -\frac{1}{2\sigma^2}\sum_{i=1}^N (x_i-\mu)^2. $$
 
-VAE 目标：
+对 $\mu$ 求导并令其为零：
 
-$$ \max_{\phi, \theta} \sum_{i=1}^N \text{ELBO}(x_i). $$
+$$ \frac{\partial}{\partial \mu} \log p = \frac{1}{\sigma^2}\sum_i (x_i-\mu) = 0. $$
 
-总结：
+解得：
 
-- 传统 MLE 对单个分布 $p(x \mid \theta)$ 寻找参数 $\theta$。
-- VAE 对 encoder + decoder 这对模型寻找参数 $\phi, \theta$。
-- 训练数据仍然独立同分布，因此要对所有样本求和。
+$$ \mu^\ast = \frac{1}{N}\sum_i x_i. $$
 
-你也敏锐地指出“应该出现 $N$ 张图的联合概率”，这是正确的；论文只是经常省略写法，本质就是 $\sum_i \text{ELBO}(x_i)$。
+同理可得最优方差：
+
+$$ \sigma^{\ast 2} = \frac{1}{N}\sum_i (x_i-\mu^\ast)^2. $$
+
+这说明 MLE 是让模型“尽可能解释数据”。VAE 与此平行，但参数 $(\mu,\sigma)$ 变成了网络参数 $(\phi,\theta)$，由 encoder 和 decoder 共同决定：
+
+$$ \max_{\mu,\sigma} \sum_i \log p(x_i\mid\mu,\sigma), $$
+
+$$ \max_{\phi,\theta} \sum_i \text{ELBO}(x_i). $$
+
+形式几乎一致：独立同分布意味着联合 log 就是所有 ELBO 之和。VAE 本质上用 ELBO 替代 log-likelihood：MLE 用简单概率模型，VAE 用 encoder+decoder 的双向概率模型。
 
 ---
 
-## 8. Decoder 的意义：$p_\theta(x \mid z)$
+## 8. Decoder 的意义
 
-Decoder 通常建模为
+在 VAE 中，decoder 给出 $p_\theta(x\mid z)$，常设为高斯分布：
 
 $$ p_\theta(x \mid z) = \mathcal{N}(x \mid \mu_\theta(z), \sigma_\theta^2 I). $$
 
-你指出：
+含义是：给定 latent $z$，$\mu_\theta(z)$ 是与 $z$ 描述相符的“典型图片”，$\sigma_\theta$ 控制生成的变化范围。
 
-> Decoder 的 $\mu_\theta(z)$ 就是“给定文字生成图片的中心图像”，这是生成模型的关键直觉。
+ELBO 的重建项
+
+$$ E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)] $$
+
+衡量 decoder 是否学会了“把 latent 翻译成图片”。encoder 把真实图片 $x$ 压缩成 $z$，decoder 再把 $z$ 还原成图片，两者匹配时这一项才大。
+
+结合 MLE 类比，decoder 就像高斯里的 $\mu$ 和 $\sigma$，但不再是两个数字，而是一个把 latent 映射到整张图像分布的巨大函数，这正是生成模型的力量。
 
 ---
 
