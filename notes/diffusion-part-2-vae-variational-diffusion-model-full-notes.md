@@ -213,7 +213,7 @@ $$ E_{q(x_{0:T \mid x_0})}[\cdots] \longrightarrow E_{q(x_{T-1,T}\mid x_0)}[\cdo
 先把式 (44) 原封不动写出来（只关心 $x_0$ 条件下的损失）：
 
 $$
-\mathcal{L}(x_0)
+L(x_0)
 = E_{q(x_1\mid x_0)}\bigl[\log p_\theta(x_0\mid x_1)\bigr]
 + E_{q(x_{T-1},x_T\mid x_0)}\!\left[
     \log \frac{p(x_T)}{q(x_T\mid x_{T-1})}
