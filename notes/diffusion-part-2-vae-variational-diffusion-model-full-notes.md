@@ -1,8 +1,6 @@
-VAE & Variational Diffusion Model — Full Notes (Part 2, Draft 1)
+VAE & Variational Diffusion Model - Part 2
 
-> 这一篇是你 Part 1 的续集，专门整理 VDM / DDPM 那一整段推导，  
-> 把我们对着公式骂骂咧咧推了半天的内容，尽量系统地记下来。  
-> 依然是中文 + LaTeX 渲染友好版，方便你直接丢到笔记里。
+> 这一篇 是 VDM / DDPM 那一部分推导，  
 
 ---
 
