@@ -6,7 +6,7 @@ VAE & Variational Diffusion Model
 
 ## 0. 记号与总览
 
-- 数据分布：$ p_{\text{data}}(x_0) $
+- 数据分布：$ p(x_0) $
 - 正向（加噪）分布：$ q $
 - 反向（生成）分布：$ p_\theta $
 - 单步噪声调度：$ \alpha_t \in (0,1) $，定义
@@ -234,13 +234,13 @@ $$
 注意对 $x_T$ 的内层期望，正好是 KL 的负号：
 
 $$
-E_{q(x_T\mid x_{T-1})}\!\left[ \log p(x_T) - \log q(x_T\mid x_{T-1}) \right] = -\,E_{q(x_T\mid x_{T-1})}\!\left[ \log \frac{q(x_T\mid x_{T-1})}{p(x_T)} \right] = -\,D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr).
+E_{q(x_T\mid x_{T-1})}\!\left[ \log p(x_T) - \log q(x_T\mid x_{T-1}) \right] = -\,E_{q(x_T\mid x_{T-1})}\left[ \log \frac{q(x_T\mid x_{T-1})}{p(x_T)} \right] = -\,D_{\mathrm{KL}}\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr).
 $$
 
 代回去得到：
 
 $$
-E_{q(x_{T-1},x_T\mid x_0)}\!\left[ \log \frac{p(x_T)}{q(x_T\mid x_{T-1})} \right] = -\,E_{q(x_{T-1}\mid x_0)}\!\left[ D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr) \right].
+E_{q(x_{T-1},x_T\mid x_0)}\left[ \log \frac{p(x_T)}{q(x_T\mid x_{T-1})} \right] = -\,E_{q(x_{T-1}\mid x_0)}\left[ D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr) \right].
 $$
 这就是式 (45) 里的 “prior matching term”。
 
@@ -260,7 +260,7 @@ $$
 所以内层期望就是
 
 $$
-E_{q(x_t\mid x_{t-1})}\!\left[ \log p_\theta(x_t\mid x_{t+1}) - \log q(x_t\mid x_{t-1}) \right] = -\,E_{q(x_t\mid x_{t-1})}\!\left[ \log \frac{q(x_t\mid x_{t-1})}{p_\theta(x_t\mid x_{t+1})} \right] = -\,D_{\mathrm{KL}}\!\bigl( q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1}) \bigr).
+E_{q(x_t\mid x_{t-1})}\left[ \log p_\theta(x_t\mid x_{t+1}) - \log q(x_t\mid x_{t-1}) \right] = -\,E_{q(x_t\mid x_{t-1})}\left[ \log \frac{q(x_t\mid x_{t-1})}{p_\theta(x_t\mid x_{t+1})} \right] = -\,D_{\mathrm{KL}}\!\bigl( q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1}) \bigr).
 $$
 
 因此第三项整体变成
@@ -274,7 +274,7 @@ $$
 3. 把结果合起来就是式 (45)
 
 $$
-\mathcal{L}(x_0) = \underbrace{E_{q(x_1\mid x_0)}\!\bigl[\log p_\theta(x_0\mid x_1)\bigr]}_{\text{reconstruction term}} - \underbrace{E_{q(x_{T-1}\mid x_0)}\!\left[ D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr) \right]}_{\text{prior matching term}} - \underbrace{\sum_{t=1}^{T-1} E_{q(x_{t-1},x_{t+1}\mid x_0)}\!\left[ D_{\mathrm{KL}}\!\bigl( q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1}) \bigr) \right]}_{\text{consistency term}}.
+L(x_0) = \underbrace{E_{q(x_1\mid x_0)}\!\bigl[\log p_\theta(x_0\mid x_1)\bigr]}_{\text{reconstruction term}} - \underbrace{E_{q(x_{T-1}\mid x_0)}\!\left[ D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr) \right]}_{\text{prior matching term}} - \underbrace{\sum_{t=1}^{T-1} E_{q(x_{t-1},x_{t+1}\mid x_0)}\!\left[ D_{\mathrm{KL}}\!\bigl( q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1}) \bigr) \right]}_{\text{consistency term}}.
 $$
 
 
