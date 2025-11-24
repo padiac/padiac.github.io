@@ -45,7 +45,7 @@ VAE & Variational Diffusion Model
 
 $$
 q(x_t \mid x_{t-1})
-= \mathcal{N}\bigl(x_t\;;\;\sqrt{\alpha_t}\,x_{t-1},\,(1-\alpha_t)I\bigr),
+= \mathcal{N}\bigl(x_t;\sqrt{\alpha_t}x_{t-1},(1-\alpha_t)I\bigr),
 \tag{31}
 $$
 
