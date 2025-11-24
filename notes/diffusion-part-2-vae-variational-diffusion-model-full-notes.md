@@ -228,7 +228,7 @@ $$
 利用马尔可夫结构，有
    $q(x_{T-1},x_T\mid x_0) = q(x_{T-1}\mid x_0)\,q(x_T\mid x_{T-1})$,
 $$
-\mathbb{E}_{q(x_{T-1},x_T\mid x_0)}\left[ \log \frac{p(x_T)}{q(x_T\mid x_{T-1})} \right] = \mathbb{E}_{q(x_{T-1}\mid x_0)} \mathbb{E}_{q(x_T\mid x_{T-1})}\left[ \log p(x_T) - \log q(x_T\mid x_{T-1}) \right].
+E_{q(x_{T-1},x_T\mid x_0)}\left[ \log \frac{p(x_T)}{q(x_T\mid x_{T-1})} \right] = E_{q(x_{T-1}\mid x_0)} E_{q(x_T\mid x_{T-1})}\left[ \log p(x_T) - \log q(x_T\mid x_{T-1}) \right].
 $$
 
 注意对 $x_T$ 的内层期望，正好是 KL 的负号：
