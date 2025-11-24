@@ -407,20 +407,138 @@ q(x_{t-1}\mid x_t,x_0)
 
 ---
 
+### 4.2 Gaussian KL 的一般公式：式 (86)
 
-### 4.2 Gaussian KL ??????? (86)?
+设
 
-???? Gaussian ? KL?
+\[
+q(x) = \mathcal N(x\mid \mu_q,\Sigma_q),\qquad
+p(x) = \mathcal N(x\mid \mu_p,\Sigma_p).
+\]
 
-$$ \mathrm{D}_{\mathrm{KL}}igl(\mathcal N(x;\mu_x,\Sigma_x)\Vert \mathcal N(y;\mu_y,\Sigma_y)igr) = rac12\Bigl[\lograc{|\Sigma_y|}{|\Sigma_x|} - d + \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_y-\mu_x)^	op\Sigma_y^{-1}(\mu_y-\mu_x)\Bigr]. $$
+KL 定义：
 
-- \(d\)????\(\mu_x,\Sigma_x\) ??????????????\(\mu_y,\Sigma_y\) ??????????????
+\[
+\mathrm{KL}(q\Vert p)
+= \mathbb E_q[\log q(x) - \log p(x)].
+\]
 
-????? \(\Sigma_x = \Sigma_y\)????
+两边的 log 写展开：
 
-$$ \mathrm{D}_{\mathrm{KL}} = rac12(\mu_y-\mu_x)^	op\Sigma_y^{-1}(\mu_y-\mu_x), $$
+\[
+\log q(x)
+= -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_q
+ + (x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)\Bigr],
+\]
 
-???????????? L2?
+\[
+\log p(x)
+= -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_p
+ + (x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr].
+\]
+
+相减后，常数 \(-\tfrac12 k\log(2\pi)\) 抵消，得到：
+
+\[
+\begin{aligned}
+\log q(x) - \log p(x)
+&= -\frac12\log\det\Sigma_q + \frac12\log\det\Sigma_p \\
+&\quad -\frac12\Bigl[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)
+ - (x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr].
+\end{aligned}
+\]
+
+对 \(q\) 取期望：
+
+\[
+\mathrm{KL}(q\Vert p)
+= \frac12\bigl(\log\det\Sigma_p - \log\det\Sigma_q\bigr)
+ + \frac12\mathbb E_q\Bigl[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)\Bigr]
+ - \frac12\mathbb E_q\Bigl[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr].
+\]
+
+关键是两个期望：
+
+1. \(\mathbb E_q[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)]\)
+2. \(\mathbb E_q[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)]\)
+
+用 trace 写：
+
+\[
+v^\top A v = \mathrm{tr}(A vv^\top).
+\]
+
+所以：
+
+\[
+\begin{aligned}
+\mathbb E_q[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)]
+&= \mathbb E_q\bigl[\mathrm{tr}(\Sigma_q^{-1}(x-\mu_q)(x-\mu_q)^\top)\bigr] \\
+&= \mathrm{tr}\Bigl(\Sigma_q^{-1}\,\mathbb E_q[(x-\mu_q)(x-\mu_q)^\top]\Bigr) \\
+&= \mathrm{tr}(\Sigma_q^{-1}\Sigma_q) \\
+&= \mathrm{tr}(I) = k.
+\end{aligned}
+\]
+
+这里“期望与 trace 交换”就是利用 trace 的线性性：
+
+\[
+\mathbb E[\mathrm{tr}(A Y)] = \mathrm{tr}(A \mathbb E[Y]).
+\]
+
+第二个期望稍微麻烦一点：
+
+\[
+\begin{aligned}
+(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)
+&= \bigl((x-\mu_q)+(\mu_q-\mu_p)\bigr)^\top\Sigma_p^{-1}\bigl((x-\mu_q)+(\mu_q-\mu_p)\bigr) \\
+&= (x-\mu_q)^\top\Sigma_p^{-1}(x-\mu_q) \\
+&\quad + 2(\mu_q-\mu_p)^\top\Sigma_p^{-1}(x-\mu_q) \\
+&\quad + (\mu_q-\mu_p)^\top\Sigma_p^{-1}(\mu_q-\mu_p).
+\end{aligned}
+\]
+
+对 \(q\) 取期望时：
+
+- \(\mathbb E_q[x-\mu_q]=0\)，所以中间那一项为 0；
+- \(\mathbb E_q[(x-\mu_q)(x-\mu_q)^\top]=\Sigma_q\)。
+
+得到：
+
+\[
+\mathbb E_q[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)]
+= \mathrm{tr}(\Sigma_p^{-1}\Sigma_q)
+ + (\mu_q-\mu_p)^\top\Sigma_p^{-1}(\mu_q-\mu_p).
+\]
+
+代回去：
+
+\[
+\begin{aligned}
+\mathrm{KL}(q\Vert p)
+&= \frac12(\log\det\Sigma_p - \log\det\Sigma_q) + \frac12 k \\
+&\quad -\frac12\Bigl[\mathrm{tr}(\Sigma_p^{-1}\Sigma_q)
+ + (\mu_q-\mu_p)^\top\Sigma_p^{-1}(\mu_q-\mu_p)\Bigr].
+\end{aligned}
+\]
+
+通常写成更标准的形式（把符号整理一下）：
+
+\[
+\boxed{
+\mathrm{KL}\bigl(\mathcal N(\mu_q,\Sigma_q)\Vert \mathcal N(\mu_p,\Sigma_p)\bigr)
+= \frac12\Bigl(
+\mathrm{tr}(\Sigma_p^{-1}\Sigma_q)
++ (\mu_p-\mu_q)^\top\Sigma_p^{-1}(\mu_p-\mu_q)
+- k + \log\frac{\det\Sigma_p}{\det\Sigma_q}
+\Bigr).
+}
+\]
+
+这就是文中类似式 (86) 的 Gaussian KL 公式。
+
+---
+
 ### 4.3 特例：\(\Sigma_q = \Sigma_p = \Sigma\)：式 (87)
 
 在 VDM 中，他们做了一个非常关键的选择：
