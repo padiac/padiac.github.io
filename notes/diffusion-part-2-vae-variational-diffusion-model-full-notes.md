@@ -393,7 +393,7 @@ $$ E[\mathrm{tr}(A Y)] = \mathrm{tr}(A E[Y]). $$
 
 第二个期望稍微麻烦一点：
 
-$$ (x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p) = \bigl((x-\mu_q)+(\mu_q-\mu_p)\bigr)^\top\Sigma_p^{-1}\bigl((x-\mu_q)+(\mu_q-\mu_p)\bigr) = (x-\mu_q)^\top\Sigma_p^{-1}(x-\mu_q) + 2(\mu_q-\mu_p)^\top\Sigma_p^{-1}(x-\mu_q) + (\mu_q-\mu_p)^\top\Sigma_p^{-1}(\mu_q-\mu_p). $$
+$$ (y-\mu_y)^\top\Sigma_y^{-1}(y-\mu_y) = \bigl((y-\mu_x)+(\mu_x-\mu_y)\bigr)^\top\Sigma_y^{-1}\bigl((y-\mu_x)+(\mu_x-\mu_y)\bigr) = (x-\mu_q)^\top\Sigma_p^{-1}(x-\mu_q) + 2(\mu_q-\mu_p)^\top\Sigma_p^{-1}(x-\mu_q) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
 
 对 $ q $ 取期望时：
 
