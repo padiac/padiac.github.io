@@ -255,8 +255,8 @@ $$
 \mathbb{E}_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\!\left[ \log \frac{p_\theta(x_t\mid x_{t+1})}{q(x_t\mid x_{t-1})} \right] = \mathbb{E}_{q(x_{t-1},x_{t+1}\mid x_0)} \mathbb{E}_{q(x_t\mid x_{t-1},x_{t+1},x_0)}\!\left[ \log p_\theta(x_t\mid x_{t+1}) - \log q(x_t\mid x_{t-1}) \right].
 $$
 
-但在前向链里，给定 x_{t-1} 之后 x_t 与 (x_{t+1},x_0) 无关：
-  q(x_t\mid x_{t-1},x_{t+1},x_0) = q(x_t\mid x_{t-1})
+但在前向链里，给定 $x_{t-1}$ 之后 $x_t$ 与 $(x_{t+1},x_0)$ 无关：
+  $q(x_t\mid x_{t-1},x_{t+1},x_0) = q(x_t\mid x_{t-1})$
 所以内层期望就是
 
 $$
