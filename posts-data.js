@@ -267,7 +267,7 @@ window.POSTS = [
   },
   {
     slug: 'diffusion-part-2-vae-variational-diffusion-model-full-notes',
-    title: 'Diffusion - VAE & Variational Diffusion Model — Full Notes (Part 2, Draft 1)',
+    title: 'Diffusion - VAE & Variational Diffusion Model — Part 2',
     date: '2025-11-24T03:33:36Z',
     category: 'Diffusion',
     summary: '这一篇是你 Part 1 的续集，专门整理 VDM / DDPM 那一整段推导，'
