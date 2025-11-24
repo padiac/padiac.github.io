@@ -252,7 +252,7 @@ $$
 
 
 $$
-E_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\!\left[ \log \frac{p_\theta(x_t\mid x_{t+1})}{q(x_t\mid x_{t-1})} \right] = E_{q(x_{t-1},x_{t+1}\mid x_0)} E_{q(x_t\mid x_{t-1},x_{t+1},x_0)}\!\left[ \log p_\theta(x_t\mid x_{t+1}) - \log q(x_t\mid x_{t-1}) \right].
+E_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\left[ \log \frac{p_\theta(x_t\mid x_{t+1})}{q(x_t\mid x_{t-1})} \right] = E_{q(x_{t-1},x_{t+1}\mid x_0)} E_{q(x_t\mid x_{t-1},x_{t+1},x_0)}\!\left[ \log p_\theta(x_t\mid x_{t+1}) - \log q(x_t\mid x_{t-1}) \right].
 $$
 
 但在前向链里，给定 $x_{t-1}$ 之后 $x_t$ 与 $(x_{t+1},x_0)$ 无关：
@@ -260,13 +260,13 @@ $$
 所以内层期望就是
 
 $$
-E_{q(x_t\mid x_{t-1})}\left[ \log p_\theta(x_t\mid x_{t+1}) - \log q(x_t\mid x_{t-1}) \right] = -\,E_{q(x_t\mid x_{t-1})}\left[ \log \frac{q(x_t\mid x_{t-1})}{p_\theta(x_t\mid x_{t+1})} \right] = -\,D_{\mathrm{KL}}\!\bigl( q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1}) \bigr).
+E_{q(x_t\mid x_{t-1})}\left[ \log p_\theta(x_t\mid x_{t+1}) - \log q(x_t\mid x_{t-1}) \right] = -E_{q(x_t\mid x_{t-1})}\left[ \log \frac{q(x_t\mid x_{t-1})}{p_\theta(x_t\mid x_{t+1})} \right] = -D_{\mathrm{KL}}\!\bigl( q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1}) \bigr).
 $$
 
 因此第三项整体变成
 
 $$
-E_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\!\left[ \log \frac{p_\theta(x_t\mid x_{t+1})}{q(x_t\mid x_{t-1})} \right] = -\,E_{q(x_{t-1},x_{t+1}\mid x_0)}\!\left[ D_{\mathrm{KL}}\!\bigl( q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1}) \bigr) \right].
+E_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\left[ \log \frac{p_\theta(x_t\mid x_{t+1})}{q(x_t\mid x_{t-1})} \right] = -E_{q(x_{t-1},x_{t+1}\mid x_0)}\left[ D_{\mathrm{KL}}\!\bigl( q(x_t\mid x_{t-1}) \Vert p_\theta(x_t\mid x_{t+1}) \bigr) \right].
 $$
 
 把它代回式 (44) 的求和中，就得到式 (45) 里的 consistency term。
@@ -274,7 +274,7 @@ $$
 3. 把结果合起来就是式 (45)
 
 $$
-L(x_0) = \underbrace{E_{q(x_1\mid x_0)}\!\bigl[\log p_\theta(x_0\mid x_1)\bigr]}_{\text{reconstruction term}} - \underbrace{E_{q(x_{T-1}\mid x_0)}\!\left[ D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr) \right]}_{\text{prior matching term}} - \underbrace{\sum_{t=1}^{T-1} E_{q(x_{t-1},x_{t+1}\mid x_0)}\!\left[ D_{\mathrm{KL}}\!\bigl( q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1}) \bigr) \right]}_{\text{consistency term}}.
+L(x_0) = \underbrace{E_{q(x_1\mid x_0)}\bigl[\log p_\theta(x_0\mid x_1)\bigr]}_{\text{reconstruction term}} - \underbrace{E_{q(x_{T-1}\mid x_0)}\left[ D_{\mathrm{KL}}\bigl(q(x_T\mid x_{T-1}) \Vert p(x_T)\bigr) \right]}_{\text{prior matching term}} - \underbrace{\sum_{t=1}^{T-1} E_{q(x_{t-1},x_{t+1}\mid x_0)}\left[ D_{\mathrm{KL}}\bigl( q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1}) \bigr) \right]}_{\text{consistency term}}.
 $$
 
 
