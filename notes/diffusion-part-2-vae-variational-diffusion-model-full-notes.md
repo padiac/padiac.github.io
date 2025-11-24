@@ -349,67 +349,20 @@ $$ q(x_{t}\mid x_{t-1},x_0) = \frac{q(x_{t-1}\mid x_{t},x_0)q(x_{t}\mid x_0)}{q(
 
 ---
 
+
+
 ### 4.2 Gaussian KL ??????? (86)?
 
-?
+???? Gaussian ? KL?????????
 
-$$ x(z) = \mathcal N(z\mid \mu_x,\Sigma_x),\qquad y(z) = \mathcal N(z\mid \mu_y,\Sigma_y). $$
+$$ \mathrm{D}_{\mathrm{KL}}igl(\mathcal N(x;\mu_x,\Sigma_x)\Vert \mathcal N(y;\mu_y,\Sigma_y)igr) = rac12\Bigl[\lograc{|\Sigma_y|}{|\Sigma_x|} - d + \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_y-\mu_x)^	op\Sigma_y^{-1}(\mu_y-\mu_x)\Bigr]. $$
 
-KL ???
+- $ d $????$ \mu_x,\Sigma_x $??????????????$ \mu_y,\Sigma_y $??????????????
+- ?????? $ \Sigma_x = \Sigma_y $?? KL ???
 
-$$ \mathrm{KL}(x\Vert y) = E_x[\log x(z) - \log y(z)]. $$
+$$ \mathrm{D}_{\mathrm{KL}} = rac12(\mu_y-\mu_x)^	op\Sigma_y^{-1}(\mu_y-\mu_x), $$
 
-??? log ????
-
-$$ \log x(z) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_x + (z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x)\Bigr], $$
-
-$$ \log y(z) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_y + (z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)\Bigr]. $$
-
-?????? $ -\tfrac12 k\log(2\pi) $ ??????
-
-$$ \log x(z) - \log y(z) = -\frac12\log\det\Sigma_x + \frac12\log\det\Sigma_y - \frac12\Bigl[(z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x) - (z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)\Bigr]. $$
-
-? $ x $ ????
-
-$$ \mathrm{KL}(x\Vert y) = \frac12\bigl(\log\det\Sigma_y - \log\det\Sigma_x\bigr) + \frac12E_x\Bigl[(z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x)\Bigr] - \frac12E_x\Bigl[(z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)\Bigr]. $$
-
-????????
-
-1. $ E_x[(z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x)] $
-2. $ E_x[(z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)] $
-
-? trace ??
-
-$$ v^\top A v = \mathrm{tr}(A vv^\top). $$
-
-???
-
-$$ E_x[(z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x)] = E_x\bigl[\mathrm{tr}(\Sigma_x^{-1}(z-\mu_x)(z-\mu_x)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_x^{-1}E_x[(z-\mu_x)(z-\mu_x)^\top]\Bigr) = \mathrm{tr}(\Sigma_x^{-1}\Sigma_x) = \mathrm{tr}(I) = k. $$
-
-?????? trace ??????? trace ?????
-
-$$ E[\mathrm{tr}(A Y)] = \mathrm{tr}(A E[Y]). $$
-
-????????????
-
-$$ (z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y) = \bigl((z-\mu_x)+(\mu_x-\mu_y)\bigr)^\top\Sigma_y^{-1}\bigl((z-\mu_x)+(\mu_x-\mu_y)\bigr) = (z-\mu_x)^\top\Sigma_y^{-1}(z-\mu_x) + 2(\mu_x-\mu_y)^\top\Sigma_y^{-1}(z-\mu_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
-
-? $ x $ ?????
-
-- $ E_x[z-\mu_x]=0 $????????? 0?
-- $ E_x[(z-\mu_x)(z-\mu_x)^\top]=\Sigma_x $?
-
-???
-
-$$ E_x[(z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)] = \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
-
-????
-
-$$ \mathrm{KL}(x\Vert y) = \frac12(\log\det\Sigma_y - \log\det\Sigma_x) + \frac12 k - \frac12\Bigl[\mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y)\Bigr]. $$
-
-????????????????????
-
-$$ \mathrm{KL}\bigl(\mathcal N(\mu_x,\Sigma_x)\Vert \mathcal N(\mu_y,\Sigma_y)\bigr) = \frac12\Bigl( \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_y-\mu_x)^\top\Sigma_y^{-1}(\mu_y-\mu_x) - k + \log\frac{\det\Sigma_y}{\det\Sigma_x} \Bigr). $$
+???????????? L2?
 ### 4.3 特例：$ \Sigma_q = \Sigma_p = \Sigma $：式 (87)
 
 在 VDM 中，他们做了一个非常关键的选择：
