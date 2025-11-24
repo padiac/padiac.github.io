@@ -267,9 +267,9 @@ window.POSTS = [
   },
   {
     slug: 'diffusion-part-2-vae-variational-diffusion-model-full-notes',
-    title: 'Diffusion - Part 2: VAE & Variational Diffusion Model — Full Notes (Draft 1)',
-    date: '2025-11-23T19:30:00Z',
+    title: 'Diffusion - VAE & Variational Diffusion Model — Full Notes (Part 2, Draft 1)',
+    date: '2025-11-24T03:33:36Z',
     category: 'Diffusion',
-    summary: '从正向马尔科夫链闭式到 ELBO 分解，再到 Gaussian KL 变成噪声 L2，整理 VDM / DDPM 全套推导、三种参数化和 Tweedie / score 视角。'
+    summary: '这一篇是你 Part 1 的续集，专门整理 VDM / DDPM 那一整段推导，'
   }
 ];
