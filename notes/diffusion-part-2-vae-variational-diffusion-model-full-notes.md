@@ -234,7 +234,7 @@ $$
 注意对 $x_T$ 的内层期望，正好是 KL 的负号：
 
 $$
-E_{q(x_T\mid x_{T-1})}\!\left[ \log p(x_T) - \log q(x_T\mid x_{T-1}) \right] = -\,E_{q(x_T\mid x_{T-1})}\left[ \log \frac{q(x_T\mid x_{T-1})}{p(x_T)} \right] = -\,D_{\mathrm{KL}}\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr).
+E_{q(x_T\mid x_{T-1})}\!\left[ \log p(x_T) - \log q(x_T\mid x_{T-1}) \right] = -E_{q(x_T\mid x_{T-1})}\left[ \log \frac{q(x_T\mid x_{T-1})}{p(x_T)} \right] = -\,D_{\mathrm{KL}}\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr).
 $$
 
 代回去得到：
