@@ -349,72 +349,67 @@ $$ q(x_{t}\mid x_{t-1},x_0) = \frac{q(x_{t-1}\mid x_{t},x_0)q(x_{t}\mid x_0)}{q(
 
 ---
 
-### 4.2 Gaussian KL 的一般公式：式 (86)
+### 4.2 Gaussian KL ??????? (86)?
 
-设
+?
 
-$$ q(x) = \mathcal N(x\mid \mu_q,\Sigma_q),\qquad p(x) = \mathcal N(x\mid \mu_p,\Sigma_p). $$
+$$ x(z) = \mathcal N(z\mid \mu_x,\Sigma_x),\qquad y(z) = \mathcal N(z\mid \mu_y,\Sigma_y). $$
 
-KL 定义：
+KL ???
 
-$$ \mathrm{KL}(q\Vert p) = E_q[\log q(x) - \log p(x)]. $$
+$$ \mathrm{KL}(x\Vert y) = E_x[\log x(z) - \log y(z)]. $$
 
-两边的 log 写展开：
+??? log ????
 
-$$ \log q(x) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_q + (x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)\Bigr], $$
+$$ \log x(z) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_x + (z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x)\Bigr], $$
 
-$$ \log p(x) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_p + (x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr]. $$
+$$ \log y(z) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_y + (z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)\Bigr]. $$
 
-相减后，常数 $ -\tfrac12 k\log(2\pi) $ 抵消，得到：
+?????? $ -\tfrac12 k\log(2\pi) $ ??????
 
-$$ \log q(x) - \log p(x) = -\frac12\log\det\Sigma_q + \frac12\log\det\Sigma_p - \frac12\Bigl[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q) - (x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr]. $$
+$$ \log x(z) - \log y(z) = -\frac12\log\det\Sigma_x + \frac12\log\det\Sigma_y - \frac12\Bigl[(z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x) - (z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)\Bigr]. $$
 
-对 $ q $ 取期望：
+? $ x $ ????
 
-$$ \mathrm{KL}(q\Vert p) = \frac12\bigl(\log\det\Sigma_p - \log\det\Sigma_q\bigr) + \frac12E_q\Bigl[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)\Bigr] - \frac12E_q\Bigl[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr]. $$
+$$ \mathrm{KL}(x\Vert y) = \frac12\bigl(\log\det\Sigma_y - \log\det\Sigma_x\bigr) + \frac12E_x\Bigl[(z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x)\Bigr] - \frac12E_x\Bigl[(z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)\Bigr]. $$
 
-关键是两个期望：
+????????
 
-1. $ E_q[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)] $
-2. $ E_q[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)] $
+1. $ E_x[(z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x)] $
+2. $ E_x[(z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)] $
 
-用 trace 写：
+? trace ??
 
 $$ v^\top A v = \mathrm{tr}(A vv^\top). $$
 
-所以：
+???
 
-$$ E_q[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)] = E_q\bigl[\mathrm{tr}(\Sigma_q^{-1}(x-\mu_q)(x-\mu_q)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_q^{-1}E_q[(x-\mu_q)(x-\mu_q)^\top]\Bigr) = \mathrm{tr}(\Sigma_q^{-1}\Sigma_q) = \mathrm{tr}(I) = k. $$
+$$ E_x[(z-\mu_x)^\top\Sigma_x^{-1}(z-\mu_x)] = E_x\bigl[\mathrm{tr}(\Sigma_x^{-1}(z-\mu_x)(z-\mu_x)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_x^{-1}E_x[(z-\mu_x)(z-\mu_x)^\top]\Bigr) = \mathrm{tr}(\Sigma_x^{-1}\Sigma_x) = \mathrm{tr}(I) = k. $$
 
-这里“期望与 trace 交换”就是利用 trace 的线性性：
+?????? trace ??????? trace ?????
 
 $$ E[\mathrm{tr}(A Y)] = \mathrm{tr}(A E[Y]). $$
 
-第二个期望稍微麻烦一点：
+????????????
 
-$$ (x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p) = \bigl((x-\mu_q)+(\mu_q-\mu_p)\bigr)^\top\Sigma_p^{-1}\bigl((x-\mu_q)+(\mu_q-\mu_p)\bigr) = (x-\mu_q)^\top\Sigma_p^{-1}(x-\mu_q) + 2(\mu_q-\mu_p)^\top\Sigma_p^{-1}(x-\mu_q) + (\mu_q-\mu_p)^\top\Sigma_p^{-1}(\mu_q-\mu_p). $$
+$$ (z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y) = \bigl((z-\mu_x)+(\mu_x-\mu_y)\bigr)^\top\Sigma_y^{-1}\bigl((z-\mu_x)+(\mu_x-\mu_y)\bigr) = (z-\mu_x)^\top\Sigma_y^{-1}(z-\mu_x) + 2(\mu_x-\mu_y)^\top\Sigma_y^{-1}(z-\mu_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
 
-对 $ q $ 取期望时：
+? $ x $ ?????
 
-- $ E_q[x-\mu_q]=0 $，所以中间那一项为 0；
-- $ E_q[(x-\mu_q)(x-\mu_q)^\top]=\Sigma_q $。
+- $ E_x[z-\mu_x]=0 $????????? 0?
+- $ E_x[(z-\mu_x)(z-\mu_x)^\top]=\Sigma_x $?
 
-得到：
+???
 
-$$ E_q[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)] = \mathrm{tr}(\Sigma_p^{-1}\Sigma_q) + (\mu_q-\mu_p)^\top\Sigma_p^{-1}(\mu_q-\mu_p). $$
+$$ E_x[(z-\mu_y)^\top\Sigma_y^{-1}(z-\mu_y)] = \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
 
-代回去：
+????
 
-$$ \mathrm{KL}(q\Vert p) = \frac12(\log\det\Sigma_p - \log\det\Sigma_q) + \frac12 k - \frac12\Bigl[\mathrm{tr}(\Sigma_p^{-1}\Sigma_q) + (\mu_q-\mu_p)^\top\Sigma_p^{-1}(\mu_q-\mu_p)\Bigr]. $$
+$$ \mathrm{KL}(x\Vert y) = \frac12(\log\det\Sigma_y - \log\det\Sigma_x) + \frac12 k - \frac12\Bigl[\mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y)\Bigr]. $$
 
-通常写成更标准的形式（把符号整理一下）：
+????????????????????
 
-$$ \mathrm{KL}\bigl(\mathcal N(\mu_q,\Sigma_q)\Vert \mathcal N(\mu_p,\Sigma_p)\bigr) = \frac12\Bigl( \mathrm{tr}(\Sigma_p^{-1}\Sigma_q) + (\mu_p-\mu_q)^\top\Sigma_p^{-1}(\mu_p-\mu_q) - k + \log\frac{\det\Sigma_p}{\det\Sigma_q} \Bigr). $$
-
-这就是文中类似式 (86) 的 Gaussian KL 公式。
-
----
-
+$$ \mathrm{KL}\bigl(\mathcal N(\mu_x,\Sigma_x)\Vert \mathcal N(\mu_y,\Sigma_y)\bigr) = \frac12\Bigl( \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_y-\mu_x)^\top\Sigma_y^{-1}(\mu_y-\mu_x) - k + \log\frac{\det\Sigma_y}{\det\Sigma_x} \Bigr). $$
 ### 4.3 特例：$ \Sigma_q = \Sigma_p = \Sigma $：式 (87)
 
 在 VDM 中，他们做了一个非常关键的选择：
