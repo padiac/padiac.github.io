@@ -370,7 +370,7 @@ $$ \log p(y) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_y + (x-\mu_y)^\top\Sig
 
 $$ \log q(x) - \log p(y) = -\frac12\log\det\Sigma_x + \frac12\log\det\Sigma_y - \frac12\Bigl[(x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x) - (y-\mu_y)^\top\Sigma_y^{-1}(y-\mu_y)\Bigr]. $$
 
-对 $ q $ 取期望：
+对 $ q $ 取期望可得：
 
 $$ \mathrm{KL}(q\Vert p) = \frac12\bigl(\log\det\Sigma_y - \log\det\Sigma_x\bigr) - \frac12E_q\Bigl[(x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x)\Bigr] + \frac12E_q\Bigl[(y-\mu_y)^\top\Sigma_y^{-1}(y-\mu_y)\Bigr] . $$
 
