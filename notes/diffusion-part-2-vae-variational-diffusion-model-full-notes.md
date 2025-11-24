@@ -353,30 +353,30 @@ $$ q(x_{t}\mid x_{t-1},x_0) = \frac{q(x_{t-1}\mid x_{t},x_0)q(x_{t}\mid x_0)}{q(
 
 设
 
-$$ q(x) = \mathcal N(x\mid \mu_q,\Sigma_q),\qquad p(x) = \mathcal N(x\mid \mu_p,\Sigma_p). $$
+$$ q(x) = \mathcal N(x\mid \mu_x,\Sigma_x),\qquad p(y) = \mathcal N(y\mid \mu_y,\Sigma_y). $$
 
 KL 定义：
 
-$$ \mathrm{KL}(q\Vert p) = E_q[\log q(x) - \log p(x)]. $$
+$$ \mathrm{KL}(q\Vert p) = E_q[\log q(x) - \log p(y)]. $$
 
 两边的 log 写展开：
 
-$$ \log q(x) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_q + (x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)\Bigr], $$
+$$ \log q(x) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_x + (x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x)\Bigr], $$
 
-$$ \log p(x) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_p + (x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr]. $$
+$$ \log p(y) = -\frac12\Bigl[k\log(2\pi) + \log\det\Sigma_y + (x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_y)\Bigr]. $$
 
 相减后，常数 $ -\tfrac12 k\log(2\pi) $ 抵消，得到：
 
-$$ \log q(x) - \log p(x) = -\frac12\log\det\Sigma_q + \frac12\log\det\Sigma_p - \frac12\Bigl[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q) - (x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr]. $$
+$$ \log q(x) - \log p(y) = -\frac12\log\det\Sigma_x + \frac12\log\det\Sigma_y - \frac12\Bigl[(x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x) - (y-\mu_y)^\top\Sigma_y^{-1}(y-\mu_y)\Bigr]. $$
 
 对 $ q $ 取期望：
 
-$$ \mathrm{KL}(q\Vert p) = \frac12\bigl(\log\det\Sigma_p - \log\det\Sigma_q\bigr) + \frac12E_q\Bigl[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)\Bigr] - \frac12E_q\Bigl[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr]. $$
+$$ \mathrm{KL}(q\Vert p) = \frac12\bigl(\log\det\Sigma_y - \log\det\Sigma_x\bigr) - \frac12E_q\Bigl[(x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x)\Bigr] + \frac12E_q\Bigl[(y-\mu_y)^\top\Sigma_y^{-1}(y-\mu_y)\Bigr] . $$
 
 关键是两个期望：
 
-1. $ E_q[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)] $
-2. $ E_q[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)] $
+1. $ E_q[(x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x)] $
+2. $ E_q[(y-\mu_y)^\top\Sigma_y^{-1}(y-\mu_y)] $
 
 用 trace 写：
 
@@ -384,7 +384,7 @@ $$ v^\top A v = \mathrm{tr}(A vv^\top). $$
 
 所以：
 
-$$ E_q[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)] = E_q\bigl[\mathrm{tr}(\Sigma_q^{-1}(x-\mu_q)(x-\mu_q)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_q^{-1}E_q[(x-\mu_q)(x-\mu_q)^\top]\Bigr) = \mathrm{tr}(\Sigma_q^{-1}\Sigma_q) = \mathrm{tr}(I) = k. $$
+$$ E_q[(x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x)] = E_q\bigl[\mathrm{tr}(\Sigma_x^{-1}(x-\mu_x)(x-\mu_x)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_x^{-1}E_q[(x-\mu_x)(x-\mu_x)^\top]\Bigr) = \mathrm{tr}(\Sigma_x^{-1}\Sigma_x) = \mathrm{tr}(I) = k. $$
 
 这里“期望与 trace 交换”就是利用 trace 的线性性：
 
