@@ -298,11 +298,12 @@ $$ q(x_t \mid x_{0:t-1}) = q(x_t \mid x_{t-1}). $$
 
 利用 Bayes，可以写：
 
-$$ q(x_{t-1}\mid x_t,x_0) \propto q(x_t\mid x_{t-1},x_0)q(x_{t-1}\mid x_0). $$
+$$ q(x_{t}\mid x_{t-1}) = \frac{q(x_{t-1}\mid x_{t})q(x_{t})}{q(x_{t - 1})} $$
 
 由于 Markov 性，$ q(x_t\mid x_{t-1},x_0) = q(x_t\mid x_{t-1}) $。于是：
 
-$$ q(x_{t-1}\mid x_t,x_0) \propto q(x_t\mid x_{t-1})q(x_{t-1}\mid x_0). $$
+$$ q(x_{t}\mid x_{t-1},x_0) = \frac{q(x_{t-1}\mid x_{t},x_0)q(x_{t}\mid x_0)}{q(x_{t - 1} \mid x_0)} $$
+
 
 这就是文中类似式 (46) 的那种写法。要点是：
 
