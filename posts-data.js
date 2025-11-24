@@ -264,5 +264,12 @@ window.POSTS = [
     date: '2025-11-20T08:48:08Z',
     category: 'Diffusion',
     summary: '本文档总结了我们在讨论 VAE -> ELBO -> HVAE (不包含 VDM / Diffusion) 过程中形成的核心理解框架. 结构分为两类内容, 并在正文中清晰标记学习笔记与洞察段落.'
+  },
+  {
+    slug: 'diffusion-part-2-vae-variational-diffusion-model-full-notes',
+    title: 'Diffusion - Part 2: VAE & Variational Diffusion Model — Full Notes (Draft 1)',
+    date: '2025-11-23T19:30:00Z',
+    category: 'Diffusion',
+    summary: '从正向马尔科夫链闭式到 ELBO 分解，再到 Gaussian KL 变成噪声 L2，整理 VDM / DDPM 全套推导、三种参数化和 Tweedie / score 视角。'
   }
 ];
