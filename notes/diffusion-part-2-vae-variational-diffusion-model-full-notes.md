@@ -1,6 +1,6 @@
 VAE & Variational Diffusion Model - Part 2
 
-> 这一篇 是 VDM / DDPM 那一部分推导，  
+> 这一篇 是 VDM / DDPM 那一部分推导  
 
 ---
 
