@@ -274,11 +274,11 @@ $$
 3. 把结果合起来就是式 (45)
 
 $$
-L(x_0)
-= E_{q(x_1\mid x_0)}[\log p_\theta(x_0\mid x_1)]   \quad\text{(reconstruction term)}
-- E_{q(x_{T-1}\mid x_0)}\left[ D_{\mathrm{KL}}( q(x_T\mid x_{T-1}) \Vert p(x_T) ) \right] \quad\text{(prior matching term)}
-- \sum_{t=1}^{T-1} E_{q(x_{t-1},x_{t+1}\mid x_0)}\left[ D_{\mathrm{KL}}( q(x_t\mid x_{t-1}) \Vert p_\theta(x_t\mid x_{t+1}) ) \right] \quad\text{(consistency term)}.
+L(x_0) = E_{q(x_1\mid x_0)}[\log p_\theta(x_0\mid x_1)]
+- E_{q(x_{T-1}\mid x_0)}\big[D_{\mathrm{KL}}(q(x_T\mid x_{T-1}) \Vert p(x_T))\big]
+- \sum_{t=1}^{T-1} E_{q(x_{t-1},x_{t+1}\mid x_0)}\big[D_{\mathrm{KL}}(q(x_t\mid x_{t-1}) \Vert p_\theta(x_t\mid x_{t+1}))\big].
 $$
+
 
 
 
