@@ -171,14 +171,7 @@ $$ q(x_T \mid x_0) \approx \mathcal N(0, I). $$
 
 ### 2.1 目标：把 $ -\log p_\theta(x_0) $ 写成 KL 之和
 
-我们希望最大化 $ p_\theta(x_0) $，等价于最小化 $ -\log p_\theta(x_0) $。  
-VDM / DDPM 采用的标准 trick 是：
-
-$$ -\log p_\theta(x_0) \le -E_q\bigl[\log p_\theta(x_{0:T}) - \log q(x_{1:T}\mid x_0)\bigr] = \underbrace{\mathrm{KL}\bigl(q(x_{1:T}\mid x_0)\Vert p_\theta(x_{1:T}\mid x_0)\bigr)}_{\text{“路径 KL”}} - \log p_\theta(x_0) + \text{常数}. $$
-
-整理后得到一个 **ELBO 风格的上/下界**。不过 VDM 的写法稍微不同，它直接写
-
-$$ \mathcal L(x_0) = E_{q(x_{1:T}\mid x_0)}\Bigl[ \log q(x_{1:T}\mid x_0) - \log p_\theta(x_{0:T}) \Bigr]. $$
+我们希望最大化 $ p(x) $, 从（34）到（43）计算都非常直接，略去不提。  
 
 这里的关键点是：
 
@@ -194,24 +187,22 @@ $$ \mathcal L(x_0) = E_{q(x_{1:T}\mid x_0)}\Bigl[ \log q(x_{1:T}\mid x_0) - \log
 
 抽象地写一小块（示意，不纠结原文具体下标）：
 
-$$ E_{q(x_{0:T})}\Bigl[\log \frac{q(x_t\mid x_{t-1})}{p_\theta(x_{t-1}\mid x_t)}\Bigr]. $$
+$$ E_{q(x_{0:T} \mid x_0)}\Bigl[\log \frac{p_{\theta}(x_t\mid x_{t+1})}{q(x_{t}\mid x_t - 1)}\Bigr]. $$
 
-这里的期望是对整条链的联合 $ q(x_{0:T}) $ 取的。  
 用条件期望展开：
 
-$$ E_{q(x_{0:T})}[f(x_{t-1},x_t)] = E_{q(x_{t-1:t})}[f(x_{t-1},x_t)] = \iint f(x_{t-1},x_t)q(x_{t-1},x_t)dx_{t-1}dx_t. $$
+$$ E_{q(x_{0:T} \mid x_0)}[f(x_{t-1},x_t)] = E_{q(x_{t-1:t} \mid x_0)}[f(x_{t-1},x_t)] = \iint f(x_{t-1},x_t)q(x_{t-1},x_t)dx_{t-1}dx_t. $$
 
 直觉：
 
 - 因为被积函数只依赖 $ (x_{t-1},x_t) $，  
   所以对其它 $ x_s (s\neq t,t-1) $ 积掉就是 1。
-- 这就是你问的那句“是不是因为把其他部分积成 1 了”，答案：是。
 
 所以从 (43) 到 (44) 的“期望下标变化”其实就是：
 
-$$ E_{q(x_{0:T})}[\cdots] \longrightarrow E_{q(x_{t-1:t}\mid x_0)}[\cdots], $$
+$$ E_{q(x_{0:T \mid x_0})}[\cdots] \longrightarrow E_{q(x_{t-1:t}\mid x_0)}[\cdots], $$
 
-或者干脆写成 $ q(x_{t-1:t}) $ 的期望 —— 它只是把 **与当前 log 比值无关的随机变量积掉了**，本质上是“归一化 + Fubini + 线性性”。
+或者干脆写成 $ q(x_{t-1:t} \mid x_0) $ 的期望 —— 它只是把 **与当前 log 比值无关的随机变量积掉了**，本质上是“归一化”。 这个对于第二第三项都成立。
 
 ---
 
@@ -244,7 +235,7 @@ $$ \mathcal L = \underbrace{\mathrm{KL}(q(x_T\mid x_0)\Vert p_\theta(x_T))}_{\te
 
 ## 3. Markov 性与插入 $ x_0 $：式 (46)
 
-你之前抓住的一点很关键：**$ x_0 $ 看起来既想出现又似乎不重要**。核心在于 Markov 性。
+这一点很关键：**$ x_0 $ 看起来既想出现又似乎不重要**。核心在于 Markov 性。
 
 正向过程满足：
 
