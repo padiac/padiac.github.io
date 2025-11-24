@@ -215,7 +215,7 @@ $$ E_{q(x_{0:T \mid x_0})}[\cdots] \longrightarrow E_{q(x_{T-1,T}\mid x_0)}[\cdo
 $$
 L(x_0)
 = E_{q(x_1\mid x_0)}\bigl[\log p_\theta(x_0\mid x_1)\bigr]
-+ E_{q(x_{T-1},x_T\mid x_0)}\!\left[
++ E_{q(x_{T-1},x_T\mid x_0)}\left[
     \log \frac{p(x_T)}{q(x_T\mid x_{T-1})}
   \right]
 + \sum_{t=1}^{T-1} E_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\left[
@@ -238,7 +238,7 @@ $$
   \right].
 $$
 
-注意对 x_T 的内层期望，正好是 KL 的负号：
+注意对 $x_T$ 的内层期望，正好是 KL 的负号：
 
 $$
 \mathbb{E}_{q(x_T\mid x_{T-1})}\!\left[
@@ -260,13 +260,13 @@ $$
       D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr)
     \right].
 $$
-% 这就是式 (45) 里的 “prior matching term”。
+这就是式 (45) 里的 “prior matching term”。
 
 2. 第三项：consistency term
 
 同样，用马尔可夫结构拆分联合分布：
-  q(x_{t-1},x_t,x_{t+1}\mid x_0)
-  = q(x_{t-1}\mid x_0)\,q(x_t\mid x_{t-1})\,q(x_{t+1}\mid x_t)
+  $q(x_{t-1},x_t,x_{t+1}\mid x_0)
+  = q(x_{t-1}\mid x_0)\,q(x_t\mid x_{t-1})\,q(x_{t+1}\mid x_t)$
 
 
 $$
