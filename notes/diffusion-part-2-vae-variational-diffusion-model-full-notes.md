@@ -221,7 +221,6 @@ $$
 + \sum_{t=1}^{T-1} \mathbb{E}_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\left[
     \log \frac{p_\theta(x_t\mid x_{t+1})}{q(x_t\mid x_{t-1})}
   \right].
-\tag{44}
 $$
 
 下面只推导「后两项」如何变成式 (45) 里的 KL 结构。
@@ -325,7 +324,6 @@ $$
         q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1})
       \bigr)
     \right]}_{\text{consistency term}}.
-\tag{45}
 $$
 
 
