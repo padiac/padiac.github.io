@@ -174,11 +174,11 @@ $$ q(x_T \mid x_0) \approx \mathcal N(0, I). $$
 我们希望最大化 $ p_\theta(x_0) $，等价于最小化 $ -\log p_\theta(x_0) $。  
 VDM / DDPM 采用的标准 trick 是：
 
-$$ -\log p_\theta(x_0) \le -\_\(E_q\)\bigl[\log p_\theta(x_{0:T}) - \log q(x_{1:T}\mid x_0)\bigr] = \underbrace{\mathrm{KL}\bigl(q(x_{1:T}\mid x_0)\Vert p_\theta(x_{1:T}\mid x_0)\bigr)}_{\text{“路径 KL”}} - \log p_\theta(x_0) + \text{常数}. $$
+$$ -\log p_\theta(x_0) \le -E_q\bigl[\log p_\theta(x_{0:T}) - \log q(x_{1:T}\mid x_0)\bigr] = \underbrace{\mathrm{KL}\bigl(q(x_{1:T}\mid x_0)\Vert p_\theta(x_{1:T}\mid x_0)\bigr)}_{\text{“路径 KL”}} - \log p_\theta(x_0) + \text{常数}. $$
 
 整理后得到一个 **ELBO 风格的上/下界**。不过 VDM 的写法稍微不同，它直接写
 
-$$ \mathcal L(x_0) = \_\(E_{q(x_{1:T}\mid x_0)}\)\Bigl[ \log q(x_{1:T}\mid x_0) - \log p_\theta(x_{0:T}) \Bigr]. $$
+$$ \mathcal L(x_0) = E_{q(x_{1:T}\mid x_0)}\Bigl[ \log q(x_{1:T}\mid x_0) - \log p_\theta(x_{0:T}) \Bigr]. $$
 
 这里的关键点是：
 
@@ -194,12 +194,12 @@ $$ \mathcal L(x_0) = \_\(E_{q(x_{1:T}\mid x_0)}\)\Bigl[ \log q(x_{1:T}\mid x_0) 
 
 抽象地写一小块（示意，不纠结原文具体下标）：
 
-$$ \_\(E_{q(x_{0:T})}\)\Bigl[\log \frac{q(x_t\mid x_{t-1})}{p_\theta(x_{t-1}\mid x_t)}\Bigr]. $$
+$$ E_{q(x_{0:T})}\Bigl[\log \frac{q(x_t\mid x_{t-1})}{p_\theta(x_{t-1}\mid x_t)}\Bigr]. $$
 
 这里的期望是对整条链的联合 $ q(x_{0:T}) $ 取的。  
 用条件期望展开：
 
-$$ \_\(E_{q(x_{0:T})}\)[f(x_{t-1},x_t)] = \_\(E_{q(x_{t-1:t})}\)[f(x_{t-1},x_t)] = \iint f(x_{t-1},x_t)q(x_{t-1},x_t)dx_{t-1}dx_t. $$
+$$ E_{q(x_{0:T})}[f(x_{t-1},x_t)] = E_{q(x_{t-1:t})}[f(x_{t-1},x_t)] = \iint f(x_{t-1},x_t)q(x_{t-1},x_t)dx_{t-1}dx_t. $$
 
 直觉：
 
@@ -209,7 +209,7 @@ $$ \_\(E_{q(x_{0:T})}\)[f(x_{t-1},x_t)] = \_\(E_{q(x_{t-1:t})}\)[f(x_{t-1},x_t)]
 
 所以从 (43) 到 (44) 的“期望下标变化”其实就是：
 
-$$ \_\(E_{q(x_{0:T})}\)[\cdots] \longrightarrow \_\(E_{q(x_{t-1:t}\mid x_0)}\)[\cdots], $$
+$$ E_{q(x_{0:T})}[\cdots] \longrightarrow E_{q(x_{t-1:t}\mid x_0)}[\cdots], $$
 
 或者干脆写成 $ q(x_{t-1:t}) $ 的期望 —— 它只是把 **与当前 log 比值无关的随机变量积掉了**，本质上是“归一化 + Fubini + 线性性”。
 
@@ -219,7 +219,7 @@ $$ \_\(E_{q(x_{0:T})}\)[\cdots] \longrightarrow \_\(E_{q(x_{t-1:t}\mid x_0)}\)[\
 
 我们看其中一项典型的结构：
 
-$$ \_\(E_{q(x_{t-1:t}\mid x_0)}\)\Bigl[ \log q(x_{t-1}\mid x_t,x_0) - \log p_\theta(x_{t-1}\mid x_t) \Bigr]. $$
+$$ E_{q(x_{t-1:t}\mid x_0)}\Bigl[ \log q(x_{t-1}\mid x_t,x_0) - \log p_\theta(x_{t-1}\mid x_t) \Bigr]. $$
 
 注意：
 
@@ -228,11 +228,11 @@ $$ \_\(E_{q(x_{t-1:t}\mid x_0)}\)\Bigl[ \log q(x_{t-1}\mid x_t,x_0) - \log p_\th
 
 所以这就是 KL 的定义：
 
-$$ \_\(E_{q(x_{t-1:t}\mid x_0)}\)\Bigl[\log q(x_{t-1}\mid x_t,x_0) - \log p_\theta(x_{t-1}\mid x_t)\Bigr] = \_\(E_{q(x_t\mid x_0)}\)\_\(E_{q(x_{t-1}\mid x_t,x_0)}\bigl[\log q(\cdot) - \log p_\theta(\cdot)\bigr] = \_\(E_{q(x_t\mid x_0)}\)\mathrm{KL}\bigl(q(x_{t-1}\mid x_t,x_0)\Vert p_\theta(x_{t-1}\mid x_t)\bigr). $$
+$$ E_{q(x_{t-1:t}\mid x_0)}\Bigl[\log q(x_{t-1}\mid x_t,x_0) - \log p_\theta(x_{t-1}\mid x_t)\Bigr] = E_{q(x_t\mid x_0)}E_{q(x_{t-1}\mid x_t,x_0)}\bigl[\log q(\cdot) - \log p_\theta(\cdot)\bigr] = E_{q(x_t\mid x_0)}\mathrm{KL}\bigl(q(x_{t-1}\mid x_t,x_0)\Vert p_\theta(x_{t-1}\mid x_t)\bigr). $$
 
 于是得到：
 
-$$ \mathcal L = \underbrace{\mathrm{KL}(q(x_T\mid x_0)\Vert p_\theta(x_T))}_{\text{prior matching term}} + \underbrace{\_\(E_q\)[-\log p_\theta(x_0\mid x_1)]}_{\text{reconstruction term}} + \sum_{t=2}^T \underbrace{\_\(E_q\)\mathrm{KL}\bigl(q(x_{t-1}\mid x_t,x_0)\Vert p_\theta(x_{t-1}\mid x_t)\bigr)}_{\text{transition matching}}. $$
+$$ \mathcal L = \underbrace{\mathrm{KL}(q(x_T\mid x_0)\Vert p_\theta(x_T))}_{\text{prior matching term}} + \underbrace{E_q[-\log p_\theta(x_0\mid x_1)]}_{\text{reconstruction term}} + \sum_{t=2}^T \underbrace{E_q\mathrm{KL}\bigl(q(x_{t-1}\mid x_t,x_0)\Vert p_\theta(x_{t-1}\mid x_t)\bigr)}_{\text{transition matching}}. $$
 
 这就是文中 (44) → (45) 的“拆成三类项”的过程：
 
@@ -316,7 +316,7 @@ $$ q(x) = \mathcal N(x\mid \mu_q,\Sigma_q),\qquad p(x) = \mathcal N(x\mid \mu_p,
 
 KL 定义：
 
-$$ \mathrm{KL}(q\Vert p) = \_\(E_q\)[\log q(x) - \log p(x)]. $$
+$$ \mathrm{KL}(q\Vert p) = E_q[\log q(x) - \log p(x)]. $$
 
 两边的 log 写展开：
 
@@ -330,12 +330,12 @@ $$ \log q(x) - \log p(x) = -\frac12\log\det\Sigma_q + \frac12\log\det\Sigma_p - 
 
 对 $ q $ 取期望：
 
-$$ \mathrm{KL}(q\Vert p) = \frac12\bigl(\log\det\Sigma_p - \log\det\Sigma_q\bigr) + \frac12\_\(E_q\)\Bigl[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)\Bigr] - \frac12\_\(E_q\)\Bigl[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr]. $$
+$$ \mathrm{KL}(q\Vert p) = \frac12\bigl(\log\det\Sigma_p - \log\det\Sigma_q\bigr) + \frac12E_q\Bigl[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)\Bigr] - \frac12E_q\Bigl[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)\Bigr]. $$
 
 关键是两个期望：
 
-1. $ \_\(E_q\)[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)] $
-2. $ \_\(E_q\)[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)] $
+1. $ E_q[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)] $
+2. $ E_q[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)] $
 
 用 trace 写：
 
@@ -343,11 +343,11 @@ $$ v^\top A v = \mathrm{tr}(A vv^\top). $$
 
 所以：
 
-$$ \_\(E_q\)[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)] = \_\(E_q\)\bigl[\mathrm{tr}(\Sigma_q^{-1}(x-\mu_q)(x-\mu_q)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_q^{-1}\_\(E_q\)[(x-\mu_q)(x-\mu_q)^\top]\Bigr) = \mathrm{tr}(\Sigma_q^{-1}\Sigma_q) = \mathrm{tr}(I) = k. $$
+$$ E_q[(x-\mu_q)^\top\Sigma_q^{-1}(x-\mu_q)] = E_q\bigl[\mathrm{tr}(\Sigma_q^{-1}(x-\mu_q)(x-\mu_q)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_q^{-1}E_q[(x-\mu_q)(x-\mu_q)^\top]\Bigr) = \mathrm{tr}(\Sigma_q^{-1}\Sigma_q) = \mathrm{tr}(I) = k. $$
 
 这里“期望与 trace 交换”就是利用 trace 的线性性：
 
-$$ \_\(E\)[\mathrm{tr}(A Y)] = \mathrm{tr}(A \_\(E\)[Y]). $$
+$$ E[\mathrm{tr}(A Y)] = \mathrm{tr}(A E[Y]). $$
 
 第二个期望稍微麻烦一点：
 
@@ -355,12 +355,12 @@ $$ (x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p) = \bigl((x-\mu_q)+(\mu_q-\mu_p)\bigr)^\t
 
 对 $ q $ 取期望时：
 
-- $ \_\(E_q\)[x-\mu_q]=0 $，所以中间那一项为 0；
-- $ \_\(E_q\)[(x-\mu_q)(x-\mu_q)^\top]=\Sigma_q $。
+- $ E_q[x-\mu_q]=0 $，所以中间那一项为 0；
+- $ E_q[(x-\mu_q)(x-\mu_q)^\top]=\Sigma_q $。
 
 得到：
 
-$$ \_\(E_q\)[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)] = \mathrm{tr}(\Sigma_p^{-1}\Sigma_q) + (\mu_q-\mu_p)^\top\Sigma_p^{-1}(\mu_q-\mu_p). $$
+$$ E_q[(x-\mu_p)^\top\Sigma_p^{-1}(x-\mu_p)] = \mathrm{tr}(\Sigma_p^{-1}\Sigma_q) + (\mu_q-\mu_p)^\top\Sigma_p^{-1}(\mu_q-\mu_p). $$
 
 代回去：
 
@@ -507,7 +507,7 @@ $$ \bigl\Vert\mu_q(x_t,x_0) - \mu_\theta(x_t,t)\bigr\Vert^2 \propto \bigl\Vert\v
 
 最后得到的典型 training objective（文中式 (99)、(108)、(130) 那一类）：
 
-$$ L(\theta) \propto \sum_{t=1}^T w_t \_\(E_{x_0,\varepsilon}\)\bigl\Vert\varepsilon - \varepsilon_\theta(x_t,t)\bigr\Vert^2 $$
+$$ L(\theta) \propto \sum_{t=1}^T w_t E_{x_0,\varepsilon}\bigl\Vert\varepsilon - \varepsilon_\theta(x_t,t)\bigr\Vert^2 $$
 
 其中：
 
@@ -578,7 +578,7 @@ $$ x_t = x_0 + \sigma_t\varepsilon,\quad \varepsilon\sim\mathcal N(0,I). $$
 
 Tweedie 公式告诉你：
 
-$$ \_\(E\)[x_0\mid x_t] = x_t + \sigma_t^2\nabla_{x_t}\log p(x_t), $$
+$$ E[x_0\mid x_t] = x_t + \sigma_t^2\nabla_{x_t}\log p(x_t), $$
 
 其中 $ p(x_t) $ 是 **噪声空间里的边缘分布**。右边那一项就是所谓的 **score**：
 
@@ -587,7 +587,7 @@ $$ s(x_t,t) := \nabla_{x_t}\log p(x_t). $$
 于是：
 
 - 如果你能学到一个 $ s_\theta(x_t,t)\approx s(x_t,t) $，
-- 就能用它来还原“干净图像” $ \_\(E\)[x_0\mid x_t] $。
+- 就能用它来还原“干净图像” $ E[x_0\mid x_t] $。
 
 这就是文中式 (133) 附近的逻辑：把“预测噪声 / 原图”的任务等价地写成“预测 score”。
 
