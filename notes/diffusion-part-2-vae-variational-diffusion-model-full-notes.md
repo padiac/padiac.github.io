@@ -16,7 +16,9 @@ VAE & Variational Diffusion Model - Part 2
 - 最终目标：给定训练集，通过变分下界，把
   $ -\log p_\theta(x_0) $  
   近似成一堆逐步 KL，最后变成一个简单的 L2 噪声回归：
-  $$ \_\(E\)\bigl\Vert\varepsilon - \varepsilon_\theta(x_t,t)\bigr\Vert^2. $$
+  $$ \mathbb E \bigl\Vert\varepsilon - \varepsilon_\theta(x_t,t)\bigr\Vert^2. $$
+
+
 
 这一篇主要包含几块：
 
