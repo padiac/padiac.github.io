@@ -1,4 +1,4 @@
-VAE & Variational Diffusion Model - Part 2
+VAE & Variational Diffusion Model
 
 > 这一篇 是 VDM / DDPM 那一部分推导  
 
@@ -27,7 +27,7 @@ VAE & Variational Diffusion Model - Part 2
 3. 变分下界的分解：从 (43) 到 (44)、(45)，Markov 性插入 $ x_0 $（式 (46)）
 4. Gaussian KL 的具体展开：式 (85)、(86)、(87) 以及“协方差相同”假设
 5. 从 KL 推出噪声 L2 损失：式 (99)、(108)、(130)
-6. 三种等价 parameterization：$ \mu_\theta / x_{0,\theta} / \varepsilon_\theta $
+6. 三种等价 parameterization：$ \mu_\theta / x_\theta / \varepsilon_\theta $
 7. Tweedie 公式、score-based 视角与后面的式 (133)、(148)、(151) 的关系（只做短总结）
 
 下面按“概念块”来写，不严格逐式编号，但会在对应地方标注大致对应的原文式号。
@@ -38,31 +38,48 @@ VAE & Variational Diffusion Model - Part 2
 
 ### 1.1 定义：正向过程 $ q $
 
-正向扩散的定义是一个固定参数的马尔科夫链：
 
-- 初始：
-  $$ x_0 \sim p_{\text{data}}(x_0). $$
+正向扩散过程定义为一个已知系数的马尔科夫链。  
 
-- 对 $ t = 1,2,\dots,T $：
-  $$ q(x_t \mid x_{t-1}) = \mathcal N\bigl(x_t \mid \sqrt{\alpha_t}x_{t-1}, (1-\alpha_t)I\bigr), $$
-  其中每一步的噪声都是独立的高斯：
-  $$ \varepsilon_t \sim \mathcal N(0,I),\quad x_t = \sqrt{\alpha_t}x_{t-1} + \sqrt{1-\alpha_t}\varepsilon_t. $$
+对每一个时间步 $t=1,\dots,T$，定义正向转移核为高斯分布：
 
-于是整个正向联合分布是：
+$$
+q(x_t \mid x_{t-1})
+= \mathcal{N}\bigl(x_t\;;\;\sqrt{\alpha_t}\,x_{t-1},\,(1-\alpha_t)I\bigr),
+\tag{31}
+$$
 
-$$ q(x_{0:T}) = p_{\text{data}}(x_0)\prod_{t=1}^T q(x_t \mid x_{t-1}). $$
+其中噪声的显式采样形式为
 
-这基本就是文中类似于式 (30) / (33) 那一类“联合分布写法”：
+$$
+\varepsilon_t \sim \mathcal{N}(0,I),\qquad
+x_t = \sqrt{\alpha_t}\,x_{t-1} + \sqrt{1-\alpha_t}\,\varepsilon_t.
+$$
 
-- 式 (30)：表达 $ q(x_t\mid x_{t-1}) $ 的高斯形式
-- 式 (33)：写整个链的联合
-  $$ q(x_{0:T}) = q(x_0)\prod_{t=1}^T q(x_t\mid x_{t-1}). $$
+由于该过程是马尔科夫的，因此整个正向链的联合分布可写为：
 
-这一步没啥玄学，就是“这是一个马尔科夫链”的声明。
+$$
+q(x_{1:T}\mid x_0)
+= \prod_{t=1}^T q(x_t\mid x_{t-1}),
+\tag{30}
+$$
+
+
+在第三条假设下，系数序列 $\{\alpha_t\}$ 被选择为一个固定或可学习的“噪声调度”。  
+当 $t=T$ 足够大时，连续叠加的高斯噪声会使最终的 $x_T$ 收敛到标准正态分布：
+
+$$
+p(x_T)=\mathcal{N}(x_T\,; 0,I).
+\tag{32}
+$$
+
+这组假设共同描述了一个逐步“高斯化”的过程：  
+随着 $t$ 增大，图像不断被注入独立的高斯噪声；  
+最终在 $T$ 步后几乎完全变成纯高斯噪声。
 
 ---
 
-### 1.2 闭式 $ q(x_t \mid x_0) $：式 (31)
+### 1.2 闭式 $ q(x_t \mid x_0) $：式 (70)
 
 关键结论（文中式 (31)）：
 
@@ -76,19 +93,27 @@ $$ x_1 = \sqrt{\alpha_1}x_0 + \sqrt{1-\alpha_1}\varepsilon_1. $$
 
 在给定 $ x_0 $ 的条件下：
 
-- 条件期望：
-  $$ \_\(E\)[x_1 \mid x_0] = \sqrt{\alpha_1}x_0. $$
+- 条件期望(这里指的是条件概率，即不考虑$x_0$的先验)：
+  $$ 
+    E[x_1 \mid x_0] = \sqrt{\alpha_1}x_0. 
+  $$
 - 条件方差：
-  $$ \mathrm{Var}(x_1\mid x_0) = (1-\alpha_1)\mathrm{Var}(\varepsilon_1) = (1-\alpha_1)I. $$
+  $$
+    \mathrm{Var}(x_1\mid x_0) = (1-\alpha_1)\mathrm{Var}(\varepsilon_1) = (1-\alpha_1)I. 
+  $$
 
 **两步：**
 
-$$ x_2 = \sqrt{\alpha_2}x_1 + \sqrt{1-\alpha_2}\varepsilon_2 = \sqrt{\alpha_2}\bigl(\sqrt{\alpha_1}x_0 + \sqrt{1-\alpha_1}\varepsilon_1\bigr) + \sqrt{1-\alpha_2}\varepsilon_2 = \sqrt{\alpha_1\alpha_2}x_0 + \sqrt{\alpha_2(1-\alpha_1)}\varepsilon_1 + \sqrt{1-\alpha_2}\varepsilon_2. $$
+$$ 
+x_2 = \sqrt{\alpha_2}x_1 + \sqrt{1-\alpha_2}\varepsilon_2 = \sqrt{\alpha_2}\bigl(\sqrt{\alpha_1}x_0 + \sqrt{1-\alpha_1}\varepsilon_1\bigr) + \sqrt{1-\alpha_2}\varepsilon_2 = \sqrt{\alpha_1\alpha_2}x_0 + \sqrt{\alpha_2(1-\alpha_1)}\varepsilon_1 + \sqrt{1-\alpha_2}\varepsilon_2. 
+$$
 
 于是：
 
 - 条件期望：
-  $$ \_\(E\)[x_2\mid x_0] = \sqrt{\alpha_1\alpha_2}x_0. $$
+  $$ 
+    E[x_2\mid x_0] = \sqrt{\alpha_1\alpha_2}x_0. 
+  $$
 
 - 条件方差：$ \varepsilon_1,\varepsilon_2 $ 独立：
   $$ \mathrm{Var}(x_2\mid x_0) = \alpha_2(1-\alpha_1)I + (1-\alpha_2)I = (1-\alpha_1\alpha_2)I. $$
@@ -103,16 +128,24 @@ $$ x_2 = \sqrt{\alpha_2}x_1 + \sqrt{1-\alpha_2}\varepsilon_2 = \sqrt{\alpha_2}\b
 用归纳法可以证明：
 
 1. 假设
-   $$ x_{t-1}\mid x_0 \sim \mathcal N\bigl(\sqrt{\bar\alpha_{t-1}}x_0, (1-\bar\alpha_{t-1})I\bigr). $$
+   $$ 
+      x_{t-1}\mid x_0 \sim \mathcal N\bigl(\sqrt{\bar\alpha_{t-1}}x_0, (1-\bar\alpha_{t-1})I\bigr). 
+   $$
 
 2. 再走一步：
-   $$ x_t = \sqrt{\alpha_t}x_{t-1} + \sqrt{1-\alpha_t}\varepsilon_t. $$
+   $$ 
+      x_t = \sqrt{\alpha_t}x_{t-1} + \sqrt{1-\alpha_t}\varepsilon_t. 
+   $$
 
    条件期望：
-   $$ \_\(E\)[x_t\mid x_0] = \sqrt{\alpha_t}\_\(E\)[x_{t-1}\mid x_0] = \sqrt{\alpha_t\bar\alpha_{t-1}}x_0 = \sqrt{\bar\alpha_t}x_0. $$
+   $$
+      E[x_t\mid x_0] = \sqrt{\alpha_t}E[x_{t-1}\mid x_0] = \sqrt{\alpha_t\bar\alpha_{t-1}}x_0 = \sqrt{\bar\alpha_t}x_0. 
+   $$
 
    条件方差：
-   $$ \mathrm{Var}(x_t\mid x_0) = \alpha_t\mathrm{Var}(x_{t-1}\mid x_0) + (1-\alpha_t)I = \alpha_t(1-\bar\alpha_{t-1})I + (1-\alpha_t)I = (1-\alpha_t\bar\alpha_{t-1})I = (1-\bar\alpha_t)I. $$
+   $$ 
+    \mathrm{Var}(x_t\mid x_0) = \alpha_t\mathrm{Var}(x_{t-1}\mid x_0) + (1-\alpha_t)I = \alpha_t(1-\bar\alpha_{t-1})I + (1-\alpha_t)I = (1-\alpha_t\bar\alpha_{t-1})I = (1-\bar\alpha_t)I. 
+   $$
 
 于是得证：
 
