@@ -169,7 +169,7 @@ $$ q(x_T \mid x_0) \approx \mathcal N(0, I). $$
 
 ## 2. 变分下界分解：从 (43) 到 (44)、(45)
 
-### 2.1 目标：把 $ -\log p_\theta(x_0) $ 写成 KL 之和
+### 2.1 目标：把 $ \log p(x_0) $ 写成 KL 之和
 
 我们希望最大化 $ p(x) $, 从（34）到（43）计算都非常直接，略去不提。  
 
@@ -191,7 +191,7 @@ $$ E_{q(x_{0:T} \mid x_0)}\Bigl[\log \frac{p_{\theta}(x_t\mid x_{t+1})}{q(x_{t}\
 
 用条件期望展开：
 
-$$ E_{q(x_{0:T} \mid x_0)}[f(x_{t-1},x_t)] = E_{q(x_{t-1:t} \mid x_0)}[f(x_{t-1},x_t)] = \iint f(x_{t-1},x_t)q(x_{t-1},x_t)dx_{t-1}dx_t. $$
+$$ E_{q(x_{0:T} \mid x_0)}[f(x_{t-1},x_t)] = E_{q(x_{t-1,t} \mid x_0)}[f(x_{t-1},x_t)] = \iint f(x_{t-1},x_t)q(x_{t-1},x_t)dx_{t-1}dx_t. $$
 
 直觉：
 
@@ -200,7 +200,7 @@ $$ E_{q(x_{0:T} \mid x_0)}[f(x_{t-1},x_t)] = E_{q(x_{t-1:t} \mid x_0)}[f(x_{t-1}
 
 所以从 (43) 到 (44) 的“期望下标变化”其实就是：
 
-$$ E_{q(x_{0:T \mid x_0})}[\cdots] \longrightarrow E_{q(x_{t-1:t}\mid x_0)}[\cdots], $$
+$$ E_{q(x_{0:T \mid x_0})}[\cdots] \longrightarrow E_{q(x_{T-1,T}\mid x_0)}[\cdots], $$
 
 或者干脆写成 $ q(x_{t-1:t} \mid x_0) $ 的期望 —— 它只是把 **与当前 log 比值无关的随机变量积掉了**，本质上是“归一化”。 这个对于第二第三项都成立。
 
@@ -208,28 +208,126 @@ $$ E_{q(x_{0:T \mid x_0})}[\cdots] \longrightarrow E_{q(x_{t-1:t}\mid x_0)}[\cdo
 
 ### 2.3 从 (44) 到 (45)：显式认出一个 KL
 
-我们看其中一项典型的结构：
+目标：把式 (44) 的后两项改写成式 (45) 里的 KL 形式
 
-$$ E_{q(x_{t-1:t}\mid x_0)}\Bigl[ \log q(x_{t-1}\mid x_t,x_0) - \log p_\theta(x_{t-1}\mid x_t) \Bigr]. $$
+先把式 (44) 原封不动写出来（只关心 $x_0$ 条件下的损失）：
 
-注意：
+$$
+\mathcal{L}(x_0)
+= \mathbb{E}_{q(x_1\mid x_0)}\!\bigl[\log p_\theta(x_0\mid x_1)\bigr]
++ \mathbb{E}_{q(x_{T-1},x_T\mid x_0)}\!\left[
+    \log \frac{p(x_T)}{q(x_T\mid x_{T-1})}
+  \right]
++ \sum_{t=1}^{T-1} \mathbb{E}_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\!\left[
+    \log \frac{p_\theta(x_t\mid x_{t+1})}{q(x_t\mid x_{t-1})}
+  \right].
+\tag{44}
+$$
 
-- **外层期望的分布** 正是 $ q(x_{t-1}\mid x_t,x_0) $ 与 $ q(x_t\mid x_0) $ 的“乘积”，
-- 对 $ x_t $ 再期望一次，只是再对 $ q(x_t \mid x_0) $ 积分。
+下面只推导「后两项」如何变成式 (45) 里的 KL 结构。
 
-所以这就是 KL 的定义：
+1. 第二项：prior matching term
 
-$$ E_{q(x_{t-1:t}\mid x_0)}\Bigl[\log q(x_{t-1}\mid x_t,x_0) - \log p_\theta(x_{t-1}\mid x_t)\Bigr] = E_{q(x_t\mid x_0)}E_{q(x_{t-1}\mid x_t,x_0)}\bigl[\log q(\cdot) - \log p_\theta(\cdot)\bigr] = E_{q(x_t\mid x_0)}\mathrm{KL}\bigl(q(x_{t-1}\mid x_t,x_0)\Vert p_\theta(x_{t-1}\mid x_t)\bigr). $$
+利用马尔可夫结构，有
+   $q(x_{T-1},x_T\mid x_0) = q(x_{T-1}\mid x_0)\,q(x_T\mid x_{T-1})$
+$$
+\mathbb{E}_{q(x_{T-1},x_T\mid x_0)}\!\left[
+    \log \frac{p(x_T)}{q(x_T\mid x_{T-1})}
+  \right]
+= \mathbb{E}_{q(x_{T-1}\mid x_0)} \mathbb{E}_{q(x_T\mid x_{T-1})}\!\left[
+    \log p(x_T) - \log q(x_T\mid x_{T-1})
+  \right].
+$$
 
-于是得到：
+注意对 x_T 的内层期望，正好是 KL 的负号：
 
-$$ \mathcal L = \underbrace{\mathrm{KL}(q(x_T\mid x_0)\Vert p_\theta(x_T))}_{\text{prior matching term}} + \underbrace{E_q[-\log p_\theta(x_0\mid x_1)]}_{\text{reconstruction term}} + \sum_{t=2}^T \underbrace{E_q\mathrm{KL}\bigl(q(x_{t-1}\mid x_t,x_0)\Vert p_\theta(x_{t-1}\mid x_t)\bigr)}_{\text{transition matching}}. $$
+$$
+\mathbb{E}_{q(x_T\mid x_{T-1})}\!\left[
+    \log p(x_T) - \log q(x_T\mid x_{T-1})
+  \right]
+= -\,\mathbb{E}_{q(x_T\mid x_{T-1})}\!\left[
+      \log \frac{q(x_T\mid x_{T-1})}{p(x_T)}
+    \right]
+= -\,D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr).
+$$
 
-这就是文中 (44) → (45) 的“拆成三类项”的过程：
+代回去得到：
 
-1. prior matching（终点 $ x_T $ 的 KL）；
-2. reconstruction（从 $ x_1 $ 回到 $ x_0 $ 的 likelihood term）；
-3. 其余所有时间步的 transition KL。
+$$
+\mathbb{E}_{q(x_{T-1},x_T\mid x_0)}\!\left[
+    \log \frac{p(x_T)}{q(x_T\mid x_{T-1})}
+  \right]
+= -\,\mathbb{E}_{q(x_{T-1}\mid x_0)}\!\left[
+      D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr)
+    \right].
+$$
+% 这就是式 (45) 里的 “prior matching term”。
+
+2. 第三项：consistency term
+
+同样，用马尔可夫结构拆分联合分布：
+  q(x_{t-1},x_t,x_{t+1}\mid x_0)
+  = q(x_{t-1}\mid x_0)\,q(x_t\mid x_{t-1})\,q(x_{t+1}\mid x_t)
+
+
+$$
+\mathbb{E}_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\!\left[
+    \log \frac{p_\theta(x_t\mid x_{t+1})}{q(x_t\mid x_{t-1})}
+  \right]
+= \mathbb{E}_{q(x_{t-1},x_{t+1}\mid x_0)}
+    \mathbb{E}_{q(x_t\mid x_{t-1},x_{t+1},x_0)}\!\left[
+      \log p_\theta(x_t\mid x_{t+1}) - \log q(x_t\mid x_{t-1})
+    \right].
+$$
+
+但在前向链里，给定 x_{t-1} 之后 x_t 与 (x_{t+1},x_0) 无关：
+  q(x_t\mid x_{t-1},x_{t+1},x_0) = q(x_t\mid x_{t-1})
+所以内层期望就是
+
+$$
+\mathbb{E}_{q(x_t\mid x_{t-1})}\!\left[
+    \log p_\theta(x_t\mid x_{t+1}) - \log q(x_t\mid x_{t-1})
+  \right]
+= -\,\mathbb{E}_{q(x_t\mid x_{t-1})}\!\left[
+      \log \frac{q(x_t\mid x_{t-1})}{p_\theta(x_t\mid x_{t+1})}
+    \right]
+= -\,D_{\mathrm{KL}}\!\bigl(
+      q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1})
+    \bigr).
+$$
+
+因此第三项整体变成
+
+$$
+\mathbb{E}_{q(x_{t-1},x_t,x_{t+1}\mid x_0)}\!\left[
+    \log \frac{p_\theta(x_t\mid x_{t+1})}{q(x_t\mid x_{t-1})}
+  \right]
+= -\,\mathbb{E}_{q(x_{t-1},x_{t+1}\mid x_0)}\!\left[
+      D_{\mathrm{KL}}\!\bigl(
+        q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1})
+      \bigr)
+    \right].
+$$
+
+把它代回式 (44) 的求和中，就得到式 (45) 里的 consistency term。
+
+3. 把结果合起来就是式 (45)
+
+$$
+\mathcal{L}(x_0)
+= \underbrace{\mathbb{E}_{q(x_1\mid x_0)}\!\bigl[\log p_\theta(x_0\mid x_1)\bigr]}_{\text{reconstruction term}}
+- \underbrace{\mathbb{E}_{q(x_{T-1}\mid x_0)}\!\left[
+      D_{\mathrm{KL}}\!\bigl(q(x_T\mid x_{T-1}) \,\Vert\, p(x_T)\bigr)
+    \right]}_{\text{prior matching term}}
+- \underbrace{\sum_{t=1}^{T-1}
+    \mathbb{E}_{q(x_{t-1},x_{t+1}\mid x_0)}\!\left[
+      D_{\mathrm{KL}}\!\bigl(
+        q(x_t\mid x_{t-1}) \,\Vert\, p_\theta(x_t\mid x_{t+1})
+      \bigr)
+    \right]}_{\text{consistency term}}.
+\tag{45}
+$$
+
 
 ---
 
@@ -602,7 +700,7 @@ $$ s(x_t,t) := \nabla_{x_t}\log p(x_t). $$
 
 ---
 
-## 结语：这一篇到底帮你记住了什么？
+## 结语：
 
 Part 2 的核心是把那一大坨“看起来纯在凑公式”的 VDM 推导，拆成几个你脑子里可以单独调用的模块：
 
@@ -613,5 +711,3 @@ Part 2 的核心是把那一大坨“看起来纯在凑公式”的 VDM 推导�
 5. 噪声 parameterization：$ \mu_q $ 写成 $ \varepsilon $ 的仿射函数，从而“把 KL 变成 $ \Vert\varepsilon - \varepsilon_\theta\Vert^2 $”
 6. 实际训练：随机采样 $ x_0,t,\varepsilon $，做一步噪声回归
 7. Tweedie / score：告诉你“预测噪声”和“预测 score”只是坐标变换，后面 SDE 那套是同一物理故事的连续极限版本。
-
-这份 Draft 1 先把整体逻辑和主要细节铺开，你可以先整体扫一遍，看看哪一块还不够“接近我们当时的火力输出”，后面我们可以按块加细节或对照原文的式号逐式补。
