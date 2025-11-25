@@ -882,26 +882,8 @@ $$
 
 ### 7.1 Tweedie 公式的核心
 
-<!-- 假设一个简单的加噪模型：
-
-$$ x_t = x_0 + \sigma_t\varepsilon,\quad \varepsilon\sim\mathcal N(0,I). $$
-
-Tweedie 公式告诉你：
-
-$$ E[x_0\mid x_t] = x_t + \sigma_t^2\nabla_{x_t}\log p(x_t), $$
-
-其中 $ p(x_t) $ 是 **噪声空间里的边缘分布**。右边那一项就是所谓的 **score**：
-
-$$ s(x_t,t) := \nabla_{x_t}\log p(x_t). $$
-
-于是：
-
-- 如果你能学到一个 $ s_\theta(x_t,t)\approx s(x_t,t) $，
-- 就能用它来还原“干净图像” $ E[x_0\mid x_t] $。
-
-这就是文中式 (133) 附近的逻辑：把“预测噪声 / 原图”的任务等价地写成“预测 score”。 -->
 考虑最基本的加噪模型：$x_t = x_0 + \sigma_t \varepsilon$
-, 其条件分布为 $q(x_t\mid x_0)=\mathcal N(x_0,\sigma_t^2 I)$。
+, 其条件分布为 $q(x_t\mid x_0)=\mathcal N(x_0,\sigma_t^2 I)$, 且$\mu_t=\sqrt{\bar\alpha_t}x_0$。
 
 我们希望求后验均值 $E[x_0\mid x_t]$。Tweedie 公式给出的结果是 
 $$E[x_0\mid x_t]=x_t+\sigma_t^2\nabla_{x_t}\log p(x_t)$$
@@ -934,7 +916,7 @@ $$\nabla_{x_t}p(x_t)=-\frac{p(x_t)}{\sigma_t^2}\int(x_t-x_0)p(x_0\mid x_t)dx_0$$
 将此公式应用到 DDPM 的前向噪声：$$q(x_t\mid x_0)=\mathcal N(\sqrt{\bar\alpha_t}x_0,(1-\bar\alpha_t)I)$$
 写成加噪形式为 $x_t=\sqrt{\bar\alpha_t}x_0+\sigma_t\varepsilon,\quad \sigma_t^2=1-\bar\alpha_t$,
 
-记 $\mu_t=\sqrt{\bar\alpha_t}\,x_0$, Tweedie 作用于 $\mu_t$ 得：$$E[\mu_t\mid x_t]=x_t+(1-\bar\alpha_t)\nabla_{x_t}\log p(x_t)$$
+记 $\mu_t=\sqrt{\bar\alpha_t}x_0$, Tweedie 作用于 $\mu_t$ 得：$$E[\mu_t\mid x_t]=x_t+(1-\bar\alpha_t)\nabla_{x_t}\log p(x_t)$$
 
 利用 $\mu_t=\sqrt{\bar\alpha_t}x_0$，两侧除以 $\sqrt{\bar\alpha_t}$：$$E[x_0\mid x_t]=\frac{x_t+(1-\bar\alpha_t)\nabla_{x_t}\log p(x_t)}{\sqrt{\bar\alpha_t}}$$
 
