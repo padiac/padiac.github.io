@@ -754,7 +754,7 @@ $$
   w_{t_i}
   = \frac{1}{2\sigma_q^2(t_i)}
     \frac{(1-\alpha_{t_i})^2}{(1-\bar\alpha_{t_i})\,\alpha_{t_i}}.
-$$
+  $$
 
 
    mini-batch 的 loss 就是平均（或加和）：
