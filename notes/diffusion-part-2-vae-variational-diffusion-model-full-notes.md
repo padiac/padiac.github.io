@@ -583,22 +583,22 @@ $$ \bigl\Vert\mu_q(x_t,x_0) - \mu_\theta(x_t,t)\bigr\Vert^2 \propto \bigl\Vert\v
 
 ### 6.2 实际训练算法（对应式 (130))
 
-1. 训练与采样：如何真正用式 (130) 训练 / 推理
+训练与采样：如何真正用式 (130) 训练 / 推理
 
 这里把文章中到式 (130) 为止的结果，整理成「**训练算法**」和「**采样算法**」两部分。
 
 ---
 
-1.1 总体优化目标（对应公式 (130)）
+6.2.1 总体优化目标（对应公式 (130)）
 
 前面推导得到单步 KL 的形式，并利用高斯 KL（式 (86)、(87)）把它化成加权的 MSE。  
 对时间步 $t$ 的那一项，最后得到的是：
 
 - 正向马尔可夫链（式 (31)、(33)）：
-  - $q(x_t\mid x_{t-1}) = \mathcal N\!\bigl(x_t;\sqrt{\alpha_t}x_{t-1},(1-\alpha_t)I\bigr)$
+  - $q(x_t\mid x_{t-1}) = \mathcal N\bigl(x_t;\sqrt{\alpha_t}x_{t-1},(1-\alpha_t)I\bigr)$
   - 递推可得
     $$
-    x_t = \sqrt{\bar\alpha_t}\,x_0 + \sqrt{1-\bar\alpha_t}\,\varepsilon_0,
+    x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\varepsilon_0,
     \qquad
     \varepsilon_0\sim\mathcal N(0,I),
     $$
@@ -609,13 +609,13 @@ $$ \bigl\Vert\mu_q(x_t,x_0) - \mu_\theta(x_t,t)\bigr\Vert^2 \propto \bigl\Vert\v
   q(x_{t-1}\mid x_t,x_0) = \mathcal N\!\bigl(x_{t-1};\mu_q(x_t,x_0),\Sigma_q(t)\bigr),
   $$
   $$
-  p_\theta(x_{t-1}\mid x_t) = \mathcal N\!\bigl(x_{t-1};\mu_\theta(x_t),\Sigma_q(t)\bigr),
+  p_\theta(x_{t-1}\mid x_t) = \mathcal N\bigl(x_{t-1};\mu_\theta(x_t),\Sigma_q(t)\bigr),
   $$
   并且假设协方差相同：$\Sigma_\theta(t)\equiv\Sigma_q(t)$。
 
 - 利用高斯 KL 一般公式 (86) 并在 $\Sigma_p = \Sigma_q = \Sigma_q(t)$ 时退化成 (87)：
   $$
-  D_{\mathrm{KL}}\bigl(q(x_{t-1}\mid x_t,x_0)\,\Vert\,p_\theta(x_{t-1}\mid x_t)\bigr)
+  D_{\mathrm{KL}}\bigl(q(x_{t-1}\mid x_t,x_0)\Vert p_\theta(x_{t-1}\mid x_t)\bigr)
   = \frac{1}{2}\bigl(\mu_q(x_t,x_0)-\mu_\theta(x_t)\bigr)^\top\Sigma_q(t)^{-1}\bigl(\mu_q(x_t,x_0)-\mu_\theta(x_t)\bigr).
   $$
 
@@ -664,7 +664,7 @@ $$
 
 ---
 
-1.2 训练（Training）算法——如何在数据集上最小化式 (130)
+6.2.2 训练（Training）算法——如何在数据集上最小化式 (130)
 
 假设数据集为 $\{x_0^{(i)}\}_{i=1}^N$，网络为 $\hat\varepsilon_\theta(x,t)$（例如 UNet）。
 
@@ -784,7 +784,7 @@ $$
 
 ---
 
-1.3 采样（Inference）算法——如何从噪声生成图像
+6.2.3 采样（Inference）算法——如何从噪声生成图像
 
 训练好噪声预测网络 $\hat\varepsilon_\theta(x,t)$ 之后，采样过程就是**沿着反向马尔可夫链 $p_\theta(x_{t-1}\mid x_t)$ 一步步往回走**。
 
@@ -866,7 +866,7 @@ $$
 
 ---
 
-1.4 训练目标与采样过程之间的对应关系（小结）
+6.2.4 训练目标与采样过程之间的对应关系（小结）
 
 - 训练时：  
   正向一步是
