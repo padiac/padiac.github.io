@@ -28,7 +28,7 @@
 经验分布 $p_{\text{data}}(x)$ 会对原本的空间进行“加权”，从而形成新的测度：
 
 $$
-d\mu_{\text{data}}(x) = p_{\text{data}}(x)\,dx
+d\mu_{\text{data}}(x) = p_{\text{data}}(x) dx
 $$
 
 这意味着：

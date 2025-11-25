@@ -26,19 +26,19 @@ where $I(\theta)$ is the **per-sample Fisher information**.
 Suppose $\hat g = \hat g(X_1, \ldots, X_n)$ is **unbiased** for $g(\theta)$: $\mathbb{E}_\theta[\hat g] = g(\theta)$. Differentiate both sides with respect to $\theta$ (this is the step you were stuck on earlier):
 
 $$
-\frac{d}{d\theta} \mathbb{E}_\theta[\hat g] = \frac{d}{d\theta} \int \hat g(x) f(x; \theta) \, dx
+\frac{d}{d\theta} \mathbb{E}_\theta[\hat g] = \frac{d}{d\theta} \int \hat g(x) f(x; \theta)  dx
 $$
 
 Differentiating under the integral sign yields
 
 $$
-\frac{d}{d\theta} \int \hat g(x) f(x; \theta) \, dx = \int \hat g(x) \frac{\partial}{\partial \theta} f(x; \theta) \, dx
+\frac{d}{d\theta} \int \hat g(x) f(x; \theta)  dx = \int \hat g(x) \frac{\partial}{\partial \theta} f(x; \theta)  dx
 $$
 
 and therefore
 
 $$
-\int \hat g(x) \frac{\partial}{\partial \theta} f(x; \theta) \, dx = \mathbb{E}_\theta\left[\hat g \frac{\partial}{\partial \theta} \log f(X; \theta)\right]
+\int \hat g(x) \frac{\partial}{\partial \theta} f(x; \theta)  dx = \mathbb{E}_\theta\left[\hat g \frac{\partial}{\partial \theta} \log f(X; \theta)\right]
 $$
 
 The left side equals $g'(\theta)$; the right side equals $\operatorname{Cov}(\hat g, S) + \mathbb{E}[\hat g] \mathbb{E}[S]$. Because $\mathbb{E}[S] = 0$,
@@ -56,7 +56,7 @@ $$
 Taking $A = \hat g$ and $B = S$ gives
 
 $$
-\left(g'(\theta)\right)^2 \leq \operatorname{Var}(\hat g) \operatorname{Var}(S) = \operatorname{Var}(\hat g) \, n I(\theta)
+\left(g'(\theta)\right)^2 \leq \operatorname{Var}(\hat g) \operatorname{Var}(S) = \operatorname{Var}(\hat g)  n I(\theta)
 $$
 
 Thus

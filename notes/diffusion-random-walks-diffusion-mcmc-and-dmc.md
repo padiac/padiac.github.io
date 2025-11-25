@@ -109,7 +109,7 @@ $$
 Collecting terms leads to
 
 $$
-p_{t} \Delta t = -\mu \Delta t \, p + (T_{-} - T_{+}) p_{x} \Delta x + \frac{1}{2} (T_{+} + T_{-}) p_{xx} (\Delta x)^2 + \ldots
+p_{t} \Delta t = -\mu \Delta t   p + (T_{-} - T_{+}) p_{x} \Delta x + \frac{1}{2} (T_{+} + T_{-}) p_{xx} (\Delta x)^2 + \ldots
 $$
 
 ### 2.3 Symmetric random walk: no drift
@@ -117,7 +117,7 @@ $$
 For pure diffusion with no drift enforce $T_{+} = T_{-} = A$. Then $T_{-} - T_{+} = 0$ and $T_{+} + T_{-} = 2A$, yielding
 
 $$
-p_{t} \Delta t = -\mu \Delta t \, p + A (\Delta x)^2 p_{xx} + \ldots
+p_{t} \Delta t = -\mu \Delta t   p + A (\Delta x)^2 p_{xx} + \ldots
 $$
 
 Divide by $\Delta t$ to obtain
@@ -358,7 +358,7 @@ the diffusion-reaction equation for a single walker.
 Given an initial density $\rho_{0}(x_{0})$, the population density at time $t$ is obtained by averaging over all possible starting points:
 
 $$
-\rho(x, t) = \int \rho_{0}(x_{0}) \, p(x, t \mid x_{0}, 0) \, dx_{0}.
+\rho(x, t) = \int \rho_{0}(x_{0})   p(x, t \mid x_{0}, 0)   dx_{0}.
 $$
 
 This is the bridge between the Newtonian trajectory view (encoded in $p$) and the fluid or continuum view (encoded in $\rho$).

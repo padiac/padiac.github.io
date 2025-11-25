@@ -53,7 +53,7 @@ $$
 
 $$
 \varepsilon_t \sim \mathcal{N}(0,I),\qquad
-x_t = \sqrt{\alpha_t}\,x_{t-1} + \sqrt{1-\alpha_t}\,\varepsilon_t.
+x_t = \sqrt{\alpha_t} x_{t-1} + \sqrt{1-\alpha_t} \varepsilon_t.
 $$
 
 由于该过程是马尔科夫的，因此整个正向链的联合分布可写为：
@@ -69,7 +69,7 @@ $$
 当 $t=T$ 足够大时，连续叠加的高斯噪声会使最终的 $x_T$ 收敛到标准正态分布：
 
 $$
-p(x_T)=\mathcal{N}(x_T\,; 0,I).
+p(x_T)=\mathcal{N}(x_T ; 0,I).
 \tag{32}
 $$
 
@@ -226,7 +226,7 @@ $$
 1. 第二项：prior matching term
 
 利用马尔可夫结构，有
-   $q(x_{T-1},x_T\mid x_0) = q(x_{T-1}\mid x_0)\,q(x_T\mid x_{T-1})$,
+   $q(x_{T-1},x_T\mid x_0) = q(x_{T-1}\mid x_0) q(x_T\mid x_{T-1})$,
 $$
 E_{q(x_{T-1},x_T\mid x_0)}\left[ \log \frac{p(x_T)}{q(x_T\mid x_{T-1})} \right] = E_{q(x_{T-1}\mid x_0)} E_{q(x_T\mid x_{T-1})}\left[ \log p(x_T) - \log q(x_T\mid x_{T-1}) \right].
 $$
@@ -248,7 +248,7 @@ $$
 
 同样，用马尔可夫结构拆分联合分布：
   $q(x_{t-1},x_t,x_{t+1}\mid x_0)
-  = q(x_{t-1}\mid x_0)\,q(x_t\mid x_{t-1})\,q(x_{t+1}\mid x_t)$
+  = q(x_{t-1}\mid x_0) q(x_t\mid x_{t-1}) q(x_{t+1}\mid x_t)$
 
 
 $$
@@ -642,9 +642,9 @@ $$
 
 $$
 \mathcal L(\theta)
-= E_{x_0}\,E_{t}\,E_{\varepsilon_0}
+= E_{x_0} E_{t} E_{\varepsilon_0}
 \left[
-w_t\,
+w_t 
 \bigl\|\varepsilon_0 - \hat\varepsilon_\theta(x_t,t)\bigr\|_2^2
 \right],
 $$
@@ -693,7 +693,7 @@ $$
 
    $$
    \mathcal L(\theta)
-   = E_{x_0}\,E_{t}\,E_{\varepsilon_0}
+   = E_{x_0} E_{t} E_{\varepsilon_0}
    \left[
      w_t \bigl\|\varepsilon_0 - \hat\varepsilon_\theta(x_t,t)\bigr\|_2^2
    \right],
@@ -770,7 +770,7 @@ $$
 
    - 例如 Adam：
      $$
-     \theta \leftarrow \text{AdamStep} \bigl(\theta,\, \nabla_\theta \mathcal L_{\text{batch}}(\theta)\bigr),
+     \theta \leftarrow \text{AdamStep} \bigl(\theta,  \nabla_\theta \mathcal L_{\text{batch}}(\theta)\bigr),
      $$
    - 迭代若干个 epoch，直到收敛（loss 稳定、生成效果满意等）。
 
@@ -790,7 +790,7 @@ $$
 
 - 一般形式：
   $$
-  p_\theta(x_{t-1}\mid x_t) = \mathcal N\bigl(x_{t-1};\,\mu_\theta(x_t,t),\Sigma_q(t)\bigr),
+  p_\theta(x_{t-1}\mid x_t) = \mathcal N\bigl(x_{t-1}; \mu_\theta(x_t,t),\Sigma_q(t)\bigr),
   $$
   其中
   $$
@@ -815,7 +815,7 @@ $$
    1. **预测当前步的噪声**
 
       $$
-      \hat\varepsilon_\theta(x_t,t) = \hat\varepsilon_\theta(\,\text{当前图像}\,x_t,\text{时间步}t).
+      \hat\varepsilon_\theta(x_t,t) = \hat\varepsilon_\theta( \text{当前图像} x_t,\text{时间步}t).
       $$
 
    2. **计算反向均值 $\mu_\theta(x_t,t)$**

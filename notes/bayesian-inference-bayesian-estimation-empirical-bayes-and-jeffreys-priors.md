@@ -55,7 +55,7 @@ The Jeffreys prior is $\pi(\theta) \propto \sqrt{\det I(\theta)}$.
 
 ### 4.1 Motivation
 
-This prior is invariant under reparameterization. If $\phi = g(\theta)$, then $\pi_\phi(\phi) \, d\phi = \pi_\theta(\theta) \, d\theta$. No parameterization encodes more or less prior information than another.
+This prior is invariant under reparameterization. If $\phi = g(\theta)$, then $\pi_\phi(\phi)  d\phi = \pi_\theta(\theta)  d\theta$. No parameterization encodes more or less prior information than another.
 
 ---
 

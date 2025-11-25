@@ -60,7 +60,7 @@ $$
 so the closed form becomes
 
 $$
-x_{t} = \sqrt{\alpha_{1:t}}\, x_{0} + \sqrt{1 - \alpha_{1:t}}\, \varepsilon.
+x_{t} = \sqrt{\alpha_{1:t}} x_{0} + \sqrt{1 - \alpha_{1:t}} \varepsilon.
 $$
 
 
@@ -72,7 +72,7 @@ where $\varepsilon$ is Gaussian with zero mean and identity covariance.
 
 The sum of independent Gaussian variables is still Gaussian, and the variances add up. The accumulated noise across $t$ steps has variance $1 - \alpha_{1:t}$, so we can write it as
 $$
-\sqrt{1 - \alpha_{1:t}}\, \varepsilon
+\sqrt{1 - \alpha_{1:t}} \varepsilon
 $$
 for a single $\varepsilon \sim \mathcal{N}(0, I)$. This reduction to one noise draw enables efficient training and sampling.
 
@@ -84,7 +84,7 @@ for a single $\varepsilon \sim \mathcal{N}(0, I)$. This reduction to one noise d
 Because
 
 $$
-x_{t} = \sqrt{\alpha_{1:t}}\, x_{0} + \sqrt{1 - \alpha_{1:t}}\, \varepsilon.
+x_{t} = \sqrt{\alpha_{1:t}} x_{0} + \sqrt{1 - \alpha_{1:t}} \varepsilon.
 $$
 
 

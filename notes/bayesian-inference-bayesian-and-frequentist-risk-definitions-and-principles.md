@@ -119,7 +119,7 @@ $$
 Standard Bayesian inference fixes $\pi(\theta)$ and optimizes $\delta(x)$, but one may also optimize the prior itself:
 
 $$
-\pi^{\ast}(\theta) = \arg\min_{\pi} \iint L(\theta, \delta^{\ast}_{\pi}(x))\,f(x \mid \theta)\,\pi(\theta)\,d\theta\,dx.
+\pi^{\ast}(\theta) = \arg\min_{\pi} \iint L(\theta, \delta^{\ast}_{\pi}(x))f(x \mid \theta)\pi(\theta)d\theta dx.
 $$
 
 
