@@ -666,7 +666,7 @@ $$
 
 6.2.2 训练（Training）算法——如何在数据集上最小化式 (130)
 
-假设数据集为 $\{{x_0}^{(i)}\}_{i=1}^N$，网络为 $\hat\varepsilon_\theta(x,t)$（例如 UNet）。
+假设数据集为 ${{x_0}^{(i)}}_{i=1}^N$，网络为 $\hat\varepsilon_\theta(x,t)$（例如 UNet）。
 
 一个典型的训练过程（基于 SGD / Adam）可以写成：
 
