@@ -1,6 +1,8 @@
 ﻿VAE & Variational Inference — Full Notes (Part 1)
 
-> 本文档整合了我们此前所有讨论过的要点，包括：  
+
+> 原文献： [Understanding Diffusion Models: A Unified Perspective](https://arxiv.org/abs/2208.11970)
+> * 本文档整合了此前所有讨论过的要点，包括：  
 > * VAE 推导、ELBO 结构、KL ≥ 0、Jensen 不等式  
 > * Z = 文字（latent = language）的解释  
 > * μ / σ 的意义  

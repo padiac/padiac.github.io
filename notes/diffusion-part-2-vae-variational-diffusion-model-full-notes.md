@@ -1,6 +1,8 @@
 VAE & Variational Diffusion Model
 
-> 这一篇 是 VDM / DDPM 那一部分推导  
+> 原文献： [Understanding Diffusion Models: A Unified Perspective](https://arxiv.org/abs/2208.11970)
+> * 这一篇 是 VDM / DDPM 那一部分推导  
+
 
 ---
 
