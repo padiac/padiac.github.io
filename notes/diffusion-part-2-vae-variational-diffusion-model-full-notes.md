@@ -888,7 +888,7 @@ $$
 我们希望求后验均值 $E[x_0\mid x_t]$。Tweedie 公式给出的结果是 
 $$E[x_0\mid x_t]=x_t+\sigma_t^2\nabla_{x_t}\log p(x_t)$$
 
-首先写出边缘分布：$$p(x_t)=\int p(x_0)q(x_t\mid x_0)\,dx_0$$
+首先写出边缘分布：$$p(x_t)=\int p(x_0)q(x_t\mid x_0) dx_0$$
 
 对 $x_t$ 求梯度：$$\nabla_{x_t}p(x_t)=\nabla_{x_t}\int p(x_0)q(x_t\mid x_0)dx_0=\int p(x_0)\nabla_{x_t}q(x_t\mid x_0)dx_0$$
 
