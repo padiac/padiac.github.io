@@ -748,12 +748,7 @@ $$
    L^{(i)}(\theta) = w_{t^{(i)}} \bigl\|\varepsilon_0^{(i)} - \hat\varepsilon_\theta^{(i)}\bigr\|_2^2, \qquad w_{t^{(i)}} = \frac{1}{2\sigma_q^2(t^{(i)})} \frac{(1-\alpha_{t^{(i)}})^2}{(1-\bar\alpha_{t^{(i)}})\alpha_{t^{(i)}}}.
    $$ -->
   $$
-  L_i(\theta)
-  = w_{t_i}\,\|\varepsilon_{0,i} - \hat\varepsilon_{\theta,i}\|_2^2,
-  \qquad
-  w_{t_i}
-  = \frac{1}{2\sigma_q^2(t_i)}
-    \frac{(1-\alpha_{t_i})^2}{(1-\bar\alpha_{t_i})\,\alpha_{t_i}}.
+  L_i(\theta) = w_{t_i}\,\|\varepsilon_{0,i} - \hat\varepsilon_{\theta,i}\|_2^2, \qquad w_{t_i} = \frac{1}{2\sigma_q^2(t_i)} \frac{(1-\alpha_{t_i})^2}{(1-\bar\alpha_{t_i})\,\alpha_{t_i}}.
   $$
 
 
