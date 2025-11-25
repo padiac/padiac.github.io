@@ -748,9 +748,9 @@ $$
    L^{(i)}(\theta) = w_{t^{(i)}} \bigl\|\varepsilon_0^{(i)} - \hat\varepsilon_\theta^{(i)}\bigr\|_2^2
    $$
    其中
-   <!-- $$
+   $$
    w_{t^{(i)}} = \frac{1}{2\sigma_q^2(t^{(i)})} \frac{(1-\alpha_{t^{(i)}})^2}{(1-\bar\alpha_{t^{(i)}})\alpha_{t^{(i)}}}
-   $$ -->
+   $$
 
 
 
@@ -794,7 +794,7 @@ $$
   $$
   其中
   $$
-  \mu_\theta(x_t,t) = \frac{1}{\sqrt{\alpha_t}}\left( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\, \hat\varepsilon_\theta(x_t,t) \right),
+  \mu_\theta(x_t,t) = \frac{1}{\sqrt{\alpha_t}}\left( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}} \hat\varepsilon_\theta(x_t,t) \right),
   $$
   $\Sigma_q(t)=\sigma_q^2(t)I$ 与训练时相同。
 
