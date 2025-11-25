@@ -749,7 +749,7 @@ $$
    $$
    其中
    $$
-   \qquad w_{t^{(i)}} = \frac{1}{2\sigma_q^2(t^{(i)})} \frac{(1-\alpha_{t^{(i)}})^2}{(1-\bar\alpha_{t^{(i)}})\alpha_{t^{(i)}}}
+   w_{t^{(i)}} = \frac{1}{2\sigma_q^2(t^{(i)})} \frac{(1-\alpha_{t^{(i)}})^2}{(1-\bar\alpha_{t^{(i)}})\alpha_{t^{(i)}}}
    $$
 
 
