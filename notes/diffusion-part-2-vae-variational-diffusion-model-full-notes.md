@@ -883,7 +883,7 @@ $$
 ### 7.1 Tweedie 公式的核心
 
 考虑最基本的加噪模型：$x_t = x_0 + \sigma_t \varepsilon$
-, 其条件分布为 $q(x_t\mid x_0)=\mathcal N(x_0,\sigma_t^2 I)$, 且$\mu_t=\sqrt{\bar\alpha_t}x_0$。
+, 其条件分布为 $q(x_t\mid x_0)=\mathcal N(x_0,\sigma_t^2 I)$。
 
 我们希望求后验均值 $E[x_0\mid x_t]$。Tweedie 公式给出的结果是 
 $$E[x_0\mid x_t]=x_t+\sigma_t^2\nabla_{x_t}\log p(x_t)$$
