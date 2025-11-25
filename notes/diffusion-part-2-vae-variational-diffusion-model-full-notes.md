@@ -815,7 +815,7 @@ $$
    1. **预测当前步的噪声**
 
       $$
-      \hat\varepsilon_\theta(x_t,t) = \hat\varepsilon_\theta(\,\text{当前图像}\,x_t,\,\text{时间步}\,t\,).
+      \hat\varepsilon_\theta(x_t,t) = \hat\varepsilon_\theta(\,\text{当前图像}\,x_t,\text{时间步}t).
       $$
 
    2. **计算反向均值 $\mu_\theta(x_t,t)$**
@@ -823,7 +823,7 @@ $$
       使用上面的闭式公式：
 
       $$
-      \mu_\theta(x_t,t) = \frac{1}{\sqrt{\alpha_t}} \left( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\, \hat\varepsilon_\theta(x_t,t) \right).
+      \mu_\theta(x_t,t) = \frac{1}{\sqrt{\alpha_t}} \left( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}} \hat\varepsilon_\theta(x_t,t) \right).
       $$
 
       这一步可以理解为「从当前的 noisy 图像中，把网络认为的噪声成分减掉，并归一化到上一步的尺度」。
@@ -832,7 +832,7 @@ $$
 
       - 若 $t>1$：从高斯中真正采样：
         $$
-        z\sim\mathcal N(0,I), \qquad x_{t-1} = \mu_\theta(x_t,t) + \sigma_q(t)\,z,
+        z\sim\mathcal N(0,I), \qquad x_{t-1} = \mu_\theta(x_t,t) + \sigma_q(t)z,
         $$
         其中 $\sigma_q^2(t)$ 与训练时完全一致。
       - 若 $t=1$：很多实现直接取均值（不再加噪声），即
@@ -854,7 +854,7 @@ $$
 - 训练时：  
   正向一步是
   $$
-  x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\,\varepsilon_0,
+  x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\varepsilon_0,
   $$
   网络学习在给定 $(x_t,t)$ 的情况下恢复出 $\varepsilon_0$。  
   这相当于学会了「当前 noisy 图像在数据分布上的 score」。
@@ -863,7 +863,7 @@ $$
   反向一步是
   $$
   x_{t-1}
-  = \frac{1}{\sqrt{\alpha_t}} \left( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\, \hat\varepsilon_\theta(x_t,t) \right) + \sigma_q(t)\,z.
+  = \frac{1}{\sqrt{\alpha_t}} \left( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}} \hat\varepsilon_\theta(x_t,t) \right) + \sigma_q(t)z.
   $$
   即用学到的噪声预测把图片一点点「去噪」，同时乘上预设好的 $\alpha_t$ 日程表，逐步走回 $t=0$。
 
