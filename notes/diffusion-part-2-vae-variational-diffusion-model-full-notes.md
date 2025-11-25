@@ -385,15 +385,37 @@ $$ v^\top A v = \mathrm{tr}(A vv^\top). $$
 
 所以：
 
-$$ E_q[(x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x)] = E_q\bigl[\mathrm{tr}(\Sigma_x^{-1}(x-\mu_x)(x-\mu_x)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_x^{-1}E_q[(x-\mu_x)(x-\mu_x)^\top]\Bigr) = \mathrm{tr}(\Sigma_x^{-1}\Sigma_x) = \mathrm{tr}(I) = k. $$
+<!-- $$ E_q[(x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x)] = E_q\bigl[\mathrm{tr}(\Sigma_x^{-1}(x-\mu_x)(x-\mu_x)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_x^{-1}E_q[(x-\mu_x)(x-\mu_x)^\top]\Bigr) = \mathrm{tr}(\Sigma_x^{-1}\Sigma_x) = \mathrm{tr}(I) = k. $$ -->
+$$
+E_q[(x-\mu_x)^\top\Sigma_x^{-1}(x-\mu_x)]
+= E_q\bigl[\mathrm{tr}(\Sigma_x^{-1}(x-\mu_x)(x-\mu_x)^\top)\bigr] = \mathrm{tr}\Bigl(\Sigma_x^{-1}E_q[(x-\mu_x)(x-\mu_x)^\top]\Bigr)
+$$
+
+$$
+= \mathrm{tr}(\Sigma_x^{-1}\Sigma_x)
+= \mathrm{tr}(I)
+= k.
+$$
+
 
 这里“期望与 trace 交换”就是利用 trace 的线性性：
 
 $$ E[\mathrm{tr}(A Y)] = \mathrm{tr}(A E[Y]). $$
 
 第二个期望稍微麻烦一点：
+<!-- 
+$$ (x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_y) = \bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr)^\top\Sigma_y^{-1}\bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr) = (x-\mu_x)^\top\Sigma_y^{-1}(x-\mu_x) + 2(\mu_x-\mu_y)^\top\Sigma_p^{-1}(x-\mu_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$ -->
+$$
+(x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_y)
+= \bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr)^\top\Sigma_y^{-1}\bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr)
+$$
 
-$$ (x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_y) = \bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr)^\top\Sigma_y^{-1}\bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr) = (x-\mu_x)^\top\Sigma_y^{-1}(x-\mu_x) + 2(\mu_x-\mu_y)^\top\Sigma_p^{-1}(x-\mu_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
+$$
+= (x-\mu_x)^\top\Sigma_y^{-1}(x-\mu_x)
+\;+\; 2(\mu_x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_x)
+\;+\; (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y).
+$$
+
 
 对 $ q $ 取期望时：
 
