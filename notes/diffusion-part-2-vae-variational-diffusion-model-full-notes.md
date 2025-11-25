@@ -583,18 +583,319 @@ $$ \bigl\Vert\mu_q(x_t,x_0) - \mu_\theta(x_t,t)\bigr\Vert^2 \propto \bigl\Vert\v
 
 ### 6.2 实际训练算法（对应式 (130))
 
-训练时通常做：
+1. 训练与采样：如何真正用式 (130) 训练 / 推理
 
-1. 从数据集中采样一张图片 $ x_0 $；
-2. 随机采样一个时间步 $ t\sim \text{Uniform}\{1,\dots,T\} $；
-3. 采样 $ \varepsilon\sim\mathcal N(0,I) $，构造
-   $$ x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\varepsilon; $$
-4. 把 $ (x_t,t) $ 喂给 UNet，得到 $ \varepsilon_\theta(x_t,t) $；
-5. 用 loss：
-   $$ L_t(\theta) = \bigl\Vert\varepsilon - \varepsilon_\theta(x_t,t)\bigr\Vert^2 $$
-   或带权重的版本 $ w_t L_t $。
+这里把文章中到式 (130) 为止的结果，整理成「**训练算法**」和「**采样算法**」两部分。
 
-把所有步 $ t $ 的和，看成一个“大期望”，而上面这一步就是这个期望的 **SGD 无偏估计**。
+---
+
+1.1 总体优化目标（对应公式 (130)）
+
+前面推导得到单步 KL 的形式，并利用高斯 KL（式 (86)、(87)）把它化成加权的 MSE。  
+对时间步 $t$ 的那一项，最后得到的是：
+
+- 正向马尔可夫链（式 (31)、(33)）：
+  - $q(x_t\mid x_{t-1}) = \mathcal N\!\bigl(x_t;\sqrt{\alpha_t}x_{t-1},(1-\alpha_t)I\bigr)$
+  - 递推可得
+    $$
+    x_t = \sqrt{\bar\alpha_t}\,x_0 + \sqrt{1-\bar\alpha_t}\,\varepsilon_0,
+    \qquad
+    \varepsilon_0\sim\mathcal N(0,I),
+    $$
+    其中 $\bar\alpha_t = \prod_{s=1}^t \alpha_s$。
+
+- 反向一步的真分布 $q(x_{t-1}\mid x_t,x_0)$ 和模型分布 $p_\theta(x_{t-1}\mid x_t)$ 都被写成高斯：
+  $$
+  q(x_{t-1}\mid x_t,x_0) = \mathcal N\!\bigl(x_{t-1};\mu_q(x_t,x_0),\Sigma_q(t)\bigr),
+  $$
+  $$
+  p_\theta(x_{t-1}\mid x_t) = \mathcal N\!\bigl(x_{t-1};\mu_\theta(x_t),\Sigma_q(t)\bigr),
+  $$
+  并且假设协方差相同：$\Sigma_\theta(t)\equiv\Sigma_q(t)$。
+
+- 利用高斯 KL 一般公式 (86) 并在 $\Sigma_p = \Sigma_q = \Sigma_q(t)$ 时退化成 (87)：
+  $$
+  D_{\mathrm{KL}}\bigl(q(x_{t-1}\mid x_t,x_0)\,\Vert\,p_\theta(x_{t-1}\mid x_t)\bigr)
+  = \frac{1}{2}\bigl(\mu_q(x_t,x_0)-\mu_\theta(x_t)\bigr)^\top\Sigma_q(t)^{-1}\bigl(\mu_q(x_t,x_0)-\mu_\theta(x_t)\bigr).
+  $$
+
+进一步把两边的均值都写成噪声 $\varepsilon_0$ 的线性函数，并用 Tweedie 公式把
+$\mu_\theta(x_t)$ 参数化为「预测噪声」$\hat\varepsilon_\theta(x_t,t)$，可以把上式化成：
+
+$$
+\arg\min_\theta
+\frac{1}{2\sigma_q^2(t)}
+\frac{(1-\alpha_t)^2}{(1-\bar\alpha_t)\alpha_t}
+\bigl\|\varepsilon_0 - \hat\varepsilon_\theta(x_t,t)\bigr\|_2^2
+\tag{130}
+$$
+
+其中：
+
+- $\sigma_q^2(t)$ 来自式 (85)：$\Sigma_q(t) = \sigma_q^2(t) I$；
+- $(1-\alpha_t)^2 / \bigl((1-\bar\alpha_t)\alpha_t\bigr)$ 是把 $\mu_q$、$\mu_\theta$ 展开后整理出的系数；
+- $\varepsilon_0$ 是正向扩散中加入的「源噪声」；
+- $\hat\varepsilon_\theta(x_t,t)$ 是网络的输出（预测噪声）。
+
+
+如果把所有时间步 $t$ 的项和对 $x_0,\varepsilon_0$ 的期望都写出来，整体 loss 可以写成：
+
+$$
+\mathcal L(\theta)
+= E_{x_0}\,E_{t}\,E_{\varepsilon_0}
+\left[
+w_t\,
+\bigl\|\varepsilon_0 - \hat\varepsilon_\theta(x_t,t)\bigr\|_2^2
+\right],
+$$
+
+其中
+
+- $t\sim\text{某个时间分布}$（通常取均匀分布 $\{1,\dots,T\}$）；
+- $x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\varepsilon_0$；
+- 权重
+  $$
+  w_t = \frac{1}{2\sigma_q^2(t)}
+        \frac{(1-\alpha_t)^2}{(1-\bar\alpha_t)\alpha_t}
+  $$
+  就是式 (130) 的那一坨系数，**决定不同时间步在总 loss 里的重要性**。
+
+实际实现时，很多代码会把 $w_t$ 吸收到一个手工设计的权重里，或者直接把它当作常数忽略（只训练简单的 $L_2$），但从 VDM 这篇文章的推导角度，**严格的权重就是式 (130) 给出的这个**。
+
+---
+
+1.2 训练（Training）算法——如何在数据集上最小化式 (130)
+
+假设数据集为 $\{x_0^{(i)}\}_{i=1}^N$，网络为 $\hat\varepsilon_\theta(x,t)$（例如 UNet）。
+
+一个典型的训练过程（基于 SGD / Adam）可以写成：
+
+1. **预设噪声日程表（noise schedule）**
+
+   选定总步数 $T$，为每个时间步给定噪声系数 $\beta_t$ 或直接给出 $\alpha_t$：
+
+   - $\alpha_t = 1-\beta_t$，
+   - $\bar\alpha_t = \prod_{s=1}^t \alpha_s$，
+   - 根据式 (85) 设定 $\sigma_q^2(t)$：
+     $$
+     \sigma_q^2(t)
+     = \frac{(1-\alpha_t)(1-\bar\alpha_{t-1})}{1-\bar\alpha_t},\qquad
+     \Sigma_q(t) = \sigma_q^2(t)I.
+     $$
+
+   这一步完全是「超参数设计」，在训练前就固定好。
+
+2. **定义总目标（对应式 (130) 的期望版）**
+
+   目标是最小化：
+
+   $$
+   \mathcal L(\theta)
+   = E_{x_0}\,E_{t}\,E_{\varepsilon_0}
+   \left[
+     w_t \bigl\|\varepsilon_0 - \hat\varepsilon_\theta(x_t,t)\bigr\|_2^2
+   \right],
+   $$
+
+   其中 $w_t$ 如上一小节所给。  
+   这就是**整篇推导的落点：一个噪声预测的加权 MSE**。
+
+3. **每次迭代的 mini-batch 采样**
+
+   在一次 SGD / Adam 更新中：
+
+   - 从数据集中均匀采 $B$ 张图片构成 mini-batch：
+     $$
+     \{x_0^{(i)}\}_{i=1}^B.
+     $$
+   - 对每个样本独立采样一个时间步：
+     $$
+     t^{(i)}\sim\text{Uniform}\{1,\dots,T\}.
+     $$
+   - 对每个样本再采一份高斯噪声：
+     $$
+     \varepsilon_0^{(i)} \sim \mathcal N(0,I).
+     $$
+
+4. **用「闭式正向公式」一次性生成 $x_t$**
+
+   利用正向链的折叠公式（从式 (31) 连乘到「从 $x_0$ 直接到 $x_t$」的版本）：
+
+   $$
+   x_t^{(i)}
+   = \sqrt{\bar\alpha_{t^{(i)}}}\,x_0^{(i)}
+     + \sqrt{1-\bar\alpha_{t^{(i)}}}\,\varepsilon_0^{(i)}.
+   $$
+
+   这一步是关键：**不用真的从 $x_0\to x_1\to\dots\to x_t$ 做 $t$ 次循环，只要一次采样即可**。  
+   这样训练的复杂度和 $T$ 无关（只与 batch size、网络复杂度有关）。
+
+5. **前向网络，预测噪声**
+
+   把 $(x_t^{(i)}, t^{(i)})$ 喂入网络：
+
+   $$
+   \hat\varepsilon_\theta^{(i)}
+   = \hat\varepsilon_\theta\bigl(x_t^{(i)}, t^{(i)}\bigr).
+   $$
+
+   注意：$t$ 通常会被编码成某种 embedding（如正余弦时间嵌入）并与图像特征一起输入 UNet。
+
+6. **计算 mini-batch loss（带权重的式 (130) 版）**
+
+   对每个样本按式 (130) 计算单样本损失：
+
+   $$
+   L^{(i)}(\theta)
+   =
+   w_{t^{(i)}}\,
+   \bigl\|\varepsilon_0^{(i)} - \hat\varepsilon_\theta^{(i)}\bigr\|_2^2,
+   \qquad
+   w_{t^{(i)}} =
+   \frac{1}{2\sigma_q^2(t^{(i)})}
+   \frac{(1-\alpha_{t^{(i)}})^2}{(1-\bar\alpha_{t^{(i)}})\alpha_{t^{(i)}}}.
+   $$
+
+   mini-batch 的 loss 就是平均（或加和）：
+
+   $$
+   \mathcal L_{\text{batch}}(\theta)
+   = \frac{1}{B}\sum_{i=1}^B L^{(i)}(\theta).
+   $$
+
+   这就是把式 (130) 离散化到具体样本上的形式。
+
+7. **梯度下降 / Adam 更新**
+
+   根据 $\mathcal L_{\text{batch}}(\theta)$ 反向传播，更新网络参数：
+
+   - 例如 Adam：
+     $$
+     \theta \leftarrow \text{AdamStep}
+       \bigl(\theta,\, \nabla_\theta \mathcal L_{\text{batch}}(\theta)\bigr),
+     $$
+   - 迭代若干个 epoch，直到收敛（loss 稳定、生成效果满意等）。
+
+整个训练过程**正是对式 (130) 期望形式的随机梯度近似**：
+
+- $x_0$ 的期望：靠数据集遍历 / 随机采样实现；
+- $t$ 的期望：靠每次随机抽一个 $t$；
+- $\varepsilon_0$ 的期望：靠每次随机加一份高斯噪声。
+
+---
+
+1.3 采样（Inference）算法——如何从噪声生成图像
+
+训练好噪声预测网络 $\hat\varepsilon_\theta(x,t)$ 之后，采样过程就是**沿着反向马尔可夫链 $p_\theta(x_{t-1}\mid x_t)$ 一步步往回走**。
+
+利用之前推导出的反向均值公式（Tweedie + 线性高斯），我们可以写：
+
+- 一般形式：
+  $$
+  p_\theta(x_{t-1}\mid x_t)
+  = \mathcal N\bigl(x_{t-1};\,\mu_\theta(x_t,t),\,\Sigma_q(t)\bigr),
+  $$
+  其中
+  $$
+  \mu_\theta(x_t,t)
+  = \frac{1}{\sqrt{\alpha_t}}\left(
+       x_t
+       - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\,
+         \hat\varepsilon_\theta(x_t,t)
+     \right),
+  $$
+  $\Sigma_q(t)=\sigma_q^2(t)I$ 与训练时相同。
+
+采样步骤可以写成：
+
+1. **初始化**
+
+   从标准高斯采样最终状态 $x_T$（对应 priors $p(x_T)=\mathcal N(0,I)$）：
+
+   $$
+   x_T \sim \mathcal N(0,I).
+   $$
+
+2. **反向迭代：$t = T,T-1,\dots,1$**
+
+   对每个时间步 $t$：
+
+   1. **预测当前步的噪声**
+
+      $$
+      \hat\varepsilon_\theta(x_t,t)
+      = \hat\varepsilon_\theta(\,\text{当前图像}\,x_t,\,\text{时间步}\,t\,).
+      $$
+
+   2. **计算反向均值 $\mu_\theta(x_t,t)$**
+
+      使用上面的闭式公式：
+
+      $$
+      \mu_\theta(x_t,t)
+      = \frac{1}{\sqrt{\alpha_t}}
+        \left(
+        x_t
+        - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\,
+          \hat\varepsilon_\theta(x_t,t)
+        \right).
+      $$
+
+      这一步可以理解为「从当前的 noisy 图像中，把网络认为的噪声成分减掉，并归一化到上一步的尺度」。
+
+   3. **加上（或不加）采样噪声得到 $x_{t-1}$**
+
+      - 若 $t>1$：从高斯中真正采样：
+        $$
+        z\sim\mathcal N(0,I),
+        \qquad
+        x_{t-1} = \mu_\theta(x_t,t) + \sigma_q(t)\,z,
+        $$
+        其中 $\sigma_q^2(t)$ 与训练时完全一致。
+      - 若 $t=1$：很多实现直接取均值（不再加噪声），即
+        $$
+        x_0 = x_{t-1} = \mu_\theta(x_1,1).
+        $$
+
+      然后把新得到的 $x_{t-1}$ 作为下一轮循环的输入。
+
+3. **得到最终样本**
+
+   迭代完成后得到 $x_0$，这就是**从训练到的 VDM 模型中采出来的一张图**。  
+   在多张图采样时，重复整个过程即可，每条链互相独立。
+
+---
+
+1.4 训练目标与采样过程之间的对应关系（小结）
+
+- 训练时：  
+  正向一步是
+  $$
+  x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\,\varepsilon_0,
+  $$
+  网络学习在给定 $(x_t,t)$ 的情况下恢复出 $\varepsilon_0$。  
+  这相当于学会了「当前 noisy 图像在数据分布上的 score」。
+
+- 采样时：  
+  反向一步是
+  $$
+  x_{t-1}
+  = \frac{1}{\sqrt{\alpha_t}}
+    \left(
+      x_t
+      - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\,
+        \hat\varepsilon_\theta(x_t,t)
+    \right)
+    + \sigma_q(t)\,z.
+  $$
+  即用学到的噪声预测把图片一点点「去噪」，同时乘上预设好的 $\alpha_t$ 日程表，逐步走回 $t=0$。
+
+- 整个 VDM / DDPM 体系可以总结为一句话：  
+
+  > **训练：** 用式 (130) 的加权 MSE 让网络学会从 $x_t$ 预测噪声；  
+  > **采样：** 用学到的噪声预测按照上述反向高斯链，把 $x_T\sim\mathcal N(0,I)$ 逐步变成 $x_0$。
+
+这就是文章中从式 (30)–(33)、(85)、(86)–(87)、(126)–(130) 最终导向的「如何训练 / 如何采样」的完整闭环。
 
 ---
 
