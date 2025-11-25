@@ -43,6 +43,7 @@ The user will not provide any parameters beyond the pasted Markdown block.
   - In the GitHub Pages kramdown + MathJax lite environment, avoid extended macros such as `\mathbb`, `\|`, and `\!`; use plain `E_X` instead of `\mathbb{E}`, prefer `\Vert` for norms, and skip manual spacing commands so formulas render consistently across pages.
   - The GitHub Pages math renderer does not support `\underbrace` or other AMS-style extensible symbols. Replace `\underbrace{...}_{...}` with inline annotations such as `\text{(...)}`
     placed after the term to ensure the formula renders correctly.
+  - For barred Greek letters, avoid braces: use `\bar\alpha_t` instead of `\bar{\alpha}_t` (braces can break rendering on GitHub Pages MathJax/Katex).
   - Always replace literal `*` symbols inside math expressions with `\ast`, and wrap every subscript as `_{...}` so Markdown never mistakes them for emphasis markers.
   - If the parser still swallows a subscript even after using `_{...}`, escape it (for example, `$\hat{\theta}\_{\!E}$`), and wrap multi-character subscripts in braces like `$\hat{\theta}_{ME}$` (never `$\hat{\theta}\_{ME}$`).
   - Keep one blank line before and after block equations.
