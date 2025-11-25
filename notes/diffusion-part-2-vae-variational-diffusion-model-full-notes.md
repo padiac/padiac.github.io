@@ -574,7 +574,7 @@ $$ \bigl\Vert\mu_q(x_t,x_0) - \mu_\theta(x_t,t)\bigr\Vert^2 \propto \bigl\Vert\v
 
 ---
 
-## 6. 三种等价 parameterization：$ \mu_\theta / x_{0,\theta} / \varepsilon_\theta $
+## 6. 三种等价 parameterization：$ \mu_\theta / x_{\theta} / \varepsilon_\theta $
 
 这一块比较概念，但和实际实现非常有关。
 
