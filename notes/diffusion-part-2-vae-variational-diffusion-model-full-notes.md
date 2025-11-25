@@ -606,7 +606,7 @@ $$ \bigl\Vert\mu_q(x_t,x_0) - \mu_\theta(x_t,t)\bigr\Vert^2 \propto \bigl\Vert\v
 
 - 反向一步的真分布 $q(x_{t-1}\mid x_t,x_0)$ 和模型分布 $p_\theta(x_{t-1}\mid x_t)$ 都被写成高斯：
   $$
-  q(x_{t-1}\mid x_t,x_0) = \mathcal N\!\bigl(x_{t-1};\mu_q(x_t,x_0),\Sigma_q(t)\bigr),
+  q(x_{t-1}\mid x_t,x_0) = \mathcal N\bigl(x_{t-1};\mu_q(x_t,x_0),\Sigma_q(t)\bigr),
   $$
   $$
   p_\theta(x_{t-1}\mid x_t) = \mathcal N\bigl(x_{t-1};\mu_\theta(x_t),\Sigma_q(t)\bigr),
@@ -666,7 +666,7 @@ $$
 
 6.2.2 训练（Training）算法——如何在数据集上最小化式 (130)
 
-假设数据集为 $\{x_0^{(i)}\}_{i=1}^N$，网络为 $\hat\varepsilon_\theta(x,t)$（例如 UNet）。
+假设数据集为 $\{{x_0}^{(i)}\}_{i=1}^N$，网络为 $\hat\varepsilon_\theta(x,t)$（例如 UNet）。
 
 一个典型的训练过程（基于 SGD / Adam）可以写成：
 
