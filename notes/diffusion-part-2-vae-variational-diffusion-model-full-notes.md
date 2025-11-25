@@ -571,9 +571,9 @@ $$ L(\theta) \propto \sum_{t=1}^T w_t E_{x_0,\varepsilon}\bigl\Vert\varepsilon -
    直接把高斯的均值当网络输出。损失就是  
    $ \Vert\mu_q - \mu_\theta\Vert^2 $。
 
-2. **预测原图** $ x_{0,\theta}(x_t,t) $：  
+2. **预测原图** $ x_{\theta}(x_t,t) $：  
    用一个网络先预测“干净图像”
-   $ \hat x_0 = x_{0,\theta}(x_t,t) $，再通过 closed-form 把它代入 $ \mu_q $ 或类似表达式，变成 $ \mu_\theta $。
+   $ \hat x_{\theta}(x_t,t) $，再通过 closed-form 把它代入 $ \mu_q $ 或类似表达式，变成 $ \mu_\theta $。
 
 3. **预测噪声** $ \varepsilon_\theta(x_t,t) $：  
    用上面那套“反解 $ \varepsilon $ + 仿射组合”的 trick，把 $ \mu_\theta $ 写成“线性函数 + 噪声网络”，  
