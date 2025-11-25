@@ -882,7 +882,7 @@ $$
 
 ### 7.1 Tweedie 公式的核心
 
-假设一个简单的加噪模型：
+<!-- 假设一个简单的加噪模型：
 
 $$ x_t = x_0 + \sigma_t\varepsilon,\quad \varepsilon\sim\mathcal N(0,I). $$
 
@@ -899,8 +899,51 @@ $$ s(x_t,t) := \nabla_{x_t}\log p(x_t). $$
 - 如果你能学到一个 $ s_\theta(x_t,t)\approx s(x_t,t) $，
 - 就能用它来还原“干净图像” $ E[x_0\mid x_t] $。
 
-这就是文中式 (133) 附近的逻辑：把“预测噪声 / 原图”的任务等价地写成“预测 score”。
+这就是文中式 (133) 附近的逻辑：把“预测噪声 / 原图”的任务等价地写成“预测 score”。 -->
+考虑最基本的加噪模型：$x_t = x_0 + \sigma_t \varepsilon$
+, 其条件分布为 $q(x_t\mid x_0)=\mathcal N(x_0,\sigma_t^2 I)$。
 
+我们希望求后验均值 $E[x_0\mid x_t]$。Tweedie 公式给出的结果是 
+$$E[x_0\mid x_t]=x_t+\sigma_t^2\nabla_{x_t}\log p(x_t)$$
+
+首先写出边缘分布：$$p(x_t)=\int p(x_0)\,q(x_t\mid x_0)\,dx_0$$
+
+对 $x_t$ 求梯度：$$\nabla_{x_t}p(x_t)=\nabla_{x_t}\int p(x_0)q(x_t\mid x_0)dx_0=\int p(x_0)\nabla_{x_t}q(x_t\mid x_0)dx_0$$
+
+现在对 $q$ 写 log 形式：$$\log q(x_t\mid x_0)=C-\frac{1}{2\sigma_t^2}\|x_t-x_0\|^2$$
+
+因此 $\nabla_{x_t}\log q(x_t\mid x_0)=-(x_t-x_0)/\sigma_t^2$
+
+利用恒等式 $\nabla q=q\,\nabla\log q$, 得：
+$$\nabla_{x_t}q(x_t\mid x_0)=-(x_t-x_0)q(x_t\mid x_0)/\sigma_t^2$$
+
+代回积分公式得到：
+$$\nabla_{x_t}p(x_t)=\int p(x_0)\left[-\frac{x_t-x_0}{\sigma_t^2}q(x_t\mid x_0)\right]dx_0=-\frac{1}{\sigma_t^2}\int(x_t-x_0)p(x_0)q(x_t\mid x_0)dx_0$$
+
+注意 $p(x_0)q(x_t\mid x_0)=p(x_0,x_t)$，因此：
+$$\nabla_{x_t}p(x_t)=-\frac{1}{\sigma_t^2}\int(x_t-x_0)p(x_0,x_t)dx_0$$
+将 $p(x_t)$ 提出：
+$$\nabla_{x_t}p(x_t)=-\frac{p(x_t)}{\sigma_t^2}\int(x_t-x_0)p(x_0\mid x_t)dx_0$$
+
+于是：$\nabla_{x_t}p(x_t)=-\frac{p(x_t)}{\sigma_t^2}\left[x_t-E[x_0\mid x_t]\right]$
+
+两侧除以 $p(x_t)$：$$\nabla_{x_t}\log p(x_t)=-\frac{1}{\sigma_t^2}\left[x_t-E[x_0\mid x_t]\right]$$
+移项得到 Tweedie 公式：$$E[x_0\mid x_t]=x_t+\sigma_t^2\nabla_{x_t}\log p(x_t)$$
+
+
+将此公式应用到 DDPM 的前向噪声：$$q(x_t\mid x_0)=\mathcal N(\sqrt{\bar\alpha_t}x_0,(1-\bar\alpha_t)I)$$
+写成加噪形式为 $x_t=\sqrt{\bar\alpha_t}x_0+\sigma_t\varepsilon,\quad \sigma_t^2=1-\bar\alpha_t$,
+
+记 $\mu_t=\sqrt{\bar\alpha_t}\,x_0$, Tweedie 作用于 $\mu_t$ 得：$$E[\mu_t\mid x_t]=x_t+(1-\bar\alpha_t)\nabla_{x_t}\log p(x_t)$$
+
+利用 $\mu_t=\sqrt{\bar\alpha_t}x_0$，两侧除以 $\sqrt{\bar\alpha_t}$：$$E[x_0\mid x_t]=\frac{x_t+(1-\bar\alpha_t)\nabla_{x_t}\log p(x_t)}{\sqrt{\bar\alpha_t}}$$
+
+定义 score：$s(x_t,t)=\nabla_{x_t}\log p(x_t)$，则 $$E[x_0\mid x_t]=\frac{x_t+(1-\bar\alpha_t)s(x_t,t)}{\sqrt{\bar\alpha_t}}$$ 
+
+这正是 DDPM 文献中式 (133) 的核心来源，说明“预测噪声 $\varepsilon$”、“预测 $x_0$”、“预测 score”三者在 Gaussian 扩散模型中是等价的，只是参数化方式不同而已。
+
+
+---
 ### 7.2 从离散 diffusion 到连续 score-based 模型：式 (148)、(151)
 
 进一步把时间步 $ t $ 拟合成一个连续时间 $ t\in[0,1] $，并让 $ \sigma_t $ 成为一个连续噪声 schedule，则：
