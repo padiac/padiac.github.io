@@ -493,7 +493,7 @@ $$ q(x_{t-1}\mid x_t,x_0) = \mathcal N\bigl(x_{t-1}\mid \mu_q(x_t,x_0),\Sigma_q(
 
 其中 $ \mu_q(x_t,x_0) $ 可以写成
 
-$$ \mu_q(x_t,x_0) = \frac{\sqrt{\alpha_t}(1-\bar{\alpha}_{t-1}) x_t + \sqrt{\bar{\alpha}_{t-1}}(1 -\alpha_t) x_0}{1-\bar{\alpha}_{t}}, $$
+$$ \mu_q(x_t,x_0) = \frac{\sqrt{\alpha_t}(1-\bar\alpha_{t-1}) x_t + \sqrt{\bar\alpha_{t-1}}(1 -\alpha_t) x_0}{1-\bar{\alpha}_{t}}, $$
 
 $ \Sigma_q(t) $ 是某个固定协方差（只依赖时间步，不依赖具体图像）。  
 本质上是线性回归解：用“前向高斯 + 先验”配方得到后验均值。你可以把它看成：
