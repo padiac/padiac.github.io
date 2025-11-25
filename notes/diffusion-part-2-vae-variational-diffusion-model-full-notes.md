@@ -708,7 +708,7 @@ $$
 
    - 从数据集中均匀采 $B$ 张图片构成 mini-batch：
      $$
-     \{x_0^{(i)}\}_{i=1}^B.
+     x_0^{(i)}.
      $$
    - 对每个样本独立采样一个时间步：
      $$
@@ -724,9 +724,7 @@ $$
    利用正向链的折叠公式（从式 (31) 连乘到「从 $x_0$ 直接到 $x_t$」的版本）：
 
    $$
-   x_t^{(i)}
-   = \sqrt{\bar\alpha_{t^{(i)}}}\,x_0^{(i)}
-     + \sqrt{1-\bar\alpha_{t^{(i)}}}\,\varepsilon_0^{(i)}.
+   x_t^{(i)} = \sqrt{\bar\alpha_{t^{(i)}}}x_0^{(i)} + \sqrt{1-\bar\alpha_{t^{(i)}}}\varepsilon_0^{(i)}.
    $$
 
    这一步是关键：**不用真的从 $x_0\to x_1\to\dots\to x_t$ 做 $t$ 次循环，只要一次采样即可**。  
@@ -737,8 +735,7 @@ $$
    把 $(x_t^{(i)}, t^{(i)})$ 喂入网络：
 
    $$
-   \hat\varepsilon_\theta^{(i)}
-   = \hat\varepsilon_\theta\bigl(x_t^{(i)}, t^{(i)}\bigr).
+   \hat\varepsilon_\theta^{(i)} = \hat\varepsilon_\theta\bigl(x_t^{(i)}, t^{(i)}\bigr).
    $$
 
    注意：$t$ 通常会被编码成某种 embedding（如正余弦时间嵌入）并与图像特征一起输入 UNet。
@@ -748,21 +745,13 @@ $$
    对每个样本按式 (130) 计算单样本损失：
 
    $$
-   L^{(i)}(\theta)
-   =
-   w_{t^{(i)}}\,
-   \bigl\|\varepsilon_0^{(i)} - \hat\varepsilon_\theta^{(i)}\bigr\|_2^2,
-   \qquad
-   w_{t^{(i)}} =
-   \frac{1}{2\sigma_q^2(t^{(i)})}
-   \frac{(1-\alpha_{t^{(i)}})^2}{(1-\bar\alpha_{t^{(i)}})\alpha_{t^{(i)}}}.
+   L^{(i)}(\theta) = w_{t^{(i)}} \bigl\|\varepsilon_0^{(i)} - \hat\varepsilon_\theta^{(i)}\bigr\|_2^2, \qquad w_{t^{(i)}} = \frac{1}{2\sigma_q^2(t^{(i)})} \frac{(1-\alpha_{t^{(i)}})^2}{(1-\bar\alpha_{t^{(i)}})\alpha_{t^{(i)}}}.
    $$
 
    mini-batch 的 loss 就是平均（或加和）：
 
    $$
-   \mathcal L_{\text{batch}}(\theta)
-   = \frac{1}{B}\sum_{i=1}^B L^{(i)}(\theta).
+   \mathcal L_{\text{batch}}(\theta) = \frac{1}{B}\sum_{i=1}^B L^{(i)}(\theta).
    $$
 
    这就是把式 (130) 离散化到具体样本上的形式。
@@ -773,8 +762,7 @@ $$
 
    - 例如 Adam：
      $$
-     \theta \leftarrow \text{AdamStep}
-       \bigl(\theta,\, \nabla_\theta \mathcal L_{\text{batch}}(\theta)\bigr),
+     \theta \leftarrow \text{AdamStep} \bigl(\theta,\, \nabla_\theta \mathcal L_{\text{batch}}(\theta)\bigr),
      $$
    - 迭代若干个 epoch，直到收敛（loss 稳定、生成效果满意等）。
 
@@ -794,17 +782,11 @@ $$
 
 - 一般形式：
   $$
-  p_\theta(x_{t-1}\mid x_t)
-  = \mathcal N\bigl(x_{t-1};\,\mu_\theta(x_t,t),\,\Sigma_q(t)\bigr),
+  p_\theta(x_{t-1}\mid x_t) = \mathcal N\bigl(x_{t-1};\,\mu_\theta(x_t,t),\,\Sigma_q(t)\bigr),
   $$
   其中
   $$
-  \mu_\theta(x_t,t)
-  = \frac{1}{\sqrt{\alpha_t}}\left(
-       x_t
-       - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\,
-         \hat\varepsilon_\theta(x_t,t)
-     \right),
+  \mu_\theta(x_t,t) = \frac{1}{\sqrt{\alpha_t}}\left( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\, \hat\varepsilon_\theta(x_t,t) \right),
   $$
   $\Sigma_q(t)=\sigma_q^2(t)I$ 与训练时相同。
 
@@ -825,8 +807,7 @@ $$
    1. **预测当前步的噪声**
 
       $$
-      \hat\varepsilon_\theta(x_t,t)
-      = \hat\varepsilon_\theta(\,\text{当前图像}\,x_t,\,\text{时间步}\,t\,).
+      \hat\varepsilon_\theta(x_t,t) = \hat\varepsilon_\theta(\,\text{当前图像}\,x_t,\,\text{时间步}\,t\,).
       $$
 
    2. **计算反向均值 $\mu_\theta(x_t,t)$**
@@ -834,13 +815,7 @@ $$
       使用上面的闭式公式：
 
       $$
-      \mu_\theta(x_t,t)
-      = \frac{1}{\sqrt{\alpha_t}}
-        \left(
-        x_t
-        - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\,
-          \hat\varepsilon_\theta(x_t,t)
-        \right).
+      \mu_\theta(x_t,t) = \frac{1}{\sqrt{\alpha_t}} \left( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\, \hat\varepsilon_\theta(x_t,t) \right).
       $$
 
       这一步可以理解为「从当前的 noisy 图像中，把网络认为的噪声成分减掉，并归一化到上一步的尺度」。
@@ -849,9 +824,7 @@ $$
 
       - 若 $t>1$：从高斯中真正采样：
         $$
-        z\sim\mathcal N(0,I),
-        \qquad
-        x_{t-1} = \mu_\theta(x_t,t) + \sigma_q(t)\,z,
+        z\sim\mathcal N(0,I), \qquad x_{t-1} = \mu_\theta(x_t,t) + \sigma_q(t)\,z,
         $$
         其中 $\sigma_q^2(t)$ 与训练时完全一致。
       - 若 $t=1$：很多实现直接取均值（不再加噪声），即
@@ -882,13 +855,7 @@ $$
   反向一步是
   $$
   x_{t-1}
-  = \frac{1}{\sqrt{\alpha_t}}
-    \left(
-      x_t
-      - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\,
-        \hat\varepsilon_\theta(x_t,t)
-    \right)
-    + \sigma_q(t)\,z.
+  = \frac{1}{\sqrt{\alpha_t}} \left( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}}\, \hat\varepsilon_\theta(x_t,t) \right) + \sigma_q(t)\,z.
   $$
   即用学到的噪声预测把图片一点点「去噪」，同时乘上预设好的 $\alpha_t$ 日程表，逐步走回 $t=0$。
 
