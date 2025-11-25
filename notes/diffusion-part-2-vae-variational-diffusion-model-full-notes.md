@@ -421,11 +421,11 @@ $$ \mathrm{KL}\bigl(\mathcal N(\mu_x,\Sigma_x)\Vert \mathcal N(\mu_y,\Sigma_y)\b
 在 VDM 中，他们做了一个非常关键的选择：
 
 > 对于给定时间步 $ t $，令
-> $ \Sigma_p(t) \equiv \Sigma_q(t) $。
+> $ \Sigma_\theta(t) \equiv \Sigma_q(t) $。
 
 也就是 **模型用同一协方差结构**，只用 $ \mu_\theta $ 来负责“学习”。
 
-取 $ \Sigma_q = \Sigma_p $：
+取 $ \Sigma_q = \Sigma_p = \Sigma_t $：
 
 - $ \Sigma_p^{-1}\Sigma_q = I $，$ \mathrm{tr}=k $；
 - $ \log\det\Sigma_p - \log\det\Sigma_q = 0 $。
@@ -440,7 +440,7 @@ $$ \mathrm{KL}(q\Vert p) = \frac12 (\mu_p-\mu_q)^\top\Sigma_t^{-1}(\mu_p-\mu_q).
 
 在 diffusion 里，$ \Sigma_t $ 进一步选成 **对角或标量**：
 
-- 通常 $ \Sigma_t = \sigma_t^2 I $ ，
+- 通常 $ \Sigma_t = \sigma_t^2 I $ 或 $ \tilde\beta_t I $，
 - 于是：
   $$ \mathrm{KL}(q\Vert p) = \frac{1}{2\sigma_t^2}\Vert\mu_p-\mu_q\Vert^2. $$
 
@@ -449,6 +449,9 @@ $$ \mathrm{KL}(q\Vert p) = \frac12 (\mu_p-\mu_q)^\top\Sigma_t^{-1}(\mu_p-\mu_q).
 - **KL 变成“一个常数系数 × L2 损失”。**
 - 这给了我们一个“从变分推导，合法地得到 MSE 损失”的桥梁。
 
+你之前特别在意的那一点：
+
+> “其实我本来就不认为像素有协方差，所以看到最后又变成对角矩阵，我反而安心了。”
 
 在这里就体现为：
 
@@ -460,7 +463,6 @@ $$ \mathrm{KL}(q\Vert p) = \frac12 (\mu_p-\mu_q)^\top\Sigma_t^{-1}(\mu_p-\mu_q).
 
 ## 5. 从 KL 到噪声 L2：式 (99)、(108)、(130)
 
-这一段是你之前花了最多时间吐槽“这玩意儿目的性好弱”的部分。  
 我们抛开 paper 叙事，按最朴素的 algebra 把逻辑串起来。
 
 ### 5.1 目标：把
@@ -491,14 +493,14 @@ $$ q(x_{t-1}\mid x_t,x_0) = \mathcal N\bigl(x_{t-1}\mid \mu_q(x_t,x_0),\Sigma_q(
 
 其中 $ \mu_q(x_t,x_0) $ 可以写成
 
-$$ \mu_q(x_t,x_0) = A_t x_t + B_t x_0, $$
+$$ \mu_q(x_t,x_0) = \frac{\sqrt{\alpha_t}(1-\bar{\alpha}_{t-1}) x_t + \sqrt{\bar{\alpha}_{t-1}}(1 -\alpha_t) x_0}{1-\bar{\alpha}_{t}}, $$
 
 $ \Sigma_q(t) $ 是某个固定协方差（只依赖时间步，不依赖具体图像）。  
-具体的 $ A_t,B_t $ 形式 paper 里有（例如 DDPM 里的 $ \tilde\mu_t $），本质上是线性回归解：用“前向高斯 + 先验”配方得到后验均值。你可以把它看成：
+本质上是线性回归解：用“前向高斯 + 先验”配方得到后验均值。你可以把它看成：
 
 > “在只知道 $ x_t $ 和 $ x_0 $ 的高斯世界里，对 $ x_{t-1} $ 做条件期望。”
 
-由于该后验是高斯，其均值一定是 $ x_t,x_0 $ 的线性组合，这就是 $ A_t,B_t $ 的来历。
+由于该后验是高斯，其均值一定是 $ x_t,x_0 $ 的线性组合
 
 ### 5.3 噪声 parameterization：$ \varepsilon_\theta $
 
@@ -516,7 +518,7 @@ $$ \varepsilon = \frac{x_t - \sqrt{\bar\alpha_t}x_0}{\sqrt{1-\bar\alpha_t}}. $$
 
 - 不再让网络直接预测 $ \mu_\theta(x_t,t) $；
 - 而是让网络预测一个 $ \varepsilon_\theta(x_t,t) $，并把 $ \mu_\theta $ 定义为
-  $$ \mu_\theta(x_t,t) := \mu_q\bigl(x_t, x_{0,\theta}(x_t,t)\bigr), $$
+  $$ \mu_\theta(x_t,t) := \mu_q\bigl(x_t, x_{\theta}(x_t,t)\bigr), $$
   或者更常见的 DDPM 版：
   $$ \mu_\theta(x_t,t) = \frac{1}{\sqrt{\alpha_t}}\Bigl( x_t - \frac{1-\alpha_t}{\sqrt{1-\bar\alpha_t}} \varepsilon_\theta(x_t,t) \Bigr). $$
 
@@ -546,20 +548,11 @@ $$ \bigl\Vert\mu_q(x_t,x_0) - \mu_\theta(x_t,t)\bigr\Vert^2 \propto \bigl\Vert\v
 
 最后得到的典型 training objective（文中式 (99)、(108)、(130) 那一类）：
 
-$$ L(\theta) \propto \sum_{t=1}^T w_t E_{x_0,\varepsilon}\bigl\Vert\varepsilon - \varepsilon_\theta(x_t,t)\bigr\Vert^2 $$
-
-其中：
-
-- $ x_0 \sim p_{\text{data}} $
-- $ \varepsilon \sim \mathcal N(0,I) $
-- $ x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\varepsilon $
-- $ w_t $ 是由上面那些 $ C_t^2 / \sigma_t^2 $ 合起来的系数。
-
-这就是你最后锁定的那个“最重要的结果”：**噪声 L2 回归损失**。
+这就是最后锁定的那个“最重要的结果”：**噪声 L2 回归损失**。
 
 ---
 
-## 6. 三种等价 parameterization：$ \mu_\theta / x_{\theta} / \varepsilon_\theta $
+## 6. 三种等价 parameterization：$ \mu_\theta / x_{0,\theta} / \varepsilon_\theta $
 
 这一块比较概念，但和实际实现非常有关。
 
@@ -573,7 +566,7 @@ $$ L(\theta) \propto \sum_{t=1}^T w_t E_{x_0,\varepsilon}\bigl\Vert\varepsilon -
 
 2. **预测原图** $ x_{\theta}(x_t,t) $：  
    用一个网络先预测“干净图像”
-   $ \hat x_{\theta}(x_t,t) $，再通过 closed-form 把它代入 $ \mu_q $ 或类似表达式，变成 $ \mu_\theta $。
+   $ \hat x_0 = x_{\theta}(x_t,t) $，再通过 closed-form 把它代入 $ \mu_q $ 或类似表达式，变成 $ \mu_\theta $。
 
 3. **预测噪声** $ \varepsilon_\theta(x_t,t) $：  
    用上面那套“反解 $ \varepsilon $ + 仿射组合”的 trick，把 $ \mu_\theta $ 写成“线性函数 + 噪声网络”，  
