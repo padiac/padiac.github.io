@@ -745,9 +745,12 @@ $$
    对每个样本按式 (130) 计算单样本损失：
 
    $$
-   L^{(i)}(\theta) = w_{t^{(i)}} \bigl\|\varepsilon_-1^{(i)} - \hat\varepsilon_\theta^{(i)}\bigr\|_2^2
+   L^{(i)}(\theta) = w_{t^{(i)}} \bigl\|\varepsilon_0^{(i)} - \hat\varepsilon_\theta^{(i)}\bigr\|_2^2
    $$
-
+   其中
+   $$
+   \qquad w_{t^{(i)}} = \frac{1}{2\sigma_q^2(t^{(i)})} \frac{(1-\alpha_{t^{(i)}})^2}{(1-\bar\alpha_{t^{(i)}})\alpha_{t^{(i)}}}
+   $$
 
 
 
