@@ -1,5 +1,5 @@
 const POSTS_PER_PAGE = 5;
-const thumbnailCache = new Map();
+const mediaCache = new Map();
 const thumbnailsSupported = typeof fetch === 'function' && typeof window !== 'undefined';
 
 function loadPosts() {
@@ -44,40 +44,95 @@ function resolveImageSrc(value, slug) {
   }
 }
 
-async function fetchFirstImage(slug) {
-  if (!thumbnailsSupported) return null;
-  if (thumbnailCache.has(slug)) return thumbnailCache.get(slug);
-  let thumbnail = null;
+function extractImages(markdown, slug) {
+  const regex = /!\[[^\]]*]\(([^)\s]+)(?:\s+"[^"]*")?\)/g;
+  const out = [];
+  let m;
+  while (out.length < 3 && (m = regex.exec(markdown))) {
+    const resolved = resolveImageSrc(m[1], slug);
+    if (resolved) out.push(resolved);
+  }
+  return out;
+}
+
+function loadImageMeta(src) {
+  return new Promise((resolve, reject) => {
+    const img = new Image();
+    img.onload = () => {
+      const ratio = img.naturalWidth && img.naturalHeight ? img.naturalWidth / img.naturalHeight : 1;
+      resolve({ src, ratio });
+    };
+    img.onerror = reject;
+    img.src = src;
+  });
+}
+
+async function fetchImages(slug) {
+  if (!thumbnailsSupported) return [];
+  if (mediaCache.has(slug)) return mediaCache.get(slug);
+  let metas = [];
   try {
     const res = await fetch(`notes/${slug}.md`, { cache: 'no-store' });
     if (!res.ok) throw new Error(`missing markdown for ${slug}`);
     const markdown = await res.text();
-    const match = markdown.match(/!\[[^\]]*]\(([^)\s]+)[^)]*\)/);
-    if (match && match[1]) {
-      thumbnail = resolveImageSrc(match[1], slug);
-    }
+    const sources = extractImages(markdown, slug);
+    const loaded = await Promise.all(
+      sources.map((src) =>
+        loadImageMeta(src).catch(() => null)
+      )
+    );
+    metas = loaded.filter(Boolean).slice(0, 3);
   } catch (err) {
-    console.warn('Thumbnail fetch failed', slug, err);
+    console.warn('Media fetch failed', slug, err);
   }
-  thumbnailCache.set(slug, thumbnail);
-  return thumbnail;
+  mediaCache.set(slug, metas);
+  return metas;
 }
 
-function applyThumbnails(items) {
+function renderMedia(card, metas) {
+  const mediaSlot = card.querySelector('.post-card__media');
+  if (!mediaSlot) return;
+  card.classList.remove('media-banner', 'media-inline', 'media-collage');
+  mediaSlot.innerHTML = '';
+  if (!metas || metas.length === 0) return;
+
+  if (metas.length === 1) {
+    const { src, ratio } = metas[0];
+    if (ratio > 1.2) {
+      card.classList.add('media-banner');
+      mediaSlot.innerHTML = `<div class="thumb thumb-banner"><img src="${src}" alt="" loading="lazy" decoding="async" /></div>`;
+    } else {
+      card.classList.add('media-inline');
+      mediaSlot.innerHTML = `<div class="thumb thumb-inline"><img src="${src}" alt="" loading="lazy" decoding="async" /></div>`;
+    }
+    return;
+  }
+
+  const items = metas.slice(0, 3);
+  card.classList.add('media-collage');
+  mediaSlot.innerHTML = `
+    <div class="thumb thumb-collage">
+      <div class="collage-grid">
+        ${items
+          .map(
+            (m) =>
+              `<div class="collage-cell"><img src="${m.src}" alt="" loading="lazy" decoding="async" /></div>`
+          )
+          .join('')}
+      </div>
+    </div>
+  `;
+}
+
+function applyMedia(items) {
   if (!thumbnailsSupported) return;
   items.forEach((p) => {
-    fetchFirstImage(p.slug)
-      .then((src) => {
-        if (!src) return;
-        const selectorSlug = (p.slug || '').replace(/"/g, '\\"');
-        const card = document.querySelector(`.post-card[data-slug="${selectorSlug}"]`);
-        if (!card) return;
-        const thumb = card.querySelector('.post-card__thumb');
-        if (!thumb) return;
-        thumb.innerHTML = `<img src="${src}" alt="" loading="lazy" decoding="async" />`;
-        card.classList.add('has-thumb');
-      })
-      .catch((err) => console.warn('Thumbnail apply failed', p.slug, err));
+    const selectorSlug = (p.slug || '').replace(/"/g, '\\"');
+    const card = document.querySelector(`.post-card[data-slug="${selectorSlug}"]`);
+    if (!card) return;
+    fetchImages(p.slug)
+      .then((metas) => renderMedia(card, metas))
+      .catch((err) => console.warn('Media apply failed', p.slug, err));
   });
 }
 
@@ -98,6 +153,7 @@ function renderPosts(posts, page = 1) {
       const dateLabel = date ? date.toISOString().slice(0, 10) : p.date;
       return `
       <a class="post-card" data-slug="${p.slug}" href="post.html?slug=${encodeURIComponent(p.slug)}" aria-label="${p.title}">
+        <div class="post-card__media" aria-hidden="true"></div>
         <div class="post-card__body">
           <div class="post-card__head">
             <span class="chip">${p.category}</span>
@@ -106,14 +162,13 @@ function renderPosts(posts, page = 1) {
           <h3 class="post-card__title">${p.title}</h3>
           <p class="post-card__summary">${p.summary}</p>
         </div>
-        <div class="post-card__thumb" aria-hidden="true"></div>
       </a>
     `;
     })
     .join('');
 
   renderPagination(posts.length, page);
-  applyThumbnails(pageItems);
+  applyMedia(pageItems);
 }
 
 function renderPagination(total, page) {

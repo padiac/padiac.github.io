@@ -282,25 +282,67 @@ p {
   box-shadow: 0 8px 20px rgba(15, 23, 42, 0.06);
 }
 
-.post-card__thumb {
+.post-card__media {
   display: none;
+}
+
+.thumb {
   background: linear-gradient(135deg, #eef2ff, #f8fafc);
   border: 1px solid #e5e7eb;
   border-radius: 10px;
   overflow: hidden;
-  width: 100%;
-  aspect-ratio: 16 / 9;
 }
 
-.post-card__thumb img {
+.thumb img {
   width: 100%;
   height: 100%;
   object-fit: cover;
   display: block;
 }
 
-.post-card.has-thumb .post-card__thumb {
+.post-card.media-banner .post-card__media {
   display: block;
+}
+
+.thumb-banner {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+}
+
+.post-card.media-inline {
+  flex-direction: row;
+  align-items: flex-start;
+}
+
+.post-card.media-inline .post-card__media {
+  display: block;
+  flex-shrink: 0;
+  width: 110px;
+}
+
+.thumb-inline {
+  aspect-ratio: 1 / 1;
+}
+
+.post-card.media-collage .post-card__media {
+  display: block;
+}
+
+.thumb-collage {
+  width: 100%;
+}
+
+.collage-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(80px, 1fr));
+  gap: 6px;
+}
+
+.collage-cell {
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  border-radius: 8px;
+  border: 1px solid #e5e7eb;
 }
 
 .post-card__body {
