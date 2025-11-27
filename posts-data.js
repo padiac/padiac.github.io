@@ -278,6 +278,14 @@
     date: '2025-11-27T08:13:03Z',
     category: 'Diffusion',
     summary: '占位记录，后续会补充 Diffusion Part 3 的详细笔记。'
+  },
+  {
+    slug: 'diffusion-minidiffusion-code-notes-for-three-ddpm-scripts',
+    title: 'Diffusion - MiniDiffusion Code Notes for Three DDPM Scripts',
+    date: '2025-11-27T13:15:00Z',
+    category: 'Diffusion',
+    summary: 'Code-level walkthrough of three DDPM training scripts (MNIST, CelebA, CIFAR-10) plus the shared NaiveUnet with time embedding and sampling logic.'
   }
+
 ];
 
