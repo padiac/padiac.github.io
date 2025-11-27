@@ -218,6 +218,10 @@ Key settings:
   save_image(grid, f"./contents/ddpm_sample_cifar{i}.png")
   ```
 
+CIFAR-10 sample grid produced by this script:
+
+![CIFAR-10 DDPM samples after training](notes-assets/ddpm_sample_cifar19.png)
+
 CelebA and CIFAR-10 thus demonstrate the same DDPM logic applied to different resolutions and the same UNet backbone.
 
 ---
