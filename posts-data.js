@@ -141,10 +141,10 @@
   },
   {
     slug: 'statistics-cong-xian-xing-hui-gui-dao-yu-ce-qu-jian-zhong-xin-hua-can-shu-hua-de-xi-zhi-tuo-dao-han-zheng-ming',
-    title: 'Statistics - 浠庣嚎鎬у洖褰掑埌棰勬祴鍖洪棿: 涓績鍖栧弬鏁板寲鐨勭粏鑷存帹瀵?(鍚瘉鏄?',
+    title: 'Statistics - 从线性回归到预测区间: 中心化参数化的细致推导 (含证明)',
     date: '2025-10-22T16:37:02Z',
     category: 'Statistics',
-    summary: '璁惧畾鍥哄畾璁捐鐐圭嚎鎬у洖褰掓ā鍨? 鏍锋湰鐐硅涓?Xi,Yi, i=1,...,n. 寮曞叆涓績鍖栧彉閲忓拰鏍锋湰鍧囧€间负鍚庣画鎺ㄥ鎵撲笅鍩虹.'
+    summary: '设定固定设计点线性回归模型, 样本点记为 Xi,Yi, i=1,...,n. 引入中心化变量和样本均值为后续推导打下基础.'
   },
   {
     slug: 'bayesian-inference-bayesian-estimation-interval-estimation-and-hypothesis-testing-normal-distribution',
