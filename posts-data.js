@@ -273,7 +273,7 @@
     summary: '这一篇是 Part 1 的续集，专门整理 VDM / DDPM 那一整段推导。'
   },
   {
-    slug: 'diffusion-part-3',
+    slug: 'diffusion-part-3-score-based-sde',
     title: 'Diffusion - Score Based SDE · Part 3',
     date: '2025-11-27T08:13:03Z',
     category: 'Diffusion',
