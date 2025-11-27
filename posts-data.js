@@ -1,4 +1,4 @@
-window.POSTS = [
+﻿window.POSTS = [
   {
     slug: 'machine-learning-1d-yolo-baseline-aggregation',
     title: 'Machine Learning - 1D YOLO Baseline Aggregation Detector',
@@ -141,10 +141,10 @@ window.POSTS = [
   },
   {
     slug: 'statistics-cong-xian-xing-hui-gui-dao-yu-ce-qu-jian-zhong-xin-hua-can-shu-hua-de-xi-zhi-tuo-dao-han-zheng-ming',
-    title: 'Statistics - 从线性回归到预测区间: 中心化参数化的细致推导 (含证明)',
+    title: 'Statistics - 浠庣嚎鎬у洖褰掑埌棰勬祴鍖洪棿: 涓績鍖栧弬鏁板寲鐨勭粏鑷存帹瀵?(鍚瘉鏄?',
     date: '2025-10-22T16:37:02Z',
     category: 'Statistics',
-    summary: '设定固定设计点线性回归模型, 样本点记为 Xi,Yi, i=1,...,n. 引入中心化变量和样本均值为后续推导打下基础.'
+    summary: '璁惧畾鍥哄畾璁捐鐐圭嚎鎬у洖褰掓ā鍨? 鏍锋湰鐐硅涓?Xi,Yi, i=1,...,n. 寮曞叆涓績鍖栧彉閲忓拰鏍锋湰鍧囧€间负鍚庣画鎺ㄥ鎵撲笅鍩虹.'
   },
   {
     slug: 'bayesian-inference-bayesian-estimation-interval-estimation-and-hypothesis-testing-normal-distribution',
@@ -260,16 +260,24 @@ window.POSTS = [
   },
   {
     slug: 'diffusion-part-1-vae-hvae-vdm-insights',
-    title: 'Diffusion - Part 1: VAE 与 HVAE (VDM 之前) ',
+    title: 'Diffusion - Part 1: VAE 和 HVAE (VDM 之前)',
     date: '2025-11-20T08:48:08Z',
     category: 'Diffusion',
-    summary: '本文档总结了我们在讨论 VAE -> ELBO -> HVAE (不包含 VDM / Diffusion) 过程中形成的核心理解框架. 结构分为两类内容, 并在正文中清晰标记学习笔记与洞察段落.'
+    summary: '本文档总结了我们在讨论 VAE -> ELBO -> HVAE (不包含 VDM / Diffusion) 过程中形成的核心理解框架。结构分为两类内容, 并在正文中清晰标记学习笔记与洞察段落。'
   },
   {
     slug: 'diffusion-part-2-vae-variational-diffusion-model-full-notes',
-    title: 'Diffusion - VAE & Variational Diffusion Model — Part 2',
+    title: 'Diffusion - VAE & Variational Diffusion Model · Part 2',
     date: '2025-11-24T03:33:36Z',
     category: 'Diffusion',
-    summary: '这一篇是你 Part 1 的续集，专门整理 VDM / DDPM 那一整段推导，'
+    summary: '这一篇是 Part 1 的续集，专门整理 VDM / DDPM 那一整段推导。'
+  },
+  {
+    slug: 'diffusion-part-3-placeholder',
+    title: 'Diffusion - Part 3 (Placeholder)',
+    date: '2025-11-27T08:13:03Z',
+    category: 'Diffusion',
+    summary: '占位记录，后续会补充 Diffusion Part 3 的详细笔记。'
   }
 ];
+
