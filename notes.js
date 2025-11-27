@@ -153,7 +153,6 @@ function renderPosts(posts, page = 1) {
       const dateLabel = date ? date.toISOString().slice(0, 10) : p.date;
       return `
       <a class="post-card" data-slug="${p.slug}" href="post.html?slug=${encodeURIComponent(p.slug)}" aria-label="${p.title}">
-        <div class="post-card__media" aria-hidden="true"></div>
         <div class="post-card__body">
           <div class="post-card__head">
             <span class="chip">${p.category}</span>
@@ -162,6 +161,7 @@ function renderPosts(posts, page = 1) {
           <h3 class="post-card__title">${p.title}</h3>
           <p class="post-card__summary">${p.summary}</p>
         </div>
+        <div class="post-card__media" aria-hidden="true"></div>
       </a>
     `;
     })
