@@ -55,7 +55,7 @@ All three training scripts (MNIST / CelebA / CIFAR-10) use the same core pattern
      for i in range(self.n_T, 0, -1):
          z = torch.randn(...) if i > 1 else 0
          eps = self.eps_model(x_i, i / self.n_T)
-         x_i = self.oneover_sqrta[i] * (x_i - eps * self.mab_over_sqrtmab[i])                + self.sqrt_beta_t[i] * z
+         x_i = self.oneover_sqrta[i] * (x_i - eps * self.mab_over_sqrtmab[i]) + self.sqrt_beta_t[i] * z
      ```
    - Sampling is done inside `ddpm.sample(...)` with `model.eval()` and `torch.no_grad()`.
 
