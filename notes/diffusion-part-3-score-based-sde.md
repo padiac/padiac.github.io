@@ -1,4 +1,4 @@
-这份笔记把「CK -> Kramers-Moyal -> Fokker-Planck -> 前向/反向 SDE -> Probability Flow ODE -> DDPM 里的 Murphy 公式」串成一条自洽的链，不跳步，符号方向统一。
+这份笔记推导了Probabilistic Machine Learning 第二十六章的部分内容，把「CK -> Kramers-Moyal -> Fokker-Planck -> 前向/反向 SDE -> Probability Flow ODE -> DDPM 里的 Murphy 公式」串成一条自洽的链。
 
 ## 0. 记号约定
 
@@ -203,7 +203,7 @@ Euler 形式：$x_{t-1} = x_t + \tfrac12 \beta(t) [x_t + s_\theta(x_t,t)] \Delta
 把 25.52 拆成
 
 $$
-dx_t = \underbrace{-\tfrac12 \beta(t) [x_t + s_\theta(x_t,t)] dt}_{\text{probability flow ODE}} + \underbrace{\big[-\tfrac12 \beta(t) s_\theta(x_t,t) dt + \beta(t) d\bar{W}_t\big]}_{\text{Langevin 扰动}}
+dx_t = -\tfrac12 \beta(t) [x_t + s_\theta(x_t,t)] dt + \big[-\tfrac12 \beta(t) s_\theta(x_t,t) dt + \beta(t) d\bar{W}_t\big]
 $$
 
 采样可选：只用 ODE（确定性），只用 SDE（全随机），或 ODE + 轻微 Langevin。
