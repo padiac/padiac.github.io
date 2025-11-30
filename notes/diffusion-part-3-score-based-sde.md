@@ -122,6 +122,13 @@ $$
 
 - SDE 的漂移 $a(x,t)$ 对应 FP 的一阶项；
 - SDE 的扩散系数 $b(x,t)$ 对应 FP 的二阶项。
+- 注意这里是正向FP, 相同的推导过程，反向FP应该是
+
+$$
+-\partial_t p(x,t) = \partial_x\big[a(x,t) p(x,t)\big] + \frac12 \partial_x^2 \big[b(x,t)^2 p(x,t)\big].
+$$
+
+
 
 
 ## 3. 连续性方程与概率流 ODE
@@ -472,13 +479,13 @@ $$
 根据 Itô SDE 与 FP 的对应关系，对应的 FP 方程是
 
 $$
-\partial_t p_t(x) = - \nabla_x \cdot \big( \tilde{f}(x,t) p_t(x) \big) + \frac{1}{2} g(t)^2 \Delta_x p_t(x).
+- \partial_t p_t(x) =  \nabla_x \cdot \big( \tilde{f}(x,t) p_t(x) \big) + \frac{1}{2} g(t)^2 \Delta_x p_t(x).
 $$
 
-把 $\tilde{f}$ 展开：
+这里第一项是正的，因为我们用的是负向FP方程，把 $\tilde{f}$ 展开：
 
 $$
-\partial_t p_t(x) = - \nabla_x \cdot \big( [f(x,t) - g(t)^2 s_\theta(x,t)] p_t(x) \big) + \frac{1}{2} g(t)^2 \Delta_x p_t(x).
+\partial_t p_t(x) =  - \nabla_x \cdot \big( [f(x,t) - g(t)^2 s_\theta(x,t)] p_t(x) \big) - \frac{1}{2} g(t)^2 \Delta_x p_t(x).
 $$
 
 这一步和前向 SDE 的 FP 完全是同样的结构，只是 drift 换成了带 $s_\theta$ 的版本。
@@ -518,7 +525,7 @@ $$
 把上面的表达代回 FP 方程：
 
 $$
-\partial_t p_t(x) = - \nabla_x \cdot \big( [f - g^2 s_\theta] p_t \big) + \frac{1}{2} g^2 \nabla_x \cdot \big( p_t \nabla_x \log p_t \big).
+\partial_t p_t(x) = - \nabla_x \cdot \big( [f - g^2 s_\theta] p_t \big) - \frac{1}{2} g^2 \nabla_x \cdot \big( p_t \nabla_x \log p_t \big).
 $$
 
 为方便书写，省略 $x,t$ 的显式依赖，记 $p_t = p_t(x)$，$f = f(x,t)$，$s_\theta = s_\theta(x,t)$，$g = g(t)$。于是：
@@ -538,19 +545,19 @@ $$
 这两项可以合并成一个总的散度：
 
 $$
-\partial_t p_t = - \nabla_x \cdot \Big( [f - g^2 s_\theta] p_t - \frac{1}{2} g^2 p_t \nabla_x \log p_t \Big).
+\partial_t p_t = - \nabla_x \cdot \Big( [f - g^2 s_\theta] p_t + \frac{1}{2} g^2 p_t \nabla_x \log p_t \Big).
 $$
 
 注意这里有一个负号：把第二项写成
 
 $$
-+\frac{1}{2} g^2 \nabla_x \cdot(\cdots) = - \nabla_x \cdot\Big( -\frac{1}{2} g^2 p_t \nabla_x \log p_t\Big),
++\frac{1}{2} g^2 \nabla_x \cdot(\cdots) = - \nabla_x \cdot\Big( \frac{1}{2} g^2 p_t \nabla_x \log p_t\Big),
 $$
 
 所以整体变成
 
 $$
-\partial_t p_t = - \nabla_x \cdot \Big( [f - g^2 s_\theta] p_t - \frac{1}{2} g^2 p_t \nabla_x \log p_t \Big).
+\partial_t p_t = - \nabla_x \cdot \Big( [f - g^2 s_\theta] p_t + \frac{1}{2} g^2 p_t \nabla_x \log p_t \Big).
 $$
 
 在“理想情况”下，如果我们没有用 $s_\theta$ 近似，而是直接把真实 score 写在 drift 里，即
@@ -562,15 +569,10 @@ $$
 那么括号中的向量场可以简化：
 
 $$
-[f - g^2 s_\theta] - \frac{1}{2} g^2 \nabla_x \log p_t = f - g^2 \nabla_x \log p_t - \frac{1}{2} g^2 \nabla_x \log p_t = f - \frac{3}{2} g^2 \nabla_x \log p_t.
+[f - g^2 s_\theta] + \frac{1}{2} g^2 \nabla_x \log p_t = f - g^2 \nabla_x \log p_t + \frac{1}{2} g^2 \nabla_x \log p_t = f - \frac{1}{2} g^2 \nabla_x \log p_t.
 $$
 
-这里可以看出：如果 drift 里已经有了一个 $ -g^2 \nabla_x \log p_t $，扩散项又加了一半的 score，整体系数会变成 $3/2$。但是在 Murphy 的构造中，更常见的做法是：
-
-- 对“forward SDE”做一次 FP → ODE，得到一个 probability flow ODE；
-- 对“reverse SDE”的 FP 再做一次“同样结构”的 FP → ODE，不过这次 score 通常以 $s_\theta$ 替代。
-
-为了得到 Murphy 所写的“reverse diffusion ODE”，我们做一个近似性解释：把 FP 中那一部分和 score 的关系理解为“扩散项吃掉一半的 score”，因此对于带 score 的反向 SDE，对应的 probability flow ODE 的 drift 是
+因此对于带 score 的反向 SDE，对应的 probability flow ODE 的 drift 是
 
 $$
 f(x,t) - \frac{1}{2} g(t)^2 s_\theta(x,t),
