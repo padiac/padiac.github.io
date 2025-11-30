@@ -249,7 +249,7 @@ $$
 考虑正向 Itô SDE
 
 $$
-dx_t = f(x_t,t)\, dt + g(t)\, dW_t,
+dx_t = f(x_t,t) dt + g(t) dW_t,
 \qquad t \in [0,T].
 $$
 
@@ -303,7 +303,7 @@ $$
 $$
 q_{k+1}(x')
 =
-\int p(x' \mid x)\, q_k(x)\, dx.
+\int p(x' \mid x) q_k(x) dx.
 $$
 
 如果想倒着看这个链，即从 $X_{k+1}$ 生成 $X_k$，需要用 Bayes 公式得到“反向条件分布”：
@@ -313,7 +313,7 @@ $$
 =
 \text{Prob}(X_k = x \mid X_{k+1} = x')
 =
-\frac{p(x' \mid x)\, q_k(x)}{q_{k+1}(x')}.
+\frac{p(x' \mid x) q_k(x)}{q_{k+1}(x')}.
 $$
 
 可以看到，反向转移核不仅依赖原来的正向转移核 $p(x' \mid x)$，还依赖边缘分布 $q_k$ 和 $q_{k+1}$。这就是在连续时间里会出现 $\nabla_x \log q_t(x)$ 的原因：边缘密度 $q_t$ 进入了“反向动力学”的表达式。
@@ -325,7 +325,7 @@ $$
 > 设 $X_t$ 满足正向 SDE
 > 
 > $$
-> dx_t = f(x_t,t)\, dt + g(t)\, dW_t,
+> dx_t = f(x_t,t) dt + g(t) dW_t,
 > \qquad t \in [0,T],
 > $$
 > 
@@ -340,7 +340,7 @@ $$
 > g(t)^2 \nabla_x \log q_t(x)
 > \big] dt
 > +
-> g(t)\, d\bar{W}_t,
+> g(t) d\bar{W}_t,
 > $$
 > 
 > 其中 $\bar{W}_t$ 是“反向”的 Wiener 过程。
@@ -389,9 +389,9 @@ DDPM 中的前向“加噪”过程，离散版本是
 $$
 dx_t
 =
--\frac{1}{2} \beta(t) x_t\, dt
+-\frac{1}{2} \beta(t) x_t dt
 +
-\beta(t)\, dW_t.
+\beta(t) dW_t.
 $$
 
 在这里：
@@ -410,9 +410,9 @@ $$
 $$
 dx_t
 =
--\frac{1}{2} \beta(t) x_t\, dt
+-\frac{1}{2} \beta(t) x_t dt
 +
-\beta(t)\, dW_t.
+\beta(t) dW_t.
 $$
 
 边缘密度写作 $q_t(x)$。则反向 SDE 为
@@ -426,7 +426,7 @@ dx_t
 \beta(t)^2 \nabla_{x_t} \log q_t(x_t)
 \right] dt
 +
-\beta(t)\, d\bar{W}_t.
+\beta(t) d\bar{W}_t.
 $$
 
 这一条就是 Murphy 书里 25.50 的内容：反向 drift 等于
@@ -455,7 +455,7 @@ dx_t
 \beta(t)^2 s_\theta(x_t,t)
 \right] dt
 +
-\beta(t)\, d\bar{W}_t.
+\beta(t) d\bar{W}_t.
 $$
 
 这可以稍微整理一下，把括号写成一个整体：
@@ -463,12 +463,12 @@ $$
 $$
 dx_t
 =
--\frac{1}{2} \beta(t)\,
+-\frac{1}{2} \beta(t)
 \big[
 x_t + 2 s_\theta(x_t,t)
 \big] dt
 +
-\beta(t)\, d\bar{W}_t.
+\beta(t) d\bar{W}_t.
 $$
 
 这就是 Murphy 书中 25.52 的形式。
@@ -478,7 +478,7 @@ $$
 对一般的 SDE
 
 $$
-dx_t = \mu(x_t,t)\, dt + \sigma(t)\, dW_t,
+dx_t = \mu(x_t,t) dt + \sigma(t) dW_t,
 $$
 
 用 Euler-Maruyama 方法、时间步长为 $\Delta t$ 时，有近似离散化
@@ -488,9 +488,9 @@ x_{t - \Delta t}
 =
 x_t
 +
-\mu(x_t,t)\, \Delta t
+\mu(x_t,t) \Delta t
 +
-\sigma(t)\, \sqrt{\Delta t}\, \varepsilon_t,
+\sigma(t) \sqrt{\Delta t} \varepsilon_t,
 $$
 
 其中 $\varepsilon_t \sim \mathcal{N}(0,I)$。
@@ -500,7 +500,7 @@ $$
 $$
 \mu(x_t,t)
 =
--\frac{1}{2} \beta(t)\, [x_t + 2 s_\theta(x_t,t)],
+-\frac{1}{2} \beta(t) [x_t + 2 s_\theta(x_t,t)],
 $$
 
 扩散系数是
@@ -516,9 +516,9 @@ x_{t - \Delta t}
 =
 x_t
 +
-\frac{1}{2} \beta(t)\, [x_t + 2 s_\theta(x_t,t)]\, \Delta t
+\frac{1}{2} \beta(t) [x_t + 2 s_\theta(x_t,t)] \Delta t
 +
-\beta(t)\, \sqrt{\Delta t}\, \varepsilon_t.
+\beta(t) \sqrt{\Delta t} \varepsilon_t.
 $$
 
 这就是 Murphy 25.53 对反向 SDE 的一步离散采样更新。
@@ -542,7 +542,7 @@ f(x_t,t)
 g(t)^2 s_\theta(x_t,t)
 \big] dt
 +
-g(t)\, d\bar{W}_t.
+g(t) d\bar{W}_t.
 $$
 
 写成更抽象一点的形式方便套公式：
@@ -555,7 +555,7 @@ $$
 $$
 \partial_t p_t(x)
 =
-- \nabla_x \cdot \big( \tilde{f}(x,t)\, p_t(x) \big)
+- \nabla_x \cdot \big( \tilde{f}(x,t) p_t(x) \big)
 +
 \frac{1}{2} g(t)^2 \Delta_x p_t(x).
 $$
@@ -565,7 +565,7 @@ $$
 $$
 \partial_t p_t(x)
 =
-- \nabla_x \cdot \big( [f(x,t) - g(t)^2 s_\theta(x,t)]\, p_t(x) \big)
+- \nabla_x \cdot \big( [f(x,t) - g(t)^2 s_\theta(x,t)] p_t(x) \big)
 +
 \frac{1}{2} g(t)^2 \Delta_x p_t(x).
 $$
@@ -589,7 +589,7 @@ $$
 $$
 \nabla_x p_t(x)
 =
-p_t(x)\, \nabla_x \log p_t(x),
+p_t(x) \nabla_x \log p_t(x),
 $$
 
 可以写出
@@ -599,7 +599,7 @@ $$
 =
 \nabla_x \cdot
 \big(
-p_t(x)\, \nabla_x \log p_t(x)
+p_t(x) \nabla_x \log p_t(x)
 \big).
 $$
 
@@ -611,7 +611,7 @@ $$
 \frac{1}{2} g(t)^2
 \nabla_x \cdot
 \big(
-p_t(x)\, \nabla_x \log p_t(x)
+p_t(x) \nabla_x \log p_t(x)
 \big).
 $$
 
@@ -624,12 +624,12 @@ $$
 $$
 \partial_t p_t(x)
 =
-- \nabla_x \cdot \big( [f - g^2 s_\theta]\, p_t \big)
+- \nabla_x \cdot \big( [f - g^2 s_\theta] p_t \big)
 +
 \frac{1}{2} g^2
 \nabla_x \cdot
 \big(
-p_t\, \nabla_x \log p_t
+p_t \nabla_x \log p_t
 \big).
 $$
 
@@ -638,7 +638,7 @@ $$
 第一项是
 
 $$
-- \nabla_x \cdot \big( [f - g^2 s_\theta]\, p_t \big),
+- \nabla_x \cdot \big( [f - g^2 s_\theta] p_t \big),
 $$
 
 第二项是
@@ -647,7 +647,7 @@ $$
 \frac{1}{2} g^2
 \nabla_x \cdot
 \big(
-p_t\, \nabla_x \log p_t
+p_t \nabla_x \log p_t
 \big).
 $$
 
@@ -658,9 +658,9 @@ $$
 =
 - \nabla_x \cdot
 \Big(
-[f - g^2 s_\theta]\, p_t
+[f - g^2 s_\theta] p_t
 -
-\frac{1}{2} g^2 p_t\, \nabla_x \log p_t
+\frac{1}{2} g^2 p_t \nabla_x \log p_t
 \Big).
 $$
 
@@ -679,9 +679,9 @@ $$
 =
 - \nabla_x \cdot
 \Big(
-[f - g^2 s_\theta]\, p_t
+[f - g^2 s_\theta] p_t
 -
-\frac{1}{2} g^2 p_t\, \nabla_x \log p_t
+\frac{1}{2} g^2 p_t \nabla_x \log p_t
 \Big).
 $$
 
@@ -805,7 +805,7 @@ dx_t
 x_t + 2 s_\theta(x_t,t)
 \big] dt
 +
-\beta(t)\, d\bar{W}_t.
+\beta(t) d\bar{W}_t.
 $$
 
 展开括号，将 drift 分成两项：
@@ -818,9 +818,9 @@ dx_t
 x_t + s_\theta(x_t,t)
 \big] dt
 -
-\frac{1}{2} \beta(t) s_\theta(x_t,t)\, dt
+\frac{1}{2} \beta(t) s_\theta(x_t,t) dt
 +
-\beta(t)\, d\bar{W}_t.
+\beta(t) d\bar{W}_t.
 $$
 
 ### 8.2 识别出 ODE 部分和 Langevin 部分
@@ -841,9 +841,9 @@ $$
 - 后两项合在一起
 
   $$
-  -\frac{1}{2} \beta(t) s_\theta(x_t,t)\, dt
+  -\frac{1}{2} \beta(t) s_\theta(x_t,t) dt
   +
-  \beta(t)\, d\bar{W}_t
+  \beta(t) d\bar{W}_t
   $$
 
   可以看作一个“沿 score 的 Langevin 步”：有一部分 deterministic drift 沿着 score 的方向，还有一部分是纯高斯噪声。
