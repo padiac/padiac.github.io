@@ -91,44 +91,31 @@ $$
 ### (1) 一阶条件期望
 
 $$
-E[\Delta X \mid X_t=x]
-=
-a(x,t)\, \Delta t + o(\Delta t).
+E[\Delta X \mid X_t=x] = a(x,t)\, \Delta t + o(\Delta t).
 $$
 
 ### (2) 二阶条件期望
 
 $$
-E[(\Delta X)^2 \mid X_t=x]
-=
-b(x,t)^2\, \Delta t + o(\Delta t).
+E[(\Delta X)^2 \mid X_t=x] = b(x,t)^2\, \Delta t + o(\Delta t).
 $$
 
 按照 Kramers–Moyal 系列的定义
 
 $$
-A_n(x,t)
-:=
-\lim_{\Delta t\to 0}
-\frac{1}{\Delta t}
-E[(\Delta X)^n\mid X_t=x],
+A_n(x,t) := \lim_{\Delta t\to 0} \frac{1}{\Delta t} E[(\Delta X)^n\mid X_t=x],
 $$
 
 带入上面的两个式子，得到
 
 $$
-A_1(x,t) = a(x,t), \qquad
-A_2(x,t) = b(x,t)^2.
+A_1(x,t) = a(x,t), \qquad A_2(x,t) = b(x,t)^2.
 $$
 
 在扩散极限假设下（所有三阶及以上的 $A_{n\ge 3}=0$），Kramers–Moyal 展开截断为二阶，得到一维 Fokker–Planck 方程：
 
 $$
-\partial_t p(x,t)
-=
--\partial_x\!\big[a(x,t)\, p(x,t)\big]
-\;+\;
-\frac12\, \partial_x^2\!\big[b(x,t)^2\, p(x,t)\big].
+\partial_t p(x,t) = -\partial_x\!\big[a(x,t)\, p(x,t)\big] \;+\; \frac12\, \partial_x^2\!\big[b(x,t)^2\, p(x,t)\big].
 $$
 
 这给出了 Itô SDE 与 Fokker–Planck 方程之间的对应关系：
