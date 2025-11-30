@@ -194,7 +194,7 @@ In the **density-based** setting:
 Ultimately:
 
 $$
-\text{Independence} \;\;\Longleftrightarrow\;\;
+\text{Independence} \Longleftrightarrow
 \mu_{(X_1,\dots,X_n)} = \mu_{X_1} \otimes \cdots \otimes \mu_{X_n}.
 $$
 

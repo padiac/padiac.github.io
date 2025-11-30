@@ -16,7 +16,7 @@ $$
 f_{\chi_n^2}(x) = \frac{1}{2^{n/2} \Gamma(n/2)} x^{\frac{n}{2}-1} e^{-x/2}, \qquad x>0,
 $$
 
-so it is $\mathrm{Gamma}(k=n/2,\;\theta=2)$. Using the Gamma moments
+so it is $\mathrm{Gamma}(k=n/2,\theta=2)$. Using the Gamma moments
 
 $$
 \mathbb{E}[X] = k\theta, \qquad \operatorname{Var}(X) = k\theta^2,

@@ -405,8 +405,7 @@ $$
 $$ E[\mathrm{tr}(A Y)] = \mathrm{tr}(A E[Y]). $$
 
 第二个期望稍微麻烦一点：
-<!-- 
-$$ (x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_y) = \bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr)^\top\Sigma_y^{-1}\bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr) = (x-\mu_x)^\top\Sigma_y^{-1}(x-\mu_x) + 2(\mu_x-\mu_y)^\top\Sigma_p^{-1}(x-\mu_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$ -->
+
 $$
 (x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_y)
 = \bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr)^\top\Sigma_y^{-1}\bigl((x-\mu_x)+(\mu_x-\mu_y)\bigr)
@@ -414,8 +413,8 @@ $$
 
 $$
 = (x-\mu_x)^\top\Sigma_y^{-1}(x-\mu_x)
-\;+\; 2(\mu_x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_x)
-\;+\; (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y).
++ 2(\mu_x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_x)
++ (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y).
 $$
 
 
