@@ -589,13 +589,13 @@ Murphy 在 25.54 的表达正是这一形式。
 对于 DDPM，我们有
 
 $$
-f(x,t) = -\frac{1}{2} \beta(t) x, \qquad g(t) = \beta(t).  $$
+f(x,t) = -\frac{1}{2} \beta(t) x, \qquad g(t) = \sqrt{\beta(t)}.  $$
 
 于是
 
 $$
 f(x_t,t) - \frac{1}{2} g(t)^2 s_\theta(x_t,t) = -\frac{1}{2} \beta(t) x_t -
-\frac{1}{2} \beta(t)^2 s_\theta(x_t,t).
+\frac{1}{2} \beta(t) s_\theta(x_t,t).
 $$
 
 在很多文献中，会直接把 $\beta(t)^2$ 视作一个“缩放过的时间函数”，并吸收到 ODE 的时间标度里。Murphy 书中的写法更偏向简化形式，得到类似于
