@@ -371,7 +371,7 @@ $$
 
 这就是我们要代入 25.49 的正向 SDE。
 
-### 6.2 真·反向 SDE（Murphy 25.50）
+### 6.2 反向 SDE（Murphy 25.50）
 
 把 $f,g$ 代入前面 Anderson 定理给出的反向 SDE 公式：
 
@@ -439,13 +439,13 @@ $$
 扩散系数是
 
 $$
-\sigma(t) = \beta(t).
+\sigma(t) = \sqrt{\beta(t)}.
 $$
 
 代入 Euler-Maruyama 公式，得到离散形式
 
 $$
-x_{t - \Delta t} = x_t + \frac{1}{2} \beta(t) [x_t + 2 s_\theta(x_t,t)] \Delta t + \beta(t) \sqrt{\Delta t} \varepsilon_t.
+x_{t - 1} = x_t + \frac{1}{2} \beta(t) [x_t + 2 s_\theta(x_t,t)] \Delta t +  \sqrt{\beta(t) \Delta t} \varepsilon_t.
 $$
 
 这就是 Murphy 25.53 对反向 SDE 的一步离散采样更新。
