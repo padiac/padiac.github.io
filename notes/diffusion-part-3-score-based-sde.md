@@ -4,10 +4,10 @@
 
 - 只写一维标量 $x$，多维只需把导数换成 $\nabla_x$，拉普拉斯换成 $\Delta_x$。
 - 密度：$p_t(x)$ 表示 $X_t$ 的密度。
-- 前向 Itô SDE 统一写成 $dx_t = a(x_t,t) dt + b(x_t,t) dW_t$。
+- 前向 Itô SDE 统一写成 $dx_t = a(x_t,t) dt + b(x_t,t) d\omega$。
 - 对 DDPM：
-  - 前向 SDE：$dx_t = f(x_t,t) dt + g(t) dW_t$。
-  - 常用形式：$dx_t = -\tfrac12 \beta(t) x_t dt + \beta(t) dW_t$，即 $g(t)=\beta(t)$（本笔记内部保持这一版）。
+  - 前向 SDE：$dx_t = f(x_t,t) dt + g(t) d\omega$。
+  - 常用形式：$dx_t = -\tfrac12 \beta(t) x_t dt + \beta(t) d\omega$，即 $g(t)=\beta(t)$（本笔记内部保持这一版）。
 - Kramers-Moyal 采用 $\Delta = x - y$（新位置减旧位置），保证 FP 一阶项符号为 $- \partial_x [A_1 p]$。
 
 ## 1. CK -> Kramers-Moyal 展开
@@ -72,12 +72,12 @@ $$
 
 ## 2. Fokker-Planck 与 Itô SDE
 
-对 SDE $dx_t = a(x_t,t) dt + b(x_t,t) dW_t$，有
+对 SDE $dx_t = a(x_t,t) dt + b(x_t,t) d\omega$，有
 
 我们考虑一维的 Itô SDE：
 
 $$
-dx_t = a(x_t,t) dt + b(x_t,t) dW_t.
+dx_t = a(x_t,t) dt + b(x_t,t) d\omega.
 $$
 
 令小时间步的增量为
@@ -222,7 +222,7 @@ $$
 
 ## 4. 前向 SDE 的 Probability Flow ODE（Murphy 25.47）
 
-前向 SDE：$dx_t = f(x_t,t) dt + g(t) dW_t$，对应 FP
+前向 SDE：$dx_t = f(x_t,t) dt + g(t) d\omega$，对应 FP
 
 $$
 \partial_t p_t = -\nabla \cdot (f p_t) + \tfrac12 g(t)^2 \Delta_x p_t
@@ -249,7 +249,7 @@ $$
 考虑正向 Itô SDE
 
 $$
-dx_t = f(x_t,t) dt + g(t) dW_t,
+dx_t = f(x_t,t) dt + g(t) d\omega,
 \qquad t \in [0,T].
 $$
 
@@ -314,16 +314,16 @@ $$
 设 $X_t$ 满足正向 SDE
  
 $$
-  dx_t = f(x_t,t) dt + g(t) dW_t, \qquad t \in [0,T],
+  dx_t = f(x_t,t) dt + g(t) d\omega, \qquad t \in [0,T],
 $$
  
  边缘密度为 $q_t(x)$。那么，定义“时间反转过程” $Y_\tau = X_{T-\tau}$，可以证明 $Y_t$ 也满足一个 Itô SDE，其形式为
  
  $$
-  dx_t = \big[ f(x,t) - g(t)^2 \nabla_x \log q_t(x) \big] dt + g(t) d\bar{W}_t,
+  dx_t = \big[ f(x,t) - g(t)^2 \nabla_x \log q_t(x) \big] dt + g(t) d\omega,
  $$
  
-其中 $\bar{W}_t$ 是“反向”的 Wiener 过程。
+其中 $W_t$ 是“反向”的 Wiener 过程。
 
 换句话说，反向 SDE 和正向 SDE 的 diffussion 系数相同，都是 $g(t)$，但 drift 多了一项 $ -g(t)^2 \nabla_x \log q_t(x), $
 
@@ -361,7 +361,7 @@ DDPM 中的前向“加噪”过程，离散版本是
 在连续时间极限下，这个过程可以写成如下线性 SDE：
 
 $$
-dx_t = -\frac{1}{2} \beta(t) x_t dt + \sqrt{\beta(t)} dW_t.
+dx_t = -\frac{1}{2} \beta(t) x_t dt + \sqrt{\beta(t)} d\omega.
 $$
 
 在这里：
@@ -378,13 +378,13 @@ $$
 正向：
 
 $$
-dx_t = -\frac{1}{2} \beta(t) x_t dt + \sqrt{\beta(t)} dW_t.
+dx_t = -\frac{1}{2} \beta(t) x_t dt + \sqrt{\beta(t)} d\omega.
 $$
 
 边缘密度写作 $q_t(x)$。则反向 SDE 为
 
 $$
-dx_t = \left[ -\frac{1}{2} \beta(t) x_t - \beta(t) \nabla_{x_t} \log q_t(x_t) \right] dt + \sqrt{\beta(t)} d\bar{W}_t.
+dx_t = \left[ -\frac{1}{2} \beta(t) x_t - \beta(t) \nabla_{x_t} \log q_t(x_t) \right] dt + \sqrt{\beta(t)} d\omega.
 $$
 
 这一条就是 Murphy 书里 25.50 的内容：反向 drift 等于
@@ -403,13 +403,13 @@ $$
 于是将上式中的 $\nabla_{x_t} \log q_t(x_t)$ 替换掉，得到“学习版”的反向 SDE：
 
 $$
-dx_t = \left[ -\frac{1}{2} \beta(t) x_t - \beta(t) s_\theta(x_t,t) \right] dt + \sqrt{\beta(t)} d\bar{W}_t.
+dx_t = \left[ -\frac{1}{2} \beta(t) x_t - \beta(t) s_\theta(x_t,t) \right] dt + \sqrt{\beta(t)} d\omega.
 $$
 
 这可以稍微整理一下，把括号写成一个整体：
 
 $$
-dx_t = -\frac{1}{2} \beta(t) \big[ x_t + 2 s_\theta(x_t,t) \big] dt + \sqrt{\beta(t)} d\bar{W}_t.
+dx_t = -\frac{1}{2} \beta(t) \big[ x_t + 2 s_\theta(x_t,t) \big] dt + \sqrt{\beta(t)} d\omega.
 $$
 
 这就是 Murphy 书中 25.52 的形式。
@@ -419,7 +419,7 @@ $$
 对一般的 SDE
 
 $$
-dx_t = \mu(x_t,t) dt + \sigma(t) dW_t,
+dx_t = \mu(x_t,t) dt + \sigma(t) d\omega,
 $$
 
 用 Euler-Maruyama 方法、时间步长为 $\Delta t$ 时，有近似离散化
@@ -461,7 +461,7 @@ $$
 先写出反向 SDE 的通用形式（已经把 score 用网络近似了）：
 
 $$
-dx_t = \big[ f(x_t,t) - g(t)^2 s_\theta(x_t,t) \big] dt + g(t) d\bar{W}_t.
+dx_t = \big[ f(x_t,t) - g(t)^2 s_\theta(x_t,t) \big] dt + g(t) d\omega.
 $$
 
 写成更抽象一点的形式方便套公式：
@@ -628,13 +628,13 @@ $$
 回顾 25.52 的反向 SDE（带 $s_\theta$）：
 
 $$
-dx_t = -\frac{1}{2} \beta(t) \big[ x_t + 2 s_\theta(x_t,t) \big] dt + \beta(t) d\bar{W}_t.
+dx_t = -\frac{1}{2} \beta(t) \big[ x_t + 2 s_\theta(x_t,t) \big] dt + \beta(t) d\omega.
 $$
 
 展开括号，将 drift 分成两项：
 
 $$
-dx_t = -\frac{1}{2} \beta(t) \big[ x_t + s_\theta(x_t,t) \big] dt - \frac{1}{2} \beta(t) s_\theta(x_t,t) dt + \beta(t) d\bar{W}_t.
+dx_t = -\frac{1}{2} \beta(t) \big[ x_t + s_\theta(x_t,t) \big] dt - \frac{1}{2} \beta(t) s_\theta(x_t,t) dt + \beta(t) d\omega.
 $$
 
 ### 8.2 识别出 ODE 部分和 Langevin 部分
@@ -652,7 +652,7 @@ $$
 - 后两项合在一起
 
   $$
-  -\frac{1}{2} \beta(t) s_\theta(x_t,t) dt + \beta(t) d\bar{W}_t
+  -\frac{1}{2} \beta(t) s_\theta(x_t,t) dt + \beta(t) d\omega
   $$
 
   可以看作一个“沿 score 的 Langevin 步”：有一部分 deterministic drift 沿着 score 的方向，还有一部分是纯高斯噪声。
@@ -690,10 +690,10 @@ Murphy 在 25.57 的文字解释就是在说：
 
 <!-- ## 5. 时间反转与反向 SDE（Murphy 25.49）
 
-正向 SDE $dx_t = f(x_t,t) dt + g(t) dW_t$（$t\in[0,T]$），边缘 $X_t \sim q_t$。令反向时间 $Y_\tau = X_{T-\tau}$，Anderson 定理给出反向 SDE
+正向 SDE $dx_t = f(x_t,t) dt + g(t) d\omega$（$t\in[0,T]$），边缘 $X_t \sim q_t$。令反向时间 $Y_\tau = X_{T-\tau}$，Anderson 定理给出反向 SDE
 
 $$
-dx_t = \big[f(x,t) - g(t)^2 \nabla_x \log q_t(x)\big] dt + g(t) d\bar{W}_t
+dx_t = \big[f(x,t) - g(t)^2 \nabla_x \log q_t(x)\big] dt + g(t) d\omega
 $$
 
 额外 drift 正是沿 score 的修正。实践中以网络 $s_\theta(x,t)$ 近似 $\nabla_x \log q_t(x)$。
@@ -702,14 +702,14 @@ $$
 
 ### 6.1 前向 SDE 形式
 
-DDPM 连续极限：$dx_t = -\tfrac12 \beta(t) x_t dt + \beta(t) dW_t$，即 $f(x,t)=-\tfrac12 \beta(t) x$，$g(t)=\beta(t)$。
+DDPM 连续极限：$dx_t = -\tfrac12 \beta(t) x_t dt + \beta(t) d\omega$，即 $f(x,t)=-\tfrac12 \beta(t) x$，$g(t)=\beta(t)$。
 
 ### 6.2 真·反向 SDE（25.50）
 
 代入 25.49：
 
 $$
-dx_t = \big[-\tfrac12 \beta(t) x_t - \beta(t)^2 \nabla_x \log q_t(x_t)\big] dt + \beta(t) d\bar{W}_t
+dx_t = \big[-\tfrac12 \beta(t) x_t - \beta(t)^2 \nabla_x \log q_t(x_t)\big] dt + \beta(t) d\omega
 $$
 
 ### 6.3 用 $s_\theta$ 近似 score（25.52）
@@ -717,12 +717,12 @@ $$
 以 $s_\theta \approx \nabla_x \log q_t$，得
 
 $$
-dx_t = -\tfrac12 \beta(t) [x_t + 2 s_\theta(x_t,t)] dt + \beta(t) d\bar{W}_t
+dx_t = -\tfrac12 \beta(t) [x_t + 2 s_\theta(x_t,t)] dt + \beta(t) d\omega
 $$
 
 ### 6.4 Euler-Maruyama（25.53）
 
-对一般 $dx_t = \mu(x_t,t) dt + \sigma(t) dW_t$，步长 $\Delta t$ 有 $x_{t-1} = x_t + \mu(x_t,t)\Delta t + \sigma(t)\sqrt{\Delta t} \varepsilon_t$。用 $\mu = -\tfrac12 \beta(t)[x+2 s_\theta]$ 得
+对一般 $dx_t = \mu(x_t,t) dt + \sigma(t) d\omega$，步长 $\Delta t$ 有 $x_{t-1} = x_t + \mu(x_t,t)\Delta t + \sigma(t)\sqrt{\Delta t} \varepsilon_t$。用 $\mu = -\tfrac12 \beta(t)[x+2 s_\theta]$ 得
 
 $$
 x_{t-1} = x_t + \tfrac12 \beta(t) [x_t + 2 s_\theta(x_t,t)] \Delta t + \beta(t) \sqrt{\Delta t} \varepsilon_t
@@ -732,7 +732,7 @@ $$
 
 ### 7.1 反向 SDE 的 FP
 
-从 $dx_t = [f - g^2 s_\theta] dt + g d\bar{W}_t$ 得
+从 $dx_t = [f - g^2 s_\theta] dt + g d\omega$ 得
 
 $$
 \partial_t p_t = -\nabla \cdot \big([f - g^2 s_\theta] p_t\big) + \tfrac12 g^2 \Delta_x p_t
@@ -771,7 +771,7 @@ Euler 形式：$x_{t-1} = x_t + \tfrac12 \beta(t) [x_t + s_\theta(x_t,t)] \Delta
 把 25.52 拆成
 
 $$
-dx_t = -\tfrac12 \beta(t) [x_t + s_\theta(x_t,t)] dt + \big[-\tfrac12 \beta(t) s_\theta(x_t,t) dt + \beta(t) d\bar{W}_t\big]
+dx_t = -\tfrac12 \beta(t) [x_t + s_\theta(x_t,t)] dt + \big[-\tfrac12 \beta(t) s_\theta(x_t,t) dt + \beta(t) d\omega\big]
 $$
 
 采样可选：只用 ODE（确定性），只用 SDE（全随机），或 ODE + 轻微 Langevin。 -->
@@ -785,7 +785,7 @@ $$
 - Itô 对应：$A_1=a, A_2=b^2$ -> SDE $dx = a dt + b dW$。
 - 连续性方程：$\partial_t p = -\nabla \cdot (h p)$ <-> $dx = h dt$。
 - 前向 SDE FP：$-\nabla \cdot (f p) + \tfrac12 g^2 \Delta p$，写成 PF ODE：$dx = [f - \tfrac12 g^2 \nabla \log p] dt$（25.47）。
-- Anderson 时间反转：反向 SDE $dx = [f - g^2 \nabla \log q_t] dt + g d\bar{W}$（25.49）。
+- Anderson 时间反转：反向 SDE $dx = [f - g^2 \nabla \log q_t] dt + g dW$（25.49）。
 - DDPM 前向 $f=-\tfrac12 \beta x, g=\beta$ -> 反向 SDE（25.50）；用 $s_\theta$ 得可实现版（25.52）。
 - 再 FP->ODE：扩散项“吃掉一半 score”，反向 PF ODE $dx = [f - \tfrac12 g^2 s_\theta] dt$（25.54），代入 DDPM 得 $dx = -\tfrac12 \beta(t)[x + s_\theta] dt$（25.55）。
 - 反向 SDE 可视为 ODE + Langevin 噪声（25.57）。
