@@ -277,7 +277,7 @@
     title: 'Diffusion - Score Based SDE · Part 3',
     date: '2025-11-27T08:13:03Z',
     category: 'Diffusion',
-    summary: '占位记录，后续会补充 Diffusion Part 3 的详细笔记。'
+    summary: '结合Probabilistic Machine Learning 第二十六章，推导score based SDE相关内容'
   },
   {
     slug: 'diffusion-minidiffusion-code-notes',
