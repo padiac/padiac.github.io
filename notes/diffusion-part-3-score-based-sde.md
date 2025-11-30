@@ -74,31 +74,164 @@ $$
 
 对 SDE $dx_t = a(x_t,t) dt + b(x_t,t) dW_t$，有
 
-$$
-E[\Delta X \mid X_t=x] = a(x,t) \Delta t + o(\Delta t),\quad E[(\Delta X)^2 \mid X_t=x] = b(x,t)^2 \Delta t + o(\Delta t)
-$$
-
-故 $A_1=a, A_2=b^2$，FP 方程为
+我们考虑一维的 Itô SDE：
 
 $$
-\partial_t p = -\partial_x[a p] + \tfrac12 \partial_x^2[b^2 p]
+dx_t = a(x_t,t)\, dt + b(x_t,t)\, dW_t.
 $$
 
-多维 $dx_t = f(x_t,t) dt + G(x_t,t) dW_t$，$D=GG^\top$：
+令小时间步的增量为
 
 $$
-\partial_t p_t = -\nabla_x \cdot (f p_t) + \tfrac12 \sum_{i,j} \partial_{x_i}\partial_{x_j}[(D)_{ij} p_t]
+\Delta X = X_{t+\Delta t} - X_t.
 $$
+
+根据 Itô 过程的定义，有：
+
+### (1) 一阶条件期望
+
+$$
+E[\Delta X \mid X_t=x]
+=
+a(x,t)\, \Delta t + o(\Delta t).
+$$
+
+### (2) 二阶条件期望
+
+$$
+E[(\Delta X)^2 \mid X_t=x]
+=
+b(x,t)^2\, \Delta t + o(\Delta t).
+$$
+
+按照 Kramers–Moyal 系列的定义
+
+$$
+A_n(x,t)
+:=
+\lim_{\Delta t\to 0}
+\frac{1}{\Delta t}
+E[(\Delta X)^n\mid X_t=x],
+$$
+
+带入上面的两个式子，得到
+
+$$
+A_1(x,t) = a(x,t), \qquad
+A_2(x,t) = b(x,t)^2.
+$$
+
+在扩散极限假设下（所有三阶及以上的 $A_{n\ge 3}=0$），Kramers–Moyal 展开截断为二阶，得到一维 Fokker–Planck 方程：
+
+$$
+\partial_t p(x,t)
+=
+-\partial_x\!\big[a(x,t)\, p(x,t)\big]
+\;+\;
+\frac12\, \partial_x^2\!\big[b(x,t)^2\, p(x,t)\big].
+$$
+
+这给出了 Itô SDE 与 Fokker–Planck 方程之间的对应关系：
+
+- SDE 的漂移 $a(x,t)$ 对应 FP 的一阶项；
+- SDE 的扩散系数 $b(x,t)$ 对应 FP 的二阶项。
+
 
 ## 3. 连续性方程与概率流 ODE
 
-连续性方程形式：$\partial_t p_t(x) = - \nabla_x \cdot (h(x,t) p_t(x))$，保证总质量守恒。
 
-若粒子 obey ODE $dX_t/dt = h(X_t,t)$，对任意区域 $B$ 计算通量可得同一方程，故
+我们考虑一族粒子在 $\mathbb{R}^d$ 中按确定性 ODE 运动：
+$$
+\frac{dX_t}{dt} = h(X_t,t),
+$$
+其中 $h(x,t)$ 是光滑的速度场。粒子的空间分布给出一个随时间变化的概率密度 $p_t(x)$。目标是从粒子层面的 ODE 推导出密度层面的连续性方程（continuity equation）：
 
 $$
-dx = h(x,t) dt \;\Longleftrightarrow\; \partial_t p_t = -\nabla \cdot (h p_t)
+\partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t)\, p_t(x)\bigr),
 $$
+它表达总“质量”（概率）守恒。
+
+---
+
+### 3.1 **区域内质量与通量**
+
+对任意有界区域 $B \subset \mathbb{R}^d$，区域内的概率质量为
+$$
+M_B(t) \coloneqq \int_B p_t(x)\,dx.
+$$
+
+粒子不会凭空产生或消失，只会穿过边界 $\partial B$，因此 $M_B(t)$ 的变化只由边界处的净通量（flux）决定。设 $n(x)$ 为边界外法向量，则流出 $B$ 的通量为
+$$
+\int_{\partial B} p_t(x)\, h(x,t)\cdot n(x)\, dS.
+$$
+
+“区域内质量的时间变化 = 负的流出通量”：
+$$
+\frac{d}{dt} \int_B p_t(x)\,dx
+= - \int_{\partial B} p_t(x)\, h(x,t)\cdot n(x)\, dS.
+$$
+
+---
+
+### 3.2 **散度定理**
+
+用散度定理把边界积分化为体积分：
+$$
+\int_{\partial B} p_t h\cdot n\, dS
+= \int_B \nabla_x \cdot (p_t h)\, dx.
+$$
+
+代入上式得到
+$$
+\frac{d}{dt} \int_B p_t(x)\,dx
+= - \int_B \nabla_x \cdot \bigl(p_t(x)\, h(x,t)\bigr)\, dx.
+$$
+
+---
+
+### 3.3 **把时间导数移入积分号**
+
+在适当光滑条件下，可以交换时间导数与积分顺序：
+$$
+\int_B \partial_t p_t(x)\, dx
+= - \int_B \nabla_x \cdot \bigl(p_t(x)\, h(x,t)\bigr)\, dx.
+$$
+
+---
+
+### 3.4 **由于 $B$ 任意 ⇒ 被积函数相等**
+
+上述等式对任意区域 $B$ 都成立，只能说明被积函数在几乎处处意义下相等：
+$$
+\partial_t p_t(x)
+= - \nabla_x \cdot \bigl(h(x,t)\, p_t(x)\bigr).
+$$
+
+这就是连续性方程（continuity equation / Liouville equation）的标准形式，它保证总质量守恒：
+$$
+\frac{d}{dt} \int_{\mathbb{R}^d} p_t(x)\, dx = 0.
+$$
+
+---
+
+### 3.5 **总结：粒子 ODE 与密度 PDE 的对应关系**
+
+综上，粒子 obey ODE
+$$
+\frac{dX_t}{dt} = h(X_t,t)
+$$
+当且仅当其诱导的密度 $p_t$ 满足
+$$
+\partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t)\, p_t(x)\bigr).
+$$
+
+也可以压缩写成你原来那句对偶关系：
+$$
+dx = h(x,t)\,dt
+\;\Longleftrightarrow\;
+\partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t)\, p_t(x)\bigr).
+$$
+
 
 ## 4. 前向 SDE 的 Probability Flow ODE（Murphy 25.47）
 
