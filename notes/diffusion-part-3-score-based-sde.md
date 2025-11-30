@@ -77,7 +77,7 @@ $$
 我们考虑一维的 Itô SDE：
 
 $$
-dx_t = a(x_t,t)\, dt + b(x_t,t)\, dW_t.
+dx_t = a(x_t,t) dt + b(x_t,t) dW_t.
 $$
 
 令小时间步的增量为
@@ -91,13 +91,13 @@ $$
 ### (1) 一阶条件期望
 
 $$
-E[\Delta X \mid X_t=x] = a(x,t)\, \Delta t + o(\Delta t).
+E[\Delta X \mid X_t=x] = a(x,t) \Delta t + o(\Delta t).
 $$
 
 ### (2) 二阶条件期望
 
 $$
-E[(\Delta X)^2 \mid X_t=x] = b(x,t)^2\, \Delta t + o(\Delta t).
+E[(\Delta X)^2 \mid X_t=x] = b(x,t)^2 \Delta t + o(\Delta t).
 $$
 
 按照 Kramers–Moyal 系列的定义
@@ -115,7 +115,7 @@ $$
 在扩散极限假设下（所有三阶及以上的 $A_{n\ge 3}=0$），Kramers–Moyal 展开截断为二阶，得到一维 Fokker–Planck 方程：
 
 $$
-\partial_t p(x,t) = -\partial_x\!\big[a(x,t)\, p(x,t)\big] \;+\; \frac12\, \partial_x^2\!\big[b(x,t)^2\, p(x,t)\big].
+\partial_t p(x,t) = -\partial_x\!\big[a(x,t) p(x,t)\big] \;+\; \frac12 \partial_x^2\!\big[b(x,t)^2 p(x,t)\big].
 $$
 
 这给出了 Itô SDE 与 Fokker–Planck 方程之间的对应关系：
@@ -134,7 +134,7 @@ $$
 其中 $h(x,t)$ 是光滑的速度场。粒子的空间分布给出一个随时间变化的概率密度 $p_t(x)$。目标是从粒子层面的 ODE 推导出密度层面的连续性方程（continuity equation）：
 
 $$
-\partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t)\, p_t(x)\bigr),
+\partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t) p_t(x)\bigr),
 $$
 它表达总“质量”（概率）守恒。
 
@@ -144,18 +144,18 @@ $$
 
 对任意有界区域 $B \subset \mathbb{R}^d$，区域内的概率质量为
 $$
-M_B(t) \coloneqq \int_B p_t(x)\,dx.
+M_B(t) \coloneqq \int_B p_t(x)dx.
 $$
 
 粒子不会凭空产生或消失，只会穿过边界 $\partial B$，因此 $M_B(t)$ 的变化只由边界处的净通量（flux）决定。设 $n(x)$ 为边界外法向量，则流出 $B$ 的通量为
 $$
-\int_{\partial B} p_t(x)\, h(x,t)\cdot n(x)\, dS.
+\int_{\partial B} p_t(x) h(x,t)\cdot n(x) dS.
 $$
 
 “区域内质量的时间变化 = 负的流出通量”：
 $$
-\frac{d}{dt} \int_B p_t(x)\,dx
-= - \int_{\partial B} p_t(x)\, h(x,t)\cdot n(x)\, dS.
+\frac{d}{dt} \int_B p_t(x)dx
+= - \int_{\partial B} p_t(x) h(x,t)\cdot n(x) dS.
 $$
 
 ---
@@ -164,14 +164,14 @@ $$
 
 用散度定理把边界积分化为体积分：
 $$
-\int_{\partial B} p_t h\cdot n\, dS
-= \int_B \nabla_x \cdot (p_t h)\, dx.
+\int_{\partial B} p_t h\cdot n dS
+= \int_B \nabla_x \cdot (p_t h) dx.
 $$
 
 代入上式得到
 $$
-\frac{d}{dt} \int_B p_t(x)\,dx
-= - \int_B \nabla_x \cdot \bigl(p_t(x)\, h(x,t)\bigr)\, dx.
+\frac{d}{dt} \int_B p_t(x)dx
+= - \int_B \nabla_x \cdot \bigl(p_t(x) h(x,t)\bigr) dx.
 $$
 
 ---
@@ -180,8 +180,8 @@ $$
 
 在适当光滑条件下，可以交换时间导数与积分顺序：
 $$
-\int_B \partial_t p_t(x)\, dx
-= - \int_B \nabla_x \cdot \bigl(p_t(x)\, h(x,t)\bigr)\, dx.
+\int_B \partial_t p_t(x) dx
+= - \int_B \nabla_x \cdot \bigl(p_t(x) h(x,t)\bigr) dx.
 $$
 
 ---
@@ -191,12 +191,12 @@ $$
 上述等式对任意区域 $B$ 都成立，只能说明被积函数在几乎处处意义下相等：
 $$
 \partial_t p_t(x)
-= - \nabla_x \cdot \bigl(h(x,t)\, p_t(x)\bigr).
+= - \nabla_x \cdot \bigl(h(x,t) p_t(x)\bigr).
 $$
 
 这就是连续性方程（continuity equation / Liouville equation）的标准形式，它保证总质量守恒：
 $$
-\frac{d}{dt} \int_{\mathbb{R}^d} p_t(x)\, dx = 0.
+\frac{d}{dt} \int_{\mathbb{R}^d} p_t(x) dx = 0.
 $$
 
 ---
@@ -209,14 +209,14 @@ $$
 $$
 当且仅当其诱导的密度 $p_t$ 满足
 $$
-\partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t)\, p_t(x)\bigr).
+\partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t) p_t(x)\bigr).
 $$
 
 也可以压缩写成你原来那句对偶关系：
 $$
-dx = h(x,t)\,dt
+dx = h(x,t)dt
 \;\Longleftrightarrow\;
-\partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t)\, p_t(x)\bigr).
+\partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t) p_t(x)\bigr).
 $$
 
 
