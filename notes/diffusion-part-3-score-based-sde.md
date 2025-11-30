@@ -525,13 +525,9 @@ $$
 
 第一项是
 
-<!-- $$
-- \nabla_x \cdot \big( [f - g^2 s_\theta] p_t \big),
-$$ -->
 $$
-- \nabla_x \cdot \big( {}[f - g^2 s_\theta]\, p_t \big),
+  - \nabla_x \cdot \big( [f - g^2 s_\theta] p_t \big),
 $$
-
 
 第二项是
 
