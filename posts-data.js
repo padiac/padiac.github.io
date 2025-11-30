@@ -263,21 +263,21 @@
     title: 'Diffusion - VAE 和 HVAE (VDM 之前) · Part 1',
     date: '2025-11-20T08:48:08Z',
     category: 'Diffusion',
-    summary: '本文档总结了我们在讨论 VAE -> ELBO -> HVAE (不包含 VDM / Diffusion) 过程中形成的核心理解框架。结构分为两类内容, 并在正文中清晰标记学习笔记与洞察段落。'
+    summary: '总结了我们在讨论 VAE -> ELBO -> HVAE (不包含 VDM / Diffusion) 过程中形成的核心理解框架。结构分为两类内容, 并在正文中清晰标记学习笔记与洞察段落。'
   },
   {
     slug: 'diffusion-part-2-vae-variational-diffusion-model-full-notes',
     title: 'Diffusion - VAE & Variational Diffusion Model · Part 2',
     date: '2025-11-24T03:33:36Z',
     category: 'Diffusion',
-    summary: '这一篇是 Part 1 的续集，专门整理 VDM / DDPM 那一整段推导。'
+    summary: '整理 VDM / DDPM 那一整段推导。'
   },
   {
     slug: 'diffusion-part-3-score-based-sde',
     title: 'Diffusion - Score Based SDE · Part 3',
     date: '2025-11-27T08:13:03Z',
     category: 'Diffusion',
-    summary: '结合Probabilistic Machine Learning 第二十六章，推导score based SDE相关内容'
+    summary: '结合Probabilistic Machine Learning 第二十六章，推导score based SDE方程'
   },
   {
     slug: 'diffusion-minidiffusion-code-notes',
