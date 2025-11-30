@@ -2,7 +2,7 @@
 
 ## 0. 记号约定
 
-- 只写一维标量 $x$，多维只需把导数换成 $\nabla_x$、拉普拉斯换成 $\Delta_x$。
+- 只写一维标量 $x$，多维只需把导数换成 $\nabla_x$，拉普拉斯换成 $\Delta_x$。
 - 密度：$p_t(x)$ 表示 $X_t$ 的密度。
 - 前向 Itô SDE 统一写成 $dx_t = a(x_t,t) dt + b(x_t,t) dW_t$。
 - 对 DDPM：
@@ -115,7 +115,7 @@ $$
 在扩散极限假设下（所有三阶及以上的 $A_{n\ge 3}=0$），Kramers–Moyal 展开截断为二阶，得到一维 Fokker–Planck 方程：
 
 $$
-\partial_t p(x,t) = -\partial_x\!\big[a(x,t) p(x,t)\big] \;+\; \frac12 \partial_x^2\!\big[b(x,t)^2 p(x,t)\big].
+\partial_t p(x,t) = -\partial_x\!\big[a(x,t) p(x,t)\big] + \frac12 \partial_x^2\!\big[b(x,t)^2 p(x,t)\big].
 $$
 
 这给出了 Itô SDE 与 Fokker–Planck 方程之间的对应关系：
@@ -215,7 +215,7 @@ $$
 也可以压缩写成你原来那句对偶关系：
 $$
 dx = h(x,t)dt
-\;\Longleftrightarrow\;
+\Longleftrightarrow
 \partial_t p_t(x) = - \nabla_x \cdot \bigl(h(x,t) p_t(x)\bigr).
 $$
 
