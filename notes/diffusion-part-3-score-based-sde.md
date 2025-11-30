@@ -115,7 +115,7 @@ $$
 在扩散极限假设下（所有三阶及以上的 $A_{n\ge 3}=0$），Kramers–Moyal 展开截断为二阶，得到一维 Fokker–Planck 方程：
 
 $$
-\partial_t p(x,t) = -\partial_x.\big[a(x,t) p(x,t)\big] + \frac12 \partial_x^2.\big[b(x,t)^2 p(x,t)\big].
+\partial_t p(x,t) = -\partial_x\big[a(x,t) p(x,t)\big] + \frac12 \partial_x^2 \big[b(x,t)^2 p(x,t)\big].
 $$
 
 这给出了 Itô SDE 与 Fokker–Planck 方程之间的对应关系：
@@ -144,7 +144,7 @@ $$
 
 对任意有界区域 $B \subset \mathbb{R}^d$，区域内的概率质量为
 $$
-M_B(t) \coloneqq \int_B p_t(x)dx.
+M_B(t) := \int_B p_t(x)dx.
 $$
 
 粒子不会凭空产生或消失，只会穿过边界 $\partial B$，因此 $M_B(t)$ 的变化只由边界处的净通量（flux）决定。设 $n(x)$ 为边界外法向量，则流出 $B$ 的通量为
