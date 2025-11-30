@@ -384,15 +384,7 @@ $$
 边缘密度写作 $q_t(x)$。则反向 SDE 为
 
 $$
-dx_t
-=
-\left[
--\frac{1}{2} \beta(t) x_t
--
-\beta(t)^2 \nabla_{x_t} \log q_t(x_t)
-\right] dt
-+
-\beta(t) d\bar{W}_t.
+dx_t = \left[ -\frac{1}{2} \beta(t) x_t - \beta(t)^2 \nabla_{x_t} \log q_t(x_t) \right] dt + \beta(t) d\bar{W}_t.
 $$
 
 这一条就是 Murphy 书里 25.50 的内容：反向 drift 等于
@@ -533,8 +525,11 @@ $$
 
 第一项是
 
-$$
+<!-- $$
 - \nabla_x \cdot \big( [f - g^2 s_\theta] p_t \big),
+$$ -->
+$$
+- \nabla_x \cdot \big( (f - g^2 s_\theta)\, p_t \big),
 $$
 
 第二项是
