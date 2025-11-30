@@ -361,13 +361,13 @@ DDPM 中的前向“加噪”过程，离散版本是
 在连续时间极限下，这个过程可以写成如下线性 SDE：
 
 $$
-dx_t = -\frac{1}{2} \beta(t) x_t dt + \beta(t) dW_t.
+dx_t = -\frac{1}{2} \beta(t) x_t dt + \sqrt{\beta(t)} dW_t.
 $$
 
 在这里：
 
 - $f(x,t) = -\frac{1}{2} \beta(t) x$,
-- $g(t) = \beta(t)$.
+- $g^2(t) = \beta(t)$.
 
 这就是我们要代入 25.49 的正向 SDE。
 
@@ -378,19 +378,19 @@ $$
 正向：
 
 $$
-dx_t = -\frac{1}{2} \beta(t) x_t dt + \beta(t) dW_t.
+dx_t = -\frac{1}{2} \beta(t) x_t dt + \sqrt{\beta(t)} dW_t.
 $$
 
 边缘密度写作 $q_t(x)$。则反向 SDE 为
 
 $$
-dx_t = \left[ -\frac{1}{2} \beta(t) x_t - \beta(t)^2 \nabla_{x_t} \log q_t(x_t) \right] dt + \beta(t) d\bar{W}_t.
+dx_t = \left[ -\frac{1}{2} \beta(t) x_t - \beta(t) \nabla_{x_t} \log q_t(x_t) \right] dt + \sqrt{\beta(t)} d\bar{W}_t.
 $$
 
 这一条就是 Murphy 书里 25.50 的内容：反向 drift 等于
 
 - 原来的线性项 $ -\frac{1}{2} \beta(t) x_t $
-- 加上一个沿 score 的“纠正项” $ -\beta(t)^2 \nabla_{x_t} \log q_t(x_t) $。
+- 加上一个沿 score 的“纠正项” $ -\beta(t) \nabla_{x_t} \log q_t(x_t) $。
 
 ### 6.3 用 $s_\theta$ 近似 score（25.52）
 
@@ -403,13 +403,13 @@ $$
 于是将上式中的 $\nabla_{x_t} \log q_t(x_t)$ 替换掉，得到“学习版”的反向 SDE：
 
 $$
-dx_t = \left[ -\frac{1}{2} \beta(t) x_t - \beta(t)^2 s_\theta(x_t,t) \right] dt + \beta(t) d\bar{W}_t.
+dx_t = \left[ -\frac{1}{2} \beta(t) x_t - \beta(t) s_\theta(x_t,t) \right] dt + \sqrt{\beta(t)} d\bar{W}_t.
 $$
 
 这可以稍微整理一下，把括号写成一个整体：
 
 $$
-dx_t = -\frac{1}{2} \beta(t) \big[ x_t + 2 s_\theta(x_t,t) \big] dt + \beta(t) d\bar{W}_t.
+dx_t = -\frac{1}{2} \beta(t) \big[ x_t + 2 s_\theta(x_t,t) \big] dt + \sqrt{\beta(t)} d\bar{W}_t.
 $$
 
 这就是 Murphy 书中 25.52 的形式。
