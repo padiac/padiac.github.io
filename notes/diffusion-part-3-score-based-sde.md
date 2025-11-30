@@ -115,7 +115,7 @@ $$
 在扩散极限假设下（所有三阶及以上的 $A_{n\ge 3}=0$），Kramers–Moyal 展开截断为二阶，得到一维 Fokker–Planck 方程：
 
 $$
-\partial_t p(x,t) = -\partial_x\!\big[a(x,t) p(x,t)\big] + \frac12 \partial_x^2\!\big[b(x,t)^2 p(x,t)\big].
+\partial_t p(x,t) = -\partial_x.\big[a(x,t) p(x,t)\big] + \frac12 \partial_x^2.\big[b(x,t)^2 p(x,t)\big].
 $$
 
 这给出了 Itô SDE 与 Fokker–Planck 方程之间的对应关系：
