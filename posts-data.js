@@ -285,6 +285,13 @@
     date: '2025-11-27T13:15:00Z',
     category: 'Diffusion',
     summary: 'Code-level walkthrough of three DDPM training scripts (MNIST, CelebA, CIFAR-10) plus the shared NaiveUnet with time embedding and sampling logic.'
+  },
+  {
+    slug: 'diffusion-stable-diffusion-memory-speed-optimization-cheatsheet',
+    title: 'Diffusion - Stable Diffusion Memory & Speed Optimization Cheatsheet',
+    date: '2025-12-03T04:08:15Z',
+    category: 'Diffusion',
+    summary: 'Cheatsheet for diffusers inference trade-offs in VRAM, speed, and quality, covering xFormers, slicing, offloading, and ToMe presets for SD1.5/SDXL.'
   }
 
 ];
