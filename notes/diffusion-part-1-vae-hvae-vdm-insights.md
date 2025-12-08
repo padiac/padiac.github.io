@@ -191,11 +191,11 @@ $$ \log p(x) = E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)] - \mathrm{KL}\big(q_\
 1. 
 $$ \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z)\big) $$
 这个是 ELBO 里面真正出现的那一项，它衡量的是：  
-**我们学到的 posterior（encoder）与先验分布 $p(z)$ 的差异。**
+**我们学到的 posterior（encoder）与先验分布 $p(z)$ 的差异。** 在DDPM里，先验是一个标准高斯，而Unet学到的也是将一个图像变成标准高斯分布，也就是要去的噪声。  
 
 2. 
 $$ \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z\mid x)\big) $$
-这个 KL 是真实后验与我们学到的 posterior 之间的差异。  
+这个 KL 是真实后验与我们学到的 posterior 之间的差异。
 它不在 ELBO 中出现，但它永远是非负的，用来建立下界关系。
 
 因为第二个 KL（和真实后验的 KL）永远 ≥ 0，所以我们得到下界：
@@ -213,6 +213,7 @@ $$ \text{ELBO}(x)=\log p(x). $$
 也就是说：**只要我们学到的 $q_\phi(z\mid x)$ 完全等于真实后验，那么 ELBO 就等于真实但不可计算的 $\log p(x)$。**
 
 ---
+
 
 然而，把 KL(q‖真实后验) 变成 0 的要求太高，因为真实 posterior 无法直接求解，因此我们只能最大化 ELBO 作为近似。这个过程本质上不是让某一项单独尽量大或尽量小，而是在以下两者之间取得平衡：
 
