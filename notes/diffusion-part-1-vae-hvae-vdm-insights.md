@@ -182,9 +182,7 @@ $$ \log p(x) \ge E_{q_\phi(z \mid x)}[\log p_\theta(x \mid z)] - \text{KL}(q_\ph
 
 ## 6. 为什么我们最大化 ELBO？我们到底在优化什么？
 
-首先，真实的数据分布 $p(x)$ 是一个真实存在的量，它既不可写出解析式，也不依赖任何我们可训练的参数。因此 $p(x)$ 本身无法直接“优化”。我们唯一能做的，是构造一个可计算的下界 —— ELBO，而 ELBO 的大小取决于我们学习的 $q_\phi(z \mid x)$ 和 $p_\theta(x \mid z)$。
-
-从 ELBO 推导我们知道：
+首先，真实的数据分布 $p(x)$ 是一个真实存在的量，它既不可写出解析式，也不依赖任何我们可训练的参数。因此 $p(x)$ 本身无法直接“优化”。我们唯一能做的，是构造一个可计算的下界 —— ELBO，而 ELBO 的大小取决于我们学习的 $q_\phi(z \mid x)$ 和 $p_\theta(x \mid z)$。从 ELBO 推导我们知道：
 
 $$ \log p(x) = E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)] - \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z)\big) + \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z\mid x)\big). $$
 
