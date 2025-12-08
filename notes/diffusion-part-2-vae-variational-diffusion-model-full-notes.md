@@ -16,7 +16,7 @@ VAE & Variational Diffusion Model
 - 正向一步：
   $$ q(x_t \mid x_{t-1}) = \mathcal N\bigl(x_t \mid \sqrt{\alpha_t}x_{t-1}, (1-\alpha_t)I\bigr). $$
 - 最终目标：给定训练集，通过变分下界，把
-  $ -\log p_\theta(x_0) $  
+  $ \log p(x) $  
   近似成一堆逐步 KL，最后变成一个简单的 L2 噪声回归：
   $$ \mathbb E \bigl\Vert\varepsilon - \varepsilon_\theta(x_t,t)\bigr\Vert^2. $$
 
