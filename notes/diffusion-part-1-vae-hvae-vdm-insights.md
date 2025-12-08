@@ -191,7 +191,7 @@ $$ \log p(x) = E_{q_\phi(z\mid x)}[\log p_\theta(x\mid z)] - \mathrm{KL}\big(q_\
 1. 
 $$ \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z)\big) $$
 这个是 ELBO 里面真正出现的那一项，它衡量的是：  
-**我们学到的 posterior（encoder）与先验分布 $p(z)$ 的差异。** 在DDPM里，先验是一个标准高斯，而Unet学到的也是将一个图像变成标准高斯分布，也就是要去的噪声。  
+**我们学到的 posterior（encoder）与先验分布 $p(z)$ 的差异。** 
 
 2. 
 $$ \mathrm{KL}\big(q_\phi(z\mid x)\Vert p(z\mid x)\big) $$
