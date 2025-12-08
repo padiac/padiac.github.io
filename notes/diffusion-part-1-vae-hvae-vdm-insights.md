@@ -341,7 +341,7 @@ $$ \frac{\partial}{\partial \mu} \log p = \frac{1}{\sigma^2}\sum_i (x_i-\mu) = 0
 
 $$ \mu^\ast = \frac{1}{N}\sum_i x_i. $$
 
-同理可得最优方差：
+同理可得方差（极大似然估计，不是最小方差无偏估计）：
 
 $$ \sigma^{\ast 2} = \frac{1}{N}\sum_i (x_i-\mu^\ast)^2. $$
 
