@@ -168,9 +168,8 @@ $$ \log p(x) = E[\log p_\theta(x \mid z)] - \text{KL}(q_\phi(z \mid x)\Vert p(z)
 由于 KL ≥ 0 (这里和Jensen 不等式只要二选一就能证明)，因此：
 
 $$ \log p(x)\ge \text{ELBO}(x). $$
-开始
 
-经典分解：
+如果我们可以正确预测噪声，那么第三项接近为0，可以直接扔掉。于是剩下如下分解：
 
 $$ \log p(x) \ge E_{q_\phi(z \mid x)}[\log p_\theta(x \mid z)] - \text{KL}(q_\phi(z \mid x) \Vert p(z)). $$
 
