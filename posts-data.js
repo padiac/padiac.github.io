@@ -292,6 +292,27 @@
     date: '2025-12-03T04:08:15Z',
     category: 'Diffusion',
     summary: 'Cheatsheet for diffusers inference trade-offs in VRAM, speed, and quality, covering xFormers, slicing, offloading, and ToMe presets for SD1.5/SDXL.'
+  },
+  {
+    slug: 'diffusion-part-1-vae-hvae-vdm-insights-alt',
+    title: 'Diffusion - VAE & HVAE to VDM (Alt Notes) · Part 1',
+    date: '2025-12-09T23:45:00Z',
+    category: 'Diffusion',
+    summary: 'English rewrite of Part 1 (VAE/HVAE, ELBO intuition, latent geometry) with all formulas preserved.'
+  },
+  {
+    slug: 'diffusion-part-2-variational-diffusion-model-notes-alt',
+    title: 'Diffusion - Variational Diffusion Model (Alt Notes) · Part 2',
+    date: '2025-12-09T23:46:00Z',
+    category: 'Diffusion',
+    summary: 'English rewrite of Part 2 covering the forward chain, variational bound split, Gaussian KL, and noise MSE objective.'
+  },
+  {
+    slug: 'diffusion-part-3-score-based-sde-notes-alt',
+    title: 'Diffusion - Score-Based SDE (Alt Notes) · Part 3',
+    date: '2025-12-09T23:47:00Z',
+    category: 'Diffusion',
+    summary: 'English rewrite of Part 3 unifying CK → FP → forward/reverse SDE → probability flow ODE and DDPM formulas.'
   }
 
 ];
