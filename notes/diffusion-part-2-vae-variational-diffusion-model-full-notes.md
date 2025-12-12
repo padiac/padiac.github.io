@@ -929,13 +929,13 @@ $$
 从式 (130) 的训练目标写起（把常数项统一丢进权重 $w_t$ 里）：
 
 $$
-\mathcal L(\theta) = \mathbb E_{x_0 \sim p_{\text{data}}} \ \mathbb E_{t} \ \mathbb E_{\varepsilon \sim \mathcal N(0,I)} \left[ w_t\, \bigl\| \varepsilon - \varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
+\mathcal L(\theta) = \mathbb E_{x_0 \sim p_{\text{data}}} \ \mathbb E_{t} \ \mathbb E_{\varepsilon \sim \mathcal N(0,I)} \left[ w_t \bigl\| \varepsilon - \varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
 $$
 
 其中正向一步“直达采样”是：
 
 $$
-x_t = \sqrt{\bar\alpha_t}\,x_0 + \sqrt{1-\bar\alpha_t}\,\varepsilon, \qquad \bar\alpha_t=\prod_{s=1}^t \alpha_s
+x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\varepsilon, \qquad \bar\alpha_t=\prod_{s=1}^t \alpha_s
 $$
 
 注意：式 (6.3.2) 等价地说明
@@ -947,13 +947,13 @@ $$
 所以内层对 $\varepsilon$ 的期望，完全可以换成对 $x_t\sim q(\cdot\mid x_0)$ 的期望（因为它们是一一对应的重参数化采样）：
 
 $$
-\mathbb E_{\varepsilon\sim\mathcal N(0,I)}\bigl[\,f(x_t(\varepsilon))\,\bigr] = \mathbb E_{x_t\sim q(x_t\mid x_0)}\bigl[\,f(x_t)\,\bigr].
+\mathbb E_{\varepsilon\sim\mathcal N(0,I)}\bigl[f(x_t(\varepsilon))\bigr] = \mathbb E_{x_t\sim q(x_t\mid x_0)}\bigl[f(x_t)\bigr].
 $$
 
 于是 (6.3.1) 的结构本质上就是：
 
 $$
-\mathcal L(\theta) = \mathbb E_{x_0 \sim p_{\text{data}}} \ \mathbb E_{t} \ \mathbb E_{x_t \sim q(x_t\mid x_0)} \left[ w_t\, \bigl\| \varepsilon(x_0,x_t,t) - \varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
+\mathcal L(\theta) = \mathbb E_{x_0 \sim p_{\text{data}}} \ \mathbb E_{t} \ \mathbb E_{x_t \sim q(x_t\mid x_0)} \left[ w_t \bigl\| \varepsilon(x_0,x_t,t) - \varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
 $$
 
 这里“真实噪声”可以由 $x_0,x_t$ 反解出来（训练时我们确实拿得到）：
@@ -986,7 +986,7 @@ $$
 用一句更具体的话讲：如果完整目标是
 
 $$
-\frac{1}{T}\sum_{t=1}^T \mathbb E_{x_0}\mathbb E_{x_t\sim q(\cdot\mid x_0)} \left[ w_t\, \bigl\| \varepsilon(x_0,x_t,t)-\varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
+\frac{1}{T}\sum_{t=1}^T \mathbb E_{x_0}\mathbb E_{x_t\sim q(\cdot\mid x_0)} \left[ w_t \bigl\| \varepsilon(x_0,x_t,t)-\varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
 $$
 
 那么每次训练只采一个 $t$，算出来的那一项就是 (6.3.9) 的**无偏估计**。
@@ -994,7 +994,7 @@ $$
 更一般地，如果你不想用均匀分布采样 $t$，而是想让某些时间步更常被看到（比如按某个离散分布 $\pi(t)$ 采样），也可以用重要性采样写成：
 
 $$
-\sum_{t=1}^T w_t G(t) = \mathbb E_{t\sim\pi} \left[ \frac{w_t}{\pi(t)}\,G(t) \right]
+\sum_{t=1}^T w_t G(t) = \mathbb E_{t\sim\pi} \left[ \frac{w_t}{\pi(t)}G(t) \right]
 $$
 
 这句的意义是：  
@@ -1004,18 +1004,18 @@ $$
 
 ---
 
-### 6.3.3 内层 Monte Carlo：为什么“乘 $q(x_t\mid x_0)\,dx_t$”等价于“正向采样一次 $x_t$”
+### 6.3.3 内层 Monte Carlo：为什么“乘 $q(x_t\mid x_0)dx_t$”等价于“正向采样一次 $x_t$”
 
 内层期望本来就是一个积分（高维）：
 
 $$
-\mathbb E_{x_t\sim q(x_t\mid x_0)}[H(x_t)] = \int H(x_t)\,q(x_t\mid x_0)\,dx_t
+\mathbb E_{x_t\sim q(x_t\mid x_0)}[H(x_t)] = \int H(x_t)q(x_t\mid x_0)dx_t
 $$
 
 Monte Carlo 估计的基本事实是：如果你能从 $q$ 采样到独立样本 $x_t^{(1)},\dots,x_t^{(N)}$，则
 
 $$
-\int H(x_t)\,q(x_t\mid x_0)\,dx_t \approx \frac{1}{N}\sum_{i=1}^N H\bigl(x_t^{(i)}\bigr), \qquad x_t^{(i)} \sim q(x_t\mid x_0)
+\int H(x_t)q(x_t\mid x_0)dx_t \approx \frac{1}{N}\sum_{i=1}^N H\bigl(x_t^{(i)}\bigr), \qquad x_t^{(i)} \sim q(x_t\mid x_0)
 $$
 
 而在 diffusion 里，“从 $q(x_t\mid x_0)$ 采样”恰好就是你熟到不能再熟的正向闭式采样：
@@ -1030,9 +1030,9 @@ $$
 \mathbb E_{x_t\sim q(\cdot\mid x_0)}[H(x_t)] = \mathbb E_{\varepsilon\sim\mathcal N(0,I)} \left[ H\Bigl(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon\Bigr) \right]
 $$
 
-这就是你问的那个“为什么 $q(x_t\mid x_0)\,dx_t$ 和 Monte Carlo Sampling 完全等价”的严格版本：
+这就是你问的那个“为什么 $q(x_t\mid x_0)dx_t$ 和 Monte Carlo Sampling 完全等价”的严格版本：
 
-- $q(x_t\mid x_0)\,dx_t$ 表示“在分布 $q$ 下做平均”；
+- $q(x_t\mid x_0)dx_t$ 表示“在分布 $q$ 下做平均”；
 - Monte Carlo 只是把这个平均用“抽样求平均”来近似；
 - diffusion 的关键便利在于：你不需要真的做 $t$ 次马尔科夫递推，也能直接从 $q(x_t\mid x_0)$ 抽样（重参数化）。
 
@@ -1043,7 +1043,7 @@ $$
 把外层与内层合在一起，定义单次随机实验的 loss：
 
 $$
-\ell(x_0,t,\varepsilon;\theta) = w_t\, \bigl\| \varepsilon-\varepsilon_\theta(x_t,t) \bigr\|_2^2, \qquad x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon
+\ell(x_0,t,\varepsilon;\theta) = w_t \bigl\| \varepsilon-\varepsilon_\theta(x_t,t) \bigr\|_2^2, \qquad x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon
 $$
 
 训练时一次样本（或一个 batch 里的每个样本）做的是三次独立抽样：

@@ -783,6 +783,177 @@ This closes the loop from Eqs. (30)/(33)/(85)/(86)/(87)/(126)/(130) to the pract
 
 ---
 
+## 6.3 Two-Layer Expectation and Two Monte Carlo: Why “randomly sample $t$ + forward sampling” Is Strictly Equivalent
+
+This section spells out the **two-layer expectation** behind Eq. (100) and explains the two seemingly ad-hoc training steps:
+
+1. Why we can **sample a single time step $t$** (instead of summing over all $t=1\ldots T$).
+2. Why **forward sampling $x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon$** is equivalent to weighting by **$q(x_t\mid x_0)$ in the expectation**.
+
+Core takeaway: the objective is itself “outer average over $t$ + inner average over $x_t$”; training does two independent random draws (two-layer Monte Carlo) to give an unbiased estimator.
+
+---
+
+### 6.3.1 First Rewrite (130) as “outer over $t$, inner over $x_t$”
+
+Start from the training objective in Eq. (130) (fold constants into the weight $w_t$):
+
+$$
+\mathcal L(\theta) = \mathbb E_{x_0 \sim p_{\text{data}}} \ \mathbb E_{t} \ \mathbb E_{\varepsilon \sim \mathcal N(0,I)} \left[ w_t \bigl\| \varepsilon - \varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
+$$
+
+The one-shot forward sampling is
+
+$$
+x_t = \sqrt{\bar\alpha_t}x_0 + \sqrt{1-\bar\alpha_t}\varepsilon, \qquad \bar\alpha_t=\prod_{s=1}^t \alpha_s
+$$
+
+Note: Eq. (6.3.2) equivalently says
+
+$$
+x_t\mid x_0 \sim q(x_t\mid x_0) = \mathcal N\bigl(x_t\mid \sqrt{\bar\alpha_t}x_0,\ (1-\bar\alpha_t)I\bigr).
+$$
+
+So the inner expectation over $\varepsilon$ can be rewritten as one over $x_t\sim q(\cdot\mid x_0)$ (they are in one-to-one reparameterized correspondence):
+
+$$
+\mathbb E_{\varepsilon\sim\mathcal N(0,I)}\bigl[f(x_t(\varepsilon))\bigr] = \mathbb E_{x_t\sim q(x_t\mid x_0)}\bigl[f(x_t)\bigr].
+$$
+
+Thus (6.3.1) is essentially
+
+$$
+\mathcal L(\theta) = \mathbb E_{x_0 \sim p_{\text{data}}} \ \mathbb E_{t} \ \mathbb E_{x_t \sim q(x_t\mid x_0)} \left[ w_t \bigl\| \varepsilon(x_0,x_t,t) - \varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
+$$
+
+where the “true noise” can be recovered from $x_0,x_t$ (available in training):
+
+$$
+\varepsilon(x_0,x_t,t) = \frac{x_t-\sqrt{\bar\alpha_t}x_0}{\sqrt{1-\bar\alpha_t}}
+$$
+
+> Here is the key point: **the inner integration measure is indeed $q(x_t\mid x_0)$**. Training is not “uniform over $dx$” but a **$q$-weighted average** (via the forward reparameterization).
+
+---
+
+### 6.3.2 Outer Monte Carlo: Why Randomly Sampling $t$ Equals Summing/Averaging Over $t$
+
+If during training we set
+
+$$
+t \sim \text{Uniform}\{1,\dots,T\}, \qquad \mathbb P(t)=\frac{1}{T}
+$$
+
+then for any function $F(t)$ we have
+
+$$
+\mathbb E_t[F(t)] = \sum_{t=1}^T \frac{1}{T}F(t) = \frac{1}{T}\sum_{t=1}^T F(t)
+$$
+
+So **“randomly draw one $t$” is precisely the outer Monte Carlo over $t$**. Concretely, if the full objective is
+
+$$
+\frac{1}{T}\sum_{t=1}^T \mathbb E_{x_0}\mathbb E_{x_t\sim q(\cdot\mid x_0)} \left[ w_t \bigl\| \varepsilon(x_0,x_t,t)-\varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
+$$
+
+then sampling a single $t$ each step gives an **unbiased estimate** of (6.3.9).
+
+More generally, if you prefer a non-uniform schedule $\pi(t)$ (e.g., emphasize certain steps), use importance sampling:
+
+$$
+\sum_{t=1}^T w_t G(t) = \mathbb E_{t\sim\pi} \left[ \frac{w_t}{\pi(t)}G(t) \right]
+$$
+
+Meaning:
+- You can **keep weights $w_t$ in the loss** (uniform $t$ sampling).
+- Or **absorb weights into $\pi(t)$** (non-uniform $t$ sampling).
+Both give the same expected objective; only variance / stability differs.
+
+---
+
+### 6.3.3 Inner Monte Carlo: Why “multiply by $q(x_t\mid x_0)dx_t$” Equals “forward-sample one $x_t$”
+
+The inner expectation is originally an integral (high dimensional):
+
+$$
+\mathbb E_{x_t\sim q(x_t\mid x_0)}[H(x_t)] = \int H(x_t)q(x_t\mid x_0)dx_t
+$$
+
+Monte Carlo fact: with i.i.d. samples $x_t^{(1)},\dots,x_t^{(N)}\sim q(x_t\mid x_0)$,
+
+$$
+\int H(x_t)q(x_t\mid x_0)dx_t \approx \frac{1}{N}\sum_{i=1}^N H\bigl(x_t^{(i)}\bigr), \qquad x_t^{(i)} \sim q(x_t\mid x_0)
+$$
+
+In diffusion, “sampling from $q(x_t\mid x_0)$” is exactly the familiar forward closed-form sampling:
+
+$$
+\varepsilon^{(i)}\sim\mathcal N(0,I), \qquad x_t^{(i)}=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon^{(i)}
+$$
+
+Plugging (6.3.13) into (6.3.12) yields
+
+$$
+\mathbb E_{x_t\sim q(\cdot\mid x_0)}[H(x_t)] = \mathbb E_{\varepsilon\sim\mathcal N(0,I)} \left[ H\Bigl(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon\Bigr) \right]
+$$
+
+This is the strict statement that “$q(x_t\mid x_0)dx_t$ vs. Monte Carlo sampling” are equivalent:
+- $q(x_t\mid x_0)dx_t$ means “average under distribution $q$”.
+- Monte Carlo approximates that average by “sample-and-average”.
+- Diffusion convenience: you can sample $q(x_t\mid x_0)$ directly in one shot (no $t$-step Markov rollout).
+
+---
+
+### 6.3.4 Two Independent Samples = Two-Layer Monte Carlo: One Batch Loss Is an Unbiased Estimate of the Full Objective
+
+Combine the outer and inner parts; define the loss of one random trial:
+
+$$
+\ell(x_0,t,\varepsilon;\theta) = w_t \bigl\| \varepsilon-\varepsilon_\theta(x_t,t) \bigr\|_2^2, \qquad x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon
+$$
+
+In training, each sample (or each element of a batch) draws three independent variables:
+
+1. $x_0 \sim p_{\text{data}}(x_0)$
+2. $t \sim \text{Uniform}\{1,\dots,T\}$ (or $\pi(t)$)
+3. $\varepsilon \sim \mathcal N(0,I)$ (hence $x_t\sim q(x_t\mid x_0)$)
+
+Thus
+
+$$
+\mathbb E_{x_0,t,\varepsilon}\bigl[\ell(x_0,t,\varepsilon;\theta)\bigr] = \mathcal L(\theta)
+$$
+
+This is the full “unbiasedness” statement: the two random draws you see in code correspond exactly to the two-layer expectation, not to a heuristic trick.
+
+---
+
+### 6.3.5 Why Training Complexity Does Not Grow Linearly With $T$ (and How It Relates to the Above)
+
+If you truly rolled the Markov chain step by step,
+
+$$
+x_0 \to x_1 \to \cdots \to x_t
+$$
+
+each iteration would take $t$ steps, scaling with $T$. But with the closed form (6.3.2), we jump directly from $x_0$ to $x_t$:
+
+$$
+x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon
+$$
+
+This is “sampling from $q(x_t\mid x_0)$ directly,” and (6.3.11)–(6.3.14) already showed: **training only needs expectations under $q(x_t\mid x_0)$, not the actual forward path.**
+
+So each iteration costs
+
+- One closed-form noising (constant cost)
+- One forward/backward pass of the network (main cost)
+
+rather than an $O(T)$ chain simulation.
+
+---
+
+
 ## 7. Tweedie Formula, Score-Based View, and Eqs. (133)/(148)/(151)
 
 Here we only keep the map; no need to re-derive all SDE / score matching details.
@@ -868,4 +1039,3 @@ The core of Part 2 is to unpack the dense-looking VDM derivation into reusable m
 5. Noise parameterization: write $ \mu_q $ as a function of $ \varepsilon $, turning KL into $ \Vert\varepsilon - \varepsilon_\theta\Vert^2 $
 6. Practical training: sample $ x_0,t,\varepsilon $, do one-step noisy reconstruction
 7. Tweedie / score: “predict noise” vs “predict score” are coordinate changes; the later SDE story is the continuous-time limit of the same physics.
-
