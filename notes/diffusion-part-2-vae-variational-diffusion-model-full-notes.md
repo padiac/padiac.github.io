@@ -913,6 +913,189 @@ $$
 这就是文章中从式 (30)–(33)、(85)、(86)–(87)、(126)–(130) 最终导向的「如何训练 / 如何采样」的完整闭环。
 
 ---
+## 6.3 两层期望与两次 Monte Carlo：为什么“随机采 $t$ + 正向采样”是严格等价的
+
+这一节专门把式 (100) 背后的 **“两层期望”** 写清楚，并解释训练代码里看起来很随意的两件事：
+
+1. 为什么可以 **随机选一个时间步 $t$**（而不是把 $t=1\ldots T$ 全算一遍）；
+2. 为什么用 **正向采样 $x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon$** 就等价于在期望里写 **$q(x_t\mid x_0)$ 的权重**。
+
+核心结论：**目标函数本身就是“外层对 $t$ 的平均 + 内层对 $x_t$ 的平均”**，训练时对应两次独立随机采样（两层 Monte Carlo），是无偏的。
+
+---
+
+### 6.3.1 先把 (130) 写成“外层对 $t$，内层对 $x_t$”的结构
+
+从式 (130) 的训练目标写起（把常数项统一丢进权重 $w_t$ 里）：
+
+$$
+\mathcal L(\theta) = \mathbb E_{x_0 \sim p_{\text{data}}} \ \mathbb E_{t} \ \mathbb E_{\varepsilon \sim \mathcal N(0,I)} \left[ w_t\, \bigl\| \varepsilon - \varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
+$$
+
+其中正向一步“直达采样”是：
+
+$$
+x_t = \sqrt{\bar\alpha_t}\,x_0 + \sqrt{1-\bar\alpha_t}\,\varepsilon, \qquad \bar\alpha_t=\prod_{s=1}^t \alpha_s
+$$
+
+注意：式 (6.3.2) 等价地说明
+
+$$
+x_t\mid x_0 \sim q(x_t\mid x_0) = \mathcal N\bigl(x_t\mid \sqrt{\bar\alpha_t}x_0,\ (1-\bar\alpha_t)I\bigr).
+$$
+
+所以内层对 $\varepsilon$ 的期望，完全可以换成对 $x_t\sim q(\cdot\mid x_0)$ 的期望（因为它们是一一对应的重参数化采样）：
+
+$$
+\mathbb E_{\varepsilon\sim\mathcal N(0,I)}\bigl[\,f(x_t(\varepsilon))\,\bigr] = \mathbb E_{x_t\sim q(x_t\mid x_0)}\bigl[\,f(x_t)\,\bigr].
+$$
+
+于是 (6.3.1) 的结构本质上就是：
+
+$$
+\mathcal L(\theta) = \mathbb E_{x_0 \sim p_{\text{data}}} \ \mathbb E_{t} \ \mathbb E_{x_t \sim q(x_t\mid x_0)} \left[ w_t\, \bigl\| \varepsilon(x_0,x_t,t) - \varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
+$$
+
+这里“真实噪声”可以由 $x_0,x_t$ 反解出来（训练时我们确实拿得到）：
+
+$$
+\varepsilon(x_0,x_t,t) = \frac{x_t-\sqrt{\bar\alpha_t}x_0}{\sqrt{1-\bar\alpha_t}}
+$$
+
+> 到这里就已经出现了你关心的那个点：  
+> **内层积分的测度确实是 $q(x_t\mid x_0)$**。  
+> 训练时不是“按 $dx$ 均匀采样”，而是**按 $q$ 的分布采样**（通过正向重参数化）。
+
+---
+
+### 6.3.2 外层 Monte Carlo：为什么随机采 $t$ 等价于对 $t$ 求和/平均
+
+如果训练中设定
+
+$$
+t \sim \text{Uniform}\{1,\dots,T\}, \qquad \mathbb P(t)=\frac{1}{T}
+$$
+
+那么对任意函数 $F(t)$ 都有：
+
+$$
+\mathbb E_t[F(t)] = \sum_{t=1}^T \frac{1}{T}F(t) = \frac{1}{T}\sum_{t=1}^T F(t)
+$$
+
+也就是说：**“随机抽一个 $t$”就是在做外层对 $t$ 的 Monte Carlo**。  
+用一句更具体的话讲：如果完整目标是
+
+$$
+\frac{1}{T}\sum_{t=1}^T \mathbb E_{x_0}\mathbb E_{x_t\sim q(\cdot\mid x_0)} \left[ w_t\, \bigl\| \varepsilon(x_0,x_t,t)-\varepsilon_\theta(x_t,t) \bigr\|_2^2 \right]
+$$
+
+那么每次训练只采一个 $t$，算出来的那一项就是 (6.3.9) 的**无偏估计**。
+
+更一般地，如果你不想用均匀分布采样 $t$，而是想让某些时间步更常被看到（比如按某个离散分布 $\pi(t)$ 采样），也可以用重要性采样写成：
+
+$$
+\sum_{t=1}^T w_t G(t) = \mathbb E_{t\sim\pi} \left[ \frac{w_t}{\pi(t)}\,G(t) \right]
+$$
+
+这句的意义是：  
+- 你可以 **把权重 $w_t$ 留在 loss 里**（均匀采样 $t$）；  
+- 也可以 **把权重吸收到采样分布 $\pi(t)$ 里**（非均匀采样 $t$）；  
+两者都能得到同一个期望目标，只是方差与训练稳定性不同。
+
+---
+
+### 6.3.3 内层 Monte Carlo：为什么“乘 $q(x_t\mid x_0)\,dx_t$”等价于“正向采样一次 $x_t$”
+
+内层期望本来就是一个积分（高维）：
+
+$$
+\mathbb E_{x_t\sim q(x_t\mid x_0)}[H(x_t)] = \int H(x_t)\,q(x_t\mid x_0)\,dx_t
+$$
+
+Monte Carlo 估计的基本事实是：如果你能从 $q$ 采样到独立样本 $x_t^{(1)},\dots,x_t^{(N)}$，则
+
+$$
+\int H(x_t)\,q(x_t\mid x_0)\,dx_t \approx \frac{1}{N}\sum_{i=1}^N H\bigl(x_t^{(i)}\bigr), \qquad x_t^{(i)} \sim q(x_t\mid x_0)
+$$
+
+而在 diffusion 里，“从 $q(x_t\mid x_0)$ 采样”恰好就是你熟到不能再熟的正向闭式采样：
+
+$$
+\varepsilon^{(i)}\sim\mathcal N(0,I), \qquad x_t^{(i)}=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon^{(i)}
+$$
+
+把 (6.3.13) 代入 (6.3.12)，就得到：
+
+$$
+\mathbb E_{x_t\sim q(\cdot\mid x_0)}[H(x_t)] = \mathbb E_{\varepsilon\sim\mathcal N(0,I)} \left[ H\Bigl(\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon\Bigr) \right]
+$$
+
+这就是你问的那个“为什么 $q(x_t\mid x_0)\,dx_t$ 和 Monte Carlo Sampling 完全等价”的严格版本：
+
+- $q(x_t\mid x_0)\,dx_t$ 表示“在分布 $q$ 下做平均”；
+- Monte Carlo 只是把这个平均用“抽样求平均”来近似；
+- diffusion 的关键便利在于：你不需要真的做 $t$ 次马尔科夫递推，也能直接从 $q(x_t\mid x_0)$ 抽样（重参数化）。
+
+---
+
+### 6.3.4 两次独立采样 = 两层 Monte Carlo：一个 batch loss 是整体目标的无偏估计
+
+把外层与内层合在一起，定义单次随机实验的 loss：
+
+$$
+\ell(x_0,t,\varepsilon;\theta) = w_t\, \bigl\| \varepsilon-\varepsilon_\theta(x_t,t) \bigr\|_2^2, \qquad x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon
+$$
+
+训练时一次样本（或一个 batch 里的每个样本）做的是三次独立抽样：
+
+1. $x_0 \sim p_{\text{data}}(x_0)$
+2. $t \sim \text{Uniform}\{1,\dots,T\}$（或 $\pi(t)$）
+3. $\varepsilon \sim \mathcal N(0,I)$（从而得到 $x_t\sim q(x_t\mid x_0)$）
+
+于是有：
+
+$$
+\mathbb E_{x_0,t,\varepsilon}\bigl[\ell(x_0,t,\varepsilon;\theta)\bigr] = \mathcal L(\theta)
+$$
+
+这就是完整的“无偏性”声明：  
+你在代码里看到的两个随机数来源
+
+- **随机选 $t$**（外层平均）
+- **随机采 $\varepsilon$ / 正向生成 $x_t$**（内层平均）
+
+分别对应目标函数的两层期望，因此它们不是拍脑袋的 trick，而是目标结构决定的两层 Monte Carlo。
+
+---
+
+### 6.3.5 为什么训练复杂度不随 $T$ 线性增长（以及它和上面结论的关系）
+
+如果你真的用马尔科夫链逐步采样：
+
+$$
+x_0 \to x_1 \to \cdots \to x_t
+$$
+
+那每次训练要走 $t$ 步，复杂度会随 $T$ 增长。  
+但因为我们有闭式 (6.3.2)，直接从 $x_0$ 跳到 $x_t$：
+
+$$
+x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\varepsilon
+$$
+
+这等价于“直接从 $q(x_t\mid x_0)$ 采样”，而 (6.3.11)–(6.3.14) 已经说明：  
+**训练里需要的只是对 $q(x_t\mid x_0)$ 的期望，不需要真实路径。**
+
+所以训练每次迭代的核心成本是：
+
+- 一次闭式加噪（常数开销）
+- 一次网络前向/反向（主要开销）
+
+而不是 $O(T)$ 的链式模拟。
+
+---
+
+
 
 ## 7. Tweedie 公式、score-based 视角与式 (133)、(148)、(151)
 
