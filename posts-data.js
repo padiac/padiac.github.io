@@ -330,10 +330,10 @@
   },
   {
     slug: 'diffusion-delta-log-px-t-and-tweedies-formula-what-it-is-where-it-comes-from-why-it-matters',
-    title: 'Diffusion - Δlog p(x_t) and Tweedie\'s Formula — What It Is, Where It Comes From, Why It Matters',
-    date: '2025-12-13T20:11:51.5974762Z',
+    title: 'Diffusion - Nabla log p(x_t) and Tweedie\'s Formula — What It Is, Where It Comes From, Why It Matters',
+    date: '2025-12-13T20:15:20.7027312Z',
     category: 'Diffusion',
-    summary: 'Scope: this note only addresses Delta log p(x_t) (the score at noise level t) and shows how Tweedie links the score to the posterior mean, making DDPM denoising and score learning equivalent.'
+    summary: 'Scope: this note only addresses nabla log p(x_t) (the score at noise level t) and shows how Tweedie links the score to the posterior mean, making DDPM denoising and score learning equivalent.'
   }
 
 ];
