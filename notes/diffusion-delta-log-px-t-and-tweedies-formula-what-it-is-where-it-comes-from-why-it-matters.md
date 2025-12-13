@@ -1,4 +1,4 @@
-> Scope: this note only addresses **∇log p(x_t)** (the score at noise level t). No classifier guidance discussion. No Stable Diffusion specifics. Focused on the core inference geometry.
+> Scope: this note only addresses **$\nabla\log p(x_t)$** (the score at noise level t). No classifier guidance discussion. No Stable Diffusion specifics. Focused on the core inference geometry.
 
 ---
 
@@ -140,5 +140,4 @@ Nabla log p is the posterior mean denoiser expressed as a gradient field. It app
 
 ### Notes on terminology
 
-- "DataLogP" transcription errors should be read as ∇log p or score.
 - When papers write "score," they mean $\nabla_x \log p(x)$, not a probability.
