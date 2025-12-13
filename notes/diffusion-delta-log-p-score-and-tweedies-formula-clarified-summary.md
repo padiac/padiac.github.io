@@ -1,6 +1,6 @@
-## 1. What ∇log p Actually Is (and Is Not)
+## 1. What Delta log p Actually Is (and Is Not)
 
-Throughout diffusion and score-based models, ∇log p refers to $\nabla_{x_t}\log p(x_t)$. It is not data log p; treat any mention of data log p as a speech-to-text error. ∇log p is the score function: the gradient of the log-density of the noisy variable $x_t$.
+Throughout diffusion and score-based models, Delta log p refers to $\nabla_{x_t}\log p(x_t)$. It is not data log p; treat any mention of data log p as a speech-to-text error. Delta log p is the score function: the gradient of the log-density of the noisy variable $x_t$.
 
 ---
 
@@ -34,7 +34,7 @@ $$
 
 ## 4. Interpretation
 
-∇log p measures how far $x_t$ is from its posterior origin.
+Delta log p measures how far $x_t$ is from its posterior origin.
 
 ---
 
@@ -50,7 +50,7 @@ Then $\nabla \log p(x_t)$ is proportional to $-\epsilon$, so noise prediction, s
 
 ---
 
-## 6. Why ∇log p Appears Suddenly
+## 6. Why Delta log p Appears Suddenly
 
 Because it was implicit in the marginal density all along; learning or sampling surfaces the score term.
 
@@ -58,7 +58,7 @@ Because it was implicit in the marginal density all along; learning or sampling 
 
 ## 7. Reverse-Time Meaning
 
-∇log p acts as the force that reverses diffusion.
+Delta log p acts as the force that reverses diffusion.
 
 ---
 
@@ -70,4 +70,4 @@ Classifier guidance injects an external gradient; $\gamma$ scales it manually.
 
 ## 9. Final Takeaway
 
-∇log p answers: given $x_t$, where did it come from?
+Delta log p answers: given $x_t$, where did it come from?
