@@ -313,6 +313,13 @@
     date: '2025-12-09T23:47:00Z',
     category: 'Diffusion',
     summary: 'English rewrite of Part 3 unifying CK → FP → forward/reverse SDE → probability flow ODE and DDPM formulas.'
+  },
+  {
+    slug: 'from-px-to-sampling-what-ddpm-really-learns',
+    title: 'Diffusion - From p(x) to Sampling: What DDPM Really Learns',
+    date: '2025-12-13T00:00:00Z',
+    category: 'Diffusion',
+    summary: 'Clarifies that DDPM learns a sampling procedure rather than an explicit density, framing sampler-known distributions, the physics view, and joint-structure recovery.'
   }
 
 ];
