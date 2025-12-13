@@ -320,7 +320,13 @@
     date: '2025-12-13T00:00:00Z',
     category: 'Diffusion',
     summary: 'Clarifies that DDPM learns a sampling procedure rather than an explicit density, framing sampler-known distributions, the physics view, and joint-structure recovery.'
+  },
+  {
+    slug: 'diffusion-delta-log-p-score-and-tweedies-formula-clarified-summary',
+    title: 'Diffusion - Delta log p, Score, and Tweedie\'s Formula - Clarified Summary',
+    date: '2025-12-13T19:58:31.3540504Z',
+    category: 'Diffusion',
+    summary: 'Delta log p is the score gradient of the noisy density; Tweedie\'s formula links it to the posterior mean and explains why DDPM noise prediction matches score estimation.'
   }
 
 ];
-
