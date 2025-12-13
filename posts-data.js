@@ -327,6 +327,13 @@
     date: '2025-12-13T19:58:31.3540504Z',
     category: 'Diffusion',
     summary: 'Delta log p is the score gradient of the noisy density; Tweedie\'s formula links it to the posterior mean and explains why DDPM noise prediction matches score estimation.'
+  },
+  {
+    slug: 'diffusion-delta-log-px-t-and-tweedies-formula-what-it-is-where-it-comes-from-why-it-matters',
+    title: 'Diffusion - Δlog p(x_t) and Tweedie\'s Formula — What It Is, Where It Comes From, Why It Matters',
+    date: '2025-12-13T20:11:51.5974762Z',
+    category: 'Diffusion',
+    summary: 'Scope: this note only addresses Delta log p(x_t) (the score at noise level t) and shows how Tweedie links the score to the posterior mean, making DDPM denoising and score learning equivalent.'
   }
 
 ];
