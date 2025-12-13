@@ -1,4 +1,4 @@
-> Scope: this note only addresses **nabla log p(x_t)** (the score at noise level t). No classifier guidance discussion. No Stable Diffusion specifics. Focused on the core inference geometry.
+> Scope: this note only addresses **∇log p(x_t)** (the score at noise level t). No classifier guidance discussion. No Stable Diffusion specifics. Focused on the core inference geometry.
 
 ---
 
@@ -38,7 +38,7 @@ Diffusion and score-based methods do not need $p_t(x_t)$ explicitly; they need i
 
 $$\nabla_{x_t} \log p_t(x_t).$$
 
-This is the score at time $t$ - the nabla log p term - the direction pointing uphill in log-density of the noisy distribution. It tells us how to move $x_t$ locally to increase probability under $p_t$, which is exactly the vector field an inference sampler needs.
+This is the score at time $t$ - the ∇log p term - the direction pointing uphill in log-density of the noisy distribution. It tells us how to move $x_t$ locally to increase probability under $p_t$, which is exactly the vector field an inference sampler needs.
 
 ---
 
@@ -54,7 +54,7 @@ Interpretation:
 - $E[x_0 \mid x_t]$ is the Bayes-optimal denoised estimate (posterior mean).
 - The score is proportional to the vector from $x_t$ back to that posterior mean, scaled by $1/\sigma_t^2$.
 
-So nabla log p is not mysterious: it is "how far $x_t$ is from the Bayes denoiser," expressed as a gradient.
+So ∇log p is not mysterious: it is "how far $x_t$ is from the Bayes denoiser," expressed as a gradient.
 
 ---
 
@@ -92,7 +92,7 @@ This comes directly from differentiating the marginal $p_t(x_t)$.
 
 ---
 
-## 5. Why this addresses nabla log p even though $p_t$ is unknown
+## 5. Why this addresses ∇log p even though $p_t$ is unknown
 
 We want $\nabla \log p_t(x_t)$ but $p_t$ is unknown. Tweedie reduces score estimation to estimating the conditional expectation $E[x_0 \mid x_t]$, which can be learned from samples:
 
@@ -124,7 +124,7 @@ Plugging into Tweedie:
 
 $$\widehat{\nabla \log p_t(x_t)} = -\frac{1}{\sigma_t} \hat \epsilon(x_t, t).$$
 
-Thus the nabla log p vector field is (up to scaling) the same as the denoising or noise prediction target used in DDPM training. Writing things in nabla log p language does not change training; it changes the interpretation: we are learning a score field, not just a noise term.
+Thus the ∇log p vector field is (up to scaling) the same as the denoising or noise prediction target used in DDPM training. Writing things in ∇log p language does not change training; it changes the interpretation: we are learning a score field, not just a noise term.
 
 ---
 
@@ -140,5 +140,5 @@ Nabla log p is the posterior mean denoiser expressed as a gradient field. It app
 
 ### Notes on terminology
 
-- "DataLogP" transcription errors should be read as nabla log p or score.
+- "DataLogP" transcription errors should be read as ∇log p or score.
 - When papers write "score," they mean $\nabla_x \log p(x)$, not a probability.
