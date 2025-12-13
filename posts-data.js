@@ -315,25 +315,11 @@
     summary: 'English rewrite of Part 3 unifying CK → FP → forward/reverse SDE → probability flow ODE and DDPM formulas.'
   },
   {
-    slug: 'from-px-to-sampling-what-ddpm-really-learns',
-    title: 'Diffusion - From p(x) to Sampling: What DDPM Really Learns',
-    date: '2025-12-13T00:00:00Z',
-    category: 'Diffusion',
-    summary: 'Clarifies that DDPM learns a sampling procedure rather than an explicit density, framing sampler-known distributions, the physics view, and joint-structure recovery.'
-  },
-  {
     slug: 'diffusion-delta-log-p-score-and-tweedies-formula-clarified-summary',
-    title: 'Diffusion - Delta log p, Score, and Tweedie\'s Formula - Clarified Summary',
+    title: 'Diffusion - ∇log p, Score, and Tweedie\'s Formula - Clarified Summary',
     date: '2025-12-13T19:58:31.3540504Z',
     category: 'Diffusion',
-    summary: 'Delta log p is the score gradient of the noisy density; Tweedie\'s formula links it to the posterior mean and explains why DDPM noise prediction matches score estimation.'
-  },
-  {
-    slug: 'diffusion-delta-log-px-t-and-tweedies-formula-what-it-is-where-it-comes-from-why-it-matters',
-    title: 'Diffusion - Nabla log p(x_t) and Tweedie\'s Formula — What It Is, Where It Comes From, Why It Matters',
-    date: '2025-12-13T20:15:20.7027312Z',
-    category: 'Diffusion',
-    summary: 'Scope: this note only addresses nabla log p(x_t) (the score at noise level t) and shows how Tweedie links the score to the posterior mean, making DDPM denoising and score learning equivalent.'
+    summary: '∇log p is the score gradient of the noisy density; Tweedie\'s formula links it to the posterior mean and explains why DDPM noise prediction matches score estimation.'
   }
 
 ];
