@@ -372,6 +372,21 @@ $$
 
 Thus, the “implementable” reverse SDE in practice is obtained by replacing $\nabla_x \log q_t(x)$ with $s_\theta(x,t)$.
 
+### 5.6 Connection
+
+Starting from the Chapman–Kolmogorov transition kernel, taking the Kramers–Moyal limit yields the Fokker–Planck equation (i.e. the infinitesimal generator), which is the **central object** in the whole chain.
+The SDE and the probability-flow ODE are not derived from each other directly; instead, they are **two different realizations of the same Fokker–Planck generator**: the SDE describes the stochastic path-level realization, while the ODE describes deterministic transport of the density.
+
+Therefore, the Fokker–Planck equation bridges CK, SDE, and ODE. When time reversal changes the probability current in FP, the corresponding reverse SDE must change; as reflected in the derivation above, the left-hand-side sign flips while the right-hand side stays the same, and the next section shows that the ODE is unchanged.
+
+```mermaid
+flowchart TD
+    A[Transition kernel / Chapman–Kolmogorov] --> B[Fokker–Planck equation (generator)]
+    B --> C[Stochastic differential equation (SDE)]
+    B --> D[Probability-flow ODE]
+    C -. Same marginals .- D
+```
+
 ---
 ## 6. Apply to DDPM (25.50, 25.52, 25.53)
 

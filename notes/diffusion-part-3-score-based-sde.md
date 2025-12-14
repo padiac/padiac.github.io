@@ -388,6 +388,19 @@ $$
 
 于是反向 SDE 在实践中的“可实现版本”就是把上式中的 $\nabla_x \log q_t(x)$ 替换为 $s_\theta(x,t)$。
 
+### 5.6 关联
+我们从 Chapman–Kolmogorov 转移核出发，通过 Kramers–Moyal 极限可以得到 Fokker–Planck 方程（也即无穷小生成元），这是整条理论链路中的**核心对象**。  
+随机微分方程（SDE）和概率流常微分方程（probability-flow ODE）并不是彼此直接推导得到的，而是**同一个 Fokker–Planck 生成元的两种不同实现方式**：SDE 描述随机路径层面的实现，ODE 描述概率密度的确定性输运。  
+因此，Fokker–Planck 方程起到了连接 CK、SDE 与 ODE 的桥梁作用；当时间反演导致 FP 中的概率流发生变化时，对应的反向 SDE 必然改变, 对应上面推导, Fokker-Flanck 方程左边反号，右边不变，下面章节推导了ODE 不变。
+
+```mermaid
+flowchart TD
+    A[转移核 / Chapman–Kolmogorov] --> B[Fokker–Planck 方程（生成元）]
+    B --> C[随机微分方程 SDE]
+    B --> D[概率流 ODE]
+    C -. 具有相同的边缘分布 .- D
+```
+
 ---
 
 ## 6. 应用到 DDPM（25.50, 25.52, 25.53）
