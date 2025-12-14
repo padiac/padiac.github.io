@@ -266,101 +266,132 @@ $$
 dx_t = \big[f(x_t,t) - \tfrac12 g(t)^2 \nabla_x \log p_t(x_t)\big] dt
 $$
 
+
 ## 5. Time Reversal and the Reverse SDE (Murphy 25.49)
 
-Starting from the forward SDE, a “time-reversed” SDE exists whose drift has an extra score correction.
+我们从 forward Itô SDE 出发，通过 Fokker–Planck（概率密度演化）与 time reversal（概率流翻转）推导 reverse SDE 的漂移项为何出现 score 修正。
 
-### 5.1 Forward SDE and Marginal
+### 5.1 Forward SDE and Fokker–Planck
 
-Forward Itô SDE
-
-$$
-dx_t = f(x_t,t) dt + g(t) d\omega,
-\qquad t \in [0,T].
-$$
-
-Let the marginal density be
+考虑 d 维 forward Itô SDE（Murphy 的设定里常取各向同性扩散）：
 
 $$
-X_t \sim q_t(x), \qquad \text{i.e. } q_t(x) = \text{Prob}(X_t \in dx).
+dX_t = f(X_t,t)dt + g(t)dW_t,\qquad t\in[0,T],
 $$
 
-### 5.2 Define the Reverse-Time Process
+其中 $W_t$ 为标准 Wiener 过程，$g(t)$ 为标量（或 $g(t)I$）。
 
-Intuition: reverse time is the same path seen backwards.
+令边缘密度为 $q_t(x)$。
 
-Define
-
-$$
-Y_\tau := X_{T - \tau}, \qquad \tau \in [0,T].
-$$
-
-- $\tau = 0$: $Y_0 = X_T$
-- $\tau = T$: $Y_T = X_0$
-
-So $Y_\tau$ is $X_t$ with time flipped. We want an SDE for $Y_\tau$ whose marginal at $\tau$ equals $q_{T-\tau}$.
-
-Below we still write $t$ for “reverse-time” parameter; just remember forward runs $0\to T$, reverse runs $T\to 0$ on the same axis.
-
-### 5.3 Discrete-Time Intuition
-
-Think of a discrete chain with step $\Delta t$:
+对应的正向 Fokker–Planck 方程为
 
 $$
-X_{k+1} \sim p(x_{k+1} \mid x_k), \qquad k = 0,1,\dots,N-1,
+\partial_t q_t(x) = -\nabla\cdot\big(f(x,t)q_t(x)\big) + \frac12 g(t)^2\Delta q_t(x).
 $$
 
-with marginals $q_k(x)$. Forward evolution:
+为了写成“守恒形式”，定义 probability current（概率流）
 
 $$
-q_{k+1}(x') = \int p(x' \mid x) q_k(x) dx.
+J_t(x) := f(x,t)q_t(x) - \frac12 g(t)^2 \nabla q_t(x),
 $$
 
-Reversing (sample $X_{k+1}$ then generate $X_k$) via Bayes gives the reverse kernel:
+则 FP 可写为连续方程
 
 $$
-\tilde{p}(x \mid x') = \text{Prob}(X_k = x \mid X_{k+1} = x') = \frac{p(x' \mid x) q_k(x)}{q_{k+1}(x')}.
+\partial_t q_t(x) + \nabla\cdot J_t(x) = 0.
 $$
 
-The reverse kernel depends on forward kernel **and** marginals $q_k,q_{k+1}$ — this is why $\nabla_x \log q_t(x)$ (the score) appears in the continuous limit: marginals enter the reverse dynamics.
+### 5.2 Reverse-Time Parameterization
 
-### 5.4 Anderson’s Continuous-Time Result
-
-In the limit, Anderson’s theorem states:
-
-If $X_t$ follows forward SDE
- 
-$$
-  dx_t = f(x_t,t) dt + g(t) d\omega, \qquad t \in [0,T],
-$$
- 
- with marginals $q_t(x)$. Define the reverse process $Y_\tau = X_{T-\tau}$; then $Y_t$ satisfies an Itô SDE
- 
- $$
-  dx_t = \big[ f(x,t) - g(t)^2 \nabla_x \log q_t(x) \big] dt + g(t) d\omega,
- $$
- 
-where $W_t$ is the reverse-time Wiener process.
-
-So the reverse SDE shares the diffusion $g(t)$ but its drift gains a score term $ -g(t)^2 \nabla_x \log q_t(x) $. This is Murphy Eq. (25.49).
-
-### 5.5 Approximate the Score with a Network
-
-In practice we don’t know $q_t(x)$, nor its score
+定义反向时间参数
 
 $$
-\nabla_x \log q_t(x).
+\tau := T-t,\qquad Y_\tau := X_{T-\tau}.
 $$
 
-Introduce a neural net $s_\theta(x,t)$ to approximate the score:
+于是 $\tau$ 从 $0\to T$ 对应原来的 $t$ 从 $T\to 0$。
+
+反向过程的边缘密度为
 
 $$
-s_\theta(x,t) \approx \nabla_x \log q_t(x).
+\rho_\tau(x) := \text{law}(Y_\tau) = q_{T-\tau}(x).
 $$
 
-Then the practical reverse SDE replaces the true score by $s_\theta$.
+### 5.3 Key Fact: Time Reversal Flips the Probability Current
 
----
+“同一条样本路径反着看”意味着：在反向时间参数 $\tau$ 下，质量守恒仍成立
+
+$$
+\partial_\tau \rho_\tau(x) + \nabla\cdot \tilde{J}_\tau(x) = 0,
+$$
+
+并且反向的概率流满足
+
+$$
+\tilde{J}_\tau(x) = -J_{T-\tau}(x).
+$$
+
+直觉：forward 时概率质量按 $J$ 的方向流动；把时间倒放后，质量流动方向反过来，所以 $J$ 取负号。
+
+### 5.4 Identify the Reverse Drift
+
+另一方面，如果 $Y_\tau$ 也满足某个 Itô SDE
+
+$$
+dY_\tau = \tilde{f}(Y_\tau,\tau)d\tau + g(T-\tau)d\bar{W}_\tau,
+$$
+
+则它对应的概率流为（同样来自 FP 的守恒形式）
+
+$$
+\tilde{J}_\tau(x) = \tilde{f}(x,\tau)\rho_\tau(x) - \frac12 g(T-\tau)^2 \nabla \rho_\tau(x).
+$$
+
+把 $\rho_\tau(x)=q_{T-\tau}(x)$ 与 $\tilde{J}_\tau(x)=-J_{T-\tau}(x)$ 代入，得到
+
+$$
+\tilde{f}(x,\tau)q_{T-\tau}(x) - \frac12 g(T-\tau)^2 \nabla q_{T-\tau}(x) = -\Big(f(x,T-\tau)q_{T-\tau}(x) - \frac12 g(T-\tau)^2 \nabla q_{T-\tau}(x)\Big).  $$
+
+整理：
+
+$$
+\tilde{f}(x,\tau)q_{T-\tau}(x) = - f(x,T-\tau)q_{T-\tau}(x) + g(T-\tau)^2 \nabla q_{T-\tau}(x).
+$$
+
+两边除以 $q_{T-\tau}(x)$：
+
+$$
+\tilde{f}(x,\tau) = - f(x,T-\tau) + g(T-\tau)^2 \nabla \log q_{T-\tau}(x).
+$$
+
+因此反向参数 $\tau$ 下的 reverse SDE 为
+
+$$
+dY_\tau = \Big[- f(Y_\tau,T-\tau) + g(T-\tau)^2 \nabla_y \log q_{T-\tau}(Y_\tau)\Big]d\tau + g(T-\tau)d\bar{W}_\tau.
+$$
+
+### 5.5 Convert Back to “Backward-in-t” Notation (Murphy 25.49)
+
+很多文献（包括 Murphy）喜欢仍用同一个时间轴 $t$，但把积分方向改为从 $T$ 往 $0$ 走。
+在这种记法下，reverse SDE 常写成：
+
+$$
+dX_t = \big[f(X_t,t) - g(t)^2 \nabla_x \log q_t(X_t)\big]dt + g(t)d\bar{W}_t, \qquad t: T\to 1.
+$$
+
+注意：这里的 $dt$ 是沿“从 $T$ 到 $0$ 的方向”前进的时间增量，所以它与上面 $\tau$-参数化的形式完全一致，只是符号约定不同。
+
+### 5.6 Approximate the Score
+
+实际中 $q_t$ 未知，用网络近似 score：
+
+$$
+s_\theta(x,t) \approx \nabla_x \log q_t(x),
+$$
+
+并用 $s_\theta$ 代替真实 score 在 reverse SDE 中进行采样。
+
+
 
 ## 6. Apply to DDPM (25.50, 25.52, 25.53)
 
