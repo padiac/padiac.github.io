@@ -10,65 +10,101 @@
   - 常用形式：$dx_t = -\tfrac12 \beta(t) x_t dt + \beta(t) d\omega$，即 $g(t)=\beta(t)$（本笔记内部保持这一版）。
 - Kramers-Moyal 采用 $\Delta = x - y$（新位置减旧位置），保证 FP 一阶项符号为 $- \partial_x [A_1 p]$。
 
-## 1. CK -> Kramers-Moyal 展开
 
-### 1.1 Chapman-Kolmogorov 方程
+## 1. CK -> Kramers–Moyal 展开（weak / $\phi$ 方法）
 
-转移核 $T(x,t+\Delta t \mid y,t)$，CK：
+### 1.1 Chapman–Kolmogorov 方程
+
+转移核 $T(x,t+\Delta t \mid y,t)$，Chapman–Kolmogorov 方程为
 
 $$
 p(x,t+\Delta t) = \int_{R} T(x,t+\Delta t \mid y,t) p(y,t) dy
 $$
 
-### 1.2 换元：$\Delta = x - y$
+### 1.2 乘测试函数并交换积分
 
-令 $\Delta = x-y \Leftrightarrow y = x-\Delta$ 且 $dy = - d\Delta$，端点翻转去掉负号，得到
-
-$$
-p(x,t+\Delta t) = \int_{R} T(x,t+\Delta t \mid x-\Delta,t) p(x-\Delta,t) d\Delta
-$$
-
-### 1.3 在 $x$ 处做泰勒展开
-
-定义 $F(x,t;\Delta) := T(x,t+\Delta t \mid x-\Delta,t) p(x-\Delta,t)$。固定 $\Delta$，对 $x$ 展开：
+取任意光滑且紧支撑的测试函数 $\phi(x)$，两边同乘 $\phi(x)$ 并对 $x$ 积分：
 
 $$
-F(x,t;\Delta) = \sum_{n=0}^{\infty} \frac{(-\Delta)^n}{n!} \partial_x^n \big[T(x,t+\Delta t \mid x,t) p(x,t)\big]
-$$
+\int_{R} \phi(x) p(x,t+\Delta t) dx = \int_{R} \phi(x) \int_{R} T(x,t+\Delta t \mid y,t) p(y,t) dy  dx $$
 
-代回积分，使用 $(-\Delta)^n = (-1)^n \Delta^n$：
-
-$$
-p(x,t+\Delta t) = \sum_{n=0}^{\infty} \frac{(-1)^n}{n!} \partial_x^n \left[p(x,t)\int \Delta^n T(x,t+\Delta t \mid x,t) d\Delta\right]
-$$
-
-### 1.4 定义 $M_n$ 与 $A_n$
-
-$M_n(x,t;\Delta t) := \int \Delta^n T(x,t+\Delta t \mid x,t) d\Delta = E[(\Delta X)^n \mid X_t=x]$，于是
+交换积分次序，得到
 
 $$
-p(x,t+\Delta t) = \sum_{n=0}^{\infty} \frac{(-1)^n}{n!} \partial_x^n [M_n(x,t;\Delta t) p(x,t)]
+\int_{R} \phi(x) p(x,t+\Delta t) dx = \int_{R} p(y,t) \left[ \int_{R} \phi(x) T(x,t+\Delta t \mid y,t) dx \right] dy
 $$
 
-用 $M_0=1$ 消去常数项并除以 $\Delta t$，定义
+### 1.3 在 $y$ 处对 $\phi$ 做泰勒展开
+
+定义增量 $\Delta := x-y$，即 $x=y+\Delta$。对固定 $y$，将 $\phi(x)=\phi(y+\Delta)$ 在 $y$ 处展开：
 
 $$
-A_n(x,t) := \lim_{\Delta t \to 0} \frac{M_n(x,t;\Delta t)}{\Delta t} = \lim_{\Delta t \to 0} \frac{1}{\Delta t} E[(\Delta X)^n \mid X_t=x]
+\phi(y+\Delta) = \sum_{n=0}^{\infty} \frac{\Delta^n}{n!} \phi^{(n)}(y)
 $$
 
-得到一维 Kramers-Moyal：
+代入内层积分并交换求和与积分：
 
 $$
-\partial_t p(x,t) = \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \partial_x^n [A_n(x,t) p(x,t)]
+\int_{R} \phi(x) T(x,t+\Delta t \mid y,t) dx = \sum_{n=0}^{\infty} \frac{\phi^{(n)}(y)}{n!} \int_{R} (x-y)^n T(x,t+\Delta t \mid y,t) dx
 $$
 
-### 1.5 扩散缩放假设 -> 截到二阶得 FP
+### 1.4 定义条件矩 $m_n$ 并得到守恒形式
 
-若 $E[\Delta X]=O(\Delta t)$，$E[(\Delta X)^2]=O(\Delta t)$，且 $E[(\Delta X)^n]=O((\Delta t)^{n/2})$（$n\ge3$），则 $A_1,A_2$ 有限且 $A_{n\ge3}=0$，剩
+定义条件矩（对终点变量积分）：
 
 $$
-\partial_t p(x,t) = -\partial_x[A_1 p] + \tfrac12 \partial_x^2[A_2 p]
+m_n(y,t;\Delta t) := \int_{R} (x-y)^n T(x,t+\Delta t \mid y,t) dx
 $$
+
+于是上式可写为
+
+$$
+\int_{R} \phi(x) p(x,t+\Delta t) dx = \sum_{n=0}^{\infty} \frac{1}{n!} \int_{R} p(y,t) m_n(y,t;\Delta t) \phi^{(n)}(y) dy
+$$
+
+对右端做 $n$ 次分部积分（假设边界项为零）：
+
+$$
+\int_{R} p(y,t) m_n(y,t;\Delta t) \phi^{(n)}(y) dy = (-1)^n \int_{R} \phi(y) \partial_y^n [ m_n(y,t;\Delta t) p(y,t) ] dy
+$$
+
+代回并利用 $\phi$ 的任意性，得到强形式：
+
+$$
+p(x,t+\Delta t) = \sum_{n=0}^{\infty} \frac{(-1)^n}{n!} \partial_x^n [ m_n(x,t;\Delta t) p(x,t) ]
+$$
+
+注意 $m_0(x,t;\Delta t)=1$，因此减去零阶项并除以 $\Delta t$，定义
+
+$$
+A_n(x,t) := \lim_{\Delta t\to 0} \frac{m_n(x,t;\Delta t)}{\Delta t} = \lim_{\Delta t\to 0} \frac{1}{\Delta t} E[(\Delta X)^n \mid X_t=x]
+$$
+
+得到一维 Kramers–Moyal 展开：
+
+$$
+\partial_t p(x,t) = \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \partial_x^n [ A_n(x,t) p(x,t) ]
+$$
+
+### 1.5 扩散缩放假设 -> 截到二阶得 Fokker–Planck
+
+若满足扩散缩放假设
+
+- $E[\Delta X]=O(\Delta t)$，
+- $E[(\Delta X)^2]=O(\Delta t)$，
+- $E[(\Delta X)^n]=O((\Delta t)^{n/2})$，$n\ge 3$，
+
+则 $A_1,A_2$ 有限且 $A_{n\ge3}=0$，Kramers–Moyal 展开截断为
+
+$$
+\partial_t p(x,t) = -\partial_x [ A_1(x,t) p(x,t) ] + \frac12 \partial_x^2 [ A_2(x,t) p(x,t) ]
+$$
+
+即得到一维 Fokker–Planck 方程。
+
+
+
+
 
 ## 2. Fokker-Planck 与 Itô SDE
 
