@@ -10,65 +10,96 @@ This note walks through the chain in Probabilistic Machine Learning ch.26: **CK 
   - Common form: $dx_t = -\tfrac12 \beta(t) x_t dt + \beta(t) d\omega$, i.e. $g(t)=\beta(t)$ (used below).
 - In Kramers–Moyal use $\Delta = x - y$ (new position minus old) so the FP first-order sign is $- \partial_x [A_1 p]$.
 
-## 1. CK → Kramers–Moyal Expansion
+## 1. CK -> Kramers-Moyal Expansion (weak / $\phi$ method)
 
-### 1.1 Chapman–Kolmogorov Equation
+### 1.1 Chapman-Kolmogorov Equation
 
-Transition kernel $T(x,t+\Delta t \mid y,t)$, CK:
+Transition kernel $T(x,t+\Delta t \mid y,t)$, Chapman-Kolmogorov:
 
 $$
 p(x,t+\Delta t) = \int_{R} T(x,t+\Delta t \mid y,t) p(y,t) dy
 $$
 
-### 1.2 Change of Variables: $\Delta = x - y$
+### 1.2 Multiply by a Test Function and Swap Integrals
 
-With $\Delta = x-y \Leftrightarrow y = x-\Delta$ and $dy = - d\Delta$ (flip limits to drop the minus):
-
-$$
-p(x,t+\Delta t) = \int_{R} T(x,t+\Delta t \mid x-\Delta,t) p(x-\Delta,t) d\Delta
-$$
-
-### 1.3 Taylor Expand at $x$
-
-Define $F(x,t;\Delta) := T(x,t+\Delta t \mid x-\Delta,t) p(x-\Delta,t)$. Fix $\Delta$, expand w.r.t. $x$:
+Take any smooth, compactly supported test function $\phi(x)$. Multiply both sides by $\phi(x)$ and integrate over $x$:
 
 $$
-F(x,t;\Delta) = \sum_{n=0}^{\infty} \frac{(-\Delta)^n}{n!} \partial_x^n \big[T(x,t+\Delta t \mid x,t) p(x,t)\big]
-$$
+\int_{R} \phi(x) p(x,t+\Delta t) dx = \int_{R} \phi(x) \int_{R} T(x,t+\Delta t \mid y,t) p(y,t) dy  dx $$
 
-Plug back, using $(-\Delta)^n = (-1)^n \Delta^n$:
-
-$$
-p(x,t+\Delta t) = \sum_{n=0}^{\infty} \frac{(-1)^n}{n!} \partial_x^n \left[p(x,t)\int \Delta^n T(x,t+\Delta t \mid x,t) d\Delta\right]
-$$
-
-### 1.4 Define $M_n$ and $A_n$
-
-$M_n(x,t;\Delta t) := \int \Delta^n T(x,t+\Delta t \mid x,t) d\Delta = E[(\Delta X)^n \mid X_t=x]$, so
+Swap the order of integration to get:
 
 $$
-p(x,t+\Delta t) = \sum_{n=0}^{\infty} \frac{(-1)^n}{n!} \partial_x^n [M_n(x,t;\Delta t) p(x,t)]
+\int_{R} \phi(x) p(x,t+\Delta t) dx = \int_{R} p(y,t) \left[ \int_{R} \phi(x) T(x,t+\Delta t \mid y,t) dx \right] dy
 $$
 
-Set $M_0=1$, drop the constant, divide by $\Delta t$, define
+### 1.3 Taylor Expand $\phi$ at $y$
+
+Define the increment $\Delta := x-y$, i.e. $x=y+\Delta$. For fixed $y$, expand $\phi(x)=\phi(y+\Delta)$ around $y$:
 
 $$
-A_n(x,t) := \lim_{\Delta t \to 0} \frac{M_n(x,t;\Delta t)}{\Delta t} = \lim_{\Delta t \to 0} \frac{1}{\Delta t} E[(\Delta X)^n \mid X_t=x]
+\phi(y+\Delta) = \sum_{n=0}^{\infty} \frac{\Delta^n}{n!} \phi^{(n)}(y)
 $$
 
-Then the Kramers–Moyal series:
+Substitute into the inner integral and interchange summation and integration:
 
 $$
-\partial_t p(x,t) = \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \partial_x^n [A_n(x,t) p(x,t)]
+\int_{R} \phi(x) T(x,t+\Delta t \mid y,t) dx = \sum_{n=0}^{\infty} \frac{\phi^{(n)}(y)}{n!} \int_{R} (x-y)^n T(x,t+\Delta t \mid y,t) dx
 $$
 
-### 1.5 Diffusion-Scaling Assumption → Truncate to 2nd Order → FP
+### 1.4 Define Conditional Moments $m_n$ and Obtain the Conservative Form
 
-If $E[\Delta X]=O(\Delta t)$, $E[(\Delta X)^2]=O(\Delta t)$, and $E[(\Delta X)^n]=O((\Delta t)^{n/2})$ for $n\ge3$, then $A_1,A_2$ finite and $A_{n\ge3}=0$, leaving
+Define the conditional moments (integrating over the endpoint variable):
 
 $$
-\partial_t p(x,t) = -\partial_x[A_1 p] + \tfrac12 \partial_x^2[A_2 p]
+m_n(y,t;\Delta t) := \int_{R} (x-y)^n T(x,t+\Delta t \mid y,t) dx
 $$
+
+Then the above can be written as:
+
+$$
+\int_{R} \phi(x) p(x,t+\Delta t) dx = \sum_{n=0}^{\infty} \frac{1}{n!} \int_{R} p(y,t) m_n(y,t;\Delta t) \phi^{(n)}(y) dy
+$$
+
+Integrate by parts $n$ times on the RHS (assuming boundary terms vanish):
+
+$$
+\int_{R} p(y,t) m_n(y,t;\Delta t) \phi^{(n)}(y) dy = (-1)^n \int_{R} \phi(y) \partial_y^n [ m_n(y,t;\Delta t) p(y,t) ] dy
+$$
+
+Substitute back and use the arbitrariness of $\phi$ to get the strong form:
+
+$$
+p(x,t+\Delta t) = \sum_{n=0}^{\infty} \frac{(-1)^n}{n!} \partial_x^n [ m_n(x,t;\Delta t) p(x,t) ]
+$$
+
+Note that $m_0(x,t;\Delta t)=1$. Drop the zeroth-order term and divide by $\Delta t$. Define:
+
+$$
+A_n(x,t) := \lim_{\Delta t\to 0} \frac{m_n(x,t;\Delta t)}{\Delta t} = \lim_{\Delta t\to 0} \frac{1}{\Delta t} E[(\Delta X)^n \mid X_t=x]
+$$
+
+This yields the 1D Kramers-Moyal expansion:
+
+$$
+\partial_t p(x,t) = \sum_{n=1}^{\infty} \frac{(-1)^n}{n!} \partial_x^n [ A_n(x,t) p(x,t) ]
+$$
+
+### 1.5 Diffusion-Scaling Assumption -> Truncate to 2nd Order -> Fokker-Planck
+
+If the diffusion scaling assumption holds:
+
+- $E[\Delta X]=O(\Delta t)$,
+- $E[(\Delta X)^2]=O(\Delta t)$,
+- $E[(\Delta X)^n]=O((\Delta t)^{n/2})$, $n\ge 3$,
+
+then $A_1,A_2$ are finite and $A_{n\ge3}=0$, so the Kramers-Moyal expansion truncates to:
+
+$$
+\partial_t p(x,t) = -\partial_x [ A_1(x,t) p(x,t) ] + \frac12 \partial_x^2 [ A_2(x,t) p(x,t) ]
+$$
+
+i.e. the 1D Fokker-Planck equation.
 
 ## 2. Fokker–Planck and Itô SDE
 

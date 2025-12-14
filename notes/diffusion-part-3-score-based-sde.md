@@ -515,7 +515,7 @@ $$
 根据 Itô SDE 与 FP 的对应关系，对应的 FP 方程是
 
 $$
-- \partial_t p_t(x) =  \nabla_x \cdot \big( \tilde{f}(x,t) p_t(x) \big) + \frac{1}{2} g(t)^2 \Delta_x p_t(x).
+\partial_t p_t(x) = - \nabla_x \cdot \big( \tilde{f}(x,t) p_t(x) \big) - \frac{1}{2} g(t)^2 \Delta_x p_t(x).
 $$
 
 这里第一项是正的，因为我们用的是负向FP方程，把 $\tilde{f}$ 展开：
