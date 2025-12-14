@@ -475,7 +475,7 @@ Write abstractly:
 Forward FP for this reverse SDE (note sign flip):
 
 $$
-- \partial_t p_t(x) =  \nabla_x \cdot \big( \tilde{f}(x,t) p_t(x) \big) + \frac{1}{2} g(t)^2 \Delta_x p_t(x).
+\partial_t p_t(x) =  - \nabla_x \cdot \big( \tilde{f}(x,t) p_t(x) \big) - \frac{1}{2} g(t)^2 \Delta_x p_t(x).
 $$
 
 So
