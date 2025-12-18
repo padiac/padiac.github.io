@@ -327,6 +327,13 @@
     date: '2025-12-13T20:15:20.7027312Z',
     category: 'Diffusion',
     summary: 'Scope: this note only addresses \u2207log p(x\u209C) (the score at noise level t) and shows how Tweedie links the score to the posterior mean, making DDPM denoising and score learning equivalent.'
+  },
+  {
+    slug: 'statistics-continuous-time-flow-notes-physical-notation-version',
+    title: 'Statistics - Continuous-Time Flow Notes (Physical Notation Version)',
+    date: '2025-12-18T09:20:39Z',
+    category: 'Statistics',
+    summary: 'Unified, fully expanded notes using physical notation. Eulerian vs Lagrangian viewpoints are explicitly separated.'
   }
 
 ];
