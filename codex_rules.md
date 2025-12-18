@@ -85,6 +85,7 @@ The user will not provide any parameters beyond the pasted Markdown block.
    - **Statistics**: variance, estimator, MVUE, MLE, likelihood, hypothesis, distribution, t-distribution, chi-square, F distribution, probability, CLT, Bayes, posterior, prior.
    - **Machine Learning**: regression, SVM, CNN, RNN, YOLO, training, gradient, loss, overfitting, cross-validation, dataset, feature, sklearn, PyTorch, TensorFlow, metric.
    - **LLM**: LLM, transformer, attention, tokenizer, prompt, embedding, RAG, vector DB, LangChain, agent, OpenAI, inference.
+   - **Flow Matching**: flow matching, rectified flow, probability flow ODE, continuous normalizing flow, CNF, neural ODE, continuity equation, Liouville, instantaneous change of variables, ICOV.
 4. Choose the category with the **highest match count among existing categories**.
 5. If no keywords match any existing category, use `"Misc"`. If `"Misc"` does not exist, add it when updating `posts-data.js`.
 6. If `@category:` is present but not in existing categories, still accept it and add that category to `posts-data.js`.
