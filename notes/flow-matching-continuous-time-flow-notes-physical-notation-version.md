@@ -37,8 +37,7 @@ Trajectories are defined by the ODE:
 
 $$\frac{dx(t)}{dt} = u(x(t),t).$$
 
-This is a standard dynamical system.
-If $u(x,t)$ is locally Lipschitz in $x$, then for any initial condition $x(0)$, the solution exists and is unique.
+This is a standard dynamical system. If $u(x,t)$ is locally Lipschitz in $x$, then for any initial condition $x(0)$, the solution exists and is unique.
 
 At this stage, **no probability is involved**.
 
@@ -90,11 +89,96 @@ This is the **continuity (Liouville) equation**.
 
 ---
 
+## 3.5 Physical Interpretation: Control Volumes and Characteristic Transport
+
+This section explains why and how $x(t)$ arises naturally from the Eulerian continuity equation, without introducing additional physical assumptions.
+
+### 3.5.1 Origin of the Velocity Field
+
+The velocity field $u(x,t)$ appears before any trajectory $x(t)$ is introduced.
+It is defined through the local flux representation:
+
+$$j(x,t) = p(x,t)u(x,t),$$
+
+where $j(x,t)$ is the probability (or mass) flux.
+
+This definition follows from the control-volume argument:
+- Space is partitioned into small fixed cells (e.g., small cubes).
+- The change of density inside a cell equals the net flux through its faces.
+- Writing this balance locally requires introducing a flux direction and speed.
+
+Accordingly, for points where $p(x,t) > 0$, define:
+
+$$u(x,t) := \frac{j(x,t)}{p(x,t)}.$$
+
+At this stage:
+- The spatial grid is fixed.
+- $x$ is a label, not a dynamical variable.
+- No trajectory $x(t)$ has been assumed.
+
+---
+
+### 3.5.2 Discrete Transport Picture
+
+Discretize space into small cells and time into short intervals $\Delta t$.
+
+During $\Delta t$:
+- A marked portion of material inside one cell is transported across a face into a neighboring cell.
+- That neighboring cell then transports it further, and so on.
+
+Schematically, the marked portion moves:
+
+$$\text{cell A} \to \text{cell B} \to \text{cell C} \to \cdots.$$
+
+The cells themselves do not move; only the marked portion is transported across the fixed grid. This is a purely Eulerian transport picture.
+
+---
+
+### 3.5.3 Continuous Limit and Emergence of Characteristics
+
+Taking the limit $\Delta x \to 0$ and $\Delta t \to 0$, the discrete sequence of cell-to-cell transport converges to a continuous curve.
+
+To analyze the PDE solution structure, consider the chain rule:
+
+$$\frac{d}{dt} p(x(t),t) = \partial_{t} p(x(t),t) + \dot{x}(t) \cdot \nabla p(x(t),t).$$
+
+Using the continuity equation expanded as:
+
+$$\partial_{t} p(x,t) = -u(x,t) \cdot \nabla p(x,t) - p(x,t)\nabla \cdot u(x,t),$$
+
+we obtain:
+
+$$\frac{d}{dt} p(x(t),t) = (\dot{x}(t) - u(x(t),t)) \cdot \nabla p(x(t),t) - p(x(t),t)\nabla \cdot u(x(t),t).$$
+
+There is a unique choice that eliminates the transport term $\nabla p(x(t),t)$:
+
+$$\dot{x}(t) = u(x(t),t).$$
+
+This condition is not a physical postulate; it is the algebraic condition required to reduce a first-order conservation PDE to an ODE along curves.
+
+---
+
+### 3.5.4 Physical Meaning of the Characteristic Curve
+
+The characteristic curve $x(t)$:
+
+- is not a particle trajectory;
+- does not represent fundamental degrees of freedom;
+- represents the path along which a marked portion of density is transported across the fixed spatial grid.
+
+Along this curve, density changes arise solely from local compression or expansion (through $\nabla \cdot u$), not from transverse transport.
+
+Hence:
+
+**The characteristic curve is the continuous-limit transport path of a marked density element across fixed control volumes.**
+
+---
+
 ## 4. Two Types of Time Derivatives
 
 ### 4.1 Eulerian Derivative
 
-$$\frac{\partial}{\partial t} p(x,t).$$
+$${\partial_{t}} p(x,t).$$
 
 Meaning:
 > Density change at a fixed spatial location.
@@ -109,11 +193,11 @@ $$t \mapsto p(x(t),t).$$
 
 By the chain rule:
 
-$$\frac{d}{dt} p(x(t),t) = \frac{\partial}{\partial t} p(x(t),t) + \nabla p(x(t),t) \cdot \frac{dx(t)}{dt}.$$
+$$\frac{d}{dt} p(x(t),t) = \partial_{t} p(x(t),t) + \nabla p(x(t),t) \cdot \dot{x}(t).$$
 
-Using $\dot{x}(t)=u(x(t),t)$:
+Using $\dot{x}(t) = u(x(t),t)$:
 
-$$\frac{d}{dt} p(x(t),t) = \frac{\partial}{\partial t} p(x(t),t) + \nabla p(x(t),t) \cdot u(x(t),t).$$
+$$\frac{d}{dt} p(x(t),t) = \partial_{t} p(x(t),t) + \nabla p(x(t),t) \cdot u(x(t),t).$$
 
 ---
 
@@ -125,7 +209,7 @@ $$\nabla \cdot (p(x,t)u(x,t)) = (\nabla p(x,t)) \cdot u(x,t) + p(x,t)(\nabla \cd
 
 The continuity equation becomes:
 
-$$\frac{\partial}{\partial t} p(x,t) = -(\nabla p(x,t)) \cdot u(x,t) - p(x,t)(\nabla \cdot u(x,t)).$$
+$$\partial_{t} p(x,t) = -(\nabla p(x,t)) \cdot u(x,t) - p(x,t)(\nabla \cdot u(x,t)).$$
 
 Substitute $x=x(t)$ and insert into the Lagrangian derivative:
 

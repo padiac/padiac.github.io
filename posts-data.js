@@ -331,9 +331,9 @@
   {
     slug: 'flow-matching-continuous-time-flow-notes-physical-notation-version',
     title: 'Flow Matching - Continuous-Time Flow Notes (Physical Notation Version)',
-    date: '2025-12-18T09:20:39Z',
+    date: '2025-12-19T03:19:12Z',
     category: 'Flow Matching',
-    summary: 'Unified, fully expanded notes using physical notation. Eulerian vs Lagrangian viewpoints are explicitly separated.'
+    summary: 'Formal notes on the continuity equation, characteristic transport, ICOV, and Hutchinson divergence estimation in physical notation.'
   }
 
 ];
