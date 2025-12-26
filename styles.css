@@ -86,6 +86,7 @@ a:focus {
 
 .site-nav a {
   color: var(--color-muted);
+  white-space: nowrap;
 }
 
 .site-nav a:hover,
