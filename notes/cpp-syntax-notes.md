@@ -1,4 +1,4 @@
-> 用途：刷 LeetCode 时，记录容易忘或和直觉不一致的 C++ 语法点  
+> 用途：刷题时，记录容易忘或和直觉不一致的 C++ 语法点  
 > 原则：只记用法 + 关键差异，不写长解释
 
 ---
@@ -8,7 +8,7 @@
 ListNode* node = new ListNode(5);
 ```
 - `new` 返回对象地址（指针）
-- LeetCode 中通常不需要手动 `delete`
+- 刷题平台通常不需要手动 `delete`
 
 ---
 
@@ -60,7 +60,7 @@ INT_MAX;
 
 ## 7. string::starts_with（C++20）
 ```cpp
-s.starts_with("leet");
+s.starts_with("prefix");
 ```
 
 ---
@@ -183,5 +183,12 @@ for (int x : nums) {
 return pq.top();
 ```
 
----
+lambda 比较器写法：
+```cpp
+auto comp = [](vector<int>& a, vector<int>& b) {
+    return a[0] * a[0] + a[1] * a[1] < b[0] * b[0] + b[1] * b[1];
+};
+priority_queue<vector<int>, vector<vector<int>>, decltype(comp)> pq;
+```
 
+---
