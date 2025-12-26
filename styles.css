@@ -194,6 +194,9 @@ p {
 
 .notes-cta {
   margin: 16px 0 32px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
 }
 
 .notes-button {

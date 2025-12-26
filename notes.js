@@ -191,21 +191,36 @@ function renderPagination(total, page) {
 (function initNotes() {
   const tabs = document.querySelectorAll('.tab');
   const all = loadPosts();
+  const tabCategories = Array.from(tabs).map((tab) => tab.dataset.category);
+  const defaultCategory = document.body.dataset.defaultCategory;
   let currentCategory = 'all';
+  if (defaultCategory && tabCategories.includes(defaultCategory)) {
+    currentCategory = defaultCategory;
+  } else if (!tabCategories.includes(currentCategory) && tabCategories.length) {
+    currentCategory = tabCategories[0];
+  }
   let currentPage = 1;
 
   function filtered() {
     return currentCategory === 'all' ? all : all.filter((p) => p.category === currentCategory);
   }
 
+  function syncTabs(category) {
+    tabs.forEach((btn) => {
+      const isActive = btn.dataset.category === category;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+  }
+
+  syncTabs(currentCategory);
   renderPosts(filtered(), currentPage);
 
   tabs.forEach((btn) => {
     btn.addEventListener('click', () => {
-      tabs.forEach((b) => b.classList.remove('active'));
-      btn.classList.add('active');
       currentCategory = btn.dataset.category;
       currentPage = 1;
+      syncTabs(currentCategory);
       renderPosts(filtered(), currentPage);
     });
   });

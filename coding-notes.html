@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Coding Notes - Xingfu Du</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body data-default-category="Coding">
+  <div class="wrapper-masthead">
+    <div class="container">
+      <header class="masthead">
+        <div class="site-info">
+          <h1 class="site-name"><a href="index.html">Xingfu Du</a></h1>
+          <p class="site-tagline">Coding Notes</p>
+          <p class="site-meta">C++ / Algorithms / Systems / Tooling</p>
+        </div>
+        <nav class="site-nav">
+          <a href="index.html" aria-label="Home">Home</a>
+          <a href="notes.html" aria-label="Notes">All Notes</a>
+        </nav>
+      </header>
+    </div>
+  </div>
+
+  <main id="main" class="container">
+    <article class="page">
+      <h1>Coding Notes</h1>
+      <div class="tabs" role="tablist">
+        <button class="tab active" data-category="Coding" role="tab" aria-selected="true">Coding</button>
+      </div>
+
+      <div id="posts" class="post-grid" aria-live="polite"></div>
+
+      <div class="pagination" id="pagination" aria-label="Pagination"></div>
+    </article>
+  </main>
+
+  <footer class="footer">
+    <div class="container">
+      <small>© <span id="year"></span> Xingfu Du</small>
+    </div>
+  </footer>
+
+  <script defer src="script.js"></script>
+  <script defer src="posts-data.js"></script>
+  <script defer src="notes.js"></script>
+</body>
+</html>

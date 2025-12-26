@@ -1,5 +1,13 @@
 ﻿window.POSTS = [
   {
+    slug: 'cpp-syntax-leetcode-notes',
+    title: 'C++ ??????LeetCode ?????',
+    date: '2025-12-26T06:29:23Z',
+    category: 'Coding',
+    summary: 'LeetCode ???? C++ ??????new?unordered_set??? vector ?????'
+  },
+
+  {
     slug: 'machine-learning-1d-yolo-baseline-aggregation',
     title: 'Machine Learning - 1D YOLO Baseline Aggregation Detector',
     date: '2025-10-18T12:26:28Z',
