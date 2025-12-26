@@ -1,5 +1,3 @@
-# C++ 语法备忘录（LeetCode 刷题随记）
-
 > 用途：刷 LeetCode 时，记录容易忘或和直觉不一致的 C++ 语法点  
 > 原则：只记用法 + 关键差异，不写长解释
 
@@ -158,6 +156,31 @@ isdigit(c);
 isalnum(c);
 tolower(c);
 toupper(c);
+```
+
+---
+
+## 18. priority_queue + comparator（最小堆 / 最大堆）
+```cpp
+priority_queue<int> pq; // 默认：最大堆
+
+priority_queue<int, vector<int>, greater<int>> minHeap; // 最小堆
+```
+- `priority_queue<T, Container, Comparator>` 是模板参数列表
+- 第一个参数：元素类型
+- 第二个参数：底层容器类型（通常是 `vector<T>`）
+- 第三个参数：**比较器（comparator）**，决定堆的顺序
+- `greater<int>` 表示“小的优先”（最小堆）
+- 默认比较器是 `less<T>`（最大的在 top）
+
+常见用法（Top K 问题）：
+```cpp
+priority_queue<int, vector<int>, greater<int>> pq;
+for (int x : nums) {
+    pq.push(x);
+    if (pq.size() > k) pq.pop();
+}
+return pq.top();
 ```
 
 ---

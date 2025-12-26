@@ -195,7 +195,14 @@ function renderPagination(total, page) {
   const tabCategories = Array.from(tabs)
     .map((tab) => tab.dataset.category)
     .filter(Boolean);
-  const allowedCategories = tabCategories.filter((category) => category !== 'all');
+  const allowedCategories = (document.body.dataset.allowedCategories || '')
+    .split(',')
+    .map((category) => category.trim())
+    .filter(Boolean);
+  const tabAllowedCategories = tabCategories.filter((category) => category !== 'all');
+  const effectiveAllowedCategories = allowedCategories.length
+    ? allowedCategories
+    : tabAllowedCategories;
   const defaultCategory = document.body.dataset.defaultCategory;
   let currentCategory = 'all';
   if (scopedCategory) {
@@ -212,8 +219,8 @@ function renderPagination(total, page) {
       return all.filter((p) => p.category === scopedCategory);
     }
     if (currentCategory === 'all') {
-      if (!allowedCategories.length) return all;
-      return all.filter((p) => allowedCategories.includes(p.category));
+      if (!effectiveAllowedCategories.length) return all;
+      return all.filter((p) => effectiveAllowedCategories.includes(p.category));
     }
     return all.filter((p) => p.category === currentCategory);
   }
