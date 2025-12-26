@@ -191,10 +191,13 @@ function renderPagination(total, page) {
 (function initNotes() {
   const tabs = document.querySelectorAll('.tab');
   const all = loadPosts();
+  const scopedCategory = document.body.dataset.categoryScope;
   const tabCategories = Array.from(tabs).map((tab) => tab.dataset.category);
   const defaultCategory = document.body.dataset.defaultCategory;
   let currentCategory = 'all';
-  if (defaultCategory && tabCategories.includes(defaultCategory)) {
+  if (scopedCategory) {
+    currentCategory = scopedCategory;
+  } else if (defaultCategory && tabCategories.includes(defaultCategory)) {
     currentCategory = defaultCategory;
   } else if (!tabCategories.includes(currentCategory) && tabCategories.length) {
     currentCategory = tabCategories[0];
@@ -202,6 +205,9 @@ function renderPagination(total, page) {
   let currentPage = 1;
 
   function filtered() {
+    if (scopedCategory) {
+      return all.filter((p) => p.category === scopedCategory);
+    }
     return currentCategory === 'all' ? all : all.filter((p) => p.category === currentCategory);
   }
 
@@ -218,6 +224,9 @@ function renderPagination(total, page) {
 
   tabs.forEach((btn) => {
     btn.addEventListener('click', () => {
+      if (scopedCategory) {
+        return;
+      }
       currentCategory = btn.dataset.category;
       currentPage = 1;
       syncTabs(currentCategory);

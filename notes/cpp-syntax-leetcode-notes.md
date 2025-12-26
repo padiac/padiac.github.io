@@ -1,20 +1,20 @@
-# C++ ??????LeetCode ?????
+# C++ 语法备忘录（LeetCode 刷题随记）
 
-> ???? LeetCode ??????????????? C++ ???  
-> ??????? + ??????????
+> 用途：刷 LeetCode 时，记录容易忘或和直觉不一致的 C++ 语法点  
+> 原则：只记用法 + 关键差异，不写长解释
 
 ---
 
-## 1. ListNode ??? new
+## 1. ListNode 指针与 new
 ```cpp
 ListNode* node = new ListNode(5);
 ```
-- `new` ??????????
-- LeetCode ???????? `delete`
+- `new` 返回对象地址（指针）
+- LeetCode 中通常不需要手动 `delete`
 
 ---
 
-## 2. unordered_set ?? / ??
+## 2. unordered_set 插入 / 删除
 ```cpp
 unordered_set<int> s;
 s.insert(10);
@@ -23,21 +23,21 @@ s.erase(10);
 
 ---
 
-## 3. ?? vector ????DP ???
+## 3. 二维 vector 初始化（DP 常用）
 ```cpp
 vector<vector<bool>> dp(n, vector<bool>(n, false));
 ```
-- ??????`n`
-- ??????`n`
-- ????`false`
+- 第一维大小：`n`
+- 第二维大小：`n`
+- 初始值：`false`
 
 ---
 
-## 4. ????
+## 4. 容器大小
 ```cpp
 v.size();
 ```
-- ????? `size_t`
+- 返回类型是 `size_t`
 
 ---
 
@@ -45,8 +45,8 @@ v.size();
 ```cpp
 s.substr(start_index, length);
 ```
-- ???????? index
-- ????????????????
+- 第一个参数：起始 index
+- 第二个参数：长度（不是结束位置）
 
 ---
 
@@ -60,7 +60,7 @@ INT_MAX;
 
 ---
 
-## 7. string::starts_with?C++20?
+## 7. string::starts_with（C++20）
 ```cpp
 s.starts_with("leet");
 ```
@@ -75,14 +75,14 @@ sort(v.begin(), v.end(), greater<int>());
 
 ---
 
-## 9. push_back + ?????
+## 9. push_back + 初始化列表
 ```cpp
 ret.push_back({nums[i], nums[j], nums[k]});
 ```
 
 ---
 
-## 10. stack ????
+## 10. stack 常用操作
 ```cpp
 stack<int> st;
 st.push(x);
@@ -93,7 +93,7 @@ st.empty();
 
 ---
 
-## 11. ?????????
+## 11. 函数参数尽量用引用
 ```cpp
 void f(vector<int>& v);
 void g(const vector<int>& v);
@@ -101,7 +101,7 @@ void g(const vector<int>& v);
 
 ---
 
-## 12. vector ?? add
+## 12. vector 没有 add
 ```cpp
 v.push_back(x);
 v.emplace_back(x);
@@ -116,7 +116,7 @@ v.insert(v.begin() + i, x);
 
 ---
 
-## 14. map ??? second
+## 14. map 遍历取 second
 ```cpp
 for (auto& item : mp) {
     ret.push_back(item.second);
@@ -125,7 +125,7 @@ for (auto& item : mp) {
 
 ---
 
-## 15. map ?????????
+## 15. map 遍历（只记这一种）
 ```cpp
 for (auto& kv : mp) {
     kv.first;
@@ -135,7 +135,7 @@ for (auto& kv : mp) {
 
 ---
 
-## 16. stringstream ????????
+## 16. stringstream 按字符切分字符串
 ```cpp
 #include <sstream>
 
@@ -143,13 +143,13 @@ stringstream ss(path);
 string tmp;
 
 while (getline(ss, tmp, '/')) {
-    // tmp ????
+    // tmp 是每一段
 }
 ```
 
 ---
 
-## 17. ???????????<cctype>?
+## 17. 字符判断与大小写转换（<cctype>）
 ```cpp
 #include <cctype>
 
@@ -162,4 +162,4 @@ toupper(c);
 
 ---
 
-> ??????????????
+> 后续新语法点：按编号继续追加

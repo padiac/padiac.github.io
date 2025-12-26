@@ -1,10 +1,10 @@
 ﻿window.POSTS = [
   {
     slug: 'cpp-syntax-leetcode-notes',
-    title: 'C++ ??????LeetCode ?????',
+    title: 'C++ 语法备忘录（LeetCode 刷题随记）',
     date: '2025-12-26T06:29:23Z',
     category: 'Coding',
-    summary: 'LeetCode ???? C++ ??????new?unordered_set??? vector ?????'
+    summary: 'LeetCode 刷题常见 C++ 语法点备忘：new、unordered_set、二维 vector 初始化等。'
   },
 
   {
