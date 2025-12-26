@@ -192,7 +192,10 @@ function renderPagination(total, page) {
   const tabs = document.querySelectorAll('.tab');
   const all = loadPosts();
   const scopedCategory = document.body.dataset.categoryScope;
-  const tabCategories = Array.from(tabs).map((tab) => tab.dataset.category);
+  const tabCategories = Array.from(tabs)
+    .map((tab) => tab.dataset.category)
+    .filter(Boolean);
+  const allowedCategories = tabCategories.filter((category) => category !== 'all');
   const defaultCategory = document.body.dataset.defaultCategory;
   let currentCategory = 'all';
   if (scopedCategory) {
@@ -208,7 +211,11 @@ function renderPagination(total, page) {
     if (scopedCategory) {
       return all.filter((p) => p.category === scopedCategory);
     }
-    return currentCategory === 'all' ? all : all.filter((p) => p.category === currentCategory);
+    if (currentCategory === 'all') {
+      if (!allowedCategories.length) return all;
+      return all.filter((p) => allowedCategories.includes(p.category));
+    }
+    return all.filter((p) => p.category === currentCategory);
   }
 
   function syncTabs(category) {

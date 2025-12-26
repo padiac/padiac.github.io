@@ -9,7 +9,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet" />
   <link rel="stylesheet" href="styles.css" />
 </head>
-<body data-default-category="Coding" data-category-scope="Coding">
+<body data-default-category="all">
   <div class="wrapper-masthead">
     <div class="container">
       <header class="masthead">
@@ -20,7 +20,7 @@
         </div>
         <nav class="site-nav">
           <a href="index.html" aria-label="Home">Home</a>
-          <a href="notes.html" aria-label="ML Notes">ML Notes</a>
+          <a href="ml-notes.html" aria-label="ML Notes">ML Notes</a>
         </nav>
       </header>
     </div>
@@ -30,7 +30,8 @@
     <article class="page">
       <h1>Software Engineering</h1>
       <div class="tabs" role="tablist">
-        <button class="tab active" data-category="Coding" role="tab" aria-selected="true">All</button>
+        <button class="tab active" data-category="all" role="tab" aria-selected="true">All</button>
+        <button class="tab" data-category="Coding" role="tab" aria-selected="false">Coding</button>
       </div>
 
       <div id="posts" class="post-grid" aria-live="polite"></div>
