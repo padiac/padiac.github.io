@@ -168,7 +168,7 @@ They both count "how many relevant items are in the top k," but their denominato
 - Recall@k: among all relevant items, what fraction was retrieved in top k? Denominator is the number of all relevant items.
 
 $$
-\mathrm{Precision} = \frac{2}{k} \sum_{i=1}^{k} r_{i}
+\operatorname{Precision}_{k} = \frac{2}{k} \sum_{i=1}^{k} r_{i}
 $$
 
 $$
