@@ -1,6 +1,6 @@
 window.POSTS = [
   {
-    slug: 'visual-similarity-search-system',
+    slug: 'machine-learning-system-design-visual-similarity-search-system',
     title: 'Machine Learning System Design - Visual Similarity Search System',
     date: '2025-12-27T08:06:34Z',
     category: 'Machine Learning System Design',
@@ -8,8 +8,8 @@ window.POSTS = [
   },
 
   {
-    slug: 'cpp-syntax-notes',
-    title: 'C++ 语法备忘录',
+    slug: 'coding-cpp-syntax-notes',
+    title: 'Coding - C++ 语法备忘录',
     date: '2025-12-26T06:29:23Z',
     category: 'Coding',
     summary: '常见 C++ 语法点备忘：new、unordered_set、二维 vector 初始化等。'
@@ -23,15 +23,15 @@ window.POSTS = [
     summary: 'Feasibility notes for framing baseline-to-aggregation detection as a 1D YOLO problem, covering model design, data synthesis, and upgrade paths.'
   },
   {
-    slug: 'llm-prompt-chains-basics',
+    slug: 'llm-engineering-llm-prompt-chains-basics',
     title: 'LLM Engineering - Prompt Chains Basics',
     date: '2025-10-18T12:28:08Z',
     category: 'LLM Engineering',
     summary: 'Notes on structuring multi-step prompts, guarding failure modes, and adding evals.'
   },
   {
-    slug: 'learning-journal-ml-ai-foundations',
-    title: 'Machine Learning and AI Foundations',
+    slug: 'machine-learning-learning-journal-ml-ai-foundations',
+    title: 'Machine Learning - Machine Learning and AI Foundations',
     date: '2025-10-18T12:27:04Z',
     category: 'Machine Learning',
     summary: 'Curated roadmap of courses and books covering core ML theory, deep learning, and large-scale AI systems.'
@@ -58,22 +58,22 @@ window.POSTS = [
     summary: 'Compares global factorization with subset independence.'
   },
   {
-    slug: 'regression-bayesian-inference-and-machine-learning-a-unified-lineage',
-    title: 'Regression, Bayesian Inference, and Machine Learning: A Unified Lineage',
+    slug: 'machine-learning-regression-bayesian-inference-and-machine-learning-a-unified-lineage',
+    title: 'Machine Learning - Regression, Bayesian Inference, and Machine Learning: A Unified Lineage',
     date: '2025-10-18T21:22:51Z',
     category: 'Machine Learning',
     summary: 'Connects regression, Bayesian priors, and ML workflow.'
   },
   {
-    slug: 'probability-distribution-combination-and-transformation',
-    title: 'Probability - Distribution Combination and Transformation',
+    slug: 'statistics-probability-distribution-combination-and-transformation',
+    title: 'Statistics - Probability - Distribution Combination and Transformation',
     date: '2025-10-19T03:45:04Z',
     category: 'Statistics',
     summary: 'Additivity and transformations across key distributions.'
   },
   {
-    slug: 'additivity-transformation-and-the-core-continuous-families',
-    title: 'Additivity, Transformation, and the Core Continuous Families',
+    slug: 'statistics-additivity-transformation-and-the-core-continuous-families',
+    title: 'Statistics - Additivity, Transformation, and the Core Continuous Families',
     date: '2025-10-19T04:13:48Z',
     category: 'Statistics',
     summary: 'Connects additive hierarchies with t and F ratio families.'
@@ -128,7 +128,7 @@ window.POSTS = [
     summary: 'Method of moments matches sample and population moments, while MLE maximizes likelihood and Bayesian estimation updates priors with the data.'
   },
   {
-    slug: 'beiyesi-mvue-and-cramer-rao-bound-a-clear-worked-through-review',
+    slug: 'bayesian-inference-beiyesi-mvue-and-cramer-rao-bound-a-clear-worked-through-review',
     title: 'Bayesian Inference - MVUE and Cramer-Rao Bound: A Clear, Worked-Through Review',
     date: '2025-11-01T17:36:01Z',
     category: 'Bayesian Inference',
@@ -177,7 +177,7 @@ window.POSTS = [
     summary: 'Bayesian decision theory studies how to choose actions from observed data when facing uncertainty about model parameters.'
   },
   {
-    slug: 'introduction-to-measure-theory-infinity-and-cantors-hierarchy',
+    slug: 'bayesian-inference-introduction-to-measure-theory-infinity-and-cantors-hierarchy',
     title: 'Bayesian Inference - Introduction to Measure Theory, Infinity, and Cantor\'s Hierarchy',
     date: '2025-11-01T10:15:00Z',
     category: 'Bayesian Inference',
@@ -331,7 +331,7 @@ window.POSTS = [
     summary: 'English rewrite of Part 3 unifying CK → FP → forward/reverse SDE → probability flow ODE and DDPM formulas.'
   },
   {
-    slug: 'from-px-to-sampling-what-ddpm-really-learns',
+    slug: 'diffusion-from-px-to-sampling-what-ddpm-really-learns',
     title: 'Diffusion - From p(x) to Sampling: What DDPM Really Learns',
     date: '2025-12-13T00:00:00Z',
     category: 'Diffusion',
