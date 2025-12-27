@@ -172,7 +172,7 @@ $$
 $$
 
 $$
-\mathrm{Recall}_{k} = \frac{1}{R} \sum_{i=1}^{k} r_{i}
+\mathrm{Recall}\_{k} = \frac{1}{R} \sum_{i=1}^{k} r_{i}
 $$
 
 Here $r_{i} \in \{0, 1\}$ and $R$ is the total number of relevant items.
@@ -221,7 +221,7 @@ When relevance is graded (0-5), nDCG is usually more appropriate.
 Common formula:
 
 $$
-DCG_{p} = \sum_{i=1}^{p} \frac{{rel}_{i}}{\log_{2}(i+1)}
+\mathrm{DCG}\_{p} = \sum_{i=1}^{p} \frac{\mathrm{rel}\_{i}}{\log_{2}(i+1)}
 $$
 
 - $rel_{i}$: ground truth relevance (often 0-5) of the item at rank $i$
@@ -240,7 +240,7 @@ Different queries can have different maximum possible DCG.
 ### 9.3 nDCG (normalized DCG)
 
 $$
-{nDCG}_{p} = \frac{{DCG}_{p}}{{IDCG}_{p}}
+\mathrm{nDCG}\_{p} = \frac{\mathrm{DCG}\_{p}}{\mathrm{IDCG}\_{p}}
 $$
 
 - IDCG is the DCG of the ideal ranking (items sorted by true relevance).
