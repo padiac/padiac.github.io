@@ -353,10 +353,10 @@ window.POSTS = [
   },
 
   {
-    slug: 'machine-learning-designing-a-street-view-blurring-system-from-object-detection-to-production-ml',
-    title: 'Machine Learning - Designing a Street View Blurring System: From Object Detection to Production ML',
+    slug: 'machine-learning-system-design-designing-a-street-view-blurring-system-from-object-detection-to-production-ml',
+    title: 'Machine Learning System Design - Designing a Street View Blurring System: From Object Detection to Production ML',
     date: '2025-12-27T20:04:20Z',
-    category: 'Machine Learning',
+    category: 'Machine Learning System Design',
     summary: 'Street View blurring is not a generic object detection task.'
   }
 
