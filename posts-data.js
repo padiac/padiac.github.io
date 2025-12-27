@@ -350,6 +350,14 @@ window.POSTS = [
     date: '2025-12-19T03:19:12Z',
     category: 'Flow Matching',
     summary: 'Formal notes on the continuity equation, characteristic transport, ICOV, and Hutchinson divergence estimation in physical notation.'
+  },
+
+  {
+    slug: 'machine-learning-designing-a-street-view-blurring-system-from-object-detection-to-production-ml',
+    title: 'Machine Learning - Designing a Street View Blurring System: From Object Detection to Production ML',
+    date: '2025-12-27T20:04:20Z',
+    category: 'Machine Learning',
+    summary: 'Street View blurring is not a generic object detection task.'
   }
 
 ];
