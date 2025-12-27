@@ -164,8 +164,12 @@ So two models can tie in MRR even if their overall ranking differs.
 
 They both count "how many relevant items are in the top k," but their denominators differ:
 
-<!-- - Precision@k: among the top k returned, what fraction is relevant? Denominator is k.
-- Recall@k: among all relevant items, what fraction was retrieved in top k? Denominator is the number of all relevant items. -->
+- Precision@k: among the top k returned, what fraction is relevant? Denominator is k.
+- Recall@k: among all relevant items, what fraction was retrieved in top k? Denominator is the number of all relevant items.
+
+$$
+\frac{1}{k} 
+$$
 
 $$
 \mathrm{Precision}_{k} = \frac{1}{k} \sum_{i=1}^{k} r_{i}
