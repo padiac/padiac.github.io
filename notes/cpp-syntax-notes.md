@@ -48,6 +48,14 @@ s.substr(start_index, length);
 
 ---
 
+## 5.1 用迭代器构造 string
+```cpp
+return string(st.begin(), st.end());
+```
+- 常见于用 `vector<char>` / `stack` 模拟字符串再转回 `string`
+
+---
+
 ## 6. INT_MIN / INT_MAX
 ```cpp
 #include <climits>
