@@ -9,10 +9,10 @@ window.POSTS = [
 
   {
     slug: 'cpp-syntax-notes',
-    title: 'C++ Óï·¨±¸ÍüÂ¼',
+    title: 'C++ è¯­æ³•å¤‡å¿˜å½•',
     date: '2025-12-26T06:29:23Z',
     category: 'Coding',
-    summary: '³£¼û C++ Óï·¨µã±¸Íü£ºnew¡¢unordered_set¡¢¶şÎ¬ vector ³õÊ¼»¯µÈ¡£'
+    summary: 'å¸¸è§ C++ è¯­æ³•ç‚¹å¤‡å¿˜ï¼šnewã€unordered_setã€äºŒç»´ vector åˆå§‹åŒ–ç­‰ã€‚'
   },
 
   {
@@ -157,10 +157,10 @@ window.POSTS = [
   },
   {
     slug: 'statistics-cong-xian-xing-hui-gui-dao-yu-ce-qu-jian-zhong-xin-hua-can-shu-hua-de-xi-zhi-tuo-dao-han-zheng-ming',
-    title: 'Statistics - ´ÓÏßĞÔ»Ø¹éµ½Ô¤²âÇø¼ä: ÖĞĞÄ»¯²ÎÊı»¯µÄÏ¸ÖÂÍÆµ¼ (º¬Ö¤Ã÷)',
+    title: 'Statistics - ä»çº¿æ€§å›å½’åˆ°é¢„æµ‹åŒºé—´: ä¸­å¿ƒåŒ–å‚æ•°åŒ–çš„ç»†è‡´æ¨å¯¼ (å«è¯æ˜)',
     date: '2025-10-22T16:37:02Z',
     category: 'Statistics',
-    summary: 'Éè¶¨¹Ì¶¨Éè¼ÆµãÏßĞÔ»Ø¹éÄ£ĞÍ, Ñù±¾µã¼ÇÎª Xi,Yi, i=1,...,n. ÒıÈëÖĞĞÄ»¯±äÁ¿ºÍÑù±¾¾ùÖµÎªºóĞøÍÆµ¼´òÏÂ»ù´¡.'
+    summary: 'è®¾å®šå›ºå®šè®¾è®¡ç‚¹çº¿æ€§å›å½’æ¨¡å‹, æ ·æœ¬ç‚¹è®°ä¸º Xi,Yi, i=1,...,n. å¼•å…¥ä¸­å¿ƒåŒ–å˜é‡å’Œæ ·æœ¬å‡å€¼ä¸ºåç»­æ¨å¯¼æ‰“ä¸‹åŸºç¡€.'
   },
   {
     slug: 'bayesian-inference-bayesian-estimation-interval-estimation-and-hypothesis-testing-normal-distribution',
@@ -276,24 +276,24 @@ window.POSTS = [
   },
   {
     slug: 'diffusion-part-1-vae-hvae-vdm-insights',
-    title: 'Diffusion - VAE ºÍ HVAE (VDM Ö®Ç°) ¡¤ Part 1',
+    title: 'Diffusion - VAE å’Œ HVAE (VDM ä¹‹å‰) Â· Part 1',
     date: '2025-11-20T08:48:08Z',
     category: 'Diffusion',
-    summary: '×Ü½áÁËÎÒÃÇÔÚÌÖÂÛ VAE -> ELBO -> HVAE (²»°üº¬ VDM / Diffusion) ¹ı³ÌÖĞĞÎ³ÉµÄºËĞÄÀí½â¿ò¼Ü¡£½á¹¹·ÖÎªÁ½ÀàÄÚÈİ, ²¢ÔÚÕıÎÄÖĞÇåÎú±ê¼ÇÑ§Ï°±Ê¼ÇÓë¶´²ì¶ÎÂä¡£'
+    summary: 'æ€»ç»“äº†æˆ‘ä»¬åœ¨è®¨è®º VAE -> ELBO -> HVAE (ä¸åŒ…å« VDM / Diffusion) è¿‡ç¨‹ä¸­å½¢æˆçš„æ ¸å¿ƒç†è§£æ¡†æ¶ã€‚ç»“æ„åˆ†ä¸ºä¸¤ç±»å†…å®¹, å¹¶åœ¨æ­£æ–‡ä¸­æ¸…æ™°æ ‡è®°å­¦ä¹ ç¬”è®°ä¸æ´å¯Ÿæ®µè½ã€‚'
   },
   {
     slug: 'diffusion-part-2-vae-variational-diffusion-model-full-notes',
-    title: 'Diffusion - VAE & Variational Diffusion Model ¡¤ Part 2',
+    title: 'Diffusion - VAE & Variational Diffusion Model Â· Part 2',
     date: '2025-11-24T03:33:36Z',
     category: 'Diffusion',
-    summary: 'ÕûÀí VDM / DDPM ÄÇÒ»Õû¶ÎÍÆµ¼¡£'
+    summary: 'æ•´ç† VDM / DDPM é‚£ä¸€æ•´æ®µæ¨å¯¼ã€‚'
   },
   {
     slug: 'diffusion-part-3-score-based-sde',
-    title: 'Diffusion - Score Based SDE ¡¤ Part 3',
+    title: 'Diffusion - Score Based SDE Â· Part 3',
     date: '2025-11-27T08:13:03Z',
     category: 'Diffusion',
-    summary: '½áºÏProbabilistic Machine Learning µÚ¶şÊ®ÁùÕÂ£¬ÍÆµ¼score based SDE·½³Ì'
+    summary: 'ç»“åˆProbabilistic Machine Learning ç¬¬äºŒåå…­ç« ï¼Œæ¨å¯¼score based SDEæ–¹ç¨‹'
   },
   {
     slug: 'diffusion-minidiffusion-code-notes',
@@ -311,24 +311,24 @@ window.POSTS = [
   },
   {
     slug: 'diffusion-part-1-vae-hvae-vdm-insights-alt',
-    title: 'Diffusion - VAE & HVAE to VDM ¡¤ Part 1',
+    title: 'Diffusion - VAE & HVAE to VDM Â· Part 1',
     date: '2025-12-09T23:45:00Z',
     category: 'Diffusion',
     summary: 'English rewrite of Part 1 (VAE/HVAE, ELBO intuition, latent geometry) with all formulas preserved.'
   },
   {
     slug: 'diffusion-part-2-variational-diffusion-model-notes-alt',
-    title: 'Diffusion - Variational Diffusion Model ¡¤ Part 2',
+    title: 'Diffusion - Variational Diffusion Model Â· Part 2',
     date: '2025-12-09T23:46:00Z',
     category: 'Diffusion',
     summary: 'English rewrite of Part 2 covering the forward chain, variational bound split, Gaussian KL, and noise MSE objective.'
   },
   {
     slug: 'diffusion-part-3-score-based-sde-notes-alt',
-    title: 'Diffusion - Score-Based SDE ¡¤ Part 3',
+    title: 'Diffusion - Score-Based SDE Â· Part 3',
     date: '2025-12-09T23:47:00Z',
     category: 'Diffusion',
-    summary: 'English rewrite of Part 3 unifying CK ¡ú FP ¡ú forward/reverse SDE ¡ú probability flow ODE and DDPM formulas.'
+    summary: 'English rewrite of Part 3 unifying CK â†’ FP â†’ forward/reverse SDE â†’ probability flow ODE and DDPM formulas.'
   },
   {
     slug: 'from-px-to-sampling-what-ddpm-really-learns',

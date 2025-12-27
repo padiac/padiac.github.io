@@ -58,12 +58,22 @@ Other backbones still matter:
 
 The model maps each image to an embedding:
 
-- Query embedding: q
-- Candidate embeddings: k_1, k_2, ..., k_n
+- Query embedding: $q$
+- Candidate embeddings: $k_{1}, k_{2}, ..., k_{n}$
 
 Then we compute similarity scores (dot product or cosine similarity):
 
-- s_i = sim(q, k_i)
+- $s_{i} = \mathrm{sim}(q, k_{i})$
+
+Common similarity or distance choices:
+
+$$
+\mathrm{cos}(q, k) = \frac{q \cdot k}{\Vert q \Vert \Vert k \Vert}
+$$
+
+$$
+d(q, k) = \Vert q - k \Vert_{2}
+$$
 
 ### 3.2 Why softmax then cross-entropy appears
 
@@ -71,6 +81,16 @@ This is a common form of contrastive or InfoNCE loss:
 
 - Softmax converts similarity scores into a probability distribution over candidates.
 - Cross-entropy trains the model to assign high probability to the true positive (and low to negatives).
+
+$$
+p_{i} = \frac{\exp(s_{i} / \tau)}{\sum_{j=1}^{n} \exp(s_{j} / \tau)}
+$$
+
+$$
+L = -\log \frac{\exp(s_{+} / \tau)}{\sum_{j=1}^{n} \exp(s_{j} / \tau)}
+$$
+
+Here $\tau$ is a temperature scalar.
 
 Important:
 The softmax probabilities are training-time normalization over the candidate set for that training example.
@@ -123,6 +143,10 @@ For each query:
 2. Compute reciprocal rank: RR = 1 / rank.
 3. Average over queries: MRR = mean(RR).
 
+$$
+\mathrm{MRR} = \frac{1}{M} \sum_{q=1}^{M} \frac{1}{r_{q}}
+$$
+
 ### 6.2 What is "M" (or "m") in the formula?
 
 It is the number of queries or ranked lists:
@@ -143,6 +167,16 @@ They both count "how many relevant items are in the top k," but their denominato
 - Precision@k: among the top k returned, what fraction is relevant? Denominator is k.
 - Recall@k: among all relevant items, what fraction was retrieved in top k? Denominator is the number of all relevant items.
 
+$$
+\mathrm{Precision}_{k} = \frac{1}{k} \sum_{i=1}^{k} r_{i}
+$$
+
+$$
+\mathrm{Recall}_{k} = \frac{1}{R} \sum_{i=1}^{k} r_{i}
+$$
+
+Here $r_{i} \in \{0, 1\}$ and $R$ is the total number of relevant items.
+
 Memory hook:
 
 - Precision fears junk (irrelevant items included).
@@ -157,6 +191,16 @@ AP is computed by:
 1. Scan the ranked list.
 2. Every time you encounter a relevant item at rank r, compute Precision@r.
 3. Average those precision values over all relevant items.
+
+$$
+P_{i} = \frac{1}{i} \sum_{j=1}^{i} r_{j}
+$$
+
+$$
+\mathrm{AP} = \frac{1}{R} \sum_{i=1}^{N} P_{i} \ast r_{i}
+$$
+
+Here $N$ is the list length.
 
 In words:
 "Whenever the system hits a relevant result, ask: how precise has it been up to now?"
@@ -177,11 +221,11 @@ When relevance is graded (0-5), nDCG is usually more appropriate.
 Common formula:
 
 $$
-\mathrm{DCG}_p = \sum_{i=1}^{p} \frac{\mathrm{rel}_i}{\log_2(i+1)}
+\mathrm{DCG}_{p} = \sum_{i=1}^{p} \frac{\mathrm{rel}_{i}}{\log_{2}(i+1)}
 $$
 
-- rel_i: ground truth relevance (often 0-5) of the item at rank i
-- log_2(i+1): discount factor, lower ranks are worth less
+- $rel_{i}$: ground truth relevance (often 0-5) of the item at rank $i$
+- $\log_{2}(i+1)$: discount factor, lower ranks are worth less
 
 Interpretation:
 
@@ -196,7 +240,7 @@ Different queries can have different maximum possible DCG.
 ### 9.3 nDCG (normalized DCG)
 
 $$
-\mathrm{nDCG}_p = \frac{\mathrm{DCG}_p}{\mathrm{IDCG}_p}
+\mathrm{nDCG}_{p} = \frac{\mathrm{DCG}_{p}}{\mathrm{IDCG}_{p}}
 $$
 
 - IDCG is the DCG of the ideal ranking (items sorted by true relevance).
@@ -267,13 +311,3 @@ Often implemented in systems like inverted file indexes (IVF-style) and combined
 - Precision@k vs Recall@k look similar but differ by denominator: quality of shown items vs coverage of all relevant items.
 - AP is not averaging over k; it averages Precision at ranks where relevant items occur.
 - DCG is not comparable across queries until normalized into nDCG.
-
-## 13) Mini glossary
-
-- Embedding: vector representation of an image (for example, 128, 256, 768 dims).
-- Similarity: cosine or dot product; or distance (L2) in embedding space.
-- Contrastive learning: trains embeddings so positives are close and negatives far.
-- ANN: approximate nearest neighbor search, scalable retrieval of similar vectors.
-- MRR: average of reciprocal rank of the first relevant result per query.
-- AP or mAP: average precision per query; mean over queries.
-- DCG or nDCG: graded relevance plus position discount; normalized for comparability.
