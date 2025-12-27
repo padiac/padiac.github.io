@@ -64,7 +64,8 @@ Despite architectural differences, both approaches optimize the same underlying 
 
 Measures alignment between predicted and ground-truth boxes:
 
-$$ L_{reg} = \frac{1}{M} \sum_{i=1}^{M} \left[(x_{i} - \hat{x}_{i})^{2} + (y_{i} - \hat{y}_{i})^{2} + (w_{i} - \hat{w}_{i})^{2} + (h_{i} - \hat{h}_{i})^{2}\right] $$
+$$ L\_{reg} = \frac{1}{M} \sum\_{i=1}^{M} \left[(x\_{i} - \hat{x}\_{i})^{2} + (y\_{i} - \hat{y}\_{i})^{2} + (w\_{i} - \hat{w}\_{i})^{2} + (h\_{i} - \hat{h}\_{i})^{2}\right] $$
+
 
 This loss answers: _Is the blur applied to the correct spatial region?_
 
