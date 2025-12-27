@@ -54,6 +54,22 @@ The user will not provide any parameters beyond the pasted Markdown block.
 - **Links/Images**: `[Title](URL)` and `![Alt](URL)`.
 - **No HTML** or unusual syntax.
 
+## Math Normalization (GitHub Pages Stability)
+Normalize the following math for GitHub Pages stability.
+
+Rules to apply:
+- Keep display math in `$$ ... $$` on a single line.
+- Escape ALL subscripts by replacing `_` with `\_` inside math.
+- Do NOT revert `\_` back to `_{...}`.
+- Do NOT introduce line breaks or formatting changes.
+- Output the math exactly as it should appear in the final Markdown.
+
+Input math:
+$$ L_{reg} = \frac{1}{M} \sum_{i=1}^{M} \left[(x_{i} - \hat{x}_{i})^{2} + (y_{i} - \hat{y}_{i})^{2} + (w_{i} - \hat{w}_{i})^{2} + (h_{i} - \hat{h}_{i})^{2}\right] $$
+
+Normalized output:
+$$ L\_{reg} = \frac{1}{M} \sum\_{i=1}^{M} \left[(x\_{i} - \hat{x}\_{i})^{2} + (y\_{i} - \hat{y}\_{i})^{2} + (w\_{i} - \hat{w}\_{i})^{2} + (h\_{i} - \hat{h}\_{i})^{2}\right] $$
+
 ---
 
 ## Title, Slug, Summary
