@@ -35,8 +35,8 @@ The dataset is stored as **many individual pair records**, even if the same quer
 Even if the model is trained with a ranking objective, the data is often still represented as "pairs" or "lists of pairs":
 
 - **Pointwise**: learn $s(q, v)$ directly from labeled pairs
-- **Pairwise**: learn that $v_{pos}$ should rank above $v_{neg}$ for the same query
-  - training samples can look like $(q, v_{pos}, v_{neg})$
+- **Pairwise**: learn that $v\_{pos}$ should rank above $v\_{neg}$ for the same query
+  - training samples can look like $(q, v\_{pos}, v\_{neg})$
 - **Listwise**: learn from an entire list of candidates per query
 
 Here $q$ is the query, $v$ is the video, and $s$ is the scoring function.
@@ -289,16 +289,14 @@ Each produces a list of videos with its own scoring scheme.
 
 For a video $v$, define:
 
-- $\mathrm{score}_{text}(v)$ from lexical search
-- $\mathrm{score}_{vec}(v)$ from embedding similarity
+- $\mathrm{score}\_{text}(v)$ from lexical search
+- $\mathrm{score}\_{vec}(v)$ from embedding similarity
 
 Compute:
 
-$$
-\mathrm{score}\_{final}(v) = w_{text} \cdot \mathrm{score}\_{text}(v) + w_{vec} \cdot \mathrm{score}\_{vec}(v)
-$$
+$$ \mathrm{score}\_{final}(v) = w\_{text} \cdot \mathrm{score}\_{text}(v) + w\_{vec} \cdot \mathrm{score}\_{vec}(v) $$
 
-Then sort by $\mathrm{score}_{final}(v)$.
+Then sort by $\mathrm{score}\_{final}(v)$.
 
 Important practical detail:
 
