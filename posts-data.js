@@ -1,5 +1,13 @@
 window.POSTS = [
   {
+    slug: 'machine-learning-system-design-youtube-style-video-search-notes-text-video-retrieval-embeddings-indexing-and-fusion',
+    title: 'Machine Learning System Design - YouTube-Style Video Search - Notes (Text/Video Retrieval, Embeddings, Indexing, and Fusion)',
+    date: '2025-12-28T11:00:14Z',
+    category: 'Machine Learning System Design',
+    summary: 'Notes on YouTube-style video search: query-video pairs, lexical retrieval, embeddings, indexing pipelines, and fusion/re-ranking.'
+  },
+
+  {
     slug: 'machine-learning-system-design-visual-similarity-search-system',
     title: 'Machine Learning System Design - Visual Similarity Search System',
     date: '2025-12-27T08:06:34Z',
