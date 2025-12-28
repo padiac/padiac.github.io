@@ -295,7 +295,7 @@ For a video $v$, define:
 Compute:
 
 $$
-\mathrm{score}_{final}(v) = w_{text} \cdot \mathrm{score}_{text}(v) + w_{vec} \cdot \mathrm{score}_{vec}(v)
+\mathrm{score}\_{final}(v) = w_{text} \cdot \mathrm{score}\_{text}(v) + w_{vec} \cdot \mathrm{score}\_{vec}(v)
 $$
 
 Then sort by $\mathrm{score}_{final}(v)$.
