@@ -11,11 +11,11 @@ When an ML system says it has **N video-text query pairs** for training, it usua
 ### 1.1 Common forms of supervision
 
 1. **Binary relevance**
-   - `label = 1` if the video is relevant to the query
-   - `label = 0` otherwise
+   - $y = 1$ if the video is relevant to the query
+   - $y = 0$ otherwise
 
 2. **Graded relevance** (more common in ranking)
-   - e.g. `label in {0,1,2,3}` where 3 means "very relevant"
+   - e.g. $y \in \{0,1,2,3\}$ where 3 means "very relevant"
 
 3. **Implicit feedback derived from logs**
    - clicks, watch time, long-press, "not interested", dwell time
@@ -34,10 +34,12 @@ The dataset is stored as **many individual pair records**, even if the same quer
 
 Even if the model is trained with a ranking objective, the data is often still represented as "pairs" or "lists of pairs":
 
-- **Pointwise**: learn `score(query, video)` directly from labeled pairs
-- **Pairwise**: learn that `video_pos` should rank above `video_neg` for the same query
-  - training samples can look like `(query, video_pos, video_neg)`
+- **Pointwise**: learn $s(q, v)$ directly from labeled pairs
+- **Pairwise**: learn that $v_{pos}$ should rank above $v_{neg}$ for the same query
+  - training samples can look like $(q, v_{pos}, v_{neg})$
 - **Listwise**: learn from an entire list of candidates per query
+
+Here $q$ is the query, $v$ is the video, and $s$ is the scoring function.
 
 In practice, "10 million pairs" often means **10 million supervised examples**, regardless of whether the final loss is pointwise/pairwise/listwise.
 
@@ -149,8 +151,8 @@ This is the right skepticism. The answer is: hashing is used when you accept a c
 
 **Idea:** map token to an integer bucket via a hash function:
 
-- `id = hash(token) mod M`
-  where M is the number of buckets.
+- $id = \mathrm{hash}(token) \bmod M$
+  where $M$ is the number of buckets.
 
 - Pros:
   - No explicit vocabulary storage
@@ -214,8 +216,8 @@ This section connects the "token to ID" step to what you actually feed into a mo
 
 ### 5.3 Embedding lookup layer
 
-- Token IDs index into a trainable matrix `E in R^{V x d}`.
-- Each token gets a dense vector in `R^d`.
+- Token IDs index into a trainable matrix $E \in R^{V \times d}$.
+- Each token gets a dense vector in $R^d$.
 - Advantages:
   - dense, low-dimensional
   - learns similarity structure through training
@@ -285,16 +287,18 @@ Each produces a list of videos with its own scoring scheme.
 
 ### 7.2 The simplest fusion: weighted sum scoring
 
-For a video `v`, define:
+For a video $v$, define:
 
-- `score_text(v)` from lexical search
-- `score_vec(v)` from embedding similarity
+- $\mathrm{score}_{text}(v)$ from lexical search
+- $\mathrm{score}_{vec}(v)$ from embedding similarity
 
 Compute:
 
-- `score_final(v) = w_text * score_text(v) + w_vec * score_vec(v)`
+$$
+\mathrm{score}_{final}(v) = w_{text} \cdot \mathrm{score}_{text}(v) + w_{vec} \cdot \mathrm{score}_{vec}(v)
+$$
 
-Then sort by `score_final`.
+Then sort by $\mathrm{score}_{final}(v)$.
 
 Important practical detail:
 
