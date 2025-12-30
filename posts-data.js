@@ -374,6 +374,14 @@ window.POSTS = [
     date: '2025-12-30T04:11:33Z',
     category: 'Machine Learning',
     summary: 'Deep dive into PR/ROC curves and online safety metrics for harmful content detection, focusing on what each metric measures.'
+  },
+
+  {
+    slug: 'machine-learning-pca-as-an-optimization-problem-and-why-idealized-collaborative-filtering-becomes-pca-via-low-rank-matrix-factorization',
+    title: 'Machine Learning - PCA as an Optimization Problem - and Why Idealized Collaborative Filtering Becomes PCA (via Low-Rank Matrix Factorization)',
+    date: '2025-12-30T08:58:30Z',
+    category: 'Machine Learning',
+    summary: 'This note captures two tightly related ideas about PCA and collaborative filtering.'
   }
 
 ];
