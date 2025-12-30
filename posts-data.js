@@ -366,6 +366,14 @@ window.POSTS = [
     date: '2025-12-27T20:04:20Z',
     category: 'Machine Learning System Design',
     summary: 'Street View blurring is not a generic object detection task.'
+  },
+
+  {
+    slug: 'machine-learning-precision-recall-roc-and-metrics-for-harmful-content-detection',
+    title: 'Machine Learning - Precision-Recall, ROC, and Metrics for Harmful Content Detection',
+    date: '2025-12-30T04:11:33Z',
+    category: 'Machine Learning',
+    summary: 'Deep dive into PR/ROC curves and online safety metrics for harmful content detection, focusing on what each metric measures.'
   }
 
 ];
