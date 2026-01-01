@@ -31,7 +31,9 @@ Latent factors are shaped by collective behavior. Rare interests are often under
 
 Matrix factorization models approximate the interaction matrix A as:
 
-A ≈ U · Vᵀ
+$$
+A \approx U \cdot V^T
+$$
 
 where U and V are learned embeddings.
 
@@ -42,8 +44,9 @@ where U and V are learned embeddings.
 
 A common loss is a weighted combination:
 
-L = Σ_observed (A_ij − U_i·V_j)²  
-  + w Σ_unobserved (0 − U_i·V_j)²
+$$
+L = \sum\_{observed} (A\_{ij} - U\_i \cdot V\_j)^2 + w \sum\_{unobserved} (0 - U\_i \cdot V\_j)^2
+$$
 
 The zeros remain zeros; the weight w only controls how strongly unobserved pairs influence training.
 
