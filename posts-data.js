@@ -1,5 +1,12 @@
 window.POSTS = [
   {
+    slug: 'machine-learning-system-design-recommendation-systems-content-based-collaborative-filtering-and-two-tower-models',
+    title: 'Machine Learning System Design - Recommendation Systems: Content-Based, Collaborative Filtering, and Two-Tower Models',
+    date: '2026-01-01T01:20:00Z',
+    category: 'Machine Learning System Design',
+    summary: 'This document summarizes key conceptual points discussed while studying a recommendation system chapter, with an emphasis on modeling assumptions and geometry rather than implementation details.'
+  },
+  {
     slug: 'machine-learning-system-design-youtube-style-video-search-notes-text-video-retrieval-embeddings-indexing-and-fusion',
     title: 'Machine Learning System Design - YouTube-Style Video Search - Notes (Text/Video Retrieval, Embeddings, Indexing, and Fusion)',
     date: '2025-12-28T11:00:14Z',
