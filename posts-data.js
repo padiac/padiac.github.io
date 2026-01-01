@@ -376,10 +376,10 @@ window.POSTS = [
   },
 
   {
-    slug: 'machine-learning-precision-recall-roc-and-metrics-for-harmful-content-detection',
-    title: 'Machine Learning - Precision-Recall, ROC, and Metrics for Harmful Content Detection',
+    slug: 'machine-learning-system-design-precision-recall-roc-and-metrics-for-harmful-content-detection',
+    title: 'Machine Learning System Design - Precision-Recall, ROC, and Metrics for Harmful Content Detection',
     date: '2025-12-30T04:11:33Z',
-    category: 'Machine Learning',
+    category: 'Machine Learning System Design',
     summary: 'Deep dive into PR/ROC curves and online safety metrics for harmful content detection, focusing on what each metric measures.'
   },
 
