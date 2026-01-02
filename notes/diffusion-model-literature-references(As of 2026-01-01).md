@@ -1,5 +1,3 @@
-# Diffusion Model Literature References (As of 2026-01-01)
-
 > This document maintains a curated list of key diffusion model literature, categorized by topic.
 
 ---
