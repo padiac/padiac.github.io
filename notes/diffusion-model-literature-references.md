@@ -13,10 +13,8 @@
 * **[Unified View] Understanding Diffusion Models: A Unified Perspective**
   Calvin Luo (2022). [arXiv:2208.11970](https://arxiv.org/abs/2208.11970).
   *Notes*: Unifies variational and score-based perspectives, deriving VDM as a special case.
-  *Xingfu's Notes*:
-    - [Part 1: VAE/HVAE Insights](https://padiac.github.io/post.html?slug=diffusion-part-1-vae-hvae-vdm-insights)
-    - [Part 2: VDM Full Notes](https://padiac.github.io/post.html?slug=diffusion-part-2-vae-variational-diffusion-model-full-notes)
-    - [Part 3: Score-Based SDE](https://padiac.github.io/post.html?slug=diffusion-part-3-score-based-sde)
+
+  **Xingfu's Notes**: [Part 1: VAE/HVAE](https://padiac.github.io/post.html?slug=diffusion-part-1-vae-hvae-vdm-insights) | [Part 2: VDM Full](https://padiac.github.io/post.html?slug=diffusion-part-2-vae-variational-diffusion-model-full-notes) | [Part 3: Score SDE](https://padiac.github.io/post.html?slug=diffusion-part-3-score-based-sde)
 
 * **[SDE] Score-Based Generative Modeling through Stochastic Differential Equations**
   Song et al. (ICLR 2021). [arXiv:2011.13456](https://arxiv.org/abs/2011.13456).
@@ -42,9 +40,9 @@
   Zhang et al. (2023). [arXiv:2310.05866](https://arxiv.org/abs/2310.05866).
   *Notes*: Extending DDPM to quantum data with depolarizing noise channels.
 
-* **[Physics Related] Note: Title verification needed for ID**
+* **[Lattice QFT] Diffusion models and stochastic quantisation in lattice field theory**
   (2024). [arXiv:2412.13704](https://arxiv.org/abs/2412.13704).
-  *Notes*: Included based on user list.
+  *Notes*: Stochastic quantisation of lattice field theory using diffusion models.
 
 ---
 
