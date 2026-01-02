@@ -1,5 +1,12 @@
 window.POSTS = [
   {
+    slug: 'diffusion-model-literature-references',
+    title: 'Diffusion - Model Literature & References',
+    date: '2026-01-02T03:15:00Z',
+    category: 'Diffusion',
+    summary: 'A curated list of key diffusion model papers and references, categorized by foundations, sampling, architecture, and applications.'
+  },
+  {
     slug: 'machine-learning-system-design-recommendation-systems-content-based-collaborative-filtering-and-two-tower-models',
     title: 'Machine Learning System Design - Recommendation Systems: Content-Based, Collaborative Filtering, and Two-Tower Models',
     date: '2026-01-01T01:20:00Z',
