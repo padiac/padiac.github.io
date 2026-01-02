@@ -1,7 +1,7 @@
 window.POSTS = [
   {
-    slug: 'diffusion-model-literature-references',
-    title: 'Diffusion - Model Literature & References',
+    slug: 'diffusion-model-literature-references(As of 2026-01-01)',
+    title: 'Diffusion - Model Literature References (As of 2026-01-01)',
     date: '2026-01-02T03:15:00Z',
     category: 'Diffusion',
     summary: 'A curated list of key diffusion model papers and references, categorized by foundations, sampling, architecture, and applications.'
