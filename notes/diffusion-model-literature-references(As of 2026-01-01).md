@@ -62,6 +62,10 @@
 
 ## 5. Books & Applications
 
+* **[PML Advanced] Probabilistic Machine Learning: Advanced Topics**
+  Kevin P. Murphy (2023). [probml.github.io/book2](http://probml.github.io/book2).
+  *Notes*: Advanced topics including diffusion models.
+
 * **[Diffusion Application] Using Stable Diffusion with Python**
   Andrew Zhu (2024). [Packt Publishing](https://www.packtpub.com/product/using-stable-diffusion-with-python/9781835086377).
   *Notes*: Practical guide to using and fine-tuning Stable Diffusion models.
