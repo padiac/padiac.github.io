@@ -200,3 +200,14 @@ priority_queue<vector<int>, vector<vector<int>>, decltype(comp)> pq;
 ```
 
 ---
+
+## 19. swap
+```cpp
+swap(a, b);
+```
+- 位于 `<algorithm>` 或 `<utility>`
+- 对容器（vector, string 等）也是 O(1)（指针交换），非常快
+- 不要手动 `int t = a; a = b; b = t;`，直接用 `swap`
+
+
+---
