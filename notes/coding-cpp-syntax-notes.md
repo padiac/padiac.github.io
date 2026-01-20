@@ -211,3 +211,13 @@ swap(a, b);
 
 
 ---
+
+## 20. 容器区间构造（vector 转 set）
+```cpp
+set<int> s1(nums1.begin(), nums1.end());
+set<int> s2(nums2.begin(), nums2.end());
+```
+- 用于去重或快速构建集合
+- 构造函数接受迭代器范围 `[first, last)`
+
+---
