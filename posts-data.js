@@ -403,6 +403,13 @@ window.POSTS = [
     date: '2026-02-05T00:51:03Z',
     category: 'Coding',
     summary: 'Functor (仿函数), 即函数对象 (Function Object), 是指重载了 operator() 操作符的类或结构体对象. 它们可以像函数一样被调用, 但比普通函数功能更强大、更灵活.'
+  },
+  {
+    slug: 'coding-cpp-move-semantics-core-guide',
+    title: 'Coding - C++ 移动语义 (Move Semantics) 核心指南',
+    date: '2026-02-05T00:56:51Z',
+    category: 'Coding',
+    summary: '在 C++ 中, std::move 配合不同的函数参数写法, 会有完全不同的行为. 这是移动语义中最关键的概念.'
   }
 ];
 
