@@ -396,7 +396,13 @@ window.POSTS = [
     date: '2025-12-30T08:58:30Z',
     category: 'Machine Learning',
     summary: 'This note captures two tightly related ideas about PCA and collaborative filtering.'
+  },
+  {
+    slug: 'coding-cpp-functor-usage-summary',
+    title: 'Coding - C++ Functor (仿函数/函数对象) 用法总结',
+    date: '2026-02-05T00:51:03Z',
+    category: 'Coding',
+    summary: 'Functor (仿函数), 即函数对象 (Function Object), 是指重载了 operator() 操作符的类或结构体对象. 它们可以像函数一样被调用, 但比普通函数功能更强大、更灵活.'
   }
-
 ];
 
