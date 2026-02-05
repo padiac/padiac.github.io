@@ -234,10 +234,10 @@ window.POSTS = [
     summary: 'Reviews variance estimation through Bayesian lenses, explains empirical Bayes hyperparameter fitting, and motivates Jeffreys priors via invariance.'
   },
   {
-    slug: 'bayesian-analysis-the-origin-of-entropy-from-microstates-to-information',
-    title: 'Bayesian Analysis - The Origin of Entropy: From Microstates to Information',
+    slug: 'bayesian-inference-the-origin-of-entropy-from-microstates-to-information',
+    title: 'Bayesian Inference - The Origin of Entropy: From Microstates to Information',
     date: '2025-11-04T01:10:01Z',
-    category: 'Bayesian Analysis',
+    category: 'Bayesian Inference',
     summary: 'Explains entropy from Boltzmann\'s microstate counting through Gibbs distributions to Shannon\'s information measure.'
   },
   {
