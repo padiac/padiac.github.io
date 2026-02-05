@@ -410,6 +410,13 @@ window.POSTS = [
     date: '2026-02-05T00:56:51Z',
     category: 'Coding',
     summary: '在 C++ 中, std::move 配合不同的函数参数写法, 会有完全不同的行为. 这是移动语义中最关键的概念.'
+  },
+  {
+    slug: 'coding-cpp-concurrent-queue-thread-pool-deep-dive-750-790',
+    title: 'Coding - C++ 並發隊列與線程池深度解析 (750-790)',
+    date: '2026-02-05T01:07:22Z',
+    category: 'Coding',
+    summary: '本筆記深入解析了 C++ 並發隊列從基礎到高性能任務竊取模式的演進過程, 並對線程池的單隊列與多隊列設計進行了對比分析.'
   }
 ];
 
