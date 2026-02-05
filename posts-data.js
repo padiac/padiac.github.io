@@ -413,10 +413,10 @@ window.POSTS = [
   },
   {
     slug: 'coding-cpp-concurrent-queue-thread-pool-deep-dive-750-790',
-    title: 'Coding - C++ 並發隊列與線程池深度解析 (750-790)',
+    title: 'Coding - C++ 并发队列与线程池深度解析 (750-790)',
     date: '2026-02-05T01:07:22Z',
     category: 'Coding',
-    summary: '本筆記深入解析了 C++ 並發隊列從基礎到高性能任務竊取模式的演進過程, 並對線程池的單隊列與多隊列設計進行了對比分析.'
+    summary: '本笔记深入解析了 C++ 并发队列从基础到高性能任务窃取模式的演进过程, 并对线程池 单队列与多队列设计进行了对比分析.'
   }
 ];
 
