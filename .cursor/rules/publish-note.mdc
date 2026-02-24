@@ -1,0 +1,169 @@
+---
+description: When the user pastes a raw Markdown note and wants to publish it to the blog. Triggers on requests to add/publish a note, or when a raw Markdown block with a top-level H1 title is provided.
+globs:
+alwaysApply: false
+---
+
+# Note Publishing Rules (Auto Execute: Format → Classify → Commit & Push)
+
+> Zero-typing workflow: paste a raw Markdown block. Cursor must execute **all** steps without confirmation.
+
+## Purpose
+
+When a raw Markdown note is pasted, you must:
+
+1. Normalize the Markdown to match the site's authoring rules.
+2. Detect (or reuse) the category from existing `posts-data.js` categories; fall back to `Misc`.
+3. Derive `title`, `slug`, and `summary` (**with category-prefixed slug and title**).
+4. **Remove the top-level H1 from the saved Markdown** to avoid duplicate titles on the site.
+5. Write the final note to `notes/<slug>.md`.
+6. Update `posts-data.js` (add or refresh entry).
+7. Run Git commands to commit and push.
+8. Print a detailed completion summary.
+
+The user will not provide any parameters beyond the pasted Markdown block.
+
+---
+
+## Site Markdown Rules (Must Follow)
+
+- **Language**: Preserve the language of the input Markdown. If the pasted note is in Chinese, keep all normalization and additions in Chinese; if it is in English, keep everything in English.
+- **File path**: `notes/<slug>.md` (slug must be lowercase, hyphen-joined, identical to `posts-data.js`).
+- **Headings**: allow `#`, `##`, `###` in raw input, but **the first `#` H1 is only used to extract the title and must be removed from the saved Markdown**.
+- **Spacing**: one blank line before/after headings and between paragraphs.
+- **Lists**: `-` for unordered; `1.` for ordered.
+- **Tables**: standard Markdown table syntax.
+- **Math**:
+  - Inline: `$...$`
+  - Block: `$$ ... $$` on a single logical line with no internal newlines, blank lines, or indentation.
+  - Escape every underscore inside math as `\_`; never use raw `_` or `_{...}`.
+  - Convert `\(...\)` → `$...$`, `\[...\]` → `$$...$$`.
+  - Remove `\boxed{...}` but keep its content.
+  - Do not use spacing commands such as `\,`, `\!`, `\;`, or `\:` anywhere in math; remove them entirely.
+  - Keep multi-step derivations as separate block equations: close each `$$` after a single formula and add prose between steps.
+  - Stick to forms like `E\_X[...]` without spacing macros; avoid `\mathbb`, `\|`, `\!`.
+  - The renderer does not support `\underbrace`; replace with `\text{(...)}` annotations.
+  - Inside inline math (`$...$`), never use `\,` or `\!`; must be a single uninterrupted LaTeX expression.
+  - For barred Greek letters, avoid braces: use `\bar\alpha\_t` instead of `\bar{\alpha}\_t`.
+  - Always replace literal `*` inside math with `\ast`, and escape every underscore as `\_`.
+  - Keep one blank line before and after block equations.
+  - Never leave equations inside fenced code blocks; convert them into math formats.
+- **Text style**: **bold** as `**text**`; _italic_ as `_text_`; code as `` `code` ``.
+- **Punctuation**: use half-width (English) punctuation; do not mix CJK and English punctuation.
+- **Links/Images**: `[Title](URL)` and `![Alt](URL)`.
+- **No HTML** or unusual syntax.
+
+### Math Normalization Example
+
+Input: `$$ L_{reg} = \frac{1}{M} \sum_{i=1}^{M} ... $$`
+
+Normalized: `$$ L\_{reg} = \frac{1}{M} \sum\_{i=1}^{M} ... $$`
+
+---
+
+## Title, Slug, Summary
+
+- **Title**:
+  - The first line starting with `# ` is the base title.
+  - Final title stored in `posts-data.js` must be **prefixed with the category**: `<Category> - <BaseTitle>` (e.g. `"Statistics - Normal Approximation"`).
+  - This H1 must NOT be kept in the final saved Markdown.
+- **Category**:
+  - If `@category:` override exists, use it.
+  - Else auto-detect per "Category Detection" below.
+- **Slug** (category-prefixed rule):
+  - If `@slug:` override exists, use it verbatim.
+  - Otherwise: `slug = <category-lower-hyphen> + '-' + <title-slug>` (e.g. `statistics-normal-approximation`).
+- **Summary**:
+  - If `@summary:` exists, use it (<=160 chars, no formulas).
+  - Otherwise, take the first 1-2 sentences of the first paragraph after the removed title (<=160 chars, no formulas).
+- **Strip any inline overrides** from the final Markdown prior to saving.
+
+---
+
+## Category Detection (Auto + Reuse Existing)
+
+1. Read `posts-data.js` and collect distinct existing `"category"` values.
+2. If `@category:` exists and matches an existing category, use it.
+3. Otherwise, classify by **case-insensitive keyword counts**:
+   - **Statistics**: variance, estimator, MVUE, MLE, likelihood, hypothesis, distribution, t-distribution, chi-square, F distribution, probability, CLT, Bayes, posterior, prior.
+   - **Machine Learning**: regression, SVM, CNN, RNN, YOLO, training, gradient, loss, overfitting, cross-validation, dataset, feature, sklearn, PyTorch, TensorFlow, metric.
+   - **LLM**: LLM, transformer, attention, tokenizer, prompt, embedding, RAG, vector DB, LangChain, agent, OpenAI, inference.
+   - **Flow Matching**: flow matching, rectified flow, probability flow ODE, continuous normalizing flow, CNF, neural ODE, continuity equation, Liouville, instantaneous change of variables, ICOV.
+4. Choose the category with the **highest match count among existing categories**.
+5. If no keywords match, use `"Misc"`.
+6. If `@category:` is present but not in existing categories, accept it and add it.
+
+---
+
+## Update `posts-data.js`
+
+Every note must have an entry in `window.POSTS`:
+
+```js
+{
+  slug: "<slug>",
+  title: "<Category> - <BaseTitle>",
+  date: "YYYY-MM-DDTHH:MM:SSZ",
+  category: "<Category>",
+  summary: "<1-2 sentence summary, no formulas>"
+}
+```
+
+**Rules:**
+- **date is the current UTC time in ISO 8601** — always generate at publish time via system clock; never reuse a cached value.
+- **If an entry with the same slug exists, update its fields** (keep array order intact).
+- **If none exists, prepend a new object to the array** (newest first).
+- **Preserve the module wrapper**: `window.POSTS = [ ... ];`
+- **Preserve existing indentation and commas.**
+
+---
+
+## Write Target Files
+
+- Output path: `notes/<slug>.md` (overwrite if exists).
+- Remove any inline overrides from the final Markdown.
+- Ensure the final document complies with all "Site Markdown Rules".
+- **Ensure the top-level H1 title line is removed** (only body remains).
+
+---
+
+## Git Commands (Always Attempt)
+
+After writing the note and updating `posts-data.js`, execute:
+
+```bash
+git add notes/<slug>.md posts-data.js
+git commit -m "add: <slug>"
+git push
+```
+
+If there are no changes, skip the commit but still report "no changes".
+
+---
+
+## Output Summary (Print in Chat)
+
+After all steps, print:
+
+```
+✅ Published
+Title: <Category> - <BaseTitle>
+Slug: <slug>
+Category: <category>
+Summary: <summary>
+Date (UTC): <ISO8601>
+Path: notes/<slug>.md
+posts-data.js: updated
+Git: committed and pushed (or no changes)
+```
+
+---
+
+## Inline Overrides (Optional; Remove Before Save)
+
+```
+@title: Custom Title
+@slug: custom-slug
+@category: Statistics | Machine Learning | LLM | <any>
+@summary: One-two sentence description without formulas
+```
