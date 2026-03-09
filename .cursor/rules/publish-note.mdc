@@ -1,7 +1,7 @@
 ---
 description: When the user pastes a raw Markdown note and wants to publish it to the blog. Triggers on requests to add/publish a note, or when a raw Markdown block with a top-level H1 title is provided.
 globs:
-alwaysApply: false
+alwaysApply: true
 ---
 
 # Note Publishing Rules (Auto Execute: Format → Classify → Commit & Push)
