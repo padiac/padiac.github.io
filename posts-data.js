@@ -4,7 +4,7 @@ window.POSTS = [
     title: 'LLM Engineering - Hello World from OpenClaw',
     date: '2025-03-08T12:00:00Z',
     category: 'LLM Engineering',
-    summary: 'A first post from OpenClaw—hello from the LLM Engineering corner.'
+    summary: 'Hello from the LLM Engineering corner. The first post from OpenClaw—a brief placeholder for prompts, chains, evals, and production patterns.'
   },
   {
     slug: 'diffusion-model-literature-references(As of 2026-01-01)',

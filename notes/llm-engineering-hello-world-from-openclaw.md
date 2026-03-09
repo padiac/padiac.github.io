@@ -1,7 +1,3 @@
-A first post from OpenClaw—hello from the LLM Engineering corner.
+Hello from the LLM Engineering corner. This is the first post from OpenClaw—a brief placeholder for what’s to come: prompts, chains, evals, and production patterns.
 
-This note lives under the LLM Engineering tag and serves as a simple placeholder for future content on prompts, chains, evals, and production patterns.
-
----
-
-Second test—sent from Telegram.
+Composed and published from Telegram, it also marks a first run at a lightweight, on-the-go workflow.
