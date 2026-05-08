@@ -28,17 +28,13 @@ Word2Vec learns word vectors by training a shallow neural network on a self-supe
 
 ### Skip-gram
 
-Given a center word $w_c$, predict each context word $w_o$ within a fixed window. The objective maximizes
+Given a center word $w\_c$, predict each context word $w\_o$ within a fixed window. The objective maximizes
 
-$$
-\sum_{t=1}^{T} \sum_{-m \le j \le m,\; j \ne 0} \log P(w_{t+j} \mid w_t)
-$$
+$$ \sum\_{t=1}^{T} \sum\_{-m \le j \le m, j \ne 0} \log P(w\_{t+j} \mid w\_t) $$
 
 where $T$ is the corpus length and $m$ is the window size. The conditional probability is modeled with a softmax over the entire vocabulary $V$:
 
-$$
-P(w_o \mid w_c) = \frac{\exp(\mathbf{u}_{w_o}^\top \mathbf{v}_{w_c})}{\sum_{i \in V} \exp(\mathbf{u}_i^\top \mathbf{v}_{w_c})}
-$$
+$$ P(w\_o \mid w\_c) = \frac{\exp(\mathbf{u}\_{w\_o}^\top \mathbf{v}\_{w\_c})}{\sum\_{i \in V} \exp(\mathbf{u}\_i^\top \mathbf{v}\_{w\_c})} $$
 
 Each word maintains two vectors: $\mathbf{v}$ (as center) and $\mathbf{u}$ (as context).
 
@@ -52,35 +48,25 @@ Computing the full softmax denominator over $\lvert V \rvert$ is expensive.
 
 - **Hierarchical Softmax.** Replaces the flat softmax with a binary tree (typically a Huffman tree). Each word sits at a leaf; predicting a word requires $O(\log \lvert V \rvert)$ binary classifier decisions along the path from root to leaf.
 
-- **Negative Sampling.** Approximates the softmax by contrasting the true (center, context) pair against $k$ randomly sampled negative pairs. The objective for a single positive pair $(w_c, w_o)$ becomes
+- **Negative Sampling.** Approximates the softmax by contrasting the true (center, context) pair against $k$ randomly sampled negative pairs. The objective for a single positive pair $(w\_c, w\_o)$ becomes
 
-$$
-\log \sigma(\mathbf{u}_{w_o}^\top \mathbf{v}_{w_c}) + \sum_{i=1}^{k} \mathbb{E}_{w_i \sim P_n(w)} \left[\log \sigma(-\mathbf{u}_{w_i}^\top \mathbf{v}_{w_c})\right]
-$$
+$$ \log \sigma(\mathbf{u}\_{w\_o}^\top \mathbf{v}\_{w\_c}) + \sum\_{i=1}^{k} \mathbb{E}\_{w\_i \sim P\_n(w)} [\log \sigma(-\mathbf{u}\_{w\_i}^\top \mathbf{v}\_{w\_c})] $$
 
-where $P_n(w) \propto f(w)^{3/4}$ is the noise distribution based on word frequency $f(w)$.
+where $P\_n(w) \propto f(w)^{3/4}$ is the noise distribution based on word frequency $f(w)$.
 
 ---
 
 ## 2. GloVe (Global Vectors)
 
-GloVe bridges the gap between count-based and prediction-based methods. It constructs a global word-word co-occurrence matrix $X$, where $X_{ij}$ counts how often word $j$ appears in the context of word $i$.
+GloVe bridges the gap between count-based and prediction-based methods. It constructs a global word-word co-occurrence matrix $X$, where $X\_{ij}$ counts how often word $j$ appears in the context of word $i$.
 
 The loss minimizes the weighted least-squares objective
 
-$$
-J = \sum_{i,j=1}^{\lvert V \rvert} f(X_{ij}) \bigl(\mathbf{w}_i^\top \tilde{\mathbf{w}}_j + b_i + \tilde{b}_j - \log X_{ij}\bigr)^2
-$$
+$$ J = \sum\_{i,j=1}^{\lvert V \rvert} f(X\_{ij}) (\mathbf{w}\_i^\top \tilde{\mathbf{w}}\_j + b\_i + \tilde{b}\_j - \log X\_{ij})^2 $$
 
 where $f$ is a weighting function that caps the influence of very frequent co-occurrences:
 
-$$
-f(x) =
-\begin{cases}
-(x / x_{\max})^\alpha, & x < x_{\max} \\
-1, & \text{otherwise}
-\end{cases}
-$$
+$$ f(x) = \begin{cases} (x / x\_{\max})^\alpha, & x < x\_{\max} \\ 1, & \text{otherwise} \end{cases} $$
 
 The key insight is that ratios of co-occurrence probabilities encode semantic relationships more reliably than raw counts.
 
@@ -92,9 +78,7 @@ FastText extends Skip-gram by representing each word as a bag of character n-gra
 
 The word vector is the sum of all its n-gram vectors:
 
-$$
-\mathbf{v}_w = \sum_{g \in \mathcal{G}(w)} \mathbf{z}_g
-$$
+$$ \mathbf{v}\_w = \sum\_{g \in \mathcal{G}(w)} \mathbf{z}\_g $$
 
 This gives FastText two advantages over vanilla Word2Vec:
 
