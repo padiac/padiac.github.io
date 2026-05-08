@@ -1,9 +1,9 @@
 window.POSTS = [
   {
-    slug: 'machine-learning-word-embeddings-from-word2vec-to-glove',
-    title: 'Machine Learning - Word Embeddings: From Word2Vec to GloVe',
+    slug: 'llm-word-embeddings-from-word2vec-to-glove',
+    title: 'LLM - Word Embeddings: From Word2Vec to GloVe',
     date: '2026-05-07T12:00:00Z',
-    category: 'Machine Learning',
+    category: 'LLM',
     summary: 'A taxonomy of classic word embedding methods — Word2Vec (Skip-gram, CBOW, Negative Sampling), GloVe (co-occurrence matrix factorization), and FastText (subword-aware training) — with key objectives and comparisons.'
   },
   {
