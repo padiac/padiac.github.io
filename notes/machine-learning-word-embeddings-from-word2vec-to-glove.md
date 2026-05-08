@@ -48,9 +48,9 @@ Reverses the direction: given all context words in the window, predict the cente
 
 ### Training Speedups
 
-Computing the full softmax denominator over $|V|$ is expensive.
+Computing the full softmax denominator over $\lvert V \rvert$ is expensive.
 
-- **Hierarchical Softmax.** Replaces the flat softmax with a binary tree (typically a Huffman tree). Each word sits at a leaf; predicting a word requires $O(\log |V|)$ binary classifier decisions along the path from root to leaf.
+- **Hierarchical Softmax.** Replaces the flat softmax with a binary tree (typically a Huffman tree). Each word sits at a leaf; predicting a word requires $O(\log \lvert V \rvert)$ binary classifier decisions along the path from root to leaf.
 
 - **Negative Sampling.** Approximates the softmax by contrasting the true (center, context) pair against $k$ randomly sampled negative pairs. The objective for a single positive pair $(w_c, w_o)$ becomes
 
@@ -69,13 +69,17 @@ GloVe bridges the gap between count-based and prediction-based methods. It const
 The loss minimizes the weighted least-squares objective
 
 $$
-J = \sum_{i,j=1}^{|V|} f(X_{ij}) \left(\mathbf{w}_i^\top \tilde{\mathbf{w}}_j + b_i + \tilde{b}_j - \log X_{ij}\right)^2
+J = \sum_{i,j=1}^{\lvert V \rvert} f(X_{ij}) \bigl(\mathbf{w}_i^\top \tilde{\mathbf{w}}_j + b_i + \tilde{b}_j - \log X_{ij}\bigr)^2
 $$
 
 where $f$ is a weighting function that caps the influence of very frequent co-occurrences:
 
 $$
-f(x) = \begin{cases} (x / x_{\max})^\alpha & \text{if } x < x_{\max} \\ 1 & \text{otherwise} \end{cases}
+f(x) =
+\begin{cases}
+(x / x_{\max})^\alpha, & x < x_{\max} \\
+1, & \text{otherwise}
+\end{cases}
 $$
 
 The key insight is that ratios of co-occurrence probabilities encode semantic relationships more reliably than raw counts.
