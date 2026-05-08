@@ -1,5 +1,12 @@
 window.POSTS = [
   {
+    slug: 'llm-why-glove-fits-log-co-occurrence-instead-of-raw-counts',
+    title: 'LLM - Why GloVe Fits Log Co-occurrence Instead of Raw Counts',
+    date: '2026-05-07T14:00:00Z',
+    category: 'LLM',
+    summary: 'The log in GloVe is not just for numerical convenience — it bridges the multiplicative world of probabilities and the additive world of vector spaces, enabling linear word analogies.'
+  },
+  {
     slug: 'llm-word-embeddings-from-word2vec-to-glove',
     title: 'LLM - Word Embeddings: From Word2Vec to GloVe',
     date: '2026-05-07T12:00:00Z',
