@@ -1,5 +1,12 @@
 window.POSTS = [
   {
+    slug: 'machine-learning-rigorous-derivation-of-backpropagation-using-index-notation',
+    title: 'Machine Learning - Rigorous Derivation of Backpropagation using Index Notation',
+    date: '2026-05-10T21:20:00Z',
+    category: 'Machine Learning',
+    summary: 'A rigorous derivation of backpropagation for a two-layer neural network using tensor index notation and the Kronecker delta, revealing how the Hadamard product naturally emerges from the diagonal Jacobian of element-wise activations.'
+  },
+  {
     slug: 'llm-why-glove-fits-log-co-occurrence-instead-of-raw-counts',
     title: 'LLM - Why GloVe Fits Log Co-occurrence Instead of Raw Counts',
     date: '2026-05-07T14:00:00Z',
