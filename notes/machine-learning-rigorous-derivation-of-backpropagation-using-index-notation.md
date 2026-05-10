@@ -19,13 +19,60 @@ $$J = -\frac{1}{m} \sum \bigl[ y \log a\_3 + (1-y)\log(1-a\_3) \bigr]$$
 
 ---
 
-## 2. Gradient of the Output Layer ($\theta\_2$)
+## 2. Deriving $\delta\_3 = \frac{1}{m}(a\_3 - y)$
 
-First, we find the derivative of the cost function with respect to the output pre-activation $z\_3$. Using standard calculus:
+This result is often stated without proof. Below we derive it for both the binary and multi-class cases, showing that the same form arises from the same cancellation mechanism.
 
-$$\delta\_3 = \frac{\partial J}{\partial z\_3} = \frac{1}{m}(a\_3 - y)$$
+### Case 1: Sigmoid + Binary Cross-Entropy
 
-To find $\frac{\partial J}{\partial \theta\_2}$, we use index notation to avoid dimensionality confusion. Consider a single element $z\_{3, mn}$:
+Let $s$ index samples. The loss is:
+
+$$J = -\frac{1}{m}\sum\_s \bigl[y\_s \log a\_{3,s} + (1-y\_s)\log(1-a\_{3,s})\bigr]$$
+
+Applying the chain rule through sigmoid $a\_{3,s} = \sigma(z\_{3,s})$, with $\frac{\partial a\_{3,s}}{\partial z\_{3,s}} = a\_{3,s}(1-a\_{3,s})$:
+
+$$\frac{\partial J}{\partial z\_{3,s}} = -\frac{1}{m}\Bigl(\frac{y\_s}{a\_{3,s}} - \frac{1-y\_s}{1-a\_{3,s}}\Bigr) \cdot a\_{3,s}(1-a\_{3,s})$$
+
+The $a\_{3,s}(1-a\_{3,s})$ factor cancels with the denominators:
+
+$$= -\frac{1}{m}\bigl[y\_s(1-a\_{3,s}) - (1-y\_s)a\_{3,s}\bigr] = \frac{1}{m}(a\_{3,s} - y\_s)$$
+
+In matrix form ($m \times 1$): $\delta\_3 = \frac{1}{m}(a\_3 - y)$.
+
+### Case 2: Softmax + Categorical Cross-Entropy
+
+Now $a\_{3,sk}$ and $y\_{sk}$ are $(m \times C)$ matrices, with $s$ the sample index and $k$ the class index. The loss is:
+
+$$J = -\frac{1}{m}\sum\_{s,k} y\_{sk} \log a\_{3,sk}$$
+
+The softmax Jacobian, written compactly with Kronecker deltas:
+
+$$\frac{\partial a\_{3,sk}}{\partial z\_{3,s'i}} = a\_{3,sk}(\delta\_{ki} - a\_{3,si})\,\delta\_{ss'}$$
+
+The $\delta\_{ss'}$ appears because softmax mixes only within a sample, not across samples — the same diagonal structure seen in Section 3 for element-wise activations.
+
+Applying the chain rule:
+
+$$\frac{\partial J}{\partial z\_{3,si}} = -\frac{1}{m}\sum\_{s',k} y\_{s'k} \frac{1}{a\_{3,s'k}} \cdot a\_{3,s'k}(\delta\_{ki} - a\_{3,s'i})\,\delta\_{ss'}$$
+
+$a\_{3,s'k}$ cancels; $\delta\_{ss'}$ collapses $s'$:
+
+$$= -\frac{1}{m}\sum\_k y\_{sk}(\delta\_{ki} - a\_{3,si}) = -\frac{1}{m}\Bigl(y\_{si} - a\_{3,si}\underbrace{\sum\_k y\_{sk}}_{=1}\Bigr) = \frac{1}{m}(a\_{3,si} - y\_{si})$$
+
+In matrix form ($m \times C$): $\delta\_3 = \frac{1}{m}(a\_3 - y)$.
+
+### Why Both Cases Give the Same Form
+
+The $\log$ in cross-entropy always produces a $\frac{1}{a}$ factor. In both cases the Jacobian of the output activation contains a matching $a$ factor that cancels it exactly, leaving only the clean residual $a - y$. The structural difference is:
+
+- **Sigmoid:** scalar Jacobian $a\_{3,s}(1-a\_{3,s})$ per element; cancellation is direct.
+- **Softmax:** matrix Jacobian $a\_{3,sk}(\delta\_{ki} - a\_{3,si})\delta\_{ss'}$; the $a\_{3,sk}$ factor cancels, $\delta\_{ss'}$ isolates each sample, and $\sum\_k y\_{sk} = 1$ (one-hot) collapses the remaining sum.
+
+---
+
+## 3. Gradient of the Output Layer ($\theta\_2$)
+
+We use index notation to avoid dimensionality confusion. Consider a single element $z\_{3, mn}$:
 
 $$z\_{3, mn} = \sum\_k a\_{2, mk} \theta\_{2, kn}$$
 
@@ -49,7 +96,7 @@ $$\frac{\partial J}{\partial \theta\_2} = a\_2^T \delta\_3$$
 
 ---
 
-## 3. Gradient of the Hidden Layer ($\theta\_1$) and the Hadamard Product
+## 4. Gradient of the Hidden Layer ($\theta\_1$) and the Hadamard Product
 
 This is where index notation becomes powerful for understanding exactly why element-wise multiplication occurs.
 
