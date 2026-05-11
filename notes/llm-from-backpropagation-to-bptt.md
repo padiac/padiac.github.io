@@ -1,266 +1,234 @@
-This is a direct continuation of the [previous backpropagation derivation](machine-learning-rigorous-derivation-of-backpropagation-using-index-notation). The core observation: BPTT (Backpropagation Through Time) is not a new algorithm — it is the same multivariate chain rule applied to an unrolled computation graph where one hidden node feeds two forward paths instead of one.
+This is a direct continuation of the [previous backpropagation derivation](machine-learning-rigorous-derivation-of-backpropagation-using-index-notation). The core observation: BPTT (Backpropagation Through Time) is not a new algorithm — it is the same multivariate chain rule applied to an unrolled computation graph where one or more hidden nodes feed multiple forward paths.
 
-Everything in Sections 3 and 4 of the previous post carries over unchanged. This post adds exactly two new ingredients: a recurrent connection that creates the multi-path structure, and a reverse-time loop that accumulates gradients across timesteps.
+This post derives BPTT for two architectures in parallel:
 
----
+- **Part A** — Vanilla RNN, one recurrent quantity ($a\_t$)
+- **Part B** — LSTM, two recurrent quantities ($a\_t$ and $c\_t$) plus element-wise gating
 
-## 1. Forward Pass
-
-For each timestep $t \in \{0, 1, \ldots, T-1\}$:
-
-$$z\_t = x\_t W\_{ax} + a\_{t-1} W\_{aa} + b\_a$$
-
-$$a\_t = \tanh(z\_t)$$
-
-$$\hat{y}\_t = \text{softmax}(a\_t W\_{ya} + b\_y)$$
-
-The total loss sums per-timestep cross-entropies:
-
-$$J = \frac{1}{m} \sum\_t J\_t, \quad J\_t = -\sum\_k y\_{t,k} \log \hat{y}\_{t,k}$$
+Both share the same template: (1) a softmax + CE output layer recycled from the previous post, (2) cells built from linear layers and element-wise activations, and (3) a reverse-time loop driven by the multivariate chain rule. The only structural differences are how many forward paths each hidden quantity has and whether the recurrent operation is matmul or Hadamard.
 
 ---
 
-## 2. Output Layer Backward — Identical to Section 3 of the Previous Post
+## 1. Shared Setup — Output Layer and Loss
 
-At each timestep the output layer is structurally a single 2-layer-style softmax + CE block. The cancellation derived in Section 2 of the previous post applies unchanged:
+Both architectures emit per-timestep predictions through a softmax + cross-entropy head:
 
-$$\delta\_3^{(t)} = \frac{1}{m}(\hat{y}\_t - y\_t)$$
+$$\hat{y}\_t = \text{softmax}(a\_t W\_{ya} + b\_y), \quad J = \frac{1}{m}\sum\_t J\_t, \quad J\_t = -\sum\_k y\_{t,k} \log \hat{y}\_{t,k}$$
 
-The weight gradient is the same matmul pattern as Section 3, just accumulated over $T$ timesteps:
+The cancellation derived in Section 2 of the previous post applies unchanged at every timestep:
 
-$$\frac{\partial J}{\partial W\_{ya}} = \sum\_t a\_t^T \delta\_3^{(t)}$$
+$$\delta\_3^{(t)} = \frac{\partial J}{\partial z\_{y,t}} = \frac{1}{m}\bigl(\hat{y}\_t - y\_t\bigr)$$
 
-### Deriving $\frac{\partial J}{\partial b\_y}$ Explicitly
+### Weight and Bias Gradients
 
-Drop the timestep index for a moment and look at one step. The forward of the output layer in index form is:
+The output weights are reused across all timesteps, so their gradients sum over time:
 
-$$z\_{sk} = \sum\_j a\_{sj} W\_{ya,jk} + b\_{y,k}$$
+$$\frac{\partial J}{\partial W\_{ya}} = \sum\_t a\_t^T\, \delta\_3^{(t)}$$
 
-where $s$ is the sample index, $k$ is the output index, $j$ is the hidden dimension. Take the partial with respect to a single bias component $b\_{y,i}$:
+For the bias, drop the timestep index and work at one step. The forward in index form:
 
-$$\frac{\partial z\_{sk}}{\partial b\_{y,i}} = \delta\_{ki}$$
+$$z\_{y,sk} = \sum\_j a\_{sj}\, W\_{ya,jk} + b\_{y,k}$$
 
-(Kronecker delta — $z\_{sk}$ contains $b\_{y,k}$, so it only depends on $b\_{y,i}$ when $k = i$.)
+Differentiate with respect to one component $b\_{y,i}$:
+
+$$\frac{\partial z\_{y,sk}}{\partial b\_{y,i}} = \delta\_{ki}$$
 
 Chain rule:
 
-$$\frac{\partial J}{\partial b\_{y,i}} = \sum\_{s,k} \frac{\partial J}{\partial z\_{sk}} \cdot \frac{\partial z\_{sk}}{\partial b\_{y,i}} = \sum\_{s,k} \delta\_{3,sk} \cdot \delta\_{ki}$$
+$$\frac{\partial J}{\partial b\_{y,i}} = \sum\_{s,k} \delta\_{3,sk}\, \delta\_{ki} = \sum\_s \delta\_{3,si}$$
 
-The $\delta\_{ki}$ collapses the sum over $k$, forcing $k = i$:
-
-$$\frac{\partial J}{\partial b\_{y,i}} = \sum\_s \delta\_{3,si}$$
-
-Dropping the free index gives the vector form at one timestep:
-
-$$\frac{\partial J}{\partial b\_y}\bigg|\_t = \sum\_s \delta\_{3,s}^{(t)}$$
-
-Since the same $b\_y$ is reused at every timestep (it is broadcast across both batch and time), the full gradient sums both indices:
+The Kronecker delta collapses the $k$ sum. Drop the free index and add the timestep sum (same bias used at every $t$):
 
 $$\frac{\partial J}{\partial b\_y} = \sum\_t \sum\_s \delta\_{3,s}^{(t)}$$
 
-In code, the per-timestep sum over $s$ is `delta3[:, t, :].sum(0)`, and the outer sum over $t$ is the `+=` in the loop.
-
 ### Gradient Flowing Back Into Hidden States
 
-And the gradient flowing back into each hidden state from its output branch:
+The gradient into each hidden state from the output branch follows the iron rule "input gradient = output gradient @ weight transpose":
 
-$$da\_t^{\text{(out)}} = \delta\_3^{(t)} W\_{ya}^T$$
+$$\frac{\partial J}{\partial a\_t}\bigg|\_{\text{output}} = \delta\_3^{(t)}\, W\_{ya}^T$$
 
-So far this is pure recycling of the previous derivation, one timestep at a time.
+This is the upstream gradient that enters each cell from above. The remaining work — propagating it through the recurrent structure — is what differs between RNN and LSTM.
 
 ---
 
-## 3. The New Ingredient: $a\_t$ Lives on Two Forward Paths
+# Part A — RNN BPTT
+
+## 2. RNN Forward
+
+For each timestep $t$:
+
+$$z\_t = x\_t W\_{ax} + a\_{t-1} W\_{aa} + b\_a, \quad a\_t = \tanh(z\_t)$$
+
+## 3. The New Ingredient — $a\_t$ Lives on Two Forward Paths
 
 In a feedforward 2-layer net, each hidden activation is used exactly once. In an RNN, the same $a\_t$ shows up in two places in the forward graph:
 
 - **Output branch:** $a\_t \to \hat{y}\_t \to J\_t$
-- **Recurrent branch:** $a\_t \to a\_{t+1} \to a\_{t+2} \to \ldots \to J\_{t+1}, J\_{t+2}, \ldots, J\_{T-1}$
+- **Recurrent branch:** $a\_t \to a\_{t+1} \to a\_{t+2} \to \ldots \to J\_{T-1}$
 
-Multivariate chain rule: when a variable appears on multiple forward paths, its gradient is the sum of the contributions from each path.
+Multivariate chain rule — when a variable appears on multiple forward paths, its gradient is the sum of the contributions from each path:
 
 $$\frac{\partial J}{\partial a\_t} = \frac{\partial J\_t}{\partial a\_t} + \frac{\partial J}{\partial a\_{t+1}} \cdot \frac{\partial a\_{t+1}}{\partial a\_t}$$
 
-The first term is the direct output-branch contribution (the $da\_t^{\text{(out)}}$ from Section 2). The second term is the recurrent-branch contribution — it's the gradient on the *next* hidden state, propagated one step back through the cell.
+The first term is the direct output-branch contribution. The second is the recurrent-branch contribution — the gradient on the next hidden state, propagated one step back through the cell.
 
-This is the *only* structural change relative to a feedforward network. The rest of the math is the same.
+## 4. RNN Cell Backward
 
----
+Given the total upstream gradient $\dfrac{\partial J}{\partial a\_t}$, propagate through tanh and into the weights.
 
-## 4. Single Cell Backward — Same Math as Section 4 of the Previous Post
+**Through tanh (element-wise → Hadamard):**
 
-Given any upstream gradient $da\_t = \frac{\partial J}{\partial a\_t}$ (whatever combination of branches contributed to it), the cell backward propagates through the tanh and into the weights.
+$$\frac{\partial J}{\partial z\_t} = \frac{\partial J}{\partial a\_t} \odot \bigl(1 - a\_t^2\bigr)$$
 
-$a\_t = \tanh(z\_t)$ is element-wise, so its Jacobian is diagonal with entries $1 - a\_t^2$. This is exactly the sparse-diagonal Jacobian pattern that produced the Hadamard product in Section 4. The pre-activation gradient is:
+This is the Hadamard step from Section 4 of the previous post.
 
-$$d z\_t = da\_t \odot (1 - a\_t^2)$$
+**Through the linear layer (iron rules):**
 
-From $z\_t = x\_t W\_{ax} + a\_{t-1} W\_{aa} + b\_a$, the gradients for this cell's parameters follow the same $a^T \delta$ pattern as Section 3:
+$$\frac{\partial J}{\partial W\_{ax}}\bigg|\_t = x\_t^T \cdot \frac{\partial J}{\partial z\_t}, \quad \frac{\partial J}{\partial W\_{aa}}\bigg|\_t = a\_{t-1}^T \cdot \frac{\partial J}{\partial z\_t}, \quad \frac{\partial J}{\partial b\_a}\bigg|\_t = \sum\_s \frac{\partial J}{\partial z\_{t,s}}$$
 
-$$\frac{\partial J\_{t,\text{local}}}{\partial W\_{ax}} = x\_t^T\, d z\_t, \quad \frac{\partial J\_{t,\text{local}}}{\partial W\_{aa}} = a\_{t-1}^T\, d z\_t, \quad \frac{\partial J\_{t,\text{local}}}{\partial b\_a} = \sum\_s d z\_t$$
+**Gradients into the cell's inputs:**
 
-And the gradients flowing back to the cell's two inputs:
+$$\frac{\partial J}{\partial x\_t}\bigg|\_t = \frac{\partial J}{\partial z\_t} \cdot W\_{ax}^T, \quad \frac{\partial J}{\partial a\_{t-1}}\bigg|\_t = \frac{\partial J}{\partial z\_t} \cdot W\_{aa}^T$$
 
-$$\frac{\partial J\_{t,\text{local}}}{\partial x\_t} = d z\_t\, W\_{ax}^T$$
+The last quantity is exactly $\dfrac{\partial J}{\partial a\_t} \cdot \dfrac{\partial a\_t}{\partial a\_{t-1}}$ — the recurrent-branch contribution that the next iteration of the backward loop will need.
 
-$$\frac{\partial J\_{t,\text{local}}}{\partial a\_{t-1}} = d z\_t\, W\_{aa}^T$$
-
-The last line is the key: this quantity is exactly $\frac{\partial J}{\partial a\_t} \cdot \frac{\partial a\_t}{\partial a\_{t-1}}$ — the recurrent-branch contribution that the next iteration of the backward loop will need.
-
-In code this is named `da_prev` because, from the cell's local perspective, $a\_{t-1}$ is "the previous activation." Across the backward loop, this same quantity plays the role of "the recurrent contribution flowing back one timestep."
-
----
-
-## 5. The BPTT Loop
-
-The full backward iterates from $T-1$ down to $0$. At each step it does three things:
-
-1. Combine the two branches into the total upstream gradient for $a\_t$.
-2. Run the cell backward to get weight gradients (accumulated) and the recurrent contribution for $t-1$.
-3. Carry that recurrent contribution into the next iteration.
+## 5. RNN BPTT Loop
 
 ```python
-da_prev = torch.zeros(batch, n_a)         # boundary: t = T-1 has no future
+da_prev = 0
 for t in reversed(range(T)):
-    total_da = da_out[:, t, :] + da_prev  # multivariate chain rule sum
-    grads = rnn_cell_backward(total_da, caches[t], params)
-    dWax += grads["dWax"]
-    dWaa += grads["dWaa"]
-    dba  += grads["dba"]
-    da_prev = grads["da_prev"]            # recurrent-branch grad for t-1
+    total_da = da_out[:, t, :] + da_prev   # multivariate chain rule
+    grads   = rnn_cell_backward(total_da, caches[t], params)
+    dWax   += grads["dWax"];  dWaa += grads["dWaa"];  dba += grads["dba"]
+    da_prev = grads["da_prev"]
 ```
 
-**Boundary condition.** At $t = T-1$ there is no $a\_T$, so the recurrent branch contributes nothing. Initializing `da_prev` to zero encodes this.
-
-**Why summing works.** `da_out[:, t, :]` is the direct path's contribution ($\partial J\_t / \partial a\_t$). `da_prev` is the indirect path's contribution ($\partial J / \partial a\_{t+1} \cdot \partial a\_{t+1} / \partial a\_t$), already fully computed by the previous iteration's cell backward. Summing them gives the total $\partial J / \partial a\_t$ that the cell backward at time $t$ needs as input.
+`da_prev` carries the recurrent-branch gradient from $a\_{t+1}$ back to $a\_t$. At $t = T-1$ there is no future, so it starts at zero.
 
 ---
 
-## 6. What's New, What's Recycled
+# Part B — LSTM BPTT
 
-| Concept | Source |
-|---|---|
-| Softmax + CE gives $\delta\_3 = \hat{y} - y$ | Previous post, Section 2 |
-| Weight gradient $a^T \delta$ | Previous post, Section 3 |
-| Element-wise activation $\Rightarrow$ Hadamard product | Previous post, Section 4 |
-| Bias gradient as sum over batch | Previous post, Section 3 |
-| Multi-path chain rule (gradients sum) | **New** |
-| Reverse-time accumulation loop | **New** |
+## 6. LSTM Forward
 
-Everything in the left column is reused unchanged. The only conceptual additions for BPTT are the multi-path sum and the loop structure that carries gradient backward in time. The actual matmul and Hadamard patterns inside each cell are identical to the static 2-layer case.
+Use separate weight matrices for the previous hidden state and the current input — mathematically cleaner than the concatenated form used in code. For each gate $g \in \{f, i, o\}$ and the candidate:
 
-This is why thinking of an RNN as "an MLP unrolled in time, with one extra edge per hidden node" is so productive — the math is genuinely the same, only the computation graph topology differs.
+$$f\_t = \sigma\bigl(a\_{t-1} U\_f + x\_t V\_f + b\_f\bigr) \quad \text{(forget gate)}$$
 
----
+$$i\_t = \sigma\bigl(a\_{t-1} U\_i + x\_t V\_i + b\_i\bigr) \quad \text{(input gate)}$$
 
-## 7. Extension to LSTM — Same Framework, More Paths
+$$o\_t = \sigma\bigl(a\_{t-1} U\_o + x\_t V\_o + b\_o\bigr) \quad \text{(output gate)}$$
 
-LSTM follows exactly the same template. Two additions on top of the vanilla RNN BPTT:
+$$\tilde{c}\_t = \tanh\bigl(a\_{t-1} U\_c + x\_t V\_c + b\_c\bigr) \quad \text{(candidate)}$$
 
-1. **Two hidden carries instead of one.** Both $a\_t$ and $c\_t$ now feed forward into the next timestep, so both need multi-path treatment.
-2. **Hadamard gating in the cell state update.** The gating mechanism uses element-wise multiplication rather than matmul. Per the rule "element-wise forward → element-wise backward, no transpose," this changes the cosmetic appearance of the backward formulas but not the underlying logic.
-
-### 7.1 Forward
-
-Define $\text{combined}\_t = [a\_{t-1}, x\_t]$ and four gates plus a candidate, all computed via the same linear-plus-activation pattern:
-
-$$f\_t = \sigma(\text{combined}\_t \cdot W\_f + b\_f)$$
-
-$$i\_t = \sigma(\text{combined}\_t \cdot W\_i + b\_i)$$
-
-$$o\_t = \sigma(\text{combined}\_t \cdot W\_o + b\_o)$$
-
-$$\tilde{c}\_t = \tanh(\text{combined}\_t \cdot W\_c + b\_c)$$
+Cell and hidden state update:
 
 $$c\_t = f\_t \odot c\_{t-1} + i\_t \odot \tilde{c}\_t$$
 
 $$a\_t = o\_t \odot \tanh(c\_t)$$
 
-$$\hat{y}\_t = \text{softmax}(a\_t W\_y + b\_y)$$
+For each gate $g$ denote its pre-activation by $z\_g^{(t)} = a\_{t-1} U\_g + x\_t V\_g + b\_g$, so $g\_t = \sigma(z\_g^{(t)})$ or $\tilde{c}\_t = \tanh(z\_c^{(t)})$.
 
-### 7.2 $c\_t$ Has Two Forward Paths
+## 7. The Two New Ingredients — $a\_t$ and $c\_t$ Both Have Multiple Paths
 
-Just like $a\_t$ in the RNN, the cell state $c\_t$ appears in two places:
+### 7.1 $c\_t$'s Two Forward Paths
+
+The cell state $c\_t$ feeds two places:
 
 - **Current step (through $a\_t$):** $c\_t \to a\_t \to \hat{y}\_t \to J\_t$
-- **Recurrent (through forget gate):** $c\_t \to c\_{t+1} \to c\_{t+2} \to \ldots$
+- **Recurrent (through forget gate at $t+1$):** $c\_t \to c\_{t+1} \to c\_{t+2} \to \ldots$
 
 Multivariate chain rule:
 
 $$\frac{\partial J}{\partial c\_t} = \frac{\partial J}{\partial a\_t} \cdot \frac{\partial a\_t}{\partial c\_t} + \frac{\partial J}{\partial c\_{t+1}} \cdot \frac{\partial c\_{t+1}}{\partial c\_t}$$
 
-**Path 1:** $a\_t = o\_t \odot \tanh(c\_t)$ is element-wise, so the Jacobian is diagonal with entries $o\_t \odot (1 - \tanh^2(c\_t))$. Contribution:
+Since $a\_t = o\_t \odot \tanh(c\_t)$ is element-wise, the Jacobian $\partial a\_t / \partial c\_t$ is diagonal with entries $o\_t \odot (1 - \tanh^2(c\_t))$. So the first term is:
 
-$$\text{path 1} = da\_t \odot o\_t \odot (1 - \tanh^2(c\_t))$$
+$$\frac{\partial J}{\partial a\_t} \odot o\_t \odot \bigl(1 - \tanh^2(c\_t)\bigr)$$
 
-**Path 2:** already computed at the previous backward iteration (when $t+1$ was processed); passed in as `dc_next`.
+Together:
 
-Sum:
+$$\frac{\partial J}{\partial c\_t} = \frac{\partial J}{\partial a\_t} \odot o\_t \odot \bigl(1 - \tanh^2(c\_t)\bigr) + \frac{\partial J}{\partial c\_{t+1}} \cdot \frac{\partial c\_{t+1}}{\partial c\_t}$$
 
-$$dc\_{\text{total}} = da\_t \odot o\_t \odot (1 - \tanh^2(c\_t)) + dc\_{\text{next}}$$
+This is the LSTM analog of RNN's $\partial J / \partial a\_t$ multi-path sum — same multivariate chain rule pattern.
 
-This is the direct LSTM analog of `total_da = da[:, t, :] + da_prev` from the RNN: both are multivariate chain rule sums for a hidden node with two outgoing forward paths.
+### 7.2 $a\_t$'s Two Forward Paths
 
-### 7.3 Gate Backward — Hadamard Replaces Matmul Transposes
+The hidden state $a\_t$ also feeds two places:
 
-Each gate's backward chain has three stages. The forget gate is representative; the others are identical in structure.
+- **Output branch at time $t$:** $a\_t \to \hat{y}\_t \to J\_t$
+- **Recurrent branch:** $a\_t$ is the $a\_{t-1}$ of the next timestep, entering all four gates at $t+1$ through $U\_f, U\_i, U\_o, U\_c$
 
-**Stage 1: Through element-wise gate operation in $c\_t$.**
+So:
 
-Forward: $c\_t = f\_t \odot c\_{t-1} + i\_t \odot \tilde{c}\_t$ — element-wise everywhere. So the gradients are Hadamard products without any transpose:
+$$\frac{\partial J}{\partial a\_t} = \frac{\partial J\_t}{\partial a\_t} + \sum\_{g \in \{f, i, o, c\}} \frac{\partial J}{\partial z\_g^{(t+1)}} \cdot U\_g^T$$
 
-$$df = dc\_{\text{total}} \odot c\_{t-1}, \quad di = dc\_{\text{total}} \odot \tilde{c}\_t, \quad d\tilde{c} = dc\_{\text{total}} \odot i\_t$$
+where the recurrent sum collects contributions from all four gates at $t+1$ (each is a matmul-style backprop with the corresponding $U^T$). The next iteration of the BPTT loop is what actually computes this.
 
-$$dc\_{\text{prev}} = dc\_{\text{total}} \odot f\_t$$
+## 8. LSTM Cell Backward — Gate by Gate
 
-Compare with the feedforward case in the previous post, where the analogous gradient went through a matmul and needed $\theta\_2^T$. Here it goes through Hadamard and the "other operand" appears with no transpose. The Kronecker delta analysis: element-wise forward means inputs and outputs share all indices, so the chain rule's Kronecker deltas collapse the entire sum, leaving plain element-wise products.
+Given the upstream gradients $\partial J / \partial a\_t$ and $\partial J / \partial c\_t$ (the latter computed via Section 7.1), propagate through each gate. Every gate's backward chain has three stages.
 
-**Stage 2: Through the activation (Hadamard, sigmoid or tanh derivative).**
+### Stage 1 — Through the Element-Wise Cell Update
 
-$$df\_{\text{raw}} = df \odot f\_t(1-f\_t)$$
+From $c\_t = f\_t \odot c\_{t-1} + i\_t \odot \tilde{c}\_t$ and $a\_t = o\_t \odot \tanh(c\_t)$, all element-wise:
 
-$$di\_{\text{raw}} = di \odot i\_t(1-i\_t), \quad do\_{\text{raw}} = do \odot o\_t(1-o\_t)$$
+$$\frac{\partial J}{\partial f\_t} = \frac{\partial J}{\partial c\_t} \odot c\_{t-1}, \quad \frac{\partial J}{\partial i\_t} = \frac{\partial J}{\partial c\_t} \odot \tilde{c}\_t, \quad \frac{\partial J}{\partial \tilde{c}\_t} = \frac{\partial J}{\partial c\_t} \odot i\_t$$
 
-$$d\tilde{c}\_{\text{raw}} = d\tilde{c} \odot (1 - \tilde{c}\_t^2)$$
+$$\frac{\partial J}{\partial o\_t} = \frac{\partial J}{\partial a\_t} \odot \tanh(c\_t)$$
 
-This is the exact $\sigma'$/$\tanh'$ Hadamard step from Section 4 of the previous post.
+$$\frac{\partial J}{\partial c\_{t-1}}\bigg|\_{\text{from }c\_t} = \frac{\partial J}{\partial c\_t} \odot f\_t$$
 
-**Stage 3: Through the linear layer (matmul, requires transpose).**
+**All Hadamard, no transpose** — element-wise forward means the chain rule's Kronecker deltas collapse the entire sum, leaving plain element-wise products. (Detailed derivation: same Kronecker analysis as Section 4 of the previous post; only the operation changes from $\sigma$ to general element-wise.)
 
-Forward was $\text{combined} \cdot W\_f$, so apply the iron rules from Section 3 of the previous post:
+### Stage 2 — Through the Activation
 
-$$dW\_f = \text{combined}^T @ df\_{\text{raw}}, \quad db\_f = \sum\_s df\_{\text{raw},s}$$
+Multiply by the activation derivative element-wise. For each sigmoid gate $g \in \{f, i, o\}$:
 
-Same matmul-with-transpose pattern, same bias-as-sum pattern.
+$$\frac{\partial J}{\partial z\_g^{(t)}} = \frac{\partial J}{\partial g\_t} \odot g\_t(1 - g\_t)$$
 
-### 7.4 Side-by-Side: Why $c\_{\text{prev}}$ Plays $\theta\_2^T$'s Role
+For the tanh candidate:
 
-Compose the full chain $dc\_{\text{total}} \to df\_{\text{raw}}$:
+$$\frac{\partial J}{\partial z\_c^{(t)}} = \frac{\partial J}{\partial \tilde{c}\_t} \odot \bigl(1 - \tilde{c}\_t^2\bigr)$$
 
-$$df\_{\text{raw}} = dc\_{\text{total}} \odot c\_{t-1} \odot f\_t(1-f\_t)$$
+This is the standard $\sigma'$ / $\tanh'$ Hadamard step from Section 4 of the previous post.
 
-Compare with $\delta\_2$ from the previous post:
+### Stage 3 — Through the Linear Layer
 
-$$\delta\_2 = \delta\_3 \cdot \theta\_2^T \odot a\_2(1-a\_2)$$
+For each gate $g \in \{f, i, o, c\}$, the pre-activation is $z\_g^{(t)} = a\_{t-1} U\_g + x\_t V\_g + b\_g$. Apply the iron rules:
 
-| Role | Feedforward | LSTM (forget gate) |
+$$\frac{\partial J}{\partial U\_g}\bigg|\_t = a\_{t-1}^T \cdot \frac{\partial J}{\partial z\_g^{(t)}}, \quad \frac{\partial J}{\partial V\_g}\bigg|\_t = x\_t^T \cdot \frac{\partial J}{\partial z\_g^{(t)}}, \quad \frac{\partial J}{\partial b\_g}\bigg|\_t = \sum\_s \frac{\partial J}{\partial z\_{g,s}^{(t)}}$$
+
+### Stage 4 — Multi-Path Sum at the Cell's Inputs
+
+Both $a\_{t-1}$ and $x\_t$ feed all four gates, so their gradients sum four contributions (each a matmul backprop with the corresponding weight transposed):
+
+$$\frac{\partial J}{\partial a\_{t-1}}\bigg|\_{\text{from gates}} = \sum\_{g \in \{f,i,o,c\}} \frac{\partial J}{\partial z\_g^{(t)}} \cdot U\_g^T$$
+
+$$\frac{\partial J}{\partial x\_t} = \sum\_{g \in \{f,i,o,c\}} \frac{\partial J}{\partial z\_g^{(t)}} \cdot V\_g^T$$
+
+The gradient on $a\_{t-1}$ above is precisely the recurrent-branch contribution that the next backward iteration (processing $t-1$) needs.
+
+## 9. The Structural Parallel — $c\_{t-1}$ Plays $\theta\_2^T$'s Role
+
+Compose the full chain $\partial J / \partial c\_t \to \partial J / \partial z\_f^{(t)}$ for the forget gate:
+
+$$\frac{\partial J}{\partial z\_f^{(t)}} = \frac{\partial J}{\partial c\_t} \odot c\_{t-1} \odot f\_t(1 - f\_t)$$
+
+Compare with the hidden-layer pre-activation gradient from the previous post:
+
+$$\delta\_2 = \delta\_3 \cdot \theta\_2^T \odot a\_2(1 - a\_2)$$
+
+| Role | 2-layer net | LSTM (forget gate) |
 |---|---|---|
-| Upstream gradient | $\delta\_3$ | $dc\_{\text{total}}$ |
+| Upstream gradient | $\delta\_3$ | $\partial J / \partial c\_t$ |
 | "Other operand" from forward | $\theta\_2^T$ | $c\_{t-1}$ |
-| Operation that produced it | matmul ($a\_2 \cdot \theta\_2$) | Hadamard ($f\_t \odot c\_{t-1}$) |
-| Activation derivative | $a\_2(1-a\_2)$ | $f\_t(1-f\_t)$ |
+| Forward operation producing it | matmul ($a\_2 \cdot \theta\_2$) | Hadamard ($f\_t \odot c\_{t-1}$) |
+| Activation derivative | $a\_2(1 - a\_2)$ | $f\_t(1 - f\_t)$ |
 
-The "other operand" entering as $\theta\_2^T$ vs. plain $c\_{t-1}$ is the only structural difference, and it's fully explained by the forward operation type. Both Kronecker delta derivations are in the previous post (Section 3 for matmul, Section 4 for element-wise).
+The "other operand" enters as $\theta\_2^T$ in one case and plain $c\_{t-1}$ in the other. The only structural difference is forward operation type: matmul forces a transpose in the backward chain, Hadamard does not.
 
-### 7.5 Multi-Path Sum at the Input of `combined`
-
-The forward step $\text{combined}\_t$ is used **four times** — once each for $f\_t, i\_t, o\_t, \tilde{c}\_t$. Multivariate chain rule again: the gradient on `combined` sums four contributions, each obtained by the matmul iron rule with $W^T$:
-
-$$d\_{\text{combined}} = df\_{\text{raw}} @ W\_f^T + di\_{\text{raw}} @ W\_i^T + do\_{\text{raw}} @ W\_o^T + d\tilde{c}\_{\text{raw}} @ W\_c^T$$
-
-Then split by the concat: $da\_{t-1}$ is the first $n\_a$ columns, $dx\_t$ is the rest.
-
-### 7.6 BPTT Loop — Two State Carries
+## 10. LSTM BPTT Loop — Two State Carries
 
 ```python
 da_prev = 0
@@ -268,27 +236,29 @@ dc_prev = 0
 for t in reversed(range(T)):
     total_da = da_out[:, t, :] + da_prev
     grads = lstm_cell_backward(total_da, dc_prev, caches[t], params)
-    # accumulate dWf, dWi, dWo, dWc, dbf, dbi, dbo, dbc
-    da_prev = grads["da_prev"]
-    dc_prev = grads["dc_prev"]
+    # accumulate dU_f, dV_f, db_f, ... for all four gates
+    da_prev = grads["da_prev"]   # recurrent-branch grad on a_{t-1}
+    dc_prev = grads["dc_prev"]   # recurrent-branch grad on c_{t-1}
 ```
 
-`da_prev` carries the gradient from $a\_{t+1}$ back to $a\_t$ (analogous to the RNN); `dc_prev` carries the gradient from $c\_{t+1}$ back to $c\_t$ — the new channel enabled by the gating mechanism.
+Two carries instead of one — that's the only loop-level change. `da_prev` plays the same role as in the RNN; `dc_prev` is new and made possible by the gating mechanism that turned the cell state into a separately controlled recurrent channel.
 
 ---
 
-## 8. Updated Summary
+## 11. Synthesis
 
 | Concept | 2-layer net | RNN BPTT | LSTM BPTT |
 |---|---|---|---|
-| Softmax + CE → $\hat{y} - y$ | ✓ | ✓ | ✓ |
-| Weight grad: $\text{input}^T @ \text{output\\_grad}$ | ✓ | ✓ | ✓ |
-| Input grad: $\text{output\\_grad} @ W^T$ | ✓ | ✓ | ✓ |
-| Bias grad: $\sum\_s$ over batch | ✓ | ✓ | ✓ |
-| Element-wise activation → Hadamard | ✓ | ✓ | ✓ |
-| Multi-path chain rule (gradients sum) | — | ✓ ($a\_t$) | ✓ ($a\_t, c\_t$, `combined`) |
+| Softmax + CE gradient $\hat{y} - y$ | ✓ | ✓ | ✓ |
+| Weight grad: input transpose times output gradient | ✓ | ✓ | ✓ |
+| Input grad: output gradient times weight transpose | ✓ | ✓ | ✓ |
+| Bias grad: sum over batch | ✓ | ✓ | ✓ |
+| Element-wise activation gives Hadamard product | ✓ | ✓ | ✓ |
+| Multi-path chain rule (gradients sum) | — | $a\_t$ | $a\_t, c\_t$, and the cell's input |
 | Reverse-time loop | — | ✓ | ✓ |
-| Hadamard gating → no transpose | — | — | ✓ |
+| Element-wise gating gives Hadamard without transpose | — | — | ✓ |
 | Two state carries | — | — | ✓ |
 
-LSTM is RNN's structure plus an additional element-wise gating layer that turns $c$ into a separately controlled recurrent channel. The only mathematically new wrinkle is the absence of transpose in the gradients of gate operations — a direct consequence of element-wise multiplication in the forward pass. Everything else is the same iron rules applied to a graph with more edges.
+LSTM is RNN's structure with one additional element-wise gating layer that turns $c$ into a separately controlled recurrent channel. The only mathematically new ingredient compared to the static 2-layer derivation is the multivariate chain rule for variables with multiple forward paths. Everything else — Hadamard from element-wise activations, transpose-and-matmul from linear layers, bias-as-sum from broadcasting — is identical across all three architectures.
+
+The math is genuinely the same; the computation graph differs.
