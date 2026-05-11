@@ -1,10 +1,10 @@
 window.POSTS = [
   {
     slug: 'llm-from-backpropagation-to-bptt',
-    title: 'LLM - From Backpropagation to BPTT',
-    date: '2026-05-11T03:15:00Z',
+    title: 'LLM - From Backpropagation to BPTT and LSTM',
+    date: '2026-05-11T04:00:00Z',
     category: 'LLM',
-    summary: 'A direct continuation of the backpropagation derivation, extending the chain rule to RNNs. BPTT is just the multivariate chain rule applied to an unrolled graph where one hidden node feeds two forward paths.'
+    summary: 'Continuing the backpropagation derivation through RNN BPTT and LSTM. Both are the same multivariate chain rule applied to unrolled graphs — RNN adds one extra edge per hidden node, LSTM adds an element-wise gated cell-state channel.'
   },
   {
     slug: 'machine-learning-rigorous-derivation-of-backpropagation-using-index-notation',
