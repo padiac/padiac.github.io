@@ -30,7 +30,37 @@ The weight gradient is the same matmul pattern as Section 3, just accumulated ov
 
 $$\frac{\partial J}{\partial W\_{ya}} = \sum\_t a\_t^T \delta\_3^{(t)}$$
 
+### Deriving $\frac{\partial J}{\partial b\_y}$ Explicitly
+
+Drop the timestep index for a moment and look at one step. The forward of the output layer in index form is:
+
+$$z\_{sk} = \sum\_j a\_{sj} W\_{ya,jk} + b\_{y,k}$$
+
+where $s$ is the sample index, $k$ is the output index, $j$ is the hidden dimension. Take the partial with respect to a single bias component $b\_{y,i}$:
+
+$$\frac{\partial z\_{sk}}{\partial b\_{y,i}} = \delta\_{ki}$$
+
+(Kronecker delta — $z\_{sk}$ contains $b\_{y,k}$, so it only depends on $b\_{y,i}$ when $k = i$.)
+
+Chain rule:
+
+$$\frac{\partial J}{\partial b\_{y,i}} = \sum\_{s,k} \frac{\partial J}{\partial z\_{sk}} \cdot \frac{\partial z\_{sk}}{\partial b\_{y,i}} = \sum\_{s,k} \delta\_{3,sk} \cdot \delta\_{ki}$$
+
+The $\delta\_{ki}$ collapses the sum over $k$, forcing $k = i$:
+
+$$\frac{\partial J}{\partial b\_{y,i}} = \sum\_s \delta\_{3,si}$$
+
+Dropping the free index gives the vector form at one timestep:
+
+$$\frac{\partial J}{\partial b\_y}\bigg|\_t = \sum\_s \delta\_{3,s}^{(t)}$$
+
+Since the same $b\_y$ is reused at every timestep (it is broadcast across both batch and time), the full gradient sums both indices:
+
 $$\frac{\partial J}{\partial b\_y} = \sum\_t \sum\_s \delta\_{3,s}^{(t)}$$
+
+In code, the per-timestep sum over $s$ is `delta3[:, t, :].sum(0)`, and the outer sum over $t$ is the `+=` in the loop.
+
+### Gradient Flowing Back Into Hidden States
 
 And the gradient flowing back into each hidden state from its output branch:
 
