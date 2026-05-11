@@ -247,18 +247,6 @@ Two carries instead of one — the only loop-level change. `da_prev` plays the s
 
 ## 11. Synthesis
 
-| Concept | 2-layer net | RNN BPTT | LSTM BPTT |
-|---|---|---|---|
-| Softmax + CE gradient $\hat{y} - y$ | yes | yes | yes |
-| Weight grad: input transpose times output gradient | yes | yes | yes |
-| Input grad: output gradient times weight transpose | yes | yes | yes |
-| Bias grad: sum over batch | yes | yes | yes |
-| Element-wise activation gives Hadamard | yes | yes | yes |
-| Multi-path chain rule (gradients sum) | — | $a^{(t)}$ | $a^{(t)}, c^{(t)}, h^{(t)}$ |
-| Reverse-time loop | — | yes | yes |
-| Element-wise gating gives Hadamard without transpose | — | — | yes |
-| Two state carries | — | — | yes |
-
 LSTM is RNN's structure with one additional element-wise gating layer that turns $c$ into a separately controlled recurrent channel. The only mathematically new ingredient compared to the static 2-layer derivation is the multivariate chain rule for variables with multiple forward paths. Everything else — Hadamard from element-wise activations, transpose-and-matmul from linear layers, bias-as-sum from broadcasting — is identical across all three architectures.
 
 The math is genuinely the same; the computation graph differs.
