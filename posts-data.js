@@ -1,5 +1,12 @@
 window.POSTS = [
   {
+    slug: 'llm-seq2seq-with-bahdanau-attention-architecture-and-pytorch-implementation',
+    title: 'LLM - Seq2Seq with Bahdanau Attention: Architecture and PyTorch Implementation',
+    date: '2026-05-17T06:00:00Z',
+    category: 'LLM',
+    summary: 'A complete walkthrough of Seq2Seq with Bahdanau attention for character-level date translation, mapping every architectural decision between Andrew Ng Course 5 notation and PyTorch code.'
+  },
+  {
     slug: 'llm-from-backpropagation-to-bptt',
     title: 'LLM - From Backpropagation to BPTT and LSTM',
     date: '2026-05-11T04:00:00Z',
