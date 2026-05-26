@@ -1,5 +1,12 @@
 window.POSTS = [
   {
+    slug: 'llm-transformer-from-scratch-architecture-and-pytorch-implementation',
+    title: 'LLM - Transformer from Scratch: Architecture and PyTorch Implementation',
+    date: '2026-05-18T06:00:00Z',
+    category: 'LLM',
+    summary: 'A complete dissection of the Transformer architecture mapping every component — scaled dot-product attention, multi-head attention, positional encoding, encoder/decoder layers, masking, and greedy decoding — between the original paper formulas and from-scratch PyTorch code with concrete dimension traces.'
+  },
+  {
     slug: 'llm-seq2seq-with-bahdanau-attention-architecture-and-pytorch-implementation',
     title: 'LLM - Seq2Seq with Bahdanau Attention: Architecture and PyTorch Implementation',
     date: '2026-05-17T06:00:00Z',
