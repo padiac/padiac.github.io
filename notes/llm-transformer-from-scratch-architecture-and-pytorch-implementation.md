@@ -106,43 +106,82 @@ Three reasons justify element-wise addition $x + PE$ over concatenation $[x; PE]
 
 ### 4.1 Module Hierarchy
 
-The Transformer is a deeply nested, modular design. The ownership tree (what contains what):
+The Transformer is a deeply nested, modular design. This diagram shows the **ownership hierarchy** (what contains what), not the data flow order:
 
 ```mermaid
 graph TD
-    T["Transformer"] --> Enc["Encoder"]
-    T --> Dec["Decoder"]
-    T --> FC["fc_out (linear projection)"]
+    Transformer["Transformer"] --> Encoder["Encoder"]
+    Transformer --> Decoder["Decoder"]
+    Transformer --> FCOut["fc_out (output linear projection)"]
 
-    Enc --> EncEmb["Embedding + PositionalEncoding"]
-    Enc --> EncL["N x EncoderLayer"]
-    EncL --> EncMHA["MultiHeadAttention (self-attention)"]
-    EncL --> EncFFN["PositionwiseFeedForward"]
+    subgraph EncoderLayerStack ["Encoder internals"]
+        Encoder --> EncEmbedding["Embedding & PositionalEncoding"]
+        Encoder --> EncLayers["N x EncoderLayer"]
+        EncLayers --> EncMHA["MultiHeadAttention (self-attention)"]
+        EncLayers --> EncFFN["PositionwiseFeedForward"]
+    end
 
-    Dec --> DecEmb["Embedding + PositionalEncoding"]
-    Dec --> DecL["N x DecoderLayer"]
-    DecL --> DecMHA1["MultiHeadAttention (masked self-attention)"]
-    DecL --> DecMHA2["MultiHeadAttention (cross-attention)"]
-    DecL --> DecFFN["PositionwiseFeedForward"]
+    subgraph DecoderLayerStack ["Decoder internals"]
+        Decoder --> DecEmbedding["Embedding & PositionalEncoding"]
+        Decoder --> DecLayers["N x DecoderLayer"]
+        DecLayers --> DecMaskedMHA["MultiHeadAttention (masked self-attention)"]
+        DecLayers --> DecCrossMHA["MultiHeadAttention (cross-attention)"]
+        DecLayers --> DecFFN["PositionwiseFeedForward"]
+    end
 ```
 
-### 4.2 EncoderLayer Data Flow
+### 4.2 Encoder Data Flow (Macro)
 
-Each `EncoderLayer` applies two sub-operations, each wrapped with a residual connection, dropout, and layer normalization:
+At runtime, data flows strictly left-to-right through the encoder pipeline:
+
+```mermaid
+graph LR
+    Input["Source token indices src <br> [batch, seq_len]"] --> Embedding["1. Embedding <br> (project to 128-dim)"]
+    Embedding --> PE["2. PositionalEncoding <br> (inject position info)"]
+    PE --> Layers["3. N x EncoderLayer <br> (stacked feature refinement)"]
+    Layers --> Output["Output enc_out <br> [batch, seq_len, 128]"]
+
+    style Input fill:#ffe3e3,stroke:#ff8b8b,stroke-width:1.5px
+    style Output fill:#e3f2fd,stroke:#42a5f5,stroke-width:1.5px
+    style Embedding fill:#fffde7,stroke:#fbc02d,stroke-width:1.5px
+    style PE fill:#fffde7,stroke:#fbc02d,stroke-width:1.5px
+    style Layers fill:#e8f5e9,stroke:#66bb6a,stroke-width:1.5px
+```
+
+### 4.3 EncoderLayer Data Flow (Micro)
+
+Zooming into a single `EncoderLayer`, each sub-operation is wrapped with a residual connection, dropout, and layer normalization:
 
 ```mermaid
 graph TD
-    X["Input x"] --> SA["Self-Attention (Q=K=V=x)"]
-    SA --> D1["Dropout"]
-    D1 --> Add1["+ (residual)"]
-    X --> Add1
-    Add1 --> LN1["LayerNorm 1"]
-    LN1 --> FFN["Feed-Forward Network"]
-    FFN --> D2["Dropout"]
-    D2 --> Add2["+ (residual)"]
-    LN1 --> Add2
-    Add2 --> LN2["LayerNorm 2"]
-    LN2 --> Out["Output"]
+    Input["Input x <br> [batch, seq_len, d_model]"] --> SplitX{"Clone x 3"}
+
+    subgraph SelfAttentionBlock ["Self-Attention + Residual"]
+        SplitX -->|Query| MHA["MultiHeadAttention (self_attn)"]
+        SplitX -->|Key| MHA
+        SplitX -->|Value| MHA
+        MHA -->|attn_out| Dropout1["Dropout 1"]
+        Dropout1 --> Add1["+ (residual)"]
+        Input -->|residual path| Add1
+        Add1 --> LN1["LayerNorm 1"]
+    end
+
+    subgraph FFNBlock ["FFN + Residual"]
+        LN1 -->|refined x| FFN["PositionwiseFeedForward (ffn)"]
+        FFN -->|ffn_out| Dropout2["Dropout 2"]
+        Dropout2 --> Add2["+ (residual)"]
+        LN1 -->|residual path| Add2
+        Add2 --> LN2["LayerNorm 2"]
+    end
+
+    LN2 --> Output["Output x <br> [batch, seq_len, d_model]"]
+
+    style Input fill:#ffe3e3,stroke:#ff8b8b,stroke-width:2px
+    style Output fill:#e3f2fd,stroke:#42a5f5,stroke-width:2px
+    style MHA fill:#fffde7,stroke:#fbc02d,stroke-width:1.5px
+    style FFN fill:#fffde7,stroke:#fbc02d,stroke-width:1.5px
+    style LN1 fill:#e8f5e9,stroke:#66bb6a,stroke-width:1.5px
+    style LN2 fill:#e8f5e9,stroke:#66bb6a,stroke-width:1.5px
 ```
 
 In code:
@@ -154,31 +193,76 @@ ffn_out = self.ffn(x)
 x = self.layer_norm2(x + self.dropout2(ffn_out))
 ```
 
-### 4.3 DecoderLayer Data Flow
+### 4.4 DecoderLayer Data Flow
 
-The decoder layer has three sub-operations. The cross-attention step is the bridge between source and target:
+Compared to the two-step `EncoderLayer`, the `DecoderLayer` adds a critical third step — **cross-attention** — which bridges source and target representations:
 
 ```mermaid
 graph TD
-    Y["Input y (target)"] --> MSA["Masked Self-Attention (Q=K=V=y)"]
-    MSA --> D1["Dropout"]
-    D1 --> Add1["+ (residual)"]
-    Y --> Add1
-    Add1 --> LN1["LayerNorm 1"]
+    InputY["Input y (target sequence)<br>[batch, seq_len_tgt, d_model]"]
+    SourceX["Source features (Encoder output enc_out)<br>[batch, seq_len_src, d_model]"]
 
-    LN1 --> CA["Cross-Attention (Q=y)"]
-    EncOut["enc_out (source)"] -->|"K, V"| CA
-    CA --> D2["Dropout"]
-    D2 --> Add2["+ (residual)"]
-    LN1 --> Add2
-    Add2 --> LN2["LayerNorm 2"]
+    subgraph SelfAttentionBlock ["Step 1: Masked Self-Attention"]
+        SplitY{"Clone y x3"}
+        MHA1["MultiHeadAttention (self_attn)"]
+        Dropout1["Dropout 1"]
+        Add1["+ (residual)"]
+        LN1["LayerNorm 1"]
 
-    LN2 --> FFN["Feed-Forward Network"]
-    FFN --> D3["Dropout"]
-    D3 --> Add3["+ (residual)"]
-    LN2 --> Add3
-    Add3 --> LN3["LayerNorm 3"]
-    LN3 --> Out["Output"]
+        SplitY -->|Query| MHA1
+        SplitY -->|Key| MHA1
+        SplitY -->|Value| MHA1
+        MHA1 -->|attn_self_out| Dropout1
+        Dropout1 --> Add1
+        Add1 --> LN1
+    end
+
+    subgraph CrossAttentionBlock ["Step 2: Cross-Attention"]
+        MHA2["MultiHeadAttention (cross_attn)"]
+        Dropout2["Dropout 2"]
+        Add2["+ (residual)"]
+        LN2["LayerNorm 2"]
+
+        MHA2 -->|attn_cross_out| Dropout2
+        Dropout2 --> Add2
+        Add2 --> LN2
+    end
+
+    subgraph FFNBlock ["Step 3: Feed-Forward Network"]
+        FFN["PositionwiseFeedForward (ffn)"]
+        Dropout3["Dropout 3"]
+        Add3["+ (residual)"]
+        LN3["LayerNorm 3"]
+
+        FFN -->|ffn_out| Dropout3
+        Dropout3 --> Add3
+        Add3 --> LN3
+    end
+
+    OutputY["Output y_new<br>[batch, seq_len_tgt, d_model]"]
+
+    InputY --> SplitY
+    InputY -->|residual path| Add1
+
+    LN1 -->|y_self as Query| MHA2
+    LN1 -->|residual path| Add2
+
+    LN2 -->|fused features y_cross| FFN
+    LN2 -->|residual path| Add3
+
+    LN3 --> OutputY
+
+    SourceX -->|as Key & Value| MHA2
+
+    style InputY fill:#ffe3e3,stroke:#ff8b8b,stroke-width:2px
+    style SourceX fill:#e3f2fd,stroke:#42a5f5,stroke-width:2px
+    style OutputY fill:#e8f5e9,stroke:#66bb6a,stroke-width:2px
+    style MHA1 fill:#fffde7,stroke:#fbc02d,stroke-width:1.5px
+    style MHA2 fill:#fffde7,stroke:#fbc02d,stroke-width:1.5px
+    style FFN fill:#fffde7,stroke:#fbc02d,stroke-width:1.5px
+    style LN1 fill:#e8f5e9,stroke:#66bb6a,stroke-width:1.5px
+    style LN2 fill:#e8f5e9,stroke:#66bb6a,stroke-width:1.5px
+    style LN3 fill:#e8f5e9,stroke:#66bb6a,stroke-width:1.5px
 ```
 
 - **Masked self-attention**: Q, K, V all come from the target sequence $y$. A causal mask prevents each position from attending to future positions.
@@ -214,6 +298,27 @@ Note the cross-attention score shape $[2,4,5,7]$: rows are determined by the que
 ## 6. End-to-End Dimension Trace
 
 Using $T\_{src} = 7$, $T\_{tgt} = 5$, vocab size $= 10000$:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Src as Source indices src [2, 7]
+    participant Enc as Encoder
+    participant EncOut as enc_out [2, 7, 128]
+    participant Tgt as Target indices tgt [2, 5]
+    participant Dec as Decoder
+    participant logits as Predictions [2, 5, 10000]
+
+    Src->>Enc: Embedding & PositionalEncoding
+    Note over Enc: Project to high-dim feature space
+    Enc->>EncOut: N x EncoderLayer
+    Note over EncOut: Each source token carries full-context semantics
+
+    Tgt->>Dec: Embedding & PositionalEncoding
+    EncOut-->>Dec: Passed as Key & Value to cross-attention
+    Dec->>logits: N x DecoderLayer + fc_out
+    Note over logits: Per-position scores over the entire vocabulary
+```
 
 **Phase 1 — Encoder (source side)**
 
