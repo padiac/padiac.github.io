@@ -108,30 +108,41 @@ Three reasons justify element-wise addition $x + PE$ over concatenation $[x; PE]
 
 The Transformer is a deeply nested, modular design. The ownership tree (what contains what):
 
-```
-Transformer
- +-- Encoder
- |    +-- Embedding + PositionalEncoding
- |    +-- N x EncoderLayer
- |         +-- MultiHeadAttention  (self-attention)
- |         +-- PositionwiseFeedForward
- +-- Decoder
- |    +-- Embedding + PositionalEncoding
- |    +-- N x DecoderLayer
- |         +-- MultiHeadAttention  (masked self-attention)
- |         +-- MultiHeadAttention  (cross-attention)
- |         +-- PositionwiseFeedForward
- +-- fc_out  (final linear projection)
+```mermaid
+graph TD
+    T["Transformer"] --> Enc["Encoder"]
+    T --> Dec["Decoder"]
+    T --> FC["fc_out (linear projection)"]
+
+    Enc --> EncEmb["Embedding + PositionalEncoding"]
+    Enc --> EncL["N x EncoderLayer"]
+    EncL --> EncMHA["MultiHeadAttention (self-attention)"]
+    EncL --> EncFFN["PositionwiseFeedForward"]
+
+    Dec --> DecEmb["Embedding + PositionalEncoding"]
+    Dec --> DecL["N x DecoderLayer"]
+    DecL --> DecMHA1["MultiHeadAttention (masked self-attention)"]
+    DecL --> DecMHA2["MultiHeadAttention (cross-attention)"]
+    DecL --> DecFFN["PositionwiseFeedForward"]
 ```
 
 ### 4.2 EncoderLayer Data Flow
 
 Each `EncoderLayer` applies two sub-operations, each wrapped with a residual connection, dropout, and layer normalization:
 
-```
-x ----+---> Self-Attention ---> Dropout ---> (+) ---> LayerNorm1 ---+---> FFN ---> Dropout ---> (+) ---> LayerNorm2 ---> out
-      |                                      ^                     |                            ^
-      +-------(residual)---------------------+                     +-------(residual)-----------+
+```mermaid
+graph TD
+    X["Input x"] --> SA["Self-Attention (Q=K=V=x)"]
+    SA --> D1["Dropout"]
+    D1 --> Add1["+ (residual)"]
+    X --> Add1
+    Add1 --> LN1["LayerNorm 1"]
+    LN1 --> FFN["Feed-Forward Network"]
+    FFN --> D2["Dropout"]
+    D2 --> Add2["+ (residual)"]
+    LN1 --> Add2
+    Add2 --> LN2["LayerNorm 2"]
+    LN2 --> Out["Output"]
 ```
 
 In code:
@@ -147,11 +158,27 @@ x = self.layer_norm2(x + self.dropout2(ffn_out))
 
 The decoder layer has three sub-operations. The cross-attention step is the bridge between source and target:
 
-```
-y --+---> Masked Self-Attn --> Drop --> (+) --> LN1 --+---> Cross-Attn --> Drop --> (+) --> LN2 --+---> FFN --> Drop --> (+) --> LN3 --> out
-    |                                   ^             |         ^                   ^             |                       ^
-    +----------(residual)---------------+             |    enc_out (K,V)            |             +-------(residual)------+
-                                                      +--------(residual)----------+
+```mermaid
+graph TD
+    Y["Input y (target)"] --> MSA["Masked Self-Attention (Q=K=V=y)"]
+    MSA --> D1["Dropout"]
+    D1 --> Add1["+ (residual)"]
+    Y --> Add1
+    Add1 --> LN1["LayerNorm 1"]
+
+    LN1 --> CA["Cross-Attention (Q=y)"]
+    EncOut["enc_out (source)"] -->|"K, V"| CA
+    CA --> D2["Dropout"]
+    D2 --> Add2["+ (residual)"]
+    LN1 --> Add2
+    Add2 --> LN2["LayerNorm 2"]
+
+    LN2 --> FFN["Feed-Forward Network"]
+    FFN --> D3["Dropout"]
+    D3 --> Add3["+ (residual)"]
+    LN2 --> Add3
+    Add3 --> LN3["LayerNorm 3"]
+    LN3 --> Out["Output"]
 ```
 
 - **Masked self-attention**: Q, K, V all come from the target sequence $y$. A causal mask prevents each position from attending to future positions.

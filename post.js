@@ -64,6 +64,21 @@ function enhanceImages(container) {
   });
 }
 
+async function renderMermaidBlocks(container) {
+  if (!container || !window.mermaid) return;
+  const codeBlocks = container.querySelectorAll('pre > code.language-mermaid');
+  if (codeBlocks.length === 0) return;
+  mermaid.initialize({ startOnLoad: false, theme: 'default' });
+  codeBlocks.forEach((code, i) => {
+    const pre = code.parentElement;
+    const div = document.createElement('div');
+    div.className = 'mermaid';
+    div.textContent = code.textContent;
+    pre.replaceWith(div);
+  });
+  await mermaid.run({ querySelector: '.mermaid' });
+}
+
 async function renderPostContent(post, container) {
   const renderer = createMarkdownRenderer();
   if (!renderer) {
@@ -79,6 +94,7 @@ async function renderPostContent(post, container) {
     container.innerHTML = renderer.render(markdown);
     rewriteRelativeImageSources(container, post.slug);
     enhanceImages(container);
+    await renderMermaidBlocks(container);
     if (window.queueMathJax) {
       window.queueMathJax(container);
     }
