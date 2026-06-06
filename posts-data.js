@@ -1,5 +1,12 @@
 window.POSTS = [
   {
+    slug: 'llm-engineering-langgraph-agent-architectures-a-comprehensive-comparison',
+    title: 'LLM Engineering - LangGraph Agent Architectures: A Comprehensive Comparison',
+    date: '2026-06-06T06:00:00Z',
+    category: 'LLM Engineering',
+    summary: 'A detailed technical comparison of four LangGraph agent architectures — Corrective RAG, Basic Reflection, Advanced Reflexion, and ReAct — covering state schemas, chain design, node flow, and conditional routing.'
+  },
+  {
     slug: 'llm-transformer-from-scratch-architecture-and-pytorch-implementation',
     title: 'LLM - Transformer from Scratch: Architecture and PyTorch Implementation',
     date: '2026-05-18T06:00:00Z',
