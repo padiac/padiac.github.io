@@ -47,11 +47,11 @@ The parameter `hidden_size` corresponds to the dimension of the activation vecto
 
 Mathematically, `outputs` collects the hidden state at every position:
 
-$$\text{outputs} = \bigl[a^{\langle 1 \rangle},\; a^{\langle 2 \rangle},\; \ldots,\; a^{\langle T \rangle}\bigr]$$
+$$\text{outputs} = \bigl[a^{\langle 1 \rangle},  a^{\langle 2 \rangle},  \ldots,  a^{\langle T \rangle}\bigr]$$
 
 Because the LSTM is bidirectional, each $a^{\langle t \rangle}$ is the concatenation of the forward and backward activations:
 
-$$a^{\langle t \rangle} = \bigl[\overrightarrow{a}^{\langle t \rangle};\; \overleftarrow{a}^{\langle t \rangle}\bigr]$$
+$$a^{\langle t \rangle} = \bigl[\overrightarrow{a}^{\langle t \rangle};  \overleftarrow{a}^{\langle t \rangle}\bigr]$$
 
 Shape: `(B, T_src, 2 * hidden_size)`. This tensor is sent to the attention module (referred to as `enc_a` in code).
 
@@ -85,7 +85,7 @@ The decoder produces one output token per call to `forward_step`. The four stage
 
 The decoder state $s^{\langle t-1 \rangle}$ is compared against every encoder output $a^{\langle t' \rangle}$ using an additive scoring function:
 
-$$e^{\langle t, t' \rangle} = v^\top \tanh\bigl(W [s^{\langle t-1 \rangle};\; a^{\langle t' \rangle}]\bigr)$$
+$$e^{\langle t, t' \rangle} = v^\top \tanh\bigl(W [s^{\langle t-1 \rangle};  a^{\langle t' \rangle}]\bigr)$$
 
 $$\alpha^{\langle t, t' \rangle} = \frac{\exp(e^{\langle t, t' \rangle})}{\sum\_{t''=1}^{T\_{src}} \exp(e^{\langle t, t'' \rangle})}$$
 
@@ -97,7 +97,7 @@ In code this is a batched matrix multiply: `torch.bmm(alpha.unsqueeze(1), enc_a)
 
 **Step 3 — Concatenate the previous token embedding with the context.**
 
-$$\text{lstm\_input} = [y^{\langle t-1 \rangle};\; c^{\langle t \rangle}]$$
+$$\text{lstm\_input} = [y^{\langle t-1 \rangle};  c^{\langle t \rangle}]$$
 
 This gives the decoder both lexical information (what word was just produced) and semantic focus (which part of the source is relevant now).
 
@@ -122,7 +122,7 @@ s_tiled = s_prev.unsqueeze(1).repeat(1, T, 1)   # (B, T, dec_hidden)
 concat  = torch.cat([s_tiled, enc_a], dim=2)      # (B, T, dec_hidden + enc_hidden)
 ```
 
-This creates $T$ copies of $[s^{\langle t-1 \rangle};\; a^{\langle t' \rangle}]$ in one tensor, enabling a single batched forward pass through the scoring MLP.
+This creates $T$ copies of $[s^{\langle t-1 \rangle};  a^{\langle t' \rangle}]$ in one tensor, enabling a single batched forward pass through the scoring MLP.
 
 ### 5.3 The Two-Layer Scoring MLP
 
@@ -148,7 +148,7 @@ context = torch.bmm(attn_weights.unsqueeze(1), enc_a).squeeze(1)  # (B, enc_hidd
 
 The encoder is bidirectional, so its final hidden state has shape `(2, B, 64)`. Concatenating the two directions gives a 128-dimensional vector, but the decoder's `LSTMCell` expects `dec_hidden = 64`. A learned projection resolves the mismatch:
 
-$$s\_0 = \tanh\bigl(W\_{proj} [\overrightarrow{h}^{\langle T \rangle};\; \overleftarrow{h}^{\langle 1 \rangle}]\bigr)$$
+$$s\_0 = \tanh\bigl(W\_{proj} [\overrightarrow{h}^{\langle T \rangle};  \overleftarrow{h}^{\langle 1 \rangle}]\bigr)$$
 
 The same projection is applied to the cell state $c\_0$.
 
@@ -177,7 +177,7 @@ Because `LSTMCell` produces one token at a time, a `for` loop runs `max_len` ite
 
 After the loop, the list of per-step logit tensors is stacked into the final output:
 
-$$\text{logits shape} = (B,\; T\_{tgt},\; V)$$
+$$\text{logits shape} = (B,  T\_{tgt},  V)$$
 
 where $V$ is the target vocabulary size.
 

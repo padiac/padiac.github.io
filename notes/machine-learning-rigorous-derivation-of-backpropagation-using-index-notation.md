@@ -47,13 +47,13 @@ $$J = -\frac{1}{m}\sum\_{s,k} y\_{sk} \log a\_{3,sk}$$
 
 The softmax Jacobian, written compactly with Kronecker deltas:
 
-$$\frac{\partial a\_{3,sk}}{\partial z\_{3,s'i}} = a\_{3,sk}(\delta\_{ki} - a\_{3,si})\,\delta\_{ss'}$$
+$$\frac{\partial a\_{3,sk}}{\partial z\_{3,s'i}} = a\_{3,sk}(\delta\_{ki} - a\_{3,si}) \delta\_{ss'}$$
 
 The $\delta\_{ss'}$ appears because softmax mixes only within a sample, not across samples — the same diagonal structure seen in Section 3 for element-wise activations.
 
 Applying the chain rule:
 
-$$\frac{\partial J}{\partial z\_{3,si}} = -\frac{1}{m}\sum\_{s',k} y\_{s'k} \frac{1}{a\_{3,s'k}} \cdot a\_{3,s'k}(\delta\_{ki} - a\_{3,s'i})\,\delta\_{ss'}$$
+$$\frac{\partial J}{\partial z\_{3,si}} = -\frac{1}{m}\sum\_{s',k} y\_{s'k} \frac{1}{a\_{3,s'k}} \cdot a\_{3,s'k}(\delta\_{ki} - a\_{3,s'i}) \delta\_{ss'}$$
 
 $a\_{3,s'k}$ cancels; $\delta\_{ss'}$ collapses $s'$:
 
@@ -127,23 +127,23 @@ The four Kronecker deltas each enforce one index equality, collapsing the six-fo
 
 After collapse:
 
-$$\frac{\partial J}{\partial \theta\_{1, ij}} = \sum\_{m,b} \delta\_{3, mb}\, \theta\_{2, jb}\, \bigl(z\_2(1-z\_2)\bigr)\_{mj}\, a\_{1, mi}$$
+$$\frac{\partial J}{\partial \theta\_{1, ij}} = \sum\_{m,b} \delta\_{3, mb} \theta\_{2, jb} \bigl(z\_2(1-z\_2)\bigr)\_{mj} a\_{1, mi}$$
 
 Rewriting with transpositions ($\theta\_{2, jb} = \theta^T\_{2, bj}$, $a\_{1, mi} = a^T\_{1, im}$) and isolating the inner sum:
 
-$$\frac{\partial J}{\partial \theta\_{1, ij}} = \sum\_m a^T\_{1, im} \bigl[ \sum\_b \delta\_{3, mb}\, \theta^T\_{2, bj} \bigr] \bigl(z\_2(1-z\_2)\bigr)\_{mj}$$
+$$\frac{\partial J}{\partial \theta\_{1, ij}} = \sum\_m a^T\_{1, im} \bigl[ \sum\_b \delta\_{3, mb} \theta^T\_{2, bj} \bigr] \bigl(z\_2(1-z\_2)\bigr)\_{mj}$$
 
-The bracketed inner sum $\sum\_b \delta\_{3, mb}\, \theta^T\_{2, bj}$ is standard matrix multiplication $(\delta\_3 \theta\_2^T)\_{mj}$.
+The bracketed inner sum $\sum\_b \delta\_{3, mb} \theta^T\_{2, bj}$ is standard matrix multiplication $(\delta\_3 \theta\_2^T)\_{mj}$.
 
 Notice that $(\delta\_3 \theta\_2^T)\_{mj}$ and $\bigl(z\_2(1-z\_2)\bigr)\_{mj}$ share the **exact same indices** $(m, j)$ and are multiplied without any summation over them. This index-level pointwise product is precisely the Hadamard product $(\odot)$.
 
 Define $\delta\_2 = (\delta\_3 \theta\_2^T) \odot z\_2(1-z\_2)$, so its element at $(m, j)$ is $\delta\_{2, mj}$. Then:
 
-$$\frac{\partial J}{\partial \theta\_{1, ij}} = \sum\_m a^T\_{1, im}\, \delta\_{2, mj}$$
+$$\frac{\partial J}{\partial \theta\_{1, ij}} = \sum\_m a^T\_{1, im} \delta\_{2, mj}$$
 
 which is standard matrix multiplication, giving the final result:
 
-$$\frac{\partial J}{\partial \theta\_1} = a\_1^T\, \delta\_2 = a\_1^T \bigl( (\delta\_3 \theta\_2^T) \odot z\_2(1-z\_2) \bigr)$$
+$$\frac{\partial J}{\partial \theta\_1} = a\_1^T \delta\_2 = a\_1^T \bigl( (\delta\_3 \theta\_2^T) \odot z\_2(1-z\_2) \bigr)$$
 
 ### Conclusion
 

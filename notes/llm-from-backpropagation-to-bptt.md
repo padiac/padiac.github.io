@@ -29,7 +29,7 @@ $$\frac{\partial J}{\partial W\_{ya}} = \sum\_t \bigl(a^{(t)}\bigr)^T \delta\_3^
 
 For the bias, drop the timestep index and work at one step. The forward in index form:
 
-$$z\_{y,sk}^{(t)} = \sum\_j a^{(t)}\_{sj}\, W\_{ya,jk} + b\_{y,k}$$
+$$z\_{y,sk}^{(t)} = \sum\_j a^{(t)}\_{sj} W\_{ya,jk} + b\_{y,k}$$
 
 Differentiate with respect to one component $b\_{y,i}$:
 
@@ -37,7 +37,7 @@ $$\frac{\partial z\_{y,sk}^{(t)}}{\partial b\_{y,i}} = \delta\_{ki}$$
 
 Chain rule:
 
-$$\frac{\partial J}{\partial b\_{y,i}} = \sum\_{t,s,k} \delta\_{3,sk}^{(t)}\, \delta\_{ki} = \sum\_{t,s} \delta\_{3,si}^{(t)}$$
+$$\frac{\partial J}{\partial b\_{y,i}} = \sum\_{t,s,k} \delta\_{3,sk}^{(t)} \delta\_{ki} = \sum\_{t,s} \delta\_{3,si}^{(t)}$$
 
 The Kronecker delta collapses the $k$ sum. Drop the free index:
 
