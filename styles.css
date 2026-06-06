@@ -179,6 +179,16 @@ p {
   margin-bottom: 8px;
 }
 
+.contact-list {
+  list-style: none;
+  padding: 0;
+  margin: 12px 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  color: var(--color-text);
+}
+
 .last-updated {
   color: var(--color-muted);
   font-size: 0.9rem;
