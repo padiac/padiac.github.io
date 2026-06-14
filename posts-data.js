@@ -1,5 +1,54 @@
 window.POSTS = [
   {
+    slug: 'coding-python-binary-data-and-parsing',
+    title: 'Coding - The Python Codex: Binary Data & Structure Parsing',
+    date: '2026-06-14T06:00:00Z',
+    category: 'Coding',
+    summary: 'File pointer manipulation with seek/tell, bytes vs str, bytearray, int.from_bytes for endian-aware parsing, BMP image inversion, and ID3v2 metadata tag binary layout and frame parsing strategies.'
+  },
+  {
+    slug: 'coding-python-character-encodings',
+    title: 'Coding - The Python Codex: Character Encodings',
+    date: '2026-06-14T05:50:00Z',
+    category: 'Coding',
+    summary: 'ASCII, EBCDIC, and Unicode encoding systems, UTF-8 variable-length byte decoding with prefix bit-pattern marking, and best practices to avoid garbled text issues in Python.'
+  },
+  {
+    slug: 'coding-python-file-handling-and-paths',
+    title: 'Coding - The Python Codex: File Handling, Paths & Text Serialization',
+    date: '2026-06-14T05:40:00Z',
+    category: 'Coding',
+    summary: 'File path resolution, reading strategies, context managers, writing modes, JSON serialization and its limitations, CSV handling with DictReader and Sniffer, and directory traversal with os.walk.'
+  },
+  {
+    slug: 'coding-python-functions-and-api-design',
+    title: 'Coding - The Python Codex: Functions & API Design',
+    date: '2026-06-14T05:30:00Z',
+    category: 'Coding',
+    summary: 'Function parameters and positional-only syntax, docstrings, generators and yield, LEGB scope resolution, closures, first-class functions, OOP fundamentals, property decorators, inheritance, polymorphism via duck typing, and composition vs aggregation.'
+  },
+  {
+    slug: 'coding-python-memory-and-collections',
+    title: 'Coding - The Python Codex: Memory & Collections',
+    date: '2026-06-14T05:20:00Z',
+    category: 'Coding',
+    summary: 'Memory management and mutability vs immutability, shallow vs deep copy, enumerate, sorting, nested data structures, dictionaries, sets with union/intersection/difference operations, named tuples, and functional programming with map/filter/reduce/lambda.'
+  },
+  {
+    slug: 'coding-python-control-flow-and-iteration',
+    title: 'Coding - The Python Codex: Control Flow & Iteration',
+    date: '2026-06-14T05:10:00Z',
+    category: 'Coding',
+    summary: 'Indentation blocks, range customization, for/while...else patterns for search and early exit, data cleaning with chained expressions, safe list modification via backward iteration, and boolean aggregation with all/any.'
+  },
+  {
+    slug: 'coding-python-style-types-and-operators',
+    title: 'Coding - The Python Codex: Style, Types & Operators',
+    date: '2026-06-14T05:00:00Z',
+    category: 'Coding',
+    summary: 'PEP 8 naming conventions, dynamic and strong typing, sequence operators and precedence, string indexing and slicing, formatting methods including f-strings, and raw string literals.'
+  },
+  {
     slug: 'llm-engineering-langgraph-agent-architectures-a-comprehensive-comparison',
     title: 'LLM Engineering - LangGraph Agent Architectures: A Comprehensive Comparison',
     date: '2026-06-06T06:00:00Z',
