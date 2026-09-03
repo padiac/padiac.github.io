@@ -69,9 +69,20 @@ There is a real image distribution in the world:
 
 $$ p(x) $$
 
-This is the true distribution of all images, but it is intractable because
+One thing to clarify first: the pixel-space $p(x)$ is in fact **computable**. Given a hundred million images, we can histogram the brightness of each pixel and multiply the per-pixel marginals together, which yields a perfectly legitimate, samplable distribution. It is not a spike, and it requires no approximation.
+
+The problem is not whether we can compute it, but that **the distribution computed this way is meaningless**: it assumes pixels are mutually independent, so sampling from it produces colored noise. What we want was never the general distribution over images, but the distribution over *meaningful* images, say the small region corresponding to a cat. "Meaning" lives precisely in the coupling between pixels, and per-pixel marginals cannot see any coupling.
+
+So we introduce a latent variable $z$ and write the distribution as
 
 $$ p(x) = \int p(x \mid z)p(z) dz = \int p_\theta(x \mid z)p(z) dz. $$
+
+The gain from this step is **not** "we obtained a more computable $p(x)$". It is that what we actually want is no longer $p(x)$ at all, but the two conditionals inside the integral:
+
+- $p(x \mid z)$: the image distribution given the latent, i.e. the **decoder**
+- $p(z \mid x)$: the latent distribution given the image, i.e. the **encoder**
+
+These two are what we set out to learn. $p(x)$ is merely the intermediate quantity that links them; during training we neither need its value nor ever compute it. And in this latent form it becomes intractable instead: the computable $p(x)$ is meaningless, and the meaningful $p(x)$ is incomputable. Our way out is to bypass it and learn the encoder and decoder directly.
 
 Two immediate issues:
 

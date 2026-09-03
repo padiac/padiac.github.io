@@ -189,7 +189,7 @@ $$ q(x_T \mid x_0) \approx \mathcal N(0, I). $$
 
 抽象地写一小块（示意，不纠结原文具体下标）：
 
-$$ E_{q(x_{0:T} \mid x_0)}\Bigl[\log \frac{p_{\theta}(x_t\mid x_{t+1})}{q(x_{t}\mid x_t - 1)}\Bigr]. $$
+$$ E_{q(x_{0:T} \mid x_0)}\Bigl[\log \frac{p_{\theta}(x_t\mid x_{t+1})}{q(x_{t}\mid x_{t-1})}\Bigr]. $$
 
 用条件期望展开：
 
