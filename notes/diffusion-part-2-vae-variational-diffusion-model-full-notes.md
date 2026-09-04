@@ -373,7 +373,7 @@ $$ q(x_{t}\mid x_{t-1},x_0) = \frac{q(x_{t-1}\mid x_{t},x_0)q(x_{t}\mid x_0)}{q(
 
 设
 
-$$ q(x) = \mathcal N(x\mid \mu_x,\Sigma_x),\qquad p(y) = \mathcal N(x\mid \mu_y,\Sigma_y). $$
+$$ q(x) = \mathcal N(x\mid \mu_x,\Sigma_x),\qquad p(x) = \mathcal N(x\mid \mu_y,\Sigma_y). $$
 
 KL 定义：
 
@@ -440,15 +440,15 @@ $$
 
 得到：
 
-$$ E_q[(x-\mu_x)^\top\Sigma_y^{-1}(x-\mu_x)] = \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
+$$ E_q[(x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_y)] = \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
 
 代回去：
 
-$$ \mathrm{KL}(q\Vert p) = \frac12(\log\det\Sigma_y - \log\det\Sigma_x) + \frac12 k - \frac12\Bigl[\mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y)\Bigr]. $$
+$$ \mathrm{KL}(q\Vert p) = \frac12(\log\det\Sigma_y - \log\det\Sigma_x) - \frac12 k + \frac12\Bigl[\mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y)\Bigr]. $$
 
 通常写成更标准的形式（把符号整理一下）：
 
-$$ \mathrm{KL}\bigl(\mathcal N(\mu_x,\Sigma_x)\Vert \mathcal N(\mu_y,\Sigma_y)\bigr) = \frac12\Bigl( \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y) - k + \log\frac{\det\Sigma_x}{\det\Sigma_y} \Bigr). $$
+$$ \mathrm{KL}\bigl(\mathcal N(\mu_x,\Sigma_x)\Vert \mathcal N(\mu_y,\Sigma_y)\bigr) = \frac12\Bigl( \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y) - k + \log\frac{\det\Sigma_y}{\det\Sigma_x} \Bigr). $$
 
 这就是文中类似式 (86) 的 Gaussian KL 公式。
 

@@ -428,15 +428,15 @@ Under $ q $:
 
 Thus
 
-$$ E_q[(x-\mu_x)^\top\Sigma_y^{-1}(x-\mu_x)] = \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
+$$ E_q[(x-\mu_y)^\top\Sigma_y^{-1}(x-\mu_y)] = \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y). $$
 
 Plug back:
 
-$$ \mathrm{KL}(q\Vert p) = \frac12(\log\det\Sigma_y - \log\det\Sigma_x) + \frac12 k - \frac12\Bigl[\mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y)\Bigr]. $$
+$$ \mathrm{KL}(q\Vert p) = \frac12(\log\det\Sigma_y - \log\det\Sigma_x) - \frac12 k + \frac12\Bigl[\mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y)\Bigr]. $$
 
 A more standard form (after tidying signs) is
 
-$$ \mathrm{KL}\bigl(\mathcal N(\mu_x,\Sigma_x)\Vert \mathcal N(\mu_y,\Sigma_y)\bigr) = \frac12\Bigl( \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y) - k + \log\frac{\det\Sigma_x}{\det\Sigma_y} \Bigr). $$
+$$ \mathrm{KL}\bigl(\mathcal N(\mu_x,\Sigma_x)\Vert \mathcal N(\mu_y,\Sigma_y)\bigr) = \frac12\Bigl( \mathrm{tr}(\Sigma_y^{-1}\Sigma_x) + (\mu_x-\mu_y)^\top\Sigma_y^{-1}(\mu_x-\mu_y) - k + \log\frac{\det\Sigma_y}{\det\Sigma_x} \Bigr). $$
 
 This is the Gaussian KL formula (Eq. (86) in the paper).
 
