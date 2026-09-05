@@ -7,7 +7,7 @@ This note walks through the chain in Probabilistic Machine Learning ch.26: **CK 
 - Forward Itô SDE: $dx_t = a(x_t,t) dt + b(x_t,t) d\omega$.
 - For DDPM:  
   - Forward SDE: $dx_t = f(x_t,t) dt + g(t) d\omega$  
-  - Common form: $dx_t = -\tfrac12 \beta(t) x_t dt + \beta(t) d\omega$, i.e. $g(t)=\beta(t)$ (used below).
+  - Common form: $dx_t = -\tfrac12 \beta(t) x_t dt + \sqrt{\beta(t)} d\omega$, i.e. $g(t)=\sqrt{\beta(t)}$, $g^2(t)=\beta(t)$ (used below).
 - In Kramers–Moyal use $\Delta = x - y$ (new position minus old) so the FP first-order sign is $- \partial_x [A_1 p]$.
 
 ## 1. CK -> Kramers-Moyal Expansion (weak / $\phi$ method)

@@ -7,7 +7,7 @@
 - 前向 Itô SDE 统一写成 $dx_t = a(x_t,t) dt + b(x_t,t) d\omega$。
 - 对 DDPM：
   - 前向 SDE：$dx_t = f(x_t,t) dt + g(t) d\omega$。
-  - 常用形式：$dx_t = -\tfrac12 \beta(t) x_t dt + \beta(t) d\omega$，即 $g(t)=\beta(t)$（本笔记内部保持这一版）。
+  - 常用形式：$dx_t = -\tfrac12 \beta(t) x_t dt + \sqrt{\beta(t)} d\omega$，即 $g(t)=\sqrt{\beta(t)}$，$g^2(t)=\beta(t)$（本笔记内部保持这一版）。
 - Kramers-Moyal 采用 $\Delta = x - y$（新位置减旧位置），保证 FP 一阶项符号为 $- \partial_x [A_1 p]$。
 
 
@@ -753,7 +753,7 @@ $$
 
 ### 6.1 前向 SDE 形式
 
-DDPM 连续极限：$dx_t = -\tfrac12 \beta(t) x_t dt + \beta(t) d\omega$，即 $f(x,t)=-\tfrac12 \beta(t) x$，$g(t)=\beta(t)$。
+DDPM 连续极限：$dx_t = -\tfrac12 \beta(t) x_t dt + \sqrt{\beta(t)} d\omega$，即 $f(x,t)=-\tfrac12 \beta(t) x$，$g(t)=\sqrt{\beta(t)}$。
 
 ### 6.2 真·反向 SDE（25.50）
 
