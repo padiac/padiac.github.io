@@ -124,11 +124,11 @@ eq 1 $$
 
 The zeroth-order term then no longer cancels, and after dividing by $\Delta t$ it leaves
 
-$$ rac{m_0 p - p}{\Delta t} = -\mu p $$
+$$ \frac{m_0 p - p}{\Delta t} = -\mu p $$
 
 which is exactly where the $-\mu p$ of the diffusion-reaction equation comes from. In one line: $m_0 = 1$ gives pure diffusion (FP), $m_0 = 1 - \mu \Delta t$ gives diffusion-reaction.
 
-Finally, the diffusion-scaling assumption $E[(\Delta X)^2] = O(\Delta t)$ of section 1.5 is $(\Delta x)^2 = 2D\Delta t$ in the random-walk notes and $eta_t = eta(t)\Delta t$ in DDPM. All three are the same condition: make the second-order term survive at $O(1)$ after dividing by $\Delta t$, neither diverging nor vanishing.
+Finally, the diffusion-scaling assumption $E[(\Delta X)^2] = O(\Delta t)$ of section 1.5 is $(\Delta x)^2 = 2D\Delta t$ in the random-walk notes and $\beta_t = \beta(t)\Delta t$ in DDPM. All three are the same condition: make the second-order term survive at $O(1)$ after dividing by $\Delta t$, neither diverging nor vanishing.
 
 
 ## 2. Fokker–Planck and Itô SDE

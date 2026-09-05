@@ -125,11 +125,11 @@ eq 1 $$
 
 于是强形式里的零阶项不再抵消，除以 $\Delta t$ 后留下
 
-$$ rac{m_0 p - p}{\Delta t} = -\mu p $$
+$$ \frac{m_0 p - p}{\Delta t} = -\mu p $$
 
 这就是扩散-反应方程里那个 $-\mu p$ 的来源。一句话：$m_0 = 1$ 给出纯扩散（FP），$m_0 = 1 - \mu \Delta t$ 给出扩散-反应。
 
-最后，1.5 节的扩散缩放假设 $E[(\Delta X)^2] = O(\Delta t)$，在随机行走那边就是 $(\Delta x)^2 = 2D\Delta t$，在 DDPM 那边就是 $eta_t = eta(t)\Delta t$。三处是同一个条件：让二阶项在除以 $\Delta t$ 之后刚好活到 $O(1)$，既不发散也不消失。
+最后，1.5 节的扩散缩放假设 $E[(\Delta X)^2] = O(\Delta t)$，在随机行走那边就是 $(\Delta x)^2 = 2D\Delta t$，在 DDPM 那边就是 $\beta_t = \beta(t)\Delta t$。三处是同一个条件：让二阶项在除以 $\Delta t$ 之后刚好活到 $O(1)$，既不发散也不消失。
 
 
 
