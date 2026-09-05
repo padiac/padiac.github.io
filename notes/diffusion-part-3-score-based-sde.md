@@ -102,6 +102,36 @@ $$
 
 即得到一维 Fokker–Planck 方程。
 
+### 1.6 与随机行走的关系：CK 的一个特例
+
+前面这套 CK -> Kramers-Moyal -> FP 的推导，和[随机行走那两篇](https://padiac.github.io/post.html?slug=diffusion-detailed-balance-random-walks-to-mcmc)（另见[这一篇](https://padiac.github.io/post.html?slug=diffusion-random-walks-diffusion-mcmc-and-dmc)）其实是同一件事，只是转移核不同。
+
+随机行走的一步规则
+
+$$ p(x,t+\Delta t) = p(x-\Delta x,t) T_+ + p(x+\Delta x,t) T_- $$
+
+看起来是“只和左右两格有关”的离散求和，但它就是 CK 方程，只不过转移核取成两个 delta：
+
+$$ T(x \mid y) = T_+ \delta(x-y-\Delta x) + T_- \delta(x-y+\Delta x) $$
+
+代入 $\int T(x\mid y) p(y,t) dy$，delta 把积分挑出两个点，立刻还原成上式。所以“离散的左右两格”与“对 $dy$ 积分”是同一个方程；核连续时无法逐点写出，只能保留积分形式。
+
+推导手法上也差一层。随机行走那边核是两个 delta，可以直接对 $p(x \pm \Delta x)$ 做泰勒展开；一般的核不行，才需要先乘测试函数 $\phi$ 展开、再分部积分转回强形式，也就是本节标题里的 weak 方法。
+
+**两者真正的差别在 $m_0$。** 1.4 节用了 $m_0 = 1$，这等价于假设概率守恒。随机行走那篇带反应项 $\mu$，从 $y$ 出发的总转移概率是
+
+$$ m_0 = \int T(x\mid y) dx = 1 - \mu(y) \Delta t 
+eq 1 $$
+
+于是强形式里的零阶项不再抵消，除以 $\Delta t$ 后留下
+
+$$ rac{m_0 p - p}{\Delta t} = -\mu p $$
+
+这就是扩散-反应方程里那个 $-\mu p$ 的来源。一句话：$m_0 = 1$ 给出纯扩散（FP），$m_0 = 1 - \mu \Delta t$ 给出扩散-反应。
+
+最后，1.5 节的扩散缩放假设 $E[(\Delta X)^2] = O(\Delta t)$，在随机行走那边就是 $(\Delta x)^2 = 2D\Delta t$，在 DDPM 那边就是 $eta_t = eta(t)\Delta t$。三处是同一个条件：让二阶项在除以 $\Delta t$ 之后刚好活到 $O(1)$，既不发散也不消失。
+
+
 
 
 

@@ -101,6 +101,36 @@ $$
 
 i.e. the 1D Fokker-Planck equation.
 
+### 1.6 Relation to Random Walks: a Special Case of CK
+
+The CK -> Kramers-Moyal -> FP chain above is the same construction as in the [random-walk notes](https://padiac.github.io/post.html?slug=diffusion-detailed-balance-random-walks-to-mcmc) (see also [this one](https://padiac.github.io/post.html?slug=diffusion-random-walks-diffusion-mcmc-and-dmc)); only the transition kernel differs.
+
+The one-step random-walk rule
+
+$$ p(x,t+\Delta t) = p(x-\Delta x,t) T_+ + p(x+\Delta x,t) T_- $$
+
+looks like a discrete sum over the two neighbouring sites, but it *is* the CK equation, with the kernel taken to be a pair of deltas:
+
+$$ T(x \mid y) = T_+ \delta(x-y-\Delta x) + T_- \delta(x-y+\Delta x) $$
+
+Substituting into $\int T(x\mid y) p(y,t) dy$, the deltas pick out two points and recover the line above. So "two discrete neighbours" and "integrate over $dy$" are the same equation; a continuous kernel simply cannot be written site by site, so the integral form is kept.
+
+The technique also differs by one layer. With a two-delta kernel one can Taylor expand $p(x \pm \Delta x)$ directly; for a general kernel one cannot, which is why we first multiply by a test function $\phi$, expand, and integrate by parts back to the strong form -- the weak method in this section's title.
+
+**The real difference is $m_0$.** Section 1.4 used $m_0 = 1$, which is equivalent to assuming probability conservation. The random-walk note carries a reaction term $\mu$, so the total transition probability out of $y$ is
+
+$$ m_0 = \int T(x\mid y) dx = 1 - \mu(y) \Delta t 
+eq 1 $$
+
+The zeroth-order term then no longer cancels, and after dividing by $\Delta t$ it leaves
+
+$$ rac{m_0 p - p}{\Delta t} = -\mu p $$
+
+which is exactly where the $-\mu p$ of the diffusion-reaction equation comes from. In one line: $m_0 = 1$ gives pure diffusion (FP), $m_0 = 1 - \mu \Delta t$ gives diffusion-reaction.
+
+Finally, the diffusion-scaling assumption $E[(\Delta X)^2] = O(\Delta t)$ of section 1.5 is $(\Delta x)^2 = 2D\Delta t$ in the random-walk notes and $eta_t = eta(t)\Delta t$ in DDPM. All three are the same condition: make the second-order term survive at $O(1)$ after dividing by $\Delta t$, neither diverging nor vanishing.
+
+
 ## 2. Fokker–Planck and Itô SDE
 
 For SDE $dx_t = a(x_t,t) dt + b(x_t,t) d\omega$:
