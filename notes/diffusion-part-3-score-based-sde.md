@@ -120,8 +120,7 @@ $$ T(x \mid y) = T_+ \delta(x-y-\Delta x) + T_- \delta(x-y+\Delta x) $$
 
 **两者真正的差别在 $m_0$。** 1.4 节用了 $m_0 = 1$，这等价于假设概率守恒。随机行走那篇带反应项 $\mu$，从 $y$ 出发的总转移概率是
 
-$$ m_0 = \int T(x\mid y) dx = 1 - \mu(y) \Delta t 
-eq 1 $$
+$$ m_0 = \int T(x\mid y) dx = 1 - \mu(y) \Delta t \neq 1 $$
 
 于是强形式里的零阶项不再抵消，除以 $\Delta t$ 后留下
 

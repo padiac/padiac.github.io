@@ -119,8 +119,7 @@ The technique also differs by one layer. With a two-delta kernel one can Taylor 
 
 **The real difference is $m_0$.** Section 1.4 used $m_0 = 1$, which is equivalent to assuming probability conservation. The random-walk note carries a reaction term $\mu$, so the total transition probability out of $y$ is
 
-$$ m_0 = \int T(x\mid y) dx = 1 - \mu(y) \Delta t 
-eq 1 $$
+$$ m_0 = \int T(x\mid y) dx = 1 - \mu(y) \Delta t \neq 1 $$
 
 The zeroth-order term then no longer cancels, and after dividing by $\Delta t$ it leaves
 
