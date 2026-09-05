@@ -381,9 +381,9 @@ Therefore, the Fokker–Planck equation bridges CK, SDE, and ODE. When time reve
 
 ```mermaid
 flowchart TD
-    A[Transition kernel / Chapman–Kolmogorov] --> B[Fokker–Planck equation (generator)]
-    B --> C[Stochastic differential equation (SDE)]
-    B --> D[Probability-flow ODE]
+    A["Transition kernel / Chapman–Kolmogorov"] --> B["Fokker–Planck equation (generator)"]
+    B --> C["Stochastic differential equation (SDE)"]
+    B --> D["Probability-flow ODE"]
     C -. Same marginals .- D
 ```
 
