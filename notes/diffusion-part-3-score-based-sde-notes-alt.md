@@ -1,4 +1,4 @@
-This note walks through the chain in Probabilistic Machine Learning ch.26: **CK → Kramers–Moyal → Fokker–Planck → forward/reverse SDE → Probability Flow ODE → Murphy’s DDPM formulas**, making it self-contained.
+This note walks through the chain in Probabilistic Machine Learning ch.25: **CK → Kramers–Moyal → Fokker–Planck → forward/reverse SDE → Probability Flow ODE → Murphy’s DDPM formulas**, making it self-contained.
 
 ## 0. Notation
 

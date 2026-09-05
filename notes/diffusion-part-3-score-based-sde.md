@@ -1,4 +1,4 @@
-这份笔记推导了Probabilistic Machine Learning 第二十六章的部分内容，把「CK -> Kramers-Moyal -> Fokker-Planck -> 前向/反向 SDE -> Probability Flow ODE -> DDPM 里的 Murphy 公式」串成一条自洽的链。
+这份笔记推导了Probabilistic Machine Learning 第二十五章的部分内容，把「CK -> Kramers-Moyal -> Fokker-Planck -> 前向/反向 SDE -> Probability Flow ODE -> DDPM 里的 Murphy 公式」串成一条自洽的链。
 
 ## 0. 记号约定
 
