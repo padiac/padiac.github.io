@@ -1,5 +1,12 @@
 window.POSTS = [
   {
+    slug: 'ebm-from-maximum-entropy-to-energy-based-model-training',
+    title: 'EBM - 从最大熵到能量模型的训练目标',
+    date: '2026-10-07T07:06:52Z',
+    category: 'EBM',
+    summary: '从 Kardar 统计物理里的最大熵出发, 经拉格朗日对偶一步步推到能量模型 (EBM) 的最大似然训练, 并解释为什么训练每一步都需要 MCMC 采样.'
+  },
+  {
     slug: 'coding-python-binary-data-and-parsing',
     title: 'Coding - The Python Codex: Binary Data & Structure Parsing',
     date: '2026-06-14T06:00:00Z',
