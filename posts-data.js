@@ -1,9 +1,9 @@
 window.POSTS = [
   {
-    slug: 'diffusion-ou-process-three-proofs',
-    title: 'Diffusion - OU 过程的三种证法',
+    slug: 'flow-matching-ou-process-three-proofs',
+    title: 'Flow Matching - OU 过程的三种证法',
     date: '2026-10-18T09:45:58Z',
-    category: 'Diffusion',
+    category: 'Flow Matching',
     summary: '用解出路径, 期望方程和 Fokker-Planck 方程三种方法证明 OU 过程从任意初值收敛到高斯分布, 并说明三者之间的联系.'
   },
   {

@@ -441,6 +441,28 @@ p {
   margin: 8px 0 16px 20px;
 }
 
+.post-content table {
+  display: block;
+  max-width: 100%;
+  overflow-x: auto;
+  border-collapse: collapse;
+  margin: 16px 0;
+}
+
+.post-content th,
+.post-content td {
+  border: 1px solid var(--color-border);
+  padding: 6px 14px;
+  text-align: left;
+  vertical-align: middle;
+}
+
+.post-content th {
+  background: #f6f7f9;
+  font-weight: 600;
+  color: var(--color-heading);
+}
+
 .post-content img {
   display: block;
   max-width: 100%;
